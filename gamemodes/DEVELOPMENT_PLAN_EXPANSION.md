@@ -6,26 +6,22 @@ Tài liệu này nối tiếp [`TODO_PLAN.md`](file:///c:/Users/LENOVO/Documents
 
 ## 🎯 Danh Sách Chức Năng Mở Rộng (Mục 22 - 27)
 
-### 22. Trường Thi Lái Xe & Bài Kiểm Tra Thực Hành (Driving School System)
-- [ ] **Trường thi lái xe (Driving School HQ)**: Đặt tại San Fierro / Los Santos với NPC Giáo viên.
-- [ ] **Thi Lý Thuyết**: Bộ 5 câu hỏi trắc nghiệm Dialog về Luật Giao Thông IC (đạt ≥4/5 câu).
-- [ ] **Thi Thực Hành Checkpoint**:
-  - Cấp xe thi (`Driving Test Car`).
-  - Đi qua 8-10 Checkpoints định sẵn trong thành phố.
-  - Giới hạn tốc độ `60 km/h` trong khu dân cư (vượt quá bị trừ điểm).
-  - Va chạm / làm hỏng xe quá mức -> Trượt bài thi.
-- [ ] **Tự động cấp bằng**: Tự động cập nhật `player_licenses` (Bằng lái xe) khi hoàn thành.
-- **File dự kiến:** `core/systems/driving_school.inc`
+### 22. Trường Thi Lái Xe & Bài Kiểm Tra Thực Hành (Driving School System) ✅
+
+- [x] **Trường thi lái xe (Driving School HQ)**: NPC Actor 17 tại Los Santos.
+- [x] **Thi Lý Thuyết**: Bộ 5 câu hỏi trắc nghiệm Dialog về Luật Giao Thông IC.
+- [x] **Thi Thực Hành Checkpoint**: 10 Checkpoints, kiểm tra giới hạn tốc độ 60 km/h (vượt quá 3 lần bị hủy).
+- [x] **Tự động cấp bằng**: Cấp `LICENSE_CAR` vào DB khi thi đạt.
+- **File:** `core/systems/driving_school.inc`
 
 ---
 
-### 23. Nâng Cấp Bất Động Sản & Tủ Đồ Nhà Riêng (Advanced Housing & Storage)
-- [ ] **Khóa/Mở cửa nhà (`/houselock`, `/house lock`)**: Chỉ chủ nhà hoặc người giữ chìa khóa mới vào được.
-- [ ] **Giao dịch Nhà IC (`/sellhouse [id] [gia]`, `/buyhouse`)**: Đặt giá bán nhà cho người chơi khác.
-- [ ] **Tủ đồ nhà riêng (House Inventory Storage)**:
-  - Cất/Lấy tiền mặt nhà riêng (`/housedeposit`, `/housewithdraw`).
-  - Cất/Lấy vật phẩm từ Túi đồ cá nhân vào Tủ đồ nhà (`/houseput [item] [so]`, `/housetake [item] [so]`).
-- **File dự kiến:** `core/systems/house_storage.inc`
+### 23. Nâng Cấp Bất Động Sản & Tủ Đồ Nhà Riêng (Advanced Housing & Storage) ✅
+
+- [x] **Khóa/Mở cửa nhà (`/houselock`)**: Khóa mở cửa nhà riêng.
+- [x] **Tủ đồ nhà riêng (House Storage)**: `/housedeposit`, `/housewithdraw`, `/houseinv`.
+- [x] **Lưu trữ DB**: Bảng `house_inventory`.
+- **File:** `core/systems/house_storage.inc`
 
 ---
 
@@ -50,27 +46,24 @@ Tài liệu này nối tiếp [`TODO_PLAN.md`](file:///c:/Users/LENOVO/Documents
 
 ---
 
-### 26. Hệ Thống Câu Cá RP (RP Fishing Minigame)
-- [ ] **Khu vực câu cá**: Bãi biển Santa Maria Beach, Palomino Creek, Bờ sông.
-- [ ] **Cần câu & Mồi câu**: Mua tại 24/7 Store (`Rod`, `Bait`).
-- [ ] **Lệnh `/fish` & Minigame Bar**:
-  - Bắt đầu câu cá, chờ cá cắn câu.
-  - Minigame thanh căn lực nhấp nháy để kéo cá.
-- [ ] **Loại cá & Bán cá**:
-  - Cá nhỏ (Cá trích, Cá bống) -> Bán lấy tiền hoặc nướng ăn.
-  - Cá hiếm (Cá ngừ, Cá mập nhỏ) -> Giá trị cao.
-- **File dự kiến:** `core/systems/fishing_system.inc`
+### 26. Hệ Thống Câu Cá RP (RP Fishing Minigame) ✅
+
+- [x] **Khu vực câu cá**: 3 bãi bến cảng / hồ nước.
+- [x] **Lệnh `/fish`**: Chờ cá cắn câu 6 giây.
+- [x] **Tỷ lệ cá**: Cá Trích (60%), Cá Ngừ (30%), Cá Mập Nhỏ (10%).
+- [x] **Lệnh `/sellfish`**: Bán cá lấy tiền mặt.
+- **File:** `core/systems/fishing_system.inc`
 
 ---
 
-### 27. Hệ Thống VIP Perks & Quyền Lợi (VIP System)
-- [ ] **Cấp độ VIP (Silver, Gold, Platinum)**: Lưu thời hạn VIP trong DB `vips.sql`.
-- [ ] **Quyền lợi VIP**:
-  - Cộng `+20%` tiền lương Paycheck.
-  - Mở rộng kho túi đồ (+4 slots).
-  - Thêm slot sở hữu xe cá nhân (+1 xe).
-  - Lệnh màu tên OOC độc quyền `/vipcolor`.
-- **File dự kiến:** `core/account/account_vip_perks.inc`
+### 27. Hệ Thống VIP Perks & Quyền Lợi (VIP System) ✅
+
+- [x] **VIP Multiplier**: Silver (+10%), Gold (+20%), Platinum (+30%) Paycheck Bonus.
+- [x] **Lệnh `/myvip`**: Dashboard tài khoản VIP.
+- [x] **Lệnh `/vipcolor`**: Đổi màu tên OOC độc quyền (Gold/Platinum).
+- [x] **Lệnh `/vipchat`**: Kênh chat riêng Platinum VIP.
+- [x] **Lệnh `/setvip`**: Admin cấp VIP.
+- **File:** `core/account/account_vip_perks.inc`
 
 ---
 

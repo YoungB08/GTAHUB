@@ -53,3 +53,12 @@
 
 // Anti-Cheat RP
 #include <anticheat_rp>
+
+// Truong thi lai xe IC
+#include <driving_school>
+
+// Tu do nha rieng
+#include <house_storage>
+
+// RP Fishing System
+#include <fishing_system>
