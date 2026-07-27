@@ -218,18 +218,18 @@ hook OnPlayerSecondUpdate(playerid)
 static DS_PromptStartExam(playerid)
 {
     if (Player_HasLicense(playerid, LICENSE_CAR))
-        return SendErrorMsg(playerid, "Ban da co Bằng Lái Xe roi! Khong can thi lai."), void:0;
+        return SendErrorMsg(playerid, "Ban da co Bằng Lái Xe roi! Khong can thi lai."), 1;
 
     if (PlayerTestState[playerid] != TEST_NONE)
-        return SendErrorMsg(playerid, "Ban dang trong bai thi roi."), void:0;
+        return SendErrorMsg(playerid, "Ban dang trong bai thi roi."), 1;
 
     if (GetPlayerMoney(playerid) < DRIVING_SCHOOL_FEE)
-        return SendErrorMsgF(playerid, "Can $%d de dang ky thi bang lai xe.", DRIVING_SCHOOL_FEE), void:0;
+        return SendErrorMsgF(playerid, "Can $%d de dang ky thi bang lai xe.", DRIVING_SCHOOL_FEE), 1;
 
     inline OnConfirm(response, listitem, string:inputtext[])
     {
         #pragma unused listitem, inputtext
-        if (!response) return;
+        if (!response) return 1;
 
         GivePlayerMoney(playerid, -DRIVING_SCHOOL_FEE);
 
@@ -242,16 +242,18 @@ static DS_PromptStartExam(playerid)
             "[THI LAI XE] Da dong phi $%d. Bat dau phan thi LY THUYET (5 cau hoi).", DRIVING_SCHOOL_FEE);
 
         DS_ShowTheoryQuestion(playerid, 0);
+        return 1;
     }
 
     Dialog_ShowCallback(playerid, using inline OnConfirm,
         DIALOG_STYLE_MSGBOX,
         "Dang Ky Thi Bang Lai Xe IC",
-        "Ban co muon dang ky thi Bằng Lái Xe?\n\n"
-        "- Phí thi: {33AA33}$500{FFFFFF}\n"
-        "- Bài thi bao gồm: 5 câu Lý Thuyết + 10 Checkpoint Thực Hành\n"
-        "- Giới hạn tốc độ thực hành: {FFAA00}60 km/h{FFFFFF}",
+        "Ban co muon dang ky thi Bang Lai Xe?\n\n\
+- Phi thi: {33AA33}$500{FFFFFF}\n\
+- Bai thi bao gom: 5 cau Ly Thuyet + 10 Checkpoint Thuc Hanh\n\
+- Gioi han toc do thuc hanh: {FFAA00}60 km/h{FFFFFF}",
         "Thi ngay", "Huy");
+    return 1;
 }
 
 static DS_ShowTheoryQuestion(playerid, qIdx)
@@ -265,7 +267,7 @@ static DS_ShowTheoryQuestion(playerid, qIdx)
         if (!response)
         {
             DS_FailExam(playerid, "Ban da huong bai thi ly thuyet.");
-            return;
+            return 1;
         }
 
         if (listitem == Questions[qIdx][E_Q_CORRECT])
@@ -299,10 +301,12 @@ static DS_ShowTheoryQuestion(playerid, qIdx)
                 DS_FailExam(playerid, "Khong dat ly thuyet (can it nhat 4/5 cau dung).");
             }
         }
+        return 1;
     }
 
     Dialog_ShowCallback(playerid, using inline OnAnswer,
         DIALOG_STYLE_LIST, title, Questions[qIdx][E_Q_OPTIONS], "Tra loi", "Thoat");
+    return 1;
 }
 
 static DS_StartPracticalTest(playerid)
@@ -326,6 +330,7 @@ static DS_StartPracticalTest(playerid)
 
     SendMsgF(playerid, COLOR_GREEN,
         "[THUC HANH] Hay lai xe qua 10 Checkpoints. KHONG DUOC vuot qua 60 km/h!");
+    return 1;
 }
 
 static DS_PassExam(playerid)
@@ -337,16 +342,18 @@ static DS_PassExam(playerid)
     Player_GiveLicense(playerid, LICENSE_CAR);
 
     SendMsgF(playerid, COLOR_GREEN,
-        "====================================================\n"
-        "[BANG LAI XE] CHUC MUNG! Ban da THI DAT bang lai xe IC!\n"
-        "Bang lai xe da duoc cap vao ho so va database.\n"
-        "====================================================");
+        "====================================================\n\
+[BANG LAI XE] CHUC MUNG! Ban da THI DAT bang lai xe IC!\n\
+Bang lai xe da duoc cap vao ho so va database.\n\
+====================================================");
+    return 1;
 }
 
 static DS_FailExam(playerid, const reason[])
 {
     DS_CleanupTest(playerid);
     SendMsgF(playerid, COLOR_RED, "[THI LAI XE] TRUOT BAI THI! Ly do: %s", reason);
+    return 1;
 }
 
 static DS_CleanupTest(playerid)
@@ -359,6 +366,7 @@ static DS_CleanupTest(playerid)
         DestroyVehicle(TestVehicleID[playerid]);
         TestVehicleID[playerid] = INVALID_VEHICLE_ID;
     }
+    return 1;
 }
 
 // =============================================================================

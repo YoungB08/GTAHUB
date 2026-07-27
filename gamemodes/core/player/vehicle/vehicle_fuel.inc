@@ -284,4 +284,4 @@ CMD:refuel(playerid, params[])
 }
 
 // Alias /gas
-ALTCMD:gas(playerid, params);
+ALTCMD:gas(refuel);

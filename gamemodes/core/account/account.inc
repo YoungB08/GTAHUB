@@ -102,3 +102,11 @@ stock Player_GetCharacterID(playerid) {
 stock Player_GetAccountID(playerid) {
     return Player_CharacterUID[playerid];
 }
+
+stock Account_GetUID(playerid) {
+    return Player_GetAccountID(playerid);
+}
+
+stock Account_GetCharID(playerid) {
+    return Player_GetCharacterID(playerid);
+}

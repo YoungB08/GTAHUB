@@ -222,6 +222,10 @@ stock GetPlayerXp(playerid) {
 	return PlayerXpData[playerid][pXp];
 }
 
+stock Player_GetXP(playerid) {
+	return GetPlayerXp(playerid);
+}
+
 /**
  * Get player's current level
  *
@@ -233,6 +237,10 @@ stock GetPlayerLevel(playerid) {
 		return 0;
 	}
 	return PlayerXpData[playerid][pLevel];
+}
+
+stock Player_GetLevel(playerid) {
+	return GetPlayerLevel(playerid);
 }
 
 /**

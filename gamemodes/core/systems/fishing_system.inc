@@ -35,6 +35,14 @@ static const Float:FishingSpots[][3] = {
 
 static bool:IsPlayerFishing[MAX_PLAYERS];
 
+static Fishing_RandomRange(minValue, maxValue)
+{
+    if (maxValue <= minValue) {
+        return minValue;
+    }
+    return minValue + random((maxValue - minValue) + 1);
+}
+
 enum E_FISH_TYPE {
     E_FISH_SLUG[32],
     E_FISH_NAME[32],
@@ -111,7 +119,7 @@ CMD:fish(playerid, params[])
 
 timer OnFishBite[FISHING_WAIT_TIME_MS](playerid)
 {
-    if (!IsPlayerConnected(playerid) || !IsPlayerFishing[playerid]) return;
+    if (!IsPlayerConnected(playerid) || !IsPlayerFishing[playerid]) return 1;
 
     IsPlayerFishing[playerid] = false;
     ClearAnimations(playerid);
@@ -130,19 +138,20 @@ timer OnFishBite[FISHING_WAIT_TIME_MS](playerid)
     // Thêm cá vào túi đồ
     if (Inv_AddItem(playerid, FishTypes[fishIdx][E_FISH_SLUG]))
     {
-        new priceEst = RandomRange(FishTypes[fishIdx][E_FISH_PRICE_MIN], FishTypes[fishIdx][E_FISH_PRICE_MAX]);
+        new priceEst = Fishing_RandomRange(FishTypes[fishIdx][E_FISH_PRICE_MIN], FishTypes[fishIdx][E_FISH_PRICE_MAX]);
 
         SendMsgF(playerid, COLOR_GREEN,
-            "====================================================\n"
-            "[CAU CA] BẮT ĐƯỢC CÁ! Ban da cau duoc: %s!\n"
-            "Gia tri uoc tính: $%d. Dùng /sellfish tai cho de ban.\n"
-            "====================================================",
+            "====================================================\n\
+[CAU CA] BAT DUOC CA! Ban da cau duoc: %s!\n\
+Gia tri uoc tinh: $%d. Dung /sellfish tai cho de ban.\n\
+====================================================",
             FishTypes[fishIdx][E_FISH_NAME], priceEst);
     }
     else
     {
         SendErrorMsg(playerid, "[CAU CA] Tuoi do da day! Khong the chieu them ca.");
     }
+    return 1;
 }
 
 // =============================================================================
@@ -164,7 +173,7 @@ CMD:sellfish(playerid, params[])
 
         for (new c = 0; c < count; c++)
         {
-            new price = RandomRange(FishTypes[i][E_FISH_PRICE_MIN], FishTypes[i][E_FISH_PRICE_MAX]);
+            new price = Fishing_RandomRange(FishTypes[i][E_FISH_PRICE_MIN], FishTypes[i][E_FISH_PRICE_MAX]);
             totalMoney += price;
             totalFish++;
         }

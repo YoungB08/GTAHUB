@@ -23,7 +23,7 @@
 // =============================================================================
 
 // Gọi hàm ATM_IsPlayerNearATM nếu có, không thì bỏ qua check
-static bool:IsNearATM(playerid)
+stock bool:IsNearATM(playerid)
 {
     // Fallback: cho phép bất cứ đâu nếu không có hàm check ATM
     // Khi tích hợp đầy đủ với smartphone, sẽ bỏ giới hạn này
@@ -110,4 +110,4 @@ CMD:balance(playerid, params[])
 }
 
 // Alias
-ALTCMD:bal(playerid, params);
+ALTCMD:bal(balance);

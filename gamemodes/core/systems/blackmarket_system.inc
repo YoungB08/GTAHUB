@@ -102,30 +102,35 @@ hook OnPlayerPickUpPickup(playerid, pickupid)
 static BM_ShowMenu(playerid)
 {
     static const content[] =
-        "Pistol (Sung Ngan)\t$8,000\n"
-        "Shotgun (Sung Luoc)\t$15,000\n"
-        "AK-47 (Sung Truong)\t$25,000\n"
-        "M4 (Sung Truong)\t$30,000\n"
-        "Dan Sung Ngan (x50)\t$2,500\n"
-        "Dan Truong (x30)\t$2,400\n"
-        "Crack Cocaine (x1)\t$2,000\n"
-        "Co Duoc - Weed (x1)\t$1,500\n"
-        "Heroin (x1)\t$3,500\n"
-        "Bo Thu No C4 (x1)\t$20,000"
+        "Pistol (Sung Ngan)\t$8,000\n\
+Shotgun (Sung Luoc)\t$15,000\n\
+AK-47 (Sung Truong)\t$25,000\n\
+M4 (Sung Truong)\t$30,000\n\
+Dan Sung Ngan (x50)\t$2,500\n\
+Dan Truong (x30)\t$2,400\n\
+Crack Cocaine (x1)\t$2,000\n\
+Co Duoc - Weed (x1)\t$1,500\n\
+Heroin (x1)\t$3,500\n\
+Bo Thu No C4 (x1)\t$20,000"
     ;
 
     inline OnBMSelect(response, listitem, string:inputtext[])
     {
         #pragma unused inputtext
-        if (!response) return;
+        if (!response) return 1;
         BM_ProcessPurchase(playerid, listitem);
+        return 1;
     }
+
+    new menuContent[512];
+    format(menuContent, sizeof(menuContent), "Vat Pham\tGia\n%s", content);
 
     Dialog_ShowCallback(playerid, using inline OnBMSelect,
         DIALOG_STYLE_TABLIST_HEADERS,
         "Cho Den",
-        "Vat Pham\tGia\n" ... content,
+        menuContent,
         "Mua", "Dong");
+    return 1;
 }
 
 static BM_ProcessPurchase(playerid, itemIdx)
@@ -140,7 +145,7 @@ static BM_ProcessPurchase(playerid, itemIdx)
     if (GetPlayerMoney(playerid) < price)
     {
         SendErrorMsgF(playerid, "Khong du tien! Can $%d.", price);
-        return;
+        return 1;
     }
 
     GivePlayerMoney(playerid, -price);
@@ -166,6 +171,7 @@ static BM_ProcessPurchase(playerid, itemIdx)
     };
 
     SendMsgF(playerid, COLOR_GREEN, "[CHO DEN] Da mua %s (-$%d).", itemNames[itemIdx], price);
+    return 1;
 }
 
 // =============================================================================
@@ -208,8 +214,8 @@ CMD:craftdrug(playerid, params[])
         // Show menu
         Dialog_Show(playerid, DIALOG_STYLE_LIST,
             "Che Tao Ma Tuy",
-            "Crack Cocaine\t(Can 3 Weed + $500)\n"
-            "Heroin\t(Can 5 Weed + $1000)",
+            "Crack Cocaine\t(Can 3 Weed + $500)\n\
+Heroin\t(Can 5 Weed + $1000)",
             "Che tao", "Dong");
         return 1;
     }

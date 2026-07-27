@@ -88,6 +88,7 @@ hook OnMySQLConnected()
 timer LoadBusinessesDelay[1000]()
 {
     Biz_LoadAll();
+    return 1;
 }
 
 // =============================================================================
@@ -119,9 +120,11 @@ static Biz_LoadAll()
             Biz_RefreshVisuals(TotalBusinesses);
             TotalBusinesses++;
         }
-        Logger_Log("[business_economy.inc] Loaded %d player-owned businesses.", TotalBusinesses);
+        Logger_Log("[business_economy.inc] Loaded player-owned businesses",
+            Logger_I("total", TotalBusinesses));
     }
     MySQL_ExecuteParallel_Inline(stmt_loadBiz, using inline OnBizLoad);
+    return 1;
 }
 
 static Biz_RefreshVisuals(index)
@@ -259,14 +262,14 @@ CMD:bizpanel(playerid, params[])
     inline OnBizPanel(response, listitem, string:inputtext[])
     {
         #pragma unused inputtext
-        if (!response) return;
+        if (!response) return 1;
 
         if (listitem == 0) // Rut tien
         {
             if (BusinessData[id][bizSafeMoney] <= 0)
             {
                 SendErrorMsg(playerid, "Ket sat dang trong.");
-                return;
+                return 1;
             }
             GivePlayerMoney(playerid, BusinessData[id][bizSafeMoney]);
             SendMsgF(playerid, COLOR_GREEN, "[DOANH NGHIEP] Da rut $%d tu ket sat.", BusinessData[id][bizSafeMoney]);
@@ -279,7 +282,7 @@ CMD:bizpanel(playerid, params[])
             if (GetPlayerMoney(playerid) < cost)
             {
                 SendErrorMsg(playerid, "Ban can $500 de nhap 50 don vi hang.");
-                return;
+                return 1;
             }
             GivePlayerMoney(playerid, -cost);
             BusinessData[id][bizStock] += 50;
@@ -290,12 +293,12 @@ CMD:bizpanel(playerid, params[])
             inline OnSetPrice(res, li, string:priceStr[])
             {
                 #pragma unused li
-                if (!res) return;
+                if (!res) return 1;
                 new newPrice = strval(priceStr);
                 if (newPrice < 1 || newPrice > 99999)
                 {
                     SendErrorMsg(playerid, "Gia phai tu $1 den $99,999.");
-                    return;
+                    return 1;
                 }
                 BusinessData[id][bizPrice] = newPrice;
                 MySQL_BindInt(stmt_updateBiz, 0, BusinessData[id][bizOwnerUID]);
@@ -305,20 +308,21 @@ CMD:bizpanel(playerid, params[])
                 MySQL_ExecuteThreaded(stmt_updateBiz);
                 Biz_RefreshVisuals(id);
                 SendMsgF(playerid, COLOR_GREEN, "[DOANH NGHIEP] Da cap nhat gia ban thanh $%d.", newPrice);
+                return 1;
             }
             Dialog_ShowCallback(playerid, using inline OnSetPrice, DIALOG_STYLE_INPUT, "Dat Gia Ban", "Nhap gia ban moi cho cua hang ($1 - $99,999):", "Xac Nhan", "Huy");
-            return;
+            return 1;
         }
         else if (listitem == 3) // Doi ten cua hang
         {
             inline OnRename(res, li, string:newName[])
             {
                 #pragma unused li
-                if (!res) return;
+                if (!res) return 1;
                 if (strlen(newName) < 3 || strlen(newName) > 63)
                 {
                     SendErrorMsg(playerid, "Ten phai tu 3 den 63 ky tu.");
-                    return;
+                    return 1;
                 }
                 format(BusinessData[id][bizName], 64, "%s", newName);
                 MySQL_BindInt(stmt_updateBiz, 0, BusinessData[id][bizOwnerUID]);
@@ -328,9 +332,10 @@ CMD:bizpanel(playerid, params[])
                 MySQL_ExecuteThreaded(stmt_updateBiz);
                 Biz_RefreshVisuals(id);
                 SendMsgF(playerid, COLOR_GREEN, "[DOANH NGHIEP] Da doi ten cua hang thanh: %s.", BusinessData[id][bizName]);
+                return 1;
             }
             Dialog_ShowCallback(playerid, using inline OnRename, DIALOG_STYLE_INPUT, "Doi Ten Cua Hang", "Nhap ten moi cho doanh nghiep:", "Xac Nhan", "Huy");
-            return;
+            return 1;
         }
 
         // Save safe & stock
@@ -340,6 +345,7 @@ CMD:bizpanel(playerid, params[])
         MySQL_ExecuteThreaded(stmt_updateBizSafeStock);
         
         Biz_RefreshVisuals(id);
+        return 1;
     }
     
     Dialog_ShowCallback(playerid, using inline OnBizPanel, DIALOG_STYLE_LIST, "Quan Ly Doanh Nghiep", content, "Chon", "Thoat");
@@ -362,7 +368,7 @@ CMD:buy(playerid, params[])
         inline OnBuy247(response, listitem, string:inputtext[])
         {
             #pragma unused inputtext
-            if (!response) return;
+            if (!response) return 1;
 
             new itemSlug[32], price, stockDec;
             if (listitem == 0)      { format(itemSlug, sizeof(itemSlug), "burger"); price = 15; stockDec = 1; }
@@ -373,13 +379,13 @@ CMD:buy(playerid, params[])
             if (BusinessData[id][bizStock] < stockDec)
             {
                 SendErrorMsg(playerid, "Cua hang khong du hang cho san pham nay.");
-                return;
+                return 1;
             }
 
             if (GetPlayerMoney(playerid) < price)
             {
                 SendErrorMsgF(playerid, "Ban khong du $%d de mua.", price);
-                return;
+                return 1;
             }
 
             if (Inv_AddItem(playerid, itemSlug))
@@ -400,6 +406,7 @@ CMD:buy(playerid, params[])
             {
                 SendErrorMsg(playerid, "Tui do cua ban da day!");
             }
+            return 1;
         }
         
         Dialog_ShowCallback(playerid, using inline OnBuy247, DIALOG_STYLE_LIST, "Cua Hang 24/7",

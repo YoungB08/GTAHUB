@@ -92,6 +92,7 @@ static PlayerInvSlots[MAX_PLAYERS];   // Số slot đang dùng
 
 static TrunkInv[MAX_PLAYERS][MAX_TRUNK_SLOTS][E_INV_SLOT];
 static TrunkSlots[MAX_PLAYERS];   // Slot cốp xe đang mở
+#pragma unused TrunkSlots
 static TrunkVehicleID[MAX_PLAYERS]; // Xe đang mở cốp (-1 nếu không)
 
 // Statements
@@ -101,6 +102,8 @@ static
     Statement:stmt_removeInv,
     Statement:stmt_updateInvQty,
     Statement:stmt_clearInv;
+#pragma unused stmt_removeInv
+#pragma unused stmt_updateInvQty
 
 // =============================================================================
 // HOOKS – MYSQL
@@ -170,9 +173,11 @@ static Inv_ResetPlayer(playerid)
     PlayerInvSlots[playerid] = 0;
     for (new i = 0; i < MAX_INV_SLOTS; i++)
     {
-        PlayerInv[playerid][i][E_SLOT_NAME]  = "";
-        PlayerInv[playerid][i][E_SLOT_QTY]   = 0;
+        PlayerInv[playerid][i][E_SLOT_NAME][0] = '\0';
+        PlayerInv[playerid][i][E_SLOT_LABEL][0] = '\0';
+        PlayerInv[playerid][i][E_SLOT_QTY] = 0;
         PlayerInv[playerid][i][E_SLOT_WEIGHT] = 0.0;
+        PlayerInv[playerid][i][E_SLOT_ILLEGAL] = false;
     }
 }
 
@@ -346,9 +351,11 @@ stock bool:Inv_RemoveItem(playerid, const slug[], qty = 1)
     PlayerInv[playerid][slotIdx][E_SLOT_QTY] -= qty;
     if (PlayerInv[playerid][slotIdx][E_SLOT_QTY] <= 0)
     {
-        PlayerInv[playerid][slotIdx][E_SLOT_NAME]  = "";
-        PlayerInv[playerid][slotIdx][E_SLOT_QTY]   = 0;
+        PlayerInv[playerid][slotIdx][E_SLOT_NAME][0] = '\0';
+        PlayerInv[playerid][slotIdx][E_SLOT_LABEL][0] = '\0';
+        PlayerInv[playerid][slotIdx][E_SLOT_QTY] = 0;
         PlayerInv[playerid][slotIdx][E_SLOT_WEIGHT] = 0.0;
+        PlayerInv[playerid][slotIdx][E_SLOT_ILLEGAL] = false;
     }
     return true;
 }
@@ -400,7 +407,7 @@ CMD:inv(playerid, params[])
 }
 
 // Alias
-ALTCMD:inventory(playerid, params);
+ALTCMD:inventory(inv);
 
 // =============================================================================
 // COMMAND – /drop [item] [so] – Thả đồ xuống đất
@@ -438,7 +445,7 @@ CMD:drop(playerid, params[])
     foreach (new i : Player)
     {
         if (IsPlayerInRangeOfPoint(i, 20.0, px, py, pz))
-            SendClientMessage(i, COLOR_RP_ME, msg);
+            SendClientMessage(i, 0xC2A2DAFF, msg);
     }
     return 1;
 }
@@ -496,13 +503,13 @@ CMD:trunk(playerid, params[])
     new nearVeh = -1;
     new Float:minD = INV_TRUNK_RADIUS;
 
-    foreach (new i : PersonalVehicle)
+    for (new vehicleid = 1; vehicleid < MAX_VEHICLES; vehicleid++)
     {
-        if (!Vehicle_IsOwner(playerid, Vehicle_GetHandler(i))) continue;
+        if (!IsValidVehicle(vehicleid) || !Vehicle_IsOwner(playerid, vehicleid)) continue;
         new Float:vx, Float:vy, Float:vz;
-        GetVehiclePos(Vehicle_GetHandler(i), vx, vy, vz);
+        GetVehiclePos(vehicleid, vx, vy, vz);
         new Float:d = Distance(px, py, pz, vx, vy, vz);
-        if (d < minD) { minD = d; nearVeh = Vehicle_GetHandler(i); }
+        if (d < minD) { minD = d; nearVeh = vehicleid; }
     }
 
     if (nearVeh == -1)
@@ -620,8 +627,11 @@ CMD:taketrunk(playerid, params[])
         TrunkInv[playerid][i][E_SLOT_QTY] -= qty;
         if (TrunkInv[playerid][i][E_SLOT_QTY] <= 0)
         {
-            TrunkInv[playerid][i][E_SLOT_NAME] = "";
-            TrunkInv[playerid][i][E_SLOT_QTY]  = 0;
+            TrunkInv[playerid][i][E_SLOT_NAME][0] = '\0';
+            TrunkInv[playerid][i][E_SLOT_LABEL][0] = '\0';
+            TrunkInv[playerid][i][E_SLOT_QTY] = 0;
+            TrunkInv[playerid][i][E_SLOT_WEIGHT] = 0.0;
+            TrunkInv[playerid][i][E_SLOT_ILLEGAL] = false;
         }
 
         SendMsgF(playerid, COLOR_GREEN, "Da lay %s x%d tu cop xe.", slug, qty);

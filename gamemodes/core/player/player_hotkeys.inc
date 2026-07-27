@@ -24,14 +24,16 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
     if (PRESSED(KEY_NO))
     {
         // Gọi lệnh /inv hoặc /inventory (từ player_inventory.inc)
-        cmd_inv(playerid, "");
+        new emptyInvParams[1];
+        cmd_inv(playerid, emptyInvParams);
         return 1;
     }
 
     // Nhấn H (KEY_CTRL_BACK) -> Khóa / Mở khóa xe khi đang đi bộ
     if (PRESSED(KEY_CTRL_BACK) && GetPlayerState(playerid) == PLAYER_STATE_ONFOOT)
     {
-        cmd_lock(playerid, "");
+        new emptyLockParams[1];
+        cmd_lock(playerid, emptyLockParams);
         return 1;
     }
 

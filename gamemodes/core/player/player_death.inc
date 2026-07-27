@@ -65,7 +65,7 @@ hook OnPlayerDeath(playerid, killerid, reason)
     {
         if (Player_GetClass(i) == TEAM_MEDIC && EMS_IsOnDuty(i))
         {
-            SendClientMessageF(i, COLOR_RED, "[911 TỰ ĐỘNG] Nạn nhân %s đang trong tình trạng nguy kịch! Cần cấp cứu gấp!", name);
+            SendMsgF(i, COLOR_RED, "[911] Nan nhan %s dang trong tinh trang nguy kich! Can cap cuu gap!", name);
         }
     }
 
@@ -86,7 +86,7 @@ hook OnPlayerSpawn(playerid)
         TogglePlayerControllable(playerid, false); // Đóng băng
 
         // Animation gục ngã
-        ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, 0, 1, 1, 1, 0, SYNC_ALL);
+        ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, false, true, true, true, 0, SYNC_ALL);
 
         SendMsgF(playerid, COLOR_RED, "=====================================================");
         SendMsgF(playerid, COLOR_RED, "BAN ĐANG BỊ THƯƠNG NẶNG (BRUTALLY WOUNDED)!");

@@ -57,11 +57,12 @@ hook OnPlayerDisconnect(playerid, reason)
 }
 
 // Init key holders khi vehicle được load
-static InitVehicleKeys(vehIndex)
+stock InitVehicleKeys(vehIndex)
 {
     VehicleLocked[vehIndex] = false;
     for (new k = 0; k < MAX_VEHICLE_KEYS; k++)
         VehicleKeyHolders[vehIndex][k] = INVALID_PLAYER_ID;
+    return 1;
 }
 
 // =============================================================================
@@ -200,15 +201,18 @@ CMD:lock(playerid, params[])
 
     VehicleLocked[vehIndex] = !VehicleLocked[vehIndex];
 
+    new engine, lights, alarm, doors, bonnet, boot, objective;
+    GetVehicleParamsEx(Vehicle_GetHandler(vehIndex), engine, lights, alarm, doors, bonnet, boot, objective);
+
     if (VehicleLocked[vehIndex])
     {
         // Khoá vật lý cửa xe
-        SetVehicleParamsForAll(Vehicle_GetHandler(vehIndex), 0, 1);
+        SetVehicleParamsEx(Vehicle_GetHandler(vehIndex), engine, lights, alarm, VEHICLE_PARAMS_ON, bonnet, boot, objective);
         SendMsgF(playerid, COLOR_ORANGE, "[XE] Da KHOA cua xe. Nguoi khac khong the vao.");
     }
     else
     {
-        SetVehicleParamsForAll(Vehicle_GetHandler(vehIndex), 0, 0);
+        SetVehicleParamsEx(Vehicle_GetHandler(vehIndex), engine, lights, alarm, VEHICLE_PARAMS_OFF, bonnet, boot, objective);
         SendMsgF(playerid, COLOR_GREEN, "[XE] Da MO KHOA cua xe.");
     }
     return 1;

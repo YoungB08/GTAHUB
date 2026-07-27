@@ -246,6 +246,30 @@ stock Vehicle_GetHandler(index) {
     return VehicleHandler[index];
 }
 
+stock Vehicle_GetUID(index) {
+    return VehicleUID[index];
+}
+
+stock Vehicle_GetDatabaseID(vehicleid)
+{
+    foreach(new i : PersonalVehicle) {
+        if(VehicleHandler[i] == vehicleid) {
+            return VehicleUID[i];
+        }
+    }
+    return 0;
+}
+
+stock Vehicle_GetOwnerUID(vehicleid)
+{
+    foreach(new i : PersonalVehicle) {
+        if(VehicleHandler[i] == vehicleid) {
+            return VehicleOwnerID[i];
+        }
+    }
+    return 0;
+}
+
 stock Vehicle_Park(playerid) {
     new
         vehicleid,

@@ -179,12 +179,12 @@ CMD:paycheck(playerid, params[])
 
     new content[256];
     format(content, sizeof(content),
-        "Thong Tin Luong Hien Tai:\n\n"
-        "Nghe: %s  |  Level: %d\n"
-        "Luong co ban: $%d\n"
-        "Bonus level:  $%d\n"
-        "Tong nhan:    $%d\n\n"
-        "Luong tiep theo: %d phut %d giay",
+        "Thong Tin Luong Hien Tai:\n\n\
+Nghe: %s  |  Level: %d\n\
+Luong co ban: $%d\n\
+Bonus level:  $%d\n\
+Tong nhan:    $%d\n\n\
+Luong tiep theo: %d phut %d giay",
         className, level, basePay, bonusAmount, totalPay, mins, secs
     );
 
@@ -193,4 +193,4 @@ CMD:paycheck(playerid, params[])
 }
 
 // Alias /salary
-ALTCMD:salary(playerid, params);
+ALTCMD:salary(paycheck);

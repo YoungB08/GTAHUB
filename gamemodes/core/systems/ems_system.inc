@@ -109,17 +109,26 @@ hook OnPlayerSecondUpdate(playerid)
 // PUBLIC API
 // =============================================================================
 
-stock bool:EMS_IsOnDuty(playerid)
+stock EMS_IsOnDuty(playerid)
+{
     return EMSOnDuty[playerid];
+}
 
 stock EMS_GetRank(playerid)
-    return EMSRank[playerid];
-
-stock EMS_GetRankName(rank)
 {
-    static const names[][] = { "EMT", "Paramedic", "Doctor", "Chief Medical Officer" };
-    if (rank < 0 || rank > 3) return "Khong Xac Dinh";
-    return names[rank];
+    return EMSRank[playerid];
+}
+
+stock EMS_GetRankName(rank, output[], len)
+{
+    switch (rank) {
+        case 0: format(output, len, "EMT");
+        case 1: format(output, len, "Paramedic");
+        case 2: format(output, len, "Doctor");
+        case 3: format(output, len, "Chief Medical Officer");
+        default: format(output, len, "Khong Xac Dinh");
+    }
+    return 1;
 }
 
 // =============================================================================
@@ -141,9 +150,12 @@ CMD:emsduty(playerid, params[])
         SetPlayerSkin(playerid, EMSSkins[EMSRank[playerid]]);
         GivePlayerWeapon(playerid, 22, 30); // Pistol (tự vệ)
 
+        new rankName[24];
+        EMS_GetRankName(EMSRank[playerid], rankName, sizeof(rankName));
+
         SendMsgF(playerid, COLOR_GREEN,
             "[EMS] Ban da len ca duty (Rank: %s). Cham soc tot cho benh nhan!",
-            EMS_GetRankName(EMSRank[playerid]));
+            rankName);
 
         foreach (new i : Player)
         {
@@ -279,30 +291,30 @@ CMD:cpr(playerid, params[])
 
     SendMsgF(playerid, COLOR_GREEN, "Dang thuc hien CPR cho %s...", ReturnPlayerName(targetid));
 
-    inline OnCPRResult()
-    {
-        new bool:success = RandomChance(EMS_CPR_CHANCE);
-
-        if (success)
-        {
-            SetPlayerHealth(targetid, 30.0);
-            SendMsgF(playerid, COLOR_GREEN, "[CPR] Thanh cong! %s da tinh lai (30 HP).", ReturnPlayerName(targetid));
-            SendMsgF(targetid, COLOR_GREEN, "[CPR] %s da hoi suc cho ban!", ReturnPlayerName(playerid));
-        }
-        else
-        {
-            SendMsgF(playerid, COLOR_RED, "[CPR] Khong thanh cong. %s khong phan ung.", ReturnPlayerName(targetid));
-        }
-    }
-
-    defer OnCPRResult();
+    defer EMS_OnCPRResult(playerid, targetid);
     return 1;
 }
 
-timer OnCPRResult[3000](playerid)
+timer EMS_OnCPRResult[3000](playerid, targetid)
 {
-    // Handled via inline in /cpr - this timer body is unreachable but needed for compilation
-    #pragma unused playerid
+    if (!IsPlayerConnected(playerid) || !IsPlayerConnected(targetid)) {
+        return 1;
+    }
+
+    new bool:success = RandomChance(EMS_CPR_CHANCE);
+
+    if (success)
+    {
+        SetPlayerHealth(targetid, 30.0);
+        SendMsgF(playerid, COLOR_GREEN, "[CPR] Thanh cong! %s da tinh lai (30 HP).", ReturnPlayerName(targetid));
+        SendMsgF(targetid, COLOR_GREEN, "[CPR] %s da hoi suc cho ban!", ReturnPlayerName(playerid));
+    }
+    else
+    {
+        SendMsgF(playerid, COLOR_RED, "[CPR] Khong thanh cong. %s khong phan ung.", ReturnPlayerName(targetid));
+    }
+
+    return 1;
 }
 
 // =============================================================================
@@ -358,8 +370,12 @@ ACMD:[4]setrankets(playerid, params[])
         return SendErrorMsg(playerid, "Rank phai tu 0 den 3."), 1;
 
     EMSRank[targetid] = rank;
+
+    new rankName[24];
+    EMS_GetRankName(rank, rankName, sizeof(rankName));
+
     SendMsgF(playerid, COLOR_GREEN, "Da thang cap %s len EMS Rank %s.",
-        ReturnPlayerName(targetid), EMS_GetRankName(rank));
-    SendMsgF(targetid, COLOR_GREEN, "Ban da duoc thang cap len EMS Rank %s.", EMS_GetRankName(rank));
+        ReturnPlayerName(targetid), rankName);
+    SendMsgF(targetid, COLOR_GREEN, "Ban da duoc thang cap len EMS Rank %s.", rankName);
     return 1;
 }

@@ -140,15 +140,15 @@ hook OnGameModeInit()
 static CityHall_ShowMainMenu(playerid)
 {
     static const content[] =
-        "Dang ky bien so xe IC\t$5,000\n"
-        "Doi bien so xe\t$2,000\n"
-        "Cap Giay Phep Kinh Doanh (GPDKD)\t$25,000\n"
-        "Xem giay phep cua toi\tMien phi";
+        "Dang ky bien so xe IC\t$5,000\n\
+Doi bien so xe\t$2,000\n\
+Cap Giay Phep Kinh Doanh (GPDKD)\t$25,000\n\
+Xem giay phep cua toi\tMien phi";
 
     inline OnMenuSelect(response, listitem, string:inputtext[])
     {
         #pragma unused inputtext
-        if (!response) return;
+        if (!response) return 1;
 
         switch (listitem)
         {
@@ -157,13 +157,18 @@ static CityHall_ShowMainMenu(playerid)
             case 2: CityHall_BizLicense(playerid);
             case 3: CityHall_ViewLicenses(playerid);
         }
+        return 1;
     }
+
+    new menuContent[256];
+    format(menuContent, sizeof(menuContent), "Dich Vu\tPhi\n%s", content);
 
     Dialog_ShowCallback(playerid, using inline OnMenuSelect,
         DIALOG_STYLE_TABLIST_HEADERS,
         "Toa Thi Chinh – Dich Vu",
-        "Dich Vu\tPhi\n" ... content,
+        menuContent,
         "Chon", "Dong");
+    return 1;
 }
 
 // =============================================================================
@@ -258,12 +263,12 @@ static CityHall_PlateReg(playerid)
     inline OnPlateInput(response, listitem, string:inputtext[])
     {
         #pragma unused listitem
-        if (!response) return;
+        if (!response) return 1;
 
         if (strlen(inputtext) < 2 || strlen(inputtext) > PLATE_MAX_LENGTH)
         {
             SendErrorMsgF(playerid, "Bien so phai tu 2-8 ky tu!");
-            return;
+            return 1;
         }
 
         // Chuyển thành chữ hoa
@@ -283,15 +288,17 @@ static CityHall_PlateReg(playerid)
 
         GivePlayerMoney(playerid, -PLATE_REG_COST);
         SendMsgF(playerid, COLOR_GREEN, "[BIEN SO] Da dang ky bien so '%s' cho xe cua ban! (-$%d)", plateTxt, PLATE_REG_COST);
+        return 1;
     }
 
     Dialog_ShowCallback(playerid, using inline OnPlateInput,
         DIALOG_STYLE_INPUT,
         "Dang Ky Bien So Xe IC",
-        "Nhap bien so xe mong muon (2-8 ky tu):\n"
-        "{AFAFAF}Vi du: 51B-12345 hoac ABC-999\n\n"
-        "{FFAA00}Phi: $5,000",
+        "Nhap bien so xe mong muon (2-8 ky tu):\n\
+{AFAFAF}Vi du: 51B-12345 hoac ABC-999\n\n\
+{FFAA00}Phi: $5,000",
         "Xac nhan", "Huy");
+    return 1;
 }
 
 // =============================================================================
@@ -304,6 +311,7 @@ static CityHall_ChangePlate(playerid)
         return SendErrorMsgF(playerid, "Can $%d de doi bien so.", PLATE_CHANGE_COST), void:0;
 
     CityHall_PlateReg(playerid); // Dùng lại flow đăng ký, chỉ khác phí
+    return 1;
 }
 
 // =============================================================================
@@ -321,12 +329,12 @@ static CityHall_BizLicense(playerid)
     inline OnBizNameInput(response, listitem, string:inputtext[])
     {
         #pragma unused listitem
-        if (!response) return;
+        if (!response) return 1;
 
         if (strlen(inputtext) < 3 || strlen(inputtext) > 48)
         {
             SendErrorMsg(playerid, "Ten thuong ngan phai tu 3-48 ky tu!");
-            return;
+            return 1;
         }
 
         GivePlayerMoney(playerid, -BIZ_LICENSE_COST);
@@ -339,14 +347,16 @@ static CityHall_BizLicense(playerid)
         SendMsgF(playerid, COLOR_GREEN,
             "[GPDKD] Da cap Giay Phep Kinh Doanh cho '%s'. Chuc kinh doanh phat dat! (-$%d)",
             inputtext, BIZ_LICENSE_COST);
+        return 1;
     }
 
     Dialog_ShowCallback(playerid, using inline OnBizNameInput,
         DIALOG_STYLE_INPUT,
         "Dang Ky Giay Phep Kinh Doanh",
-        "Nhap ten thuong hieu / cua hang (3-48 ky tu):\n\n"
-        "{FFAA00}Phi dang ky: $25,000",
+        "Nhap ten thuong hieu / cua hang (3-48 ky tu):\n\n\
+{FFAA00}Phi dang ky: $25,000",
         "Dang ky", "Huy");
+    return 1;
 }
 
 // =============================================================================
@@ -359,11 +369,11 @@ static CityHall_ViewLicenses(playerid)
 
     // Bằng lái xe
     format(content, sizeof(content),
-        "Bang lai xe (Car):    %s\n"
-        "Bang lai xe tai:      %s\n"
-        "Bang lai may bay:     %s\n"
-        "Giay phep sung:       %s\n"
-        "Giay phep KD (GPDKD): %s",
+        "Bang lai xe (Car):    %s\n\
+Bang lai xe tai:      %s\n\
+Bang lai may bay:     %s\n\
+Giay phep sung:       %s\n\
+Giay phep KD (GPDKD): %s",
         Player_HasLicense(playerid, LICENSE_CAR)   ? "{33AA33}CO{FFFFFF}" : "{E85454}KHONG{FFFFFF}",
         Player_HasLicense(playerid, LICENSE_TRUCK) ? "{33AA33}CO{FFFFFF}" : "{E85454}KHONG{FFFFFF}",
         Player_HasLicense(playerid, LICENSE_PLANE) ? "{33AA33}CO{FFFFFF}" : "{E85454}KHONG{FFFFFF}",
@@ -372,6 +382,7 @@ static CityHall_ViewLicenses(playerid)
     );
 
     Dialog_Show(playerid, DIALOG_STYLE_MSGBOX, "Giay To – Ho So Ca Nhan", content, "Dong", "");
+    return 1;
 }
 
 // =============================================================================
@@ -425,5 +436,7 @@ CMD:mybiz(playerid, params[])
 // PUBLIC API
 // =============================================================================
 
-stock bool:Player_HasBizLicense(playerid)
+stock Player_HasBizLicense(playerid)
+{
     return PlayerHasBizLicense[playerid];
+}

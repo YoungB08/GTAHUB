@@ -196,25 +196,25 @@ CMD:useitem(playerid, params[])
     {
         Inv_RemoveItem(playerid, params);
         Survival_AddHunger(playerid, 30);
-        ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, 0, 0, 0, 0, 0, SYNC_ALL);
+        ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
     }
     else if (strcmp(params, "nuoc", true) == 0 || strcmp(params, "water", true) == 0)
     {
         Inv_RemoveItem(playerid, params); // Hoặc tên slug chính xác
         Survival_AddThirst(playerid, 40);
-        ApplyAnimation(playerid, "VENDING", "VEND_Drink2_P", 4.1, 0, 0, 0, 0, 0, SYNC_ALL);
+        ApplyAnimation(playerid, "VENDING", "VEND_Drink2_P", 4.1, false, false, false, false, 0, SYNC_ALL);
     }
     else if (strcmp(params, "beer", true) == 0)
     {
         Inv_RemoveItem(playerid, params);
         Survival_AddThirst(playerid, 20);
-        ApplyAnimation(playerid, "BAR", "dnk_stndM_loop", 4.1, 0, 0, 0, 0, 0, SYNC_ALL);
+        ApplyAnimation(playerid, "BAR", "dnk_stndM_loop", 4.1, false, false, false, false, 0, SYNC_ALL);
     }
     else if (strcmp(params, "fish_small", true) == 0)
     {
         Inv_RemoveItem(playerid, params);
         Survival_AddHunger(playerid, 15);
-        ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, 0, 0, 0, 0, 0, SYNC_ALL);
+        ApplyAnimation(playerid, "FOOD", "EAT_Burger", 4.1, false, false, false, false, 0, SYNC_ALL);
     }
     else
     {
@@ -224,7 +224,7 @@ CMD:useitem(playerid, params[])
     return 1;
 }
 
-ALTCMD:use(playerid, params);
+ALTCMD:use(useitem);
 
 // Lệnh debug/xem trạng thái
 CMD:mystats(playerid, params[])

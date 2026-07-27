@@ -127,6 +127,7 @@ static Phone_Load(playerid)
         if (MySQL_Statement_FetchRow(stmt_loadPhone))
         {
             strcopy(PhoneNumber[playerid], numStr, 12);
+            Phone_UI_SetNumber(playerid, PhoneNumber[playerid]);
         }
         else
         {
@@ -150,6 +151,7 @@ static Phone_GenerateNew(playerid)
     MySQL_BindInt(stmt_insertPhone, 0, Player_GetAccountID(playerid));
     MySQL_BindString(stmt_insertPhone, 1, PhoneNumber[playerid], 12);
     MySQL_ExecuteThreaded(stmt_insertPhone);
+    Phone_UI_SetNumber(playerid, PhoneNumber[playerid]);
 }
 
 static Phone_LoadContacts(playerid)
@@ -271,7 +273,7 @@ CMD:call(playerid, params[])
             if (!IsPlayerConnected(playerid) || PhoneCallTarget[playerid] != targetid)
             {
                 SendErrorMsg(targetid, "[DIEN THOAI] Cuoc goi da bi ngat.");
-                return;
+                return 1;
             }
             PhoneCallTarget[targetid] = playerid;
             PhoneCallTimer[targetid]  = 0;
@@ -287,6 +289,7 @@ CMD:call(playerid, params[])
             SendMsgF(playerid, COLOR_GREY, "[DIEN THOAI] Cuoc goi tu choi.");
             SendMsgF(targetid, COLOR_GREY, "[DIEN THOAI] Ban da tu choi cuoc goi.");
         }
+        return 1;
     }
 
     Dialog_ShowCallback(targetid, using inline OnCallResponse,
@@ -341,7 +344,10 @@ CMD:e911(playerid, params[])
     GetPlayerPos(playerid, px, py, pz);
 
     new zoneName[32];
-    GetPlayerZone(playerid, zoneName, 32);
+    new MapZone:zoneid = GetPlayerMapZone(playerid);
+    if (!GetMapZoneName(zoneid, zoneName, sizeof(zoneName))) {
+        format(zoneName, sizeof(zoneName), "San Andreas");
+    }
 
     // Gửi tới tất cả cảnh sát on duty
     new notified = 0;
@@ -396,5 +402,22 @@ CMD:addcontact(playerid, params[])
     return 1;
 }
 
+stock Phone_GetNumber(playerid)
+{
+    return strval(PhoneNumber[playerid]);
+}
+
+stock Phone_CallNumber(playerid, number)
+{
+    new phoneNum[12];
+    if (number >= PHONE_NUMBER_MIN && number <= PHONE_NUMBER_MAX) {
+        format(phoneNum, sizeof(phoneNum), "0%d", number);
+    }
+    else {
+        format(phoneNum, sizeof(phoneNum), "%d", number);
+    }
+    return cmd_call(playerid, phoneNum);
+}
+
 // Alias /dialup /callme
-ALTCMD:dialup(playerid, params);
+ALTCMD:dialup(call);

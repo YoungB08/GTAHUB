@@ -48,7 +48,7 @@ static VIPChatCooldown[MAX_PLAYERS];
 
 stock Float:VIP_GetPaycheckMultiplier(playerid)
 {
-    new vipLevel = Account_GetVipLevel(playerid);
+    new vipLevel = VIP_GetPlayerLevel(playerid);
     switch (vipLevel)
     {
         case VIP_LEVEL_SILVER:   return 1.10; // +10%
@@ -67,30 +67,29 @@ CMD:myvip(playerid, params[])
     if (!Player_IsLoggedIn(playerid))
         return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
-    new vipLevel = Account_GetVipLevel(playerid);
+    new vipLevel = VIP_GetPlayerLevel(playerid);
     new content[512];
 
     if (vipLevel == VIP_LEVEL_NONE)
     {
         format(content, sizeof(content),
-            "Cap do VIP: {AFAFAF}Thuong (Khong co VIP){FFFFFF}\n\n"
-            "Quyen loi khi nang cap VIP:\n"
-            "- Silver VIP:   +10%% Luong Paycheck\n"
-            "- Gold VIP:     +20%% Luong Paycheck + Mau ten Doc Quyen (/vipcolor)\n"
-            "- Platinum VIP: +30%% Luong Paycheck + Kenh Chat VIP (/vipchat)\n\n"
-            "Lien he Admin hoac Donate de nang cap VIP!"
+            "Cap do VIP: {AFAFAF}Thuong (Khong co VIP){FFFFFF}\n\n\
+Quyen loi khi nang cap VIP:\n\
+- Silver VIP:   +10%% Luong Paycheck\n\
+- Gold VIP:     +20%% Luong Paycheck + Mau ten Doc Quyen (/vipcolor)\n\
+- Platinum VIP: +30%% Luong Paycheck + Kenh Chat VIP (/vipchat)\n\n\
+Lien he Admin hoac Donate de nang cap VIP!"
         );
     }
     else
     {
         static const vipNames[][] = { "Khong", "Silver VIP", "Gold VIP", "Platinum VIP" };
         format(content, sizeof(content),
-            "=== DASHBOARD VIP ===\n\n"
-            "Cap do VIP: {FFAA00}%s{FFFFFF}\n"
-            "Bonus Luong: {33AA33}+%.0f%%{FFFFFF}\n\n"
-            "Cac lenh kha dung:\n"
-            "%s"
-            "%s",
+            "=== DASHBOARD VIP ===\n\n\
+Cap do VIP: {FFAA00}%s{FFFFFF}\n\
+Bonus Luong: {33AA33}+%.0f%%{FFFFFF}\n\n\
+Cac lenh kha dung:\n\
+%s%s",
             vipNames[vipLevel],
             (VIP_GetPaycheckMultiplier(playerid) - 1.0) * 100.0,
             (vipLevel >= VIP_LEVEL_GOLD) ? "- /vipcolor : Chon mau ten OOC doc quyen\n" : "",
@@ -111,13 +110,13 @@ CMD:vipcolor(playerid, params[])
     if (!Player_IsLoggedIn(playerid))
         return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
-    if (Account_GetVipLevel(playerid) < VIP_LEVEL_GOLD)
+    if (VIP_GetPlayerLevel(playerid) < VIP_LEVEL_GOLD)
         return SendErrorMsg(playerid, "Ban can toi thieu Gold VIP (Level 2) de doi mau ten doc quyen."), 1;
 
     inline OnColorSelect(response, listitem, string:inputtext[])
     {
         #pragma unused inputtext
-        if (!response) return;
+        if (!response) return 1;
 
         SetPlayerColor(playerid, VIPColors[listitem]);
         SendMsgF(playerid, COLOR_GREEN, "[VIP PERKS] Da doi mau ten OOC thanh cong!");
@@ -126,10 +125,10 @@ CMD:vipcolor(playerid, params[])
     Dialog_ShowCallback(playerid, using inline OnColorSelect,
         DIALOG_STYLE_LIST,
         "Chon Mau Ten VIP Doc Quyen",
-        "Gold VIP (Vang Hoang Gia)\n"
-        "Platinum (Bach Kim Sáng)\n"
-        "Cyan Spark (Xanh Da Troi)\n"
-        "Neon Rose (Hong Neon)",
+        "Gold VIP (Vang Hoang Gia)\n\
+        Platinum (Bach Kim Sang)\n\
+        Cyan Spark (Xanh Da Troi)\n\
+        Neon Rose (Hong Neon)",
         "Chon", "Huy");
     return 1;
 }
@@ -143,7 +142,7 @@ CMD:vipchat(playerid, params[])
     if (!Player_IsLoggedIn(playerid))
         return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
-    if (Account_GetVipLevel(playerid) < VIP_LEVEL_PLATINUM)
+    if (VIP_GetPlayerLevel(playerid) < VIP_LEVEL_PLATINUM)
         return SendErrorMsg(playerid, "Chi Platinum VIP (Level 3) moi duoc dung /vipchat."), 1;
 
     if (isnull(params))
@@ -160,7 +159,7 @@ CMD:vipchat(playerid, params[])
     // Send to all Platinum VIPs
     foreach (new i : Player)
     {
-        if (Account_GetVipLevel(i) >= VIP_LEVEL_PLATINUM || Admin_GetPlayerLevel(i) >= 1)
+        if (VIP_GetPlayerLevel(i) >= VIP_LEVEL_PLATINUM || Admin_GetPlayerLevel(i) >= 1)
         {
             SendMsgF(i, 0xE5E4E2FF, "[VIP CHAT] %s: %s", ReturnPlayerName(playerid), params);
         }
@@ -172,11 +171,11 @@ CMD:vipchat(playerid, params[])
 // COMMAND – /setvip [playerid] [level] – Admin cấp VIP
 // =============================================================================
 
-ACMD:[4]setvip(playerid, params[])
+ACMD:[4]setviplevel(playerid, params[])
 {
     new targetid, level;
     if (sscanf(params, "ui", targetid, level))
-        return SendErrorMsg(playerid, "Su dung: /setvip [playerid] [level 0-3]"), 1;
+        return SendErrorMsg(playerid, "Su dung: /setviplevel [playerid] [level 0-3]"), 1;
 
     if (!IsPlayerConnected(targetid))
         return SendErrorMsg(playerid, "Nguoi choi khong ton tai."), 1;
@@ -184,7 +183,12 @@ ACMD:[4]setvip(playerid, params[])
     if (level < 0 || level > 3)
         return SendErrorMsg(playerid, "Level VIP phai tu 0 den 3."), 1;
 
-    Account_SetVipLevel(targetid, level);
+    if (level == VIP_LEVEL_NONE) {
+        VIP_RemovePlayer(targetid);
+    }
+    else {
+        VIP_GivePlayer(targetid, level, 1, 20);
+    }
 
     static const names[][] = { "Thuong", "Silver VIP", "Gold VIP", "Platinum VIP" };
     SendMsgF(playerid, COLOR_GREEN, "[ADMIN] Da cap VIP Level %d (%s) cho %s.",

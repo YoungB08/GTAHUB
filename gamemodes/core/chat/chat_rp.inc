@@ -161,7 +161,7 @@ CMD:low(playerid, params[])
 }
 
 // Alias /w
-ALTCMD:w(playerid, params);
+ALTCMD:w(low);
 
 // =============================================================================
 // /s – Hét to IC (bán kính lớn)
@@ -186,19 +186,19 @@ CMD:s(playerid, params[])
 }
 
 // Alias /shout
-ALTCMD:shout(playerid, params);
+ALTCMD:shout(s);
 
 // =============================================================================
 // /r – Bộ đàm Faction (Gang / LSPD / EMS)
 // =============================================================================
 
-CMD:r(playerid, params[])
+CMD:radio(playerid, params[])
 {
     if (!Player_IsLoggedIn(playerid))
         return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
     if (isnull(params))
-        return SendErrorMsg(playerid, "Su dung: /r <tin nhan bo dam>"), 1;
+        return SendErrorMsg(playerid, "Su dung: /radio <tin nhan bo dam>"), 1;
 
     new playerClass = Player_GetClass(playerid);
 
@@ -235,6 +235,9 @@ CMD:r(playerid, params[])
     }
     return 1;
 }
+
+ALTCMD:fradio(radio);
+ALTCMD:factionradio(radio);
 
 // =============================================================================
 // /dep – Bộ đàm Liên Bộ (Cảnh sát + Quân đội)
