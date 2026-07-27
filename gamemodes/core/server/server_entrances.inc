@@ -196,6 +196,15 @@ stock Entrance_UpdatePlayerTick(playerid, seconds = 2) {
     return playerEnExCoolDown[playerid] = (gettime() + seconds);
 }
 
+stock Entrance_PreloadTarget(playerid, idx) {
+    if(!Iter_Contains(entranceID, idx)) {
+        return 0;
+    }
+
+    Streamer_UpdateEx(playerid, exitX[idx], exitY[idx], exitZ[idx], exitVirtualID[idx], exitInteriorID[idx], -1, 0, 0);
+    return 1;
+}
+
 stock Entrance_Use(playerid, idx) {
     if(!Iter_Contains(entranceID, idx)) {
         return 0;
@@ -291,6 +300,8 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
             new
                 caption[48],
                 action[16];
+
+            Entrance_PreloadTarget(playerid, idx);
 
             if(entranceIsExitPoint[idx]) {
                 strcpy(action, "ra ngoai", sizeof(action));

@@ -1,0 +1,7 @@
+CREATE TABLE IF NOT EXISTS player_licenses (
+    u_id INT NOT NULL,
+    license_id TINYINT NOT NULL,
+    issued_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (u_id, license_id),
+    FOREIGN KEY (u_id) REFERENCES players(u_id) ON DELETE CASCADE ON UPDATE CASCADE
+);

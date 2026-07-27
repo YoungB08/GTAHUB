@@ -19,6 +19,7 @@
 #include <ui_dealership>
 #include <ui_gametime>
 #include <ui_money-notification>
+#include <ui_speedometer>
 
 // exp bar
 #include <ui_xp-bar>

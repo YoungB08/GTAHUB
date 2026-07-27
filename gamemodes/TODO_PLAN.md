@@ -10,8 +10,8 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 - [x] Kiểm tra code hiện có cho entrance, business, house, ATM, pickup/marker, label, dialog/textdraw và vehicle HUD.
 - [x] Xác định plugin streamer/object/map đang dùng.
-- [ ] Lập danh sách toàn bộ entrance, ATM, business, house, phone booth và job point cần gắn label/tương tác.
-- [ ] Kiểm tra cấu trúc lưu player data/database hiện tại để chuẩn bị thêm license, phone, XP nghề.
+- [x] Lập danh sách toàn bộ entrance, ATM, business, house, phone booth và job point cần gắn label/tương tác.
+- [x] Kiểm tra cấu trúc lưu player data/database hiện tại để chuẩn bị thêm license, phone, XP nghề.
 
 ### 2. Hệ thống interaction dùng chung
 
@@ -26,7 +26,7 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 ### 3. Stream/load an toàn quanh entrance
 
-- [ ] Khi người chơi đến gần entrance, preload object/map/interior liên quan.
+- [x] Khi người chơi đến gần entrance, preload object/map/interior liên quan.
 - [x] Khi teleport vào interior/custom map, set interior và virtual world đúng.
 - [x] Freeze người chơi trong thời gian ngắn nếu cần.
 - [x] Đợi object/map load ổn định rồi mới unfreeze.
@@ -45,10 +45,10 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 ### 5. Speedometer
 
-- [ ] Hiển thị speedometer khi người chơi lái xe.
-- [ ] Hỗ trợ xe hơi, xe máy, máy bay và thuyền nếu cần.
-- [ ] Hiển thị tốc độ, máu xe, nhiên liệu nếu server có fuel, trạng thái động cơ/đèn nếu có.
-- [ ] Tự ẩn khi người chơi rời khỏi phương tiện.
+- [x] Hiển thị speedometer khi người chơi lái xe.
+- [x] Hỗ trợ xe hơi, xe máy, máy bay và thuyền nếu cần.
+- [x] Hiển thị tốc độ, máu xe, nhiên liệu nếu server có fuel, trạng thái động cơ/đèn nếu có.
+- [x] Tự ẩn khi người chơi rời khỏi phương tiện.
 
 ### 6. Hệ thống giấy phép
 

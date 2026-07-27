@@ -14,6 +14,13 @@
 
 #include <atm_robbery>
 
+#include <driving_test>
+#include <phone_system>
+#include <player_interaction>
+#include <perks_system>
+#include <poker_system>
+#include <object_interaction>
+
 // Player jobs
 #include <jobs>
 

@@ -13,6 +13,8 @@
 #include <player_army>
 #include <player_bank>
 #include <player_xp>
+#include <player_licenses>
+#include <player_job_progress>
 
 #include <player_hitpoint-save>
 #include <player_weapon-save>
