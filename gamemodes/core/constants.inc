@@ -85,7 +85,8 @@
 enum {
     ENEX_STREAMER_IDENTIFIER = 100,     // Entrance/Exits around San Fierro
     HOUSES_STREAMER_IDENTIFIER,         // Entrance/Exit for houses around San Andreas.
-    FURNITURE_STREAMER_IDENTIFIER       // Furniture Objects
+    FURNITURE_STREAMER_IDENTIFIER,      // Furniture Objects
+    ATM_STREAMER_IDENTIFIER             // ATM interaction areas
 }
 
 enum {

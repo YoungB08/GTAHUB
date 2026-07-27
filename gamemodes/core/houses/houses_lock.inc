@@ -43,5 +43,6 @@ House_Lock(houseid) {
     }
     // reverse the house lock state
     HouseLockState[houseid] = !HouseLockState[houseid];
+    House_UpdateLabel(houseid);
     return ret;
 }

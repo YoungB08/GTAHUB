@@ -1,6 +1,11 @@
 #include <YSI_Coding\y_hooks>
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+    if(PRESSED(KEY_NO) && Interaction_IsActive(playerid, INTERACTION_TYPE_ATM)) {
+        Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ATM, Interaction_GetActiveID(playerid));
+        return 1;
+    }
+
     // don't run code below if player is not near
     // any ATM machine.
     if(!Player_IsNearATM(playerid)) {
@@ -16,7 +21,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
         return 1;
     }
 
-    if(newkeys == KEY_YES) {
+    if(PRESSED(KEY_YES)) {
+        Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ATM, idx);
         ATM_MainMenu(playerid);
     }
     return 1;

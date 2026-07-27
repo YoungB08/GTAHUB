@@ -95,7 +95,8 @@ hook OnGameModeInit() {
         Entrance_EnableFreeze(entID, storeData[i][E_FREEZE_PLAYER]);
 
         // create exit
-        entID = Entrance_Create(exX, exY, exZ, 0.0, vwID, intID, enX, enY, enZ, 0.0, 0, 0);
+        entID = Entrance_Create(exX, exY, exZ, 0.0, vwID, intID, enX, enY, enZ, 0.0, 0, 0, .isExitPoint = true);
+        Entrance_SetName(entID, storeData[i][E_STORE_NAME]);
         Entrance_EnableFreeze(entID, storeData[i][E_FREEZE_PLAYER]);
 
         if(!strcmp("GROTTI", storeData[i][E_STORE_NAME], true)) {
@@ -151,7 +152,6 @@ hook OnGameModeInit() {
 static task _ServerSecondTimer[1000]() {
     CallRemoteFunction("OnServerSecondUpdate", "");
 }
-
 
 
 

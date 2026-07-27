@@ -44,11 +44,16 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+    if(PRESSED(KEY_NO) && Interaction_IsActive(playerid, INTERACTION_TYPE_HOUSE)) {
+        Interaction_ClearPrompt(playerid, INTERACTION_TYPE_HOUSE, Interaction_GetActiveID(playerid));
+        return 1;
+    }
+
     if(PRESSED(KEY_NO) && Player_IsInsideHouse(playerid)) {
         return CommandExecute(playerid, "furniture");
     }
 
-    if(PRESSED(KEY_SECONDARY_ATTACK)) {
+    if(PRESSED(KEY_YES) || PRESSED(KEY_SECONDARY_ATTACK)) {
         new
             houseid = Player_GetInHouseID(playerid);
         if(Player_InHouseEntrance(playerid, houseid)) {
@@ -100,10 +105,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
                     unused
                 );
 
-                SetPlayerInterior(playerid, interiorid);
-                SetPlayerVirtualWorld(playerid, House_GetWorld(houseid));
-                SetPlayerPos(playerid, x, y, z);
-                SetCameraBehindPlayer(playerid);
+                Interaction_ClearPrompt(playerid, INTERACTION_TYPE_HOUSE, houseid);
+                Interaction_LoadSafeTeleport(playerid, x, y, z, 0.0, House_GetWorld(houseid), interiorid, true);
 
                 Bit_Set(PlayerInsideAHouse, playerid, true);
             }
@@ -134,10 +137,8 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 
             House_GetEntranceData(houseid, x, y, z, a);
 
-            SetPlayerInterior(playerid, 0);
-            SetPlayerVirtualWorld(playerid, 0);
-            SetPlayerPos(playerid, x, y, z);
-            SetPlayerFacingAngle(playerid, a);
+            Interaction_ClearPrompt(playerid, INTERACTION_TYPE_HOUSE, houseid);
+            Interaction_LoadSafeTeleport(playerid, x, y, z, a, 0, 0, true);
 
             Bit_Set(PlayerInsideAHouse, playerid, false);
         }

@@ -43,8 +43,18 @@ hook OnPlayerEnterDynamicCP(playerid, checkpointid) {
         new
             index = arr[1];
         if (checkpointid == House_GetEntranceCPHandler(index)) {
+            new
+                caption[32];
+
+            format(caption, sizeof(caption), "~y~~h~Nha #%i", index);
             SetPVarInt(playerid, "House_Id", index);
             SetPVarInt(playerid, "House_CheckpointId", checkpointid);
+            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_HOUSE, index, caption, "vao");
+        }
+        else if (checkpointid == House_GetExitCPHandler(index)) {
+            SetPVarInt(playerid, "House_Id", index);
+            SetPVarInt(playerid, "House_CheckpointId", checkpointid);
+            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_HOUSE, index, "~y~~h~Loi ra", "ra ngoai");
         }
     }
     return 1;
@@ -60,6 +70,8 @@ hook OnPlayerLeaveDynamicCP(playerid, checkpointid) {
             index = arr[1];
 
         if (checkpointid == House_GetEntranceCPHandler(index)) {
+            Interaction_ClearPrompt(playerid, INTERACTION_TYPE_HOUSE, index);
+
             // Do not delete data just yet if player is inside the house
             // or entered the house.
             if(Player_IsInsideHouse(playerid)) {
@@ -68,6 +80,9 @@ hook OnPlayerLeaveDynamicCP(playerid, checkpointid) {
 
             SetPVarInt(playerid, "House_Id", -1);
             SetPVarInt(playerid, "House_CheckpointId", INVALID_STREAMER_ID);
+        }
+        else if (checkpointid == House_GetExitCPHandler(index)) {
+            Interaction_ClearPrompt(playerid, INTERACTION_TYPE_HOUSE, index);
         }
     }
     return 1;

@@ -89,6 +89,7 @@ static
     HouseExitCP[MAX_HOUSES],
     HouseID[MAX_HOUSES],
     HouseOwnerID[MAX_HOUSES],
+    HouseOwnerName[MAX_HOUSES][MAX_PLAYER_NAME],
     HousePrice[MAX_HOUSES],
     HouseInterior[MAX_HOUSES],
     HouseDescription[MAX_HOUSES][MAX_HOUSE_DESCRIPTION],
@@ -115,32 +116,8 @@ stock House_Create(Float:x, Float:y, Float:z, Float:a, price, interior, descript
         return -1;
     }
 
-    new
-        string[128 + MAX_PLAYER_NAME + MAX_HOUSE_DESCRIPTION + MAX_MAP_ZONE_NAME];
-
     description = (isnull(description) ? ("Dang Ban!") : (description));
     ownerName = (isnull(ownerName) ? ("Khong co") : (ownerName));
-
-    new
-        MapZone:zoneID = GetMapZoneAtPoint(x, y, z),
-        zoneName[MAX_MAP_ZONE_NAME];
-
-    GetMapZoneName(zoneID, zoneName);
-
-    format(string, sizeof(string),
-        "%i "C_WHITE"%s\n\
-        "C_ORANGE"Mo ta: "C_WHITE"%s\n\
-        "C_ORANGE"Chu so huu: "C_WHITE"%s\n\
-        "C_ORANGE"Gia: "C_GREEN"$%i",
-        houseid,
-        zoneName,
-        description,
-        ownerName,
-        price);
-
-
-    HouseEntranceLabel[houseid] = CreateDynamic3DTextLabel(string, COLOR_ORANGE, x, y, z, 25.0, .worldid = -1, .streamdistance = 25.0);
-    HouseEntranceCP[houseid] = CreateDynamicCP(x, y, z, 1.0, -1, -1, -1, 25.0);
 
     new
         Float:ex,
@@ -155,8 +132,25 @@ stock House_Create(Float:x, Float:y, Float:z, Float:a, price, interior, descript
         world = houseid;
 
     House_GetInteriorData(interior, ex, ey, ez, intid, unused, unused);
-    HouseExitLabel[houseid] = CreateDynamic3DTextLabel("Loi ra", COLOR_ORANGE, ex, ey, ez, 25.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, world, intid, -1, 25.0);
-    HouseExitCP[houseid] = CreateDynamicCP(ex, ey, ez, 1.0, world, intid, -1, 25.0);
+
+    HouseID[houseid]            = houseid;
+    HouseOwnerID[houseid]       = ownerID;
+    HouseDescription[houseid]   = description;
+    strcpy(HouseOwnerName[houseid], ownerName, MAX_PLAYER_NAME);
+    HousePrice[houseid]         = price;
+    HouseInterior[houseid]      = interior;
+
+    HouseEntranceX[houseid]     = x;
+    HouseEntranceY[houseid]     = y;
+    HouseEntranceZ[houseid]     = z;
+    HouseEntranceA[houseid]     = a;
+    HouseVWorld[houseid]        = world;
+    HouseInteriorID[houseid]    = intid;
+
+    HouseEntranceLabel[houseid] = CreateDynamic3DTextLabel("_", COLOR_ORANGE, x, y, z + 0.5, INTERACTION_LABEL_DISTANCE, .worldid = -1, .streamdistance = INTERACTION_LABEL_DISTANCE);
+    HouseEntranceCP[houseid] = CreateDynamicCP(x, y, z, 1.0, -1, -1, -1, INTERACTION_LABEL_DISTANCE);
+    HouseExitLabel[houseid] = CreateDynamic3DTextLabel("_", COLOR_ORANGE, ex, ey, ez, INTERACTION_LABEL_DISTANCE, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 1, world, intid, -1, INTERACTION_LABEL_DISTANCE);
+    HouseExitCP[houseid] = CreateDynamicCP(ex, ey, ez, 1.0, world, intid, -1, INTERACTION_LABEL_DISTANCE);
 
     new
         arr[2];
@@ -167,18 +161,8 @@ stock House_Create(Float:x, Float:y, Float:z, Float:a, price, interior, descript
     Streamer_SetArrayData(STREAMER_TYPE_CP, HouseEntranceCP[houseid], E_STREAMER_EXTRA_ID, arr);
     Streamer_SetArrayData(STREAMER_TYPE_CP, HouseExitCP[houseid], E_STREAMER_EXTRA_ID, arr);
 
-    HouseID[houseid]            = houseid;
-    HouseOwnerID[houseid]       = ownerID;
-    HouseDescription[houseid]   = description;
-    HousePrice[houseid]         = price;
-    HouseInterior[houseid]      = interior;
+    House_UpdateLabel(houseid);
 
-    HouseEntranceX[houseid]     = x;
-    HouseEntranceY[houseid]     = y;
-    HouseEntranceZ[houseid]     = z;
-    HouseEntranceA[houseid]     = a;
-    HouseVWorld[houseid]        = world;
-    HouseInteriorID[houseid]    = intid;
     Iter_Add(HouseIndex, houseid);
 
     if(save) {
@@ -214,6 +198,37 @@ House_Delete(houseid) {
 
 }
 
+stock House_UpdateLabel(houseid) {
+    if(!House_IsValid(houseid)) {
+        return 0;
+    }
+
+    new
+        label[192],
+        name[64 + MAX_MAP_ZONE_NAME],
+        status[40],
+        zoneName[MAX_MAP_ZONE_NAME],
+        MapZone:zoneID = GetMapZoneAtPoint(HouseEntranceX[houseid], HouseEntranceY[houseid], HouseEntranceZ[houseid]);
+
+    GetMapZoneName(zoneID, zoneName);
+
+    format(name, sizeof(name), "#%i %s", HouseID[houseid], zoneName);
+
+    if(HouseOwnerID[houseid] != INVALID_HOUSE_ID) {
+        format(status, sizeof(status), "Chu: %s", HouseOwnerName[houseid]);
+    }
+    else {
+        format(status, sizeof(status), "Dang ban $%i", HousePrice[houseid]);
+    }
+
+    Interaction_BuildPointLabel(label, sizeof(label), "Nha o", name, status, "vao");
+    UpdateDynamic3DTextLabelText(HouseEntranceLabel[houseid], COLOR_ORANGE, label);
+
+    Interaction_BuildPointLabel(label, sizeof(label), "Loi ra", name, "Dang mo", "ra ngoai");
+    UpdateDynamic3DTextLabelText(HouseExitLabel[houseid], COLOR_ORANGE, label);
+    return 1;
+}
+
 // Change the owner ID to the buyer
 // Change the description to 'SOLD TO BuyerName!'
 // returns N/A
@@ -227,6 +242,7 @@ House_Buy(playerid, houseid) {
 
     // set new ownerid.
     HouseOwnerID[houseid] = Player_GetAccountID(playerid);
+    strcpy(HouseOwnerName[houseid], ReturnPlayerName(playerid), MAX_PLAYER_NAME);
 
     // Update Description
     House_UpdateDescription(playerid, houseid, description);
@@ -242,6 +258,7 @@ House_Buy(playerid, houseid) {
 // 0 if description is more than MAX_HOUSE_DESCRIPTION
 // -1 if invalid houseid.
 House_UpdateDescription(playerid, houseid, const description[]) {
+    #pragma unused playerid
 
     if(strlen(description) > MAX_HOUSE_DESCRIPTION) {
         return 0;
@@ -251,29 +268,8 @@ House_UpdateDescription(playerid, houseid, const description[]) {
         return -1;
     }
 
-    new
-        string[128 + MAX_PLAYER_NAME + MAX_HOUSE_DESCRIPTION];
-
     strcpy(HouseDescription[houseid], description);
-
-    new
-        MapZone:zoneID = GetMapZoneAtPoint(HouseEntranceX[houseid], HouseEntranceY[houseid], HouseEntranceZ[houseid]),
-        zoneName[MAX_MAP_ZONE_NAME];
-
-    GetMapZoneName(zoneID, zoneName);
-
-    format(string, sizeof(string),
-        "%i "C_WHITE"%s\n\
-        "C_ORANGE"Mo ta: "C_WHITE"%s\n\
-        "C_ORANGE"Chu so huu: "C_WHITE"%s\n\
-        "C_ORANGE"Gia: "C_GREEN"$%i",
-        HouseID[houseid],
-        zoneName,
-        HouseDescription[houseid],
-        ReturnPlayerName(playerid),
-        HousePrice[houseid]
-    );
-    UpdateDynamic3DTextLabelText(HouseEntranceLabel[houseid], COLOR_ORANGE, string);
+    House_UpdateLabel(houseid);
 
     MySQL_Bind(stmt_updateDescription, 0, HouseDescription[houseid]);
     MySQL_BindInt(stmt_updateDescription, 1, houseid);

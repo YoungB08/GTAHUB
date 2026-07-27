@@ -2,7 +2,7 @@
 
 #define INVALID_ATM_ID (-1)
 
-#define ATM_LABEL_INFO "ATM cua %s\n"C_YELLOW"Nhan "C_GREEN"'~k~~CONVERSATION_YES~' "C_YELLOW"de tuong tac"
+#define ATM_LABEL_INFO "%s"
 
 // Prepared Statements
 static
@@ -15,6 +15,7 @@ static
 static
     Iterator:ATMIndex<MAX_ATMS>,
     ATM_ObjectID[MAX_ATMS],
+    ATM_Area[MAX_ATMS],
     Text3D:ATM_Label[MAX_ATMS],
     ATM_ID[MAX_ATMS],
     Float: ATM_X[MAX_ATMS],
@@ -229,20 +230,27 @@ stock void:ATM_Load() {
 
 
 void:ATM_UpdateLabel(atmIndex, colour = COLOR_YELLOW, const label[] = ATM_LABEL_INFO) {
+    #pragma unused label
+
     // Delete the current atm if one already exists in this index.
     if(ATM_Label[atmIndex] != INVALID_3DTEXT_ID) {
         DestroyDynamic3DTextLabel(ATM_Label[atmIndex]);
     }
 
     new
-        string[64 + MAX_MAP_ZONE_NAME + 11];
+        string[144],
+        pointName[64 + MAX_MAP_ZONE_NAME],
+        status[16];
 
     new
         MapZone:zoneID = GetMapZoneAtPoint(ATM_X[atmIndex], ATM_Y[atmIndex], ATM_Z[atmIndex]),
         zoneName[MAX_MAP_ZONE_NAME];
     GetMapZoneName(zoneID, zoneName, sizeof(zoneName));
 
-    formatex(string, sizeof(string), label, zoneName);
+    format(pointName, sizeof(pointName), "ATM cua %s", zoneName);
+    strcpy(status, ATM_Disabled[atmIndex] ? ("Tam dung") : ("Dang hoat dong"), sizeof(status));
+
+    Interaction_BuildPointLabel(string, sizeof(string), "ATM", pointName, status, "tuong tac");
     ATM_Label[atmIndex] = CreateDynamic3DTextLabel(string,
         colour,
         ATM_X[atmIndex],
@@ -281,6 +289,7 @@ stock ATM_Delete(atmID) {
 
     // reset data.
     DestroyDynamicObject(ATM_ObjectID[idx]);
+    DestroyDynamicArea(ATM_Area[idx]);
     DestroyDynamic3DTextLabel(ATM_Label[idx]);
 
 
@@ -350,7 +359,16 @@ stock void:ATM_Update(atmID,
 
     // update data
     DestroyDynamicObject(ATM_ObjectID[idx]);
+    DestroyDynamicArea(ATM_Area[idx]);
     ATM_ObjectID[idx] = CreateDynamicObject(19324, x, y, z, rx, ry, rz, world, interior, -1, 300.0);
+    ATM_Area[idx] = CreateDynamicCircle(x, y, 2.0, world, interior);
+
+    new
+        arr[2];
+
+    arr[0] = ATM_STREAMER_IDENTIFIER;
+    arr[1] = idx;
+    Streamer_SetArrayData(STREAMER_TYPE_AREA, ATM_Area[idx], E_STREAMER_EXTRA_ID, arr);
 
     ATM_X[idx] = x;
     ATM_Y[idx] = y;
@@ -410,6 +428,14 @@ static Internal_ATM_Create(Float: x, Float: y, Float: z, Float:rx, Float:ry, Flo
     ATM_Disabled[idx]   = false;
 
     ATM_ObjectID[idx]   = CreateDynamicObject(19324, x, y, z, 0.0, 0.0, rz, world, interior, -1, 300.0);
+    ATM_Area[idx]       = CreateDynamicCircle(x, y, 2.0, world, interior);
+
+    new
+        arr[2];
+
+    arr[0] = ATM_STREAMER_IDENTIFIER;
+    arr[1] = idx;
+    Streamer_SetArrayData(STREAMER_TYPE_AREA, ATM_Area[idx], E_STREAMER_EXTRA_ID, arr);
 
     ATM_UpdateLabel(idx);
 
@@ -461,4 +487,38 @@ ATM_State(idx, bool: disable) {
 
 ATM_GetState(idx) {
     return ATM_Disabled[idx];
+}
+
+hook OnPlayerEnterDynArea(playerid, areaid) {
+    new
+        arr[2];
+
+    Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, arr);
+
+    if(arr[0] == ATM_STREAMER_IDENTIFIER) {
+        new
+            idx = arr[1];
+
+        if(areaid == ATM_Area[idx] && !ATM_GetState(idx)) {
+            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_ATM, idx, "~y~~h~ATM", "tuong tac");
+        }
+    }
+    return 1;
+}
+
+hook OnPlayerLeaveDynArea(playerid, areaid) {
+    new
+        arr[2];
+
+    Streamer_GetArrayData(STREAMER_TYPE_AREA, areaid, E_STREAMER_EXTRA_ID, arr);
+
+    if(arr[0] == ATM_STREAMER_IDENTIFIER) {
+        new
+            idx = arr[1];
+
+        if(areaid == ATM_Area[idx]) {
+            Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ATM, idx);
+        }
+    }
+    return 1;
 }

@@ -8,34 +8,40 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 ### 1. Audit hệ thống hiện tại
 
-- [ ] Kiểm tra code hiện có cho entrance, business, house, ATM, pickup/marker, label, dialog/textdraw và vehicle HUD.
-- [ ] Xác định plugin streamer/object/map đang dùng.
+- [x] Kiểm tra code hiện có cho entrance, business, house, ATM, pickup/marker, label, dialog/textdraw và vehicle HUD.
+- [x] Xác định plugin streamer/object/map đang dùng.
 - [ ] Lập danh sách toàn bộ entrance, ATM, business, house, phone booth và job point cần gắn label/tương tác.
 - [ ] Kiểm tra cấu trúc lưu player data/database hiện tại để chuẩn bị thêm license, phone, XP nghề.
 
 ### 2. Hệ thống interaction dùng chung
 
-- [ ] Tạo module interaction chung cho entrance, house, business, ATM, object, phone booth và job point.
-- [ ] Khi người chơi đến gần điểm tương tác, hiển thị tên điểm và hướng dẫn thao tác.
-- [ ] Hỗ trợ prompt dạng: `Nhấn Y để vào / N để hủy`.
-- [ ] Cho phép mỗi interaction gọi action riêng: vào cửa, mở ATM, gọi điện thoại, nhận job, xem business.
-- [ ] Ưu tiên cấu hình bằng data/config để hạn chế hard-code từng điểm.
+- [x] Tạo module interaction chung cho entrance, house, business, ATM, object, phone booth và job point.
+- [x] Gắn module interaction vào entrance, house, business và ATM.
+- [ ] Gắn module interaction vào object, phone booth và job point.
+- [x] Khi người chơi đến gần entrance, house, business hoặc ATM, hiển thị tên điểm và hướng dẫn thao tác.
+- [x] Hỗ trợ prompt dạng: `Nhấn Y để vào / N để hủy`.
+- [x] Cho phép interaction đã gắn gọi action riêng: vào cửa, ra cửa, vào nhà, ra nhà và mở ATM.
+- [ ] Gắn action riêng cho gọi điện thoại, nhận job và object interaction.
+- [x] Ưu tiên cấu hình bằng data/config để hạn chế hard-code từng điểm.
 
 ### 3. Stream/load an toàn quanh entrance
 
 - [ ] Khi người chơi đến gần entrance, preload object/map/interior liên quan.
-- [ ] Khi teleport vào interior/custom map, set interior và virtual world đúng.
-- [ ] Freeze người chơi trong thời gian ngắn nếu cần.
-- [ ] Đợi object/map load ổn định rồi mới unfreeze.
-- [ ] Mục tiêu chính: tránh lỗi rơi khỏi map khi bản đồ được chỉnh sửa hoặc tạo mới.
+- [x] Khi teleport vào interior/custom map, set interior và virtual world đúng.
+- [x] Freeze người chơi trong thời gian ngắn nếu cần.
+- [x] Đợi object/map load ổn định rồi mới unfreeze.
+- [x] Mục tiêu chính: tránh lỗi rơi khỏi map khi bản đồ được chỉnh sửa hoặc tạo mới.
 
 ### 4. Label trang trọng cho điểm quan trọng
 
-- [ ] Chuẩn hóa format label cho lối vào, nhà, doanh nghiệp, ATM, job point và phone booth.
-- [ ] Hiển thị tên địa điểm/doanh nghiệp phía trên marker/object.
-- [ ] Hiển thị loại điểm: `Lối vào`, `Nhà ở`, `Doanh nghiệp`, `ATM`, `Công việc`.
-- [ ] Hiển thị trạng thái nếu cần: `Đang mở`, `Đã khóa`, `Cần giấy phép`.
-- [ ] Dùng màu sắc thống nhất, dễ đọc và không gây rối màn hình.
+- [x] Chuẩn hóa format label cho lối vào, nhà, doanh nghiệp và ATM.
+- [ ] Chuẩn hóa format label cho job point và phone booth.
+- [x] Hiển thị tên địa điểm/doanh nghiệp phía trên marker/object cho entrance, house và ATM.
+- [x] Hiển thị loại điểm đã gắn: `Lối vào`, `Nhà ở`, `Doanh nghiệp`, `ATM`.
+- [ ] Hiển thị loại điểm còn lại: `Công việc`, `Phone booth`.
+- [x] Hiển thị trạng thái cơ bản cho entrance, house và ATM.
+- [ ] Hiển thị trạng thái yêu cầu giấy phép sau khi có license system.
+- [x] Dùng màu sắc thống nhất, dễ đọc và không gây rối màn hình cho các điểm đã gắn.
 
 ### 5. Speedometer
 
@@ -120,8 +126,8 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 ## Milestone
 
-- [ ] Milestone 1: Người chơi đến entrance/ATM/business thấy label, prompt và bấm Y/N hoạt động.
-- [ ] Milestone 2: Vào interior/custom map không bị rơi map.
+- [x] Milestone 1: Người chơi đến entrance/ATM/business thấy label, prompt và bấm Y/N hoạt động.
+- [x] Milestone 2: Vào interior/custom map không bị rơi map.
 - [ ] Milestone 3: License và driving test hoạt động.
 - [ ] Milestone 4: Speedometer và phone cơ bản hoạt động.
 - [ ] Milestone 5: Menu tương tác và job XP hoạt động.

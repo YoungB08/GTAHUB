@@ -120,6 +120,7 @@
 
 #include <utils>
 #include <user-interface>
+#include <interaction>
 #include <anti-cheat> // w.i.p
 #include <server>
 #include <account>
