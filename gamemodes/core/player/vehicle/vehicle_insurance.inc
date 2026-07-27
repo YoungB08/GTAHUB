@@ -6,9 +6,14 @@
     Mô tả:
     - Khi xe cá nhân bị nổ, hệ thống đánh dấu xe là "Impounded" trong DB.
     - Xe được phục hồi tại Impound Lot sau khi chủ xe trả phí bảo hiểm.
-    - Phí bảo hiểm = 5% giá trị xe (lấy từ Showroom) hoặc tối thiểu $1,000.
+    - Phí bảo hiểm = 5% giá trị xe hoặc tối thiểu $1,000.
     - Lệnh /getcar: Trả phí và lấy xe ra.
     - Vị trí Impound Lot: Los Santos (1413.62, -1728.80, 13.55).
+
+    API dựa trên vehicle_impl.inc:
+    - PersonalVehicle (Iterator)
+    - VehicleOwnerID[], VehicleUID[], VehicleModelID[], VehicleHandler[]
+    - Vehicle_IsOwner(playerid, vehicleid)
 */
 
 #include <YSI_Coding\y_hooks>
@@ -30,29 +35,40 @@
 
 hook OnVehicleDeath(vehicleid, killerid)
 {
-    // Chỉ xử lý xe cá nhân (có chủ sở hữu trong DB)
-    new vehIndex = GetPersonalVehicleIndex(vehicleid);
-    if (vehIndex == -1) return 1; // Không phải xe cá nhân
+    // Tìm trong PersonalVehicle Iterator xem xe này có phải xe cá nhân không
+    new ownerUID = -1;
+    new vehDBId  = -1;
+    new model    = GetVehicleModel(vehicleid);
 
-    // Đánh dấu xe bị Impound trong DB (cột `impounded` = 1)
-    new vehDBId = GetPersonalVehicleDBId(vehicleid);
-    if (vehDBId <= 0) return 1;
+    foreach (new i : PersonalVehicle)
+    {
+        if (VehicleHandler[i] == vehicleid)
+        {
+            ownerUID = VehicleOwnerID[i];
+            vehDBId  = VehicleUID[i];
+            break;
+        }
+    }
 
-    mysql_tquery(MySQL_GetHandle(),
-        "UPDATE player_vehicles SET impounded=1, pos_x=NULL, pos_y=NULL, pos_z=NULL WHERE id=" #vehDBId,
-        "", "");
+    if (ownerUID == -1 || vehDBId <= 0) return 1; // Không phải xe cá nhân
 
-    // Tìm chủ xe để thông báo
+    // Đánh dấu Impounded trong DB
+    new query[200];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query),
+        "UPDATE player_vehicles SET impounded=1 WHERE id=%d AND u_id=%d",
+        vehDBId, ownerUID);
+    mysql_tquery(MySQL_GetHandle(), query, "", "");
+
+    // Thông báo chủ xe nếu đang online
+    new fee = Impound_GetFee(model);
     foreach (new playerid : Player)
     {
-        if (Player_IsLoggedIn(playerid) && GetPersonalVehicleOwnerUID(vehicleid) == Account_GetUID(playerid))
-        {
-            // Tính phí
-            new model = GetVehicleModel(vehicleid);
-            new fee = Impound_GetFee(model);
-            SendMsgF(playerid, COLOR_RED, "[BAO HIEM] Xe cua ban da bi pha huy va dua vao bai giu xe!");
-            SendMsgF(playerid, COLOR_RED, "[BAO HIEM] Di den Bai Giu Xe va dung /getcar de tra phi $%d.", fee);
-        }
+        if (!Player_IsLoggedIn(playerid)) continue;
+        if (Player_GetAccountID(playerid) != ownerUID) continue;
+
+        SendMsgF(playerid, COLOR_RED, "[BAO HIEM] Xe cua ban da bi pha huy va dua vao Bai Giu Xe!");
+        SendMsgF(playerid, COLOR_ORANGE, "[BAO HIEM] Den Bai Giu Xe va dung /getcar de tra phi $%d.", fee);
+        break;
     }
     return 1;
 }
@@ -61,17 +77,14 @@ hook OnVehicleDeath(vehicleid, killerid)
 // HELPERS
 // =============================================================================
 
-// Tính phí dựa vào model xe (lookup giá từ ShopVehicles nếu có, không thì dùng mặc định)
 static Impound_GetFee(model)
 {
-    // Bảng giá tham chiếu sơ bộ (giá xe tương ứng trong dealership)
-    // Đây là fallback — lý tưởng sẽ join với bảng DB sau
     switch (model)
     {
-        case 411, 541: return 25000;    // Infernus, Bullet → 5% = 25k
-        case 560:      return 6000;     // Sultan → 120k * 5%
-        case 400:      return 2250;     // Landstalker
-        case 522:      return 4250;     // NRG-500
+        case 411, 541: return 25000;  // Infernus, Bullet
+        case 560:      return 6000;   // Sultan
+        case 400:      return 2250;   // Landstalker
+        case 522:      return 4250;   // NRG-500
         default:       return INSURANCE_MIN;
     }
 }
@@ -82,26 +95,24 @@ static Impound_GetFee(model)
 
 CMD:getcar(playerid, params[])
 {
+    #pragma unused params
     if (!Player_IsLoggedIn(playerid)) return 1;
 
-    // Kiểm tra có xe bị Impound không
-    new uid = Account_GetUID(playerid);
-    
+    new uid = Player_GetAccountID(playerid);
+
     inline OnCheckImpound()
     {
+        new vehId = -1, model = -1;
+        MySQL_BindResultInt(MySQL_GetLastStatement(), 0, vehId);
+        MySQL_BindResultInt(MySQL_GetLastStatement(), 1, model);
+
         if (!MySQL_Statement_FetchRow(MySQL_GetLastStatement()))
         {
             SendErrorMsg(playerid, "Ban khong co xe nao dang bi giu tai Bai Giu Xe.");
             return;
         }
 
-        // Lấy thông tin xe
-        new vehId, model, fee;
-        MySQL_BindResultInt(MySQL_GetLastStatement(), 0, vehId);
-        MySQL_BindResultInt(MySQL_GetLastStatement(), 1, model);
-
-        fee = Impound_GetFee(model);
-
+        new fee = Impound_GetFee(model);
         if (GetPlayerMoney(playerid) < fee)
         {
             SendErrorMsgF(playerid, "Ban khong du $%d de trang trai phi bao hiem.", fee);
@@ -110,25 +121,24 @@ CMD:getcar(playerid, params[])
 
         GivePlayerMoney(playerid, -fee);
 
-        // Xóa flag impounded, set vị trí mới là Impound Lot
-        new query[256];
-        mysql_format(MySQL_GetHandle(), query, sizeof(query),
-            "UPDATE player_vehicles SET impounded=0, pos_x=%f, pos_y=%f, pos_z=%f, pos_a=%f WHERE id=%d",
+        // Xóa flag impounded và cập nhật vị trí về Impound Lot
+        new updateQuery[256];
+        mysql_format(MySQL_GetHandle(), updateQuery, sizeof(updateQuery),
+            "UPDATE player_vehicles SET impounded=0, x=%f, y=%f, z=%f, rot=%f WHERE id=%d",
             IMPOUND_SPAWN_X, IMPOUND_SPAWN_Y, IMPOUND_SPAWN_Z, IMPOUND_SPAWN_A, vehId);
-        mysql_tquery(MySQL_GetHandle(), query, "", "");
+        mysql_tquery(MySQL_GetHandle(), updateQuery, "", "");
 
-        // Spawn xe tạm thời
+        // Spawn xe tạm thời tại Impound Lot
         new newVeh = CreateVehicle(model, IMPOUND_SPAWN_X, IMPOUND_SPAWN_Y, IMPOUND_SPAWN_Z, IMPOUND_SPAWN_A, 1, 1, -1);
         SetVehicleHealth(newVeh, 1000.0);
-        
-        SendMsgF(playerid, COLOR_GREEN, "[BAO HIEM] Da trang trai phi $%d. Xe cua ban dang o Bai Giu Xe (Impound Lot)!", fee);
-        SendMsgF(playerid, COLOR_YELLOW, "Vi tri: /gps impound | Toa do: %.1f, %.1f", IMPOUND_SPAWN_X, IMPOUND_SPAWN_Y);
+
+        SendMsgF(playerid, COLOR_GREEN, "[BAO HIEM] Da tra phi $%d. Xe cua ban o Bai Giu Xe (%.1f, %.1f).", fee, IMPOUND_SPAWN_X, IMPOUND_SPAWN_Y);
     }
 
-    new query[256];
-    mysql_format(MySQL_GetHandle(), query, sizeof(query),
+    new selectQuery[256];
+    mysql_format(MySQL_GetHandle(), selectQuery, sizeof(selectQuery),
         "SELECT id, model_id FROM player_vehicles WHERE u_id=%d AND impounded=1 LIMIT 1", uid);
-    mysql_tquery_inline(MySQL_GetHandle(), query, using inline OnCheckImpound, "");
+    mysql_tquery_inline(MySQL_GetHandle(), selectQuery, using inline OnCheckImpound, "");
 
     return 1;
 }

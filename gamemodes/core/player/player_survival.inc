@@ -72,6 +72,22 @@ hook OnPlayerSpawn(playerid)
     return 1;
 }
 
+hook OnPlayerDisconnect(playerid, reason)
+{
+    if (ptdHunger[playerid] != PlayerText:INVALID_TEXT_DRAW)
+    {
+        PlayerTextDrawDestroy(playerid, ptdHunger[playerid]);
+        ptdHunger[playerid] = PlayerText:INVALID_TEXT_DRAW;
+    }
+    if (ptdThirst[playerid] != PlayerText:INVALID_TEXT_DRAW)
+    {
+        PlayerTextDrawDestroy(playerid, ptdThirst[playerid]);
+        ptdThirst[playerid] = PlayerText:INVALID_TEXT_DRAW;
+    }
+    return 1;
+}
+
+
 // Chạy mỗi 60 giây (1 phút)
 hook OnPlayerSecondUpdate(playerid)
 {
