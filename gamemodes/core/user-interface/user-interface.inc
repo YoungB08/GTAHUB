@@ -34,3 +34,6 @@
 // Reusable UI system for all minigames (hold-key, keymash, etc)
 // Saves resources by reusing textdraws instead of creating new ones for each minigame
 #include <ui_minigame>
+
+// Smartphone HUD - so dien thoai, trang thai cuoc goi
+#include <ui_phone>

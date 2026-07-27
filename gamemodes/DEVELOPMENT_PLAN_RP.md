@@ -83,7 +83,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **Phiếu phạt IC (`/fine`)**: Cảnh sát phạt tiền người chơi có lý do, trừ tiền mặt/ngân hàng. – `core/systems/lspd_system.inc`
 - [x] **Thăng cấp LSPD (`/setrank`)**: Admin cấp rank cảnh sát (level 4+). – `core/systems/lspd_system.inc`
 - [ ] EMS/LSFD: On-duty, Cứu thương, Băng bó, CPR, Cáng bệnh nhân. ✅ `core/systems/ems_system.inc`
-- [ ] City Hall: Cấp giấy phép kinh doanh, quản lý ngân sách.
+- [x] **City Hall RP**: Đăng ký biển số xe IC (`/platereg`), Cấp GPDKD (`/bizlicense`), Xem giấy phép (`/mybiz`). – `core/systems/cityhall_rp.inc`
 
 ---
 
@@ -104,7 +104,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **Gọi điện thoại (`/call [so]`)**: Dialog chấp nhận/từ chối, `/hangup` cúp máy. – `core/systems/phone_system.inc`
 - [x] **Gọi khẩn cấp (`/911`)**: Thông báo tới tất cả LSPD on duty, đặt checkpoint dẫn đường. – `core/systems/phone_system.inc`
 - [x] **Danh bạ (`/addcontact`, `/myphone`)**: Lưu tên & số điện thoại. – `core/systems/phone_system.inc`
-- [ ] Giao diện Smartphone TextDraw UI (màn hình điện thoại góc HUD).
+- [x] **Giao diện Smartphone TextDraw UI**: Phông chữ hiện số điện thoại, trạng thái cuộc gọi (Ringing/On-Call/Idle), đếm thời gian gọi. – `core/user-interface/ui_phone.inc`
 
 ---
 
@@ -113,7 +113,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **Hệ thống Ticket Support (`/report`, `/reports`, `/closereport`)**: Player gửi báo cáo, Admin tiếp nhận và đóng. – `core/cmds/cmds_admin_rp.inc`
 - [x] **Warn System (`/warn`, `/warns`)**: 3 cảnh cáo tự động ban 24h. – `core/cmds/cmds_admin_rp.inc`
 - [x] **Admin Duty Toggle (`/aduty`)**: Bật/Tắt Admin Duty OOC mode. – `core/cmds/cmds_admin_rp.inc`
-- [ ] Kích hoạt Server-side Anti-Cheat đầy đủ (Weapon, Money, Teleport, Airbreak, Speedhack).
+- [x] **Anti-Cheat Server-side**: Health, Money, Weapon, Teleport, Speedhack detection. Vi phạm tich lũy -> Kick -> Ban. – `core/systems/anticheat_rp.inc`
 
 ---
 

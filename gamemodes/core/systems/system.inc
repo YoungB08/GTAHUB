@@ -48,3 +48,8 @@
 // Black Market & Drug Crafting
 #include <blackmarket_system>
 
+// City Hall RP – Bien so xe IC, GPDKD
+#include <cityhall_rp>
+
+// Anti-Cheat RP
+#include <anticheat_rp>
