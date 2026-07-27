@@ -16,7 +16,7 @@
 #define BCRYPT_COST 12
 
 // Set to true if table aren't set up.
-#define SETUP_TABLE 			(true)
+#define SETUP_TABLE 			(false)
 
 // MySQL Prepared Statement
 #define MYSQL_PREPARE_DEBUG 	(false)
