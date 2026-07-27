@@ -269,6 +269,8 @@ static Phone_ShowMobileMenu(playerid)
 
 hook OnMySQLConnected()
 {
+    mysql_query_file(MySQL_GetHandle(), "player_phones.sql", false);
+
     stmt_loadPhone = MySQL_PrepareStatement(MySQL_GetHandle(), "SELECT phone_number FROM player_phones WHERE u_id = ?");
     stmt_insertPhone = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT INTO player_phones (u_id, phone_number) VALUES (?, ?) ON DUPLICATE KEY UPDATE phone_number = ?");
     stmt_insertContact = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT INTO player_phone_contacts (u_id, contact_name, phone_number) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE contact_name = ?");

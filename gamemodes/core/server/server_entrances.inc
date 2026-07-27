@@ -5,6 +5,7 @@
 #define ENTRANCE_UP                 (true)
 #define ENTRANCE_DOWN               (false)
 #define ENTRANCE_AREA_RADIUS        (1.5)
+#define ENTRANCE_TELEPORT_OFFSET    (2.0)
 
 // Declarations
 static
@@ -202,13 +203,48 @@ stock Entrance_PreloadTarget(playerid, idx) {
         return 0;
     }
 
-    Streamer_UpdateEx(playerid, exitX[idx], exitY[idx], exitZ[idx], exitVirtualID[idx], exitInteriorID[idx], -1, 0, 0);
+    new
+        Float:x,
+        Float:y,
+        Float:z,
+        Float:a;
+
+    Entrance_GetTargetPoint(idx, x, y, z, a);
+    Streamer_UpdateEx(playerid, x, y, z, exitVirtualID[idx], exitInteriorID[idx], -1, 0, 0);
     return 1;
+}
+
+stock Entrance_GetTargetPoint(idx, &Float:x, &Float:y, &Float:z, &Float:a) {
+    x = exitX[idx];
+    y = exitY[idx];
+    z = exitZ[idx];
+    a = exitAng[idx];
+
+    x += ENTRANCE_TELEPORT_OFFSET * floatsin(-a, degrees);
+    y += ENTRANCE_TELEPORT_OFFSET * floatcos(-a, degrees);
+    return 1;
+}
+
+stock Entrance_FindUsable(playerid) {
+    if(Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE)) {
+        return Interaction_GetActiveID(playerid);
+    }
+
+    foreach(new idx : entranceID) {
+        if(IsPlayerInDynamicArea(playerid, EnExArea[idx])) {
+            return idx;
+        }
+    }
+    return INTERACTION_INVALID_ID;
 }
 
 stock Entrance_Use(playerid, idx) {
     if(!Iter_Contains(entranceID, idx)) {
         return 0;
+    }
+
+    if(!Entrance_IsPlayerAllowed(playerid)) {
+        return 1;
     }
 
     if(IsPlayerInAnyVehicle(playerid)) {
@@ -219,22 +255,43 @@ stock Entrance_Use(playerid, idx) {
         return 1;
     }
 
-    Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ENTRANCE, idx);
+    new
+        Float:x,
+        Float:y,
+        Float:z,
+        Float:a,
+        teleportDelay = entranceFreezePlayer[idx] ? 2000 : INTERACTION_TELEPORT_DELAY;
+
+    Entrance_GetTargetPoint(idx, x, y, z, a);
+    Interaction_ClearPrompt(playerid);
+    Interaction_LockPrompts(playerid, teleportDelay + GetPlayerPing(playerid) + 1000);
     Interaction_LoadSafeTeleport(
         playerid,
-        exitX[idx],
-        exitY[idx],
-        exitZ[idx],
-        exitAng[idx],
+        x,
+        y,
+        z,
+        a,
         exitVirtualID[idx],
         exitInteriorID[idx],
         true,
-        entranceFreezePlayer[idx] ? 2000 : INTERACTION_TELEPORT_DELAY
+        teleportDelay
     );
 
-    Entrance_UpdatePlayerTick(playerid);
+    Entrance_UpdatePlayerTick(playerid, 3);
     strcpy(getShopName[playerid], entranceStoreName[idx], MAX_STORE_NAME);
     CallRemoteFunction("OnPlayerEnterEntrance", "i", playerid);
+    return 1;
+}
+
+static Entrance_CommandUse(playerid)
+{
+    new idx = Entrance_FindUsable(playerid);
+
+    if(!Iter_Contains(entranceID, idx)) {
+        return SendErrorMsg(playerid, "Ban khong dung gan loi ra vao nao.");
+    }
+
+    Entrance_Use(playerid, idx);
     return 1;
 }
 
@@ -276,6 +333,10 @@ hook OnDynamicObjectMoved(objectid) {
 
 // Handler
 hook OnPlayerEnterDynArea(playerid, areaid) {
+    if (!Entrance_IsPlayerAllowed(playerid)) {
+        return 1;
+    }
+
     if (IsPlayerInAnyVehicle(playerid)) {
         return 1;
     }
@@ -308,6 +369,18 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
         }
     }
     return 1;
+}
+
+CMD:vao(playerid, params[])
+{
+    #pragma unused params
+    return Entrance_CommandUse(playerid);
+}
+
+CMD:ra(playerid, params[])
+{
+    #pragma unused params
+    return Entrance_CommandUse(playerid);
 }
 
 hook OnPlayerLeaveDynArea(playerid, areaid) {

@@ -4,6 +4,7 @@
 #define INTERACTION_LABEL_DISTANCE  (25.0)
 #define INTERACTION_PROMPT_TIME     (-1)
 #define INTERACTION_TELEPORT_DELAY  (1200)
+#define INTERACTION_PROMPT_LOCK_MS  (2200)
 
 enum {
     INTERACTION_TYPE_NONE = 0,
@@ -18,7 +19,8 @@ enum {
 static
     PlayerInteractionType[MAX_PLAYERS],
     PlayerInteractionID[MAX_PLAYERS],
-    PlayerTeleportToken[MAX_PLAYERS];
+    PlayerTeleportToken[MAX_PLAYERS],
+    PlayerPromptLockUntilTick[MAX_PLAYERS];
 
 forward Interaction_UnfreezePlayer(playerid, token);
 public Interaction_UnfreezePlayer(playerid, token)
@@ -35,6 +37,7 @@ hook OnPlayerConnect(playerid)
     PlayerInteractionType[playerid] = INTERACTION_TYPE_NONE;
     PlayerInteractionID[playerid] = INTERACTION_INVALID_ID;
     PlayerTeleportToken[playerid] = 0;
+    PlayerPromptLockUntilTick[playerid] = 0;
     return 1;
 }
 
@@ -54,6 +57,18 @@ stock Interaction_BuildPointLabel(output[], len, const pointType[], const name[]
 
 stock Interaction_ShowPrompt(playerid, type, interactionid, const caption[], const action[])
 {
+    if(GetTickCount() < PlayerPromptLockUntilTick[playerid]) {
+        return 0;
+    }
+
+    if(
+        PlayerInteractionType[playerid] != INTERACTION_TYPE_NONE &&
+        PlayerInteractionType[playerid] != type &&
+        type > PlayerInteractionType[playerid]
+    ) {
+        return 0;
+    }
+
     new
         info[144];
 
@@ -67,6 +82,12 @@ stock Interaction_ShowPrompt(playerid, type, interactionid, const caption[], con
     PlayerInteractionType[playerid] = type;
     PlayerInteractionID[playerid] = interactionid;
     return MessageBox_Show(playerid, TYPE_INFORMATION, caption, info, INTERACTION_PROMPT_TIME);
+}
+
+stock Interaction_LockPrompts(playerid, duration = INTERACTION_PROMPT_LOCK_MS)
+{
+    PlayerPromptLockUntilTick[playerid] = GetTickCount() + duration;
+    return 1;
 }
 
 stock Interaction_ClearPrompt(playerid, type = INTERACTION_TYPE_NONE, interactionid = INTERACTION_INVALID_ID)
