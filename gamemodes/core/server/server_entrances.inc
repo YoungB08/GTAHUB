@@ -5,6 +5,7 @@
 #define ENTRANCE_UP                 (true)
 #define ENTRANCE_DOWN               (false)
 #define ENTRANCE_AREA_RADIUS        (1.5)
+#define ENTRANCE_EXIT_AREA_RADIUS   (3.0)
 #define ENTRANCE_TELEPORT_OFFSET    (2.0)
 
 // Declarations
@@ -31,11 +32,13 @@ static
     Float: exitAng[MAX_ENTRANCES],
     exitVirtualID[MAX_ENTRANCES],
     exitInteriorID[MAX_ENTRANCES],
+    entranceLinkedID[MAX_ENTRANCES],
     // Other
     Iterator: entranceID<MAX_ENTRANCES>,
     playerEnExCoolDown[MAX_PLAYERS],
     getShopName[MAX_PLAYERS][MAX_STORE_NAME],
-    entranceFreezePlayer[MAX_ENTRANCES];
+    entranceFreezePlayer[MAX_ENTRANCES],
+    PlayerInteriorExitID[MAX_PLAYERS];
 
 stock Entrance_UpdateLabel(id) {
     if(!Iter_Contains(entranceID, id)) {
@@ -43,18 +46,24 @@ stock Entrance_UpdateLabel(id) {
     }
 
     new
-        label[160],
+        label[180],
         labelName[MAX_STORE_NAME],
-        pointType[12],
-        action[16];
+        pointType[16],
+        status[24],
+        action[16],
+        labelColor;
 
     if(entranceIsExitPoint[id]) {
-        strcpy(pointType, "Loi ra", sizeof(pointType));
+        strcpy(pointType, "LOI RA", sizeof(pointType));
+        strcpy(status, "San sang", sizeof(status));
         strcpy(action, "ra ngoai", sizeof(action));
+        labelColor = COLOR_GREEN;
     }
     else {
-        strcpy(pointType, "Loi vao", sizeof(pointType));
+        strcpy(pointType, "LOI VAO", sizeof(pointType));
+        strcpy(status, "Dang mo", sizeof(status));
         strcpy(action, "vao", sizeof(action));
+        labelColor = COLOR_ORANGE;
     }
 
     if(isnull(entranceStoreName[id])) {
@@ -64,12 +73,12 @@ stock Entrance_UpdateLabel(id) {
         strcpy(labelName, entranceStoreName[id], sizeof(labelName));
     }
 
-    Interaction_BuildPointLabel(label, sizeof(label), pointType, labelName, "Dang mo", action);
+    Interaction_BuildPointLabel(label, sizeof(label), pointType, labelName, status, action);
 
     if(EnExLabel[id] == INVALID_3DTEXT_ID) {
         EnExLabel[id] = CreateDynamic3DTextLabel(
             label,
-            COLOR_ORANGE,
+            labelColor,
             entranceX[id],
             entranceY[id],
             entranceZ[id] + 1.2,
@@ -80,7 +89,7 @@ stock Entrance_UpdateLabel(id) {
         );
     }
     else {
-        UpdateDynamic3DTextLabelText(EnExLabel[id], COLOR_ORANGE, label);
+        UpdateDynamic3DTextLabelText(EnExLabel[id], labelColor, label);
     }
     return 1;
 }
@@ -149,7 +158,8 @@ stock Entrance_Create(
     bool:isExitPoint = false) {
     new
         idx = Iter_Alloc(entranceID),
-        arr[2];
+        arr[2],
+        Float:areaRadius = ENTRANCE_AREA_RADIUS;
 
     EnExLabel[idx] = INVALID_3DTEXT_ID;
 
@@ -163,8 +173,12 @@ stock Entrance_Create(
 
     MoveDynamicObject(EnExObject[idx], x, y, (z + 1.0), 1.0);
 
+    if(isExitPoint) {
+        areaRadius = ENTRANCE_EXIT_AREA_RADIUS;
+    }
+
     // Area
-    EnExArea[idx] = CreateDynamicCircle(x, y, ENTRANCE_AREA_RADIUS, world, interior);
+    EnExArea[idx] = CreateDynamicCircle(x, y, areaRadius, world, interior);
 
     Streamer_SetArrayData(STREAMER_TYPE_AREA, EnExArea[idx], E_STREAMER_EXTRA_ID, arr, sizeof(arr));
 
@@ -185,8 +199,19 @@ stock Entrance_Create(
     exitAng[idx]                    = eAng;
     exitVirtualID[idx]              = eWorld;
     exitInteriorID[idx]             = eInterior;
+    entranceLinkedID[idx]           = INTERACTION_INVALID_ID;
     Entrance_UpdateLabel(idx);
     return idx;
+}
+
+stock Entrance_LinkPair(entranceid, exitid) {
+    if(!Iter_Contains(entranceID, entranceid) || !Iter_Contains(entranceID, exitid)) {
+        return 0;
+    }
+
+    entranceLinkedID[entranceid] = exitid;
+    entranceLinkedID[exitid] = entranceid;
+    return 1;
 }
 
 stock Entrance_IsPlayerAllowed(playerid) {
@@ -225,6 +250,38 @@ stock Entrance_GetTargetPoint(idx, &Float:x, &Float:y, &Float:z, &Float:a) {
     return 1;
 }
 
+stock bool:Entrance_IsInteriorExitForPlayer(playerid, idx) {
+    return (
+        Iter_Contains(entranceID, idx) &&
+        entranceIsExitPoint[idx] &&
+        GetPlayerVirtualWorld(playerid) == entranceVirtualID[idx] &&
+        GetPlayerInterior(playerid) == entranceInteriorID[idx]
+    );
+}
+
+stock Entrance_ShowPrompt(playerid, idx) {
+    if(!Iter_Contains(entranceID, idx)) {
+        return 0;
+    }
+
+    new
+        caption[56],
+        action[16];
+
+    Entrance_PreloadTarget(playerid, idx);
+
+    if(entranceIsExitPoint[idx]) {
+        strcpy(action, "ra ngoai", sizeof(action));
+        format(caption, sizeof(caption), "~g~~h~LOI RA: %s", isnull(entranceStoreName[idx]) ? ("Ben ngoai") : entranceStoreName[idx]);
+    }
+    else {
+        strcpy(action, "vao", sizeof(action));
+        format(caption, sizeof(caption), "~y~~h~%s", isnull(entranceStoreName[idx]) ? ("Loi vao") : entranceStoreName[idx]);
+    }
+
+    return Interaction_ShowPrompt(playerid, INTERACTION_TYPE_ENTRANCE, idx, caption, action);
+}
+
 stock Entrance_FindUsable(playerid) {
     if(Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE)) {
         return Interaction_GetActiveID(playerid);
@@ -235,6 +292,18 @@ stock Entrance_FindUsable(playerid) {
             return idx;
         }
     }
+
+    new exitid = PlayerInteriorExitID[playerid];
+    if(Entrance_IsInteriorExitForPlayer(playerid, exitid)) {
+        return exitid;
+    }
+
+    foreach(new exitidx : entranceID) {
+        if(Entrance_IsInteriorExitForPlayer(playerid, exitidx)) {
+            return exitidx;
+        }
+    }
+
     return INTERACTION_INVALID_ID;
 }
 
@@ -244,14 +313,18 @@ stock Entrance_Use(playerid, idx) {
     }
 
     if(!Entrance_IsPlayerAllowed(playerid)) {
-        return 1;
+        return SendErrorMsg(playerid, "Vui long cho vai giay roi thu lai.");
     }
 
     if(IsPlayerInAnyVehicle(playerid)) {
         return 1;
     }
 
-    if(!Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE, idx) && !IsPlayerInDynamicArea(playerid, EnExArea[idx])) {
+    if(
+        !Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE, idx) &&
+        !IsPlayerInDynamicArea(playerid, EnExArea[idx]) &&
+        !Entrance_IsInteriorExitForPlayer(playerid, idx)
+    ) {
         return 1;
     }
 
@@ -277,8 +350,18 @@ stock Entrance_Use(playerid, idx) {
         teleportDelay
     );
 
-    Entrance_UpdatePlayerTick(playerid, 3);
-    strcpy(getShopName[playerid], entranceStoreName[idx], MAX_STORE_NAME);
+    Entrance_UpdatePlayerTick(playerid, 1);
+
+    if(entranceIsExitPoint[idx]) {
+        PlayerInteriorExitID[playerid] = INTERACTION_INVALID_ID;
+        getShopName[playerid][0] = EOS;
+    }
+    else {
+        PlayerInteriorExitID[playerid] = entranceLinkedID[idx];
+        strcpy(getShopName[playerid], entranceStoreName[idx], MAX_STORE_NAME);
+        SendServerMsg(playerid, "Neu khong thay diem ra, dung /ra de ra ngoai.");
+    }
+
     CallRemoteFunction("OnPlayerEnterEntrance", "i", playerid);
     return 1;
 }
@@ -333,10 +416,6 @@ hook OnDynamicObjectMoved(objectid) {
 
 // Handler
 hook OnPlayerEnterDynArea(playerid, areaid) {
-    if (!Entrance_IsPlayerAllowed(playerid)) {
-        return 1;
-    }
-
     if (IsPlayerInAnyVehicle(playerid)) {
         return 1;
     }
@@ -351,23 +430,14 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
             idx = arr[1];
 
         if (areaid == EnExArea[idx]) {
-            new
-                caption[48],
-                action[16];
-
-            Entrance_PreloadTarget(playerid, idx);
-
-            if(entranceIsExitPoint[idx]) {
-                strcpy(action, "ra ngoai", sizeof(action));
-            }
-            else {
-                strcpy(action, "vao", sizeof(action));
-            }
-
-            format(caption, sizeof(caption), "~y~~h~%s", isnull(entranceStoreName[idx]) ? ("Loi ra") : entranceStoreName[idx]);
-            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_ENTRANCE, idx, caption, action);
+            Entrance_ShowPrompt(playerid, idx);
         }
     }
+    return 1;
+}
+
+hook OnPlayerConnect(playerid) {
+    PlayerInteriorExitID[playerid] = INTERACTION_INVALID_ID;
     return 1;
 }
 

@@ -57,7 +57,7 @@ stock Interaction_BuildPointLabel(output[], len, const pointType[], const name[]
 
 stock Interaction_ShowPrompt(playerid, type, interactionid, const caption[], const action[])
 {
-    if(GetTickCount() < PlayerPromptLockUntilTick[playerid]) {
+    if(GetTickCount() < PlayerPromptLockUntilTick[playerid] && type != INTERACTION_TYPE_ENTRANCE) {
         return 0;
     }
 

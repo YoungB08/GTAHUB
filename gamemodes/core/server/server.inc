@@ -65,7 +65,8 @@ hook OnGameModeInit() {
 
     // Init Entrances
     new
-        entID,
+        entryID,
+        exitID,
         Float:enX,
         Float:enY,
         Float:enZ,
@@ -88,16 +89,17 @@ hook OnGameModeInit() {
 
 
         // create entrance
-        entID = Entrance_Create(enX, enY, enZ, 0.0, 0, 0, exX, exY, exZ, 0.0, vwID, intID);
+        entryID = Entrance_Create(enX, enY, enZ, 0.0, 0, 0, exX, exY, exZ, 0.0, vwID, intID);
 
-        Entrance_SetIcon(entID, storeData[i][E_MAP_ICON]);
-        Entrance_SetName(entID, storeData[i][E_STORE_NAME]);
-        Entrance_EnableFreeze(entID, storeData[i][E_FREEZE_PLAYER]);
+        Entrance_SetIcon(entryID, storeData[i][E_MAP_ICON]);
+        Entrance_SetName(entryID, storeData[i][E_STORE_NAME]);
+        Entrance_EnableFreeze(entryID, storeData[i][E_FREEZE_PLAYER]);
 
         // create exit
-        entID = Entrance_Create(exX, exY, exZ, 0.0, vwID, intID, enX, enY, enZ, 0.0, 0, 0, .isExitPoint = true);
-        Entrance_SetName(entID, storeData[i][E_STORE_NAME]);
-        Entrance_EnableFreeze(entID, storeData[i][E_FREEZE_PLAYER]);
+        exitID = Entrance_Create(exX, exY, exZ, 0.0, vwID, intID, enX, enY, enZ, 0.0, 0, 0, .isExitPoint = true);
+        Entrance_SetName(exitID, storeData[i][E_STORE_NAME]);
+        Entrance_EnableFreeze(exitID, storeData[i][E_FREEZE_PLAYER]);
+        Entrance_LinkPair(entryID, exitID);
 
     }
     return 1;
