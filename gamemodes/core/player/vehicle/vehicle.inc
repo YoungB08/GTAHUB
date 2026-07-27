@@ -1,4 +1,7 @@
 #include <vehicle_impl>
+#include <vehicle_fuel> // he thong nhien lieu
+#include <vehicle_keys> // he thong chia khoa / khoa cua / dong co
+
 
 #if SETUP_TABLE
     #include <vehicle_setup-table>

@@ -11,7 +11,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **3. Stream/load protection quanh entrance**
 - [x] **4. Label trang trọng cho điểm quan trọng**
 - [ ] **5. Speedometer** *(Đang triển khai)*
-- [ ] **6. Hệ thống giấy phép** *(Đang triển khai)*
+- [x] **6. Hệ thống giấy phép** *(Hoàn thành)*
 - [ ] **7. Bài kiểm tra lái xe**
 - [ ] **8. Điện thoại di động & công cộng cơ bản**
 - [ ] **9. Menu tương tác người chơi cơ bản**
@@ -33,13 +33,14 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 
 ---
 
-### 14. Phân chia Kênh Chat IC / OOC Chuẩn RP
+### 14. Phân chia Kênh Chat IC / OOC Chuẩn RP ✅
 
-- [ ] Chat IC bán kính (Local IC Chat) theo khoảng cách người chơi.
-- [ ] Thao tác hành động IC: `/me` (mô tả hành động), `/do` (mô tả môi trường/trạng thái).
-- [ ] Kênh chat phụ IC: Nói thầm (`/low`, `/w`), Hét lớn (`/s`), Loa cầm tay (`/m` - Megaphone).
-- [ ] Kênh chat OOC: `/b` (Local OOC), `/o` (Global OOC có cooldown), `/pm` (Tin nhắn OOC cá nhân).
-- [ ] Bộ đàm Faction IC: Kênh radio riêng (`/r`) và Kênh liên bộ bộ đàm Cảnh sát/Y tế (`/dep`).
+- [x] Chat IC bán kính (Local IC Chat) theo khoảng cách người chơi – `LOCAL_CHAT_DISTANCE (20m)`.
+- [x] Thao tác hành động IC: `/me` (mô tả hành động), `/do` (mô tả môi trường/trạng thái).
+- [x] Kênh chat phụ IC: Nói thầm (`/low`, `/w`), Hét lớn (`/s`, `/shout`).
+- [x] Kênh chat OOC: `/b` (Local OOC 20m), `/o` (Global OOC có cooldown 20s).
+- [x] Bộ đàm Faction IC: Kênh radio riêng (`/r`) và Kênh liên bộ Cảnh sát/Quân đội (`/dep`).
+- **File:** `core/chat/chat_rp.inc`
 
 ---
 
@@ -51,67 +52,74 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 
 ---
 
-### 16. Hệ thống Kinh Tế & Ngân Hàng RP (Economy & Banking)
+### 16. Hệ thống Kinh Tế & Ngân Hàng RP (Economy & Banking) ✅
 
-- [ ] **Paycheck System**: Trả lương định kỳ mỗi giờ chơi (Lương Faction/Job hoặc trợ cấp thất nghiệp, tự động trừ thuế nhà/xe).
-- [ ] **Chuyển khoản Ngân hàng (`/transfer`)**: Chuyển tiền giữa các tài khoản ngân hàng người chơi tại ATM/Ngân hàng.
-- [ ] **Hóa đơn & Tiền phạt (Invoices & Fines)**: Cảnh sát, Bác sĩ và Doanh nghiệp có thể xuất hóa đơn/tiền phạt cho người chơi thanh toán.
-
----
-
-### 17. Nâng cấp Xe Cá Nhân RP (Vehicle System RP)
-
-- [ ] **Đăng ký biển số IC**: Mua xe tại Dealership -> Đăng ký biển số chính thức tại City Hall.
-- [ ] **Hệ thống Xăng / Nhiên liệu (Fuel System)**: Tiêu hao nhiên liệu theo tốc độ/loại xe, đổ xăng tại Cây xăng hoặc dùng Bình xăng dự phòng (Jerry Can).
-- [ ] **Động cơ & Chìa khóa xe**: Bật/Tắt máy thủ công (`/engine` hoặc phím `N`), Khóa/Mở cửa xe (`/lock`), Chia sẻ chìa khóa phụ (`/givekey`).
-- [ ] **Hỏng hóc chi tiết**: Hỏng động cơ, nổ lốp, cạn bình ắc quy; yêu cầu Thợ máy (Mechanic) hoặc Bộ dụng cụ sửa xe (Repair Kit).
+- [x] **Paycheck System**: Trả lương định kỳ mỗi 60 phút (Lương Faction/Job, bonus level, tự động tính thuế). – `core/systems/paycheck_system.inc`
+- [x] **Chuyển khoản Ngân hàng (`/transfer`)**: Chuyển tiền giữa các tài khoản ngân hàng người chơi (phí 2%). – `core/cmds/cmds_bank.inc`
+- [x] **Xem số dư (`/balance`, `/bal`)**: Kiểm tra tiền mặt & ngân hàng. – `core/cmds/cmds_bank.inc`
+- [ ] **Hóa đơn & Tiền phạt IC**: Cảnh sát xuất hóa đơn phạt (tích hợp `/fine` của LSPD).
 
 ---
 
-### 18. Faction Hợp Pháp (LSPD, EMS/LSFD, City Hall)
+### 17. Nâng cấp Xe Cá Nhân RP (Vehicle System RP) ✅
 
-- [ ] **LSPD (Los Santos Police Department)**:
-  - On Duty / Off Duty, lấy trang bị theo Rank.
-  - Máy tính Cảnh sát (MDC - Mobile Data Computer): Tra cứu tiền án, biển số xe, danh sách truy nã IC.
-  - Lập biên bản phạt, tạm giam tại Trụ sở hoặc Nhà tù Bolingbroke.
-- [ ] **EMS / LSFD (Cấp Cứu & Cứu Hỏa)**:
-  - Băng bó, Hồi sức CPR, Cáng cứu thương, Đưa về Bệnh viện điều trị.
-  - Xử lý các trạng thái chấn thương (Bị đạn bắn, tai nạn xe, ngộ độc).
-- [ ] **Chính Phủ (City Hall)**: Quản lý ngân sách thành phố, cấp giấy phép kinh doanh, điều chỉnh thuế suất.
+- [x] **Hệ thống Xăng / Nhiên liệu (Fuel System)**: Tiêu hao theo tốc độ, cảnh báo 15%, đổ xăng tại Gas Station (`/refuel`, `/gas`). – `core/player/vehicle/vehicle_fuel.inc`
+- [x] **Động cơ thủ công (`/engine`)**: Bật/Tắt máy (chỉ chủ xe hoặc người có chìa khóa), kiểm tra xăng trước khi khởi động. – `core/player/vehicle/vehicle_keys.inc`
+- [x] **Khóa/Mở cửa xe (`/lock`)**: Ngăn người không có chìa khóa vào xe. – `core/player/vehicle/vehicle_keys.inc`
+- [x] **Chia sẻ chìa khóa phụ (`/givekey`, `/takekey`)**: Giao/Thu chìa khóa phụ (tối đa 4 người). – `core/player/vehicle/vehicle_keys.inc`
+- [ ] Đăng ký biển số IC tại City Hall.
+- [ ] Hỏng hóc chi tiết (nổ lốp, hỏng động cơ, cạn ắc quy).
 
 ---
 
-### 19. Faction Bất Hợp Pháp (Gangs & Chợ Đen)
+### 18. Faction Hợp Pháp (LSPD, EMS/LSFD, City Hall) ✅
 
-- [ ] **Băng Đảng (Gangster / Mafia / Cartel)**: Quản lý Rank, Bảng phân quyền Faction, Kho Faction (Tiền + Vật phẩm + Vũ khí).
-- [ ] **Chiếm Đánh Địa Bàn (Turf System)**: Phân chia khu vực tại Los Santos, tranh chấp turf và thu thuế địa bàn.
-- [ ] **Chế Tạo & Buôn Lậu (Crafting & Black Market)**: Quy trình chế tạo Ma túy nâng cao (Weed/Meth/Crack), Chợ đen mua bán linh kiện súng cấm.
-
----
-
-### 20. Smartphone UI Nâng Cao (Mobile Phone RP)
-
-- [ ] **Giao diện Smartphone TextDraw**: Hiển thị dạng điện thoại thông minh ở góc màn hình.
-- [ ] **Ứng dụng Danh bạ & Gọi/SMS**: Lưu danh bạ, gửi tin nhắn SMS, gọi điện thoại real-time.
-- [ ] **Ứng dụng GPS Navigation**: Định vị nhanh các địa điểm công cộng, đồn cảnh sát, bệnh viện, cây xăng, việc làm.
-- [ ] **Ứng dụng Dịch Vụ**: Gọi khẩn cấp 911 (Cảnh sát/Cứu thương), Taxi, Thợ máy (Mechanic).
+- [x] **LSPD On/Off Duty (`/duty`)**: Mặc đồng phục, cấp trang bị theo rank, thông báo bộ đàm. – `core/systems/lspd_system.inc`
+- [x] **MDC – Mobile Data Computer (`/mdc`)**: Tra cứu hồ sơ nhân thân: tên, level, wanted, giấy phép. – `core/systems/lspd_system.inc`
+- [x] **Phiếu phạt IC (`/fine`)**: Cảnh sát phạt tiền người chơi có lý do, trừ tiền mặt/ngân hàng. – `core/systems/lspd_system.inc`
+- [x] **Thăng cấp LSPD (`/setrank`)**: Admin cấp rank cảnh sát (level 4+). – `core/systems/lspd_system.inc`
+- [ ] EMS/LSFD: On-duty, Cứu thương, Băng bó, CPR, Cáng bệnh nhân.
+- [ ] City Hall: Cấp giấy phép kinh doanh, quản lý ngân sách.
 
 ---
 
-### 21. Server-side Anti-Cheat & Công Cụ Admin RP
+### 19. Faction Bất Hợp Pháp (Gangs & Chợ Đen) ✅
 
-- [ ] **Hệ thống Ticket Support (`/reports`)**: Người chơi gửi yêu cầu trợ giúp IC/OOC -> Admin tiếp nhận và xử lý.
-- [ ] **Admin Spectate Nâng Cao (`/spec`)**: Xem thông số real-time (Tiền, Faction, Ping, FPS, Vũ khí, Xe).
-- [ ] **Xử Phạt RP**: `Jail RP` (Giam OOC do vi phạm luật RP), `Warn System` (3 cảnh cáo tự động Ban).
-- [ ] **Kích hoạt Server-side Anti-Cheat**: Bật toàn bộ các module Anti-cheat độc lập có sẵn trong repo (Weapon, Money, Teleport, Airbreak, Speedhack, Car Jack).
+- [x] **Chiếm Đánh Địa Bàn (Turf System)**: 10 turf tại LS, timer chiếm 60s, cần ≥2 thành viên. – `core/systems/turf_system.inc`
+- [x] **GangZone hiển thị**: Màu gang trên minimap theo chủ sở hữu, nhấp nháy khi bị tấn công. – `core/systems/turf_system.inc`
+- [x] **Thu thuế địa bàn**: Mỗi 30 phút, gang có turf nhận tiền thuế chia đều thành viên online. – `core/systems/turf_system.inc`
+- [x] **Lệnh `/turfinfo`, `/attackturf`**: Xem thông tin và khởi phát tấn công turf. – `core/systems/turf_system.inc`
+- [ ] Chế Tạo & Buôn Lậu: Crafting ma túy nâng cao, chợ đen linh kiện súng.
+
+---
+
+### 20. Smartphone / Điện Thoại RP ✅
+
+- [x] **Số điện thoại 7 chữ số duy nhất**: Auto-generate khi đăng ký, load khi login. – `core/systems/phone_system.inc`
+- [x] **Gửi SMS (`/sms [so] [tin]`)**: Gửi tin nhắn tới số điện thoại player đang online. – `core/systems/phone_system.inc`
+- [x] **Gọi điện thoại (`/call [so]`)**: Dialog chấp nhận/từ chối, `/hangup` cúp máy. – `core/systems/phone_system.inc`
+- [x] **Gọi khẩn cấp (`/911`)**: Thông báo tới tất cả LSPD on duty, đặt checkpoint dẫn đường. – `core/systems/phone_system.inc`
+- [x] **Danh bạ (`/addcontact`, `/myphone`)**: Lưu tên & số điện thoại. – `core/systems/phone_system.inc`
+- [ ] Giao diện Smartphone TextDraw UI (màn hình điện thoại góc HUD).
+
+---
+
+### 21. Server-side Anti-Cheat & Công Cụ Admin RP ✅
+
+- [x] **Hệ thống Ticket Support (`/report`, `/reports`, `/closereport`)**: Player gửi báo cáo, Admin tiếp nhận và đóng. – `core/cmds/cmds_admin_rp.inc`
+- [x] **Warn System (`/warn`, `/warns`)**: 3 cảnh cáo tự động ban 24h. – `core/cmds/cmds_admin_rp.inc`
+- [x] **Admin Duty Toggle (`/aduty`)**: Bật/Tắt Admin Duty OOC mode. – `core/cmds/cmds_admin_rp.inc`
+- [ ] Kích hoạt Server-side Anti-Cheat đầy đủ (Weapon, Money, Teleport, Airbreak, Speedhack).
 
 ---
 
 ## 🎯 Milestone Tiếp Theo
 
-- [ ] **Milestone 5**: Hệ thống Giấy phép (License), Driving Test & Speedometer hoàn thành.
-- [ ] **Milestone 6**: Điện thoại di động (Phone System) & Menu tương tác người chơi (Player Menu) hoạt động.
-- [ ] **Milestone 7**: Hệ thống Tạo nhân vật IC (Multi-char) & Chat IC/OOC (`/me`, `/do`, `/r`) hoàn thành.
-- [ ] **Milestone 8**: Paycheck, Ngân hàng, Nhiên liệu xe (Fuel System) & Dynamic Inventory hoạt động.
-- [ ] **Milestone 9**: LSPD MDC System, EMS Cứu thương & Faction Gang Turf hoạt động.
-- [ ] **Milestone 10**: Kích hoạt toàn bộ Anti-cheat server-side & Công cụ Admin RP hoàn chỉnh.
+- [x] **Milestone 7 (Phần A)**: Chat IC/OOC RP (`/me`, `/do`, `/low`, `/s`, `/r`, `/b`, `/o`) hoàn thành.
+- [x] **Milestone 8 (Phần A)**: Paycheck, `/transfer`, Nhiên liệu xe, Khóa/Động cơ xe hoàn thành.
+- [x] **Milestone 9 (Phần A)**: LSPD Duty + MDC, Turf System, Phone System cơ bản hoàn thành.
+- [x] **Milestone 10 (Phần A)**: Ticket Support, Warn System, Admin Duty hoàn thành.
+- [ ] **Milestone 7 (Còn lại)**: Multi-character System (Mục 13), Dynamic Inventory (Mục 15).
+- [ ] **Milestone 8 (Còn lại)**: EMS System, Biển số xe, Hỏng hóc chi tiết.
+- [ ] **Milestone 9 (Còn lại)**: Crafting/Black Market, Smartphone TextDraw HUD.
+- [ ] **Milestone 10 (Còn lại)**: Anti-cheat đầy đủ, City Hall Government.

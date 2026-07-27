@@ -29,3 +29,16 @@
 
 // GPS pathfinding system
 #include <gps_system>
+
+// He thong luong dinh ky RP
+#include <paycheck_system>
+
+// LSPD Duty + MDC
+#include <lspd_system>
+
+// Turf War System
+#include <turf_system>
+
+// Phone System
+#include <phone_system>
+

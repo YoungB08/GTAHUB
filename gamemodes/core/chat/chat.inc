@@ -2,3 +2,4 @@
 #include <chat_mute>
 #include <chat_message>
 #include <chat_OnPlayerText>
+#include <chat_rp> // he thong chat IC/OOC Roleplay

@@ -36,11 +36,24 @@ hook OnMySQLSetupTable() {
     mysql_tquery_file(MySQL_GetHandle(), "player_items.sql");
     Logger_Log("setting up 'player_items' table...");
 
+    mysql_tquery_file(MySQL_GetHandle(), "player_licenses.sql");
+    Logger_Log("setting up 'player_licenses' table...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "vehicle_fuel.sql");
+    Logger_Log("setting up 'vehicle_fuel' table...");
+
     mysql_tquery_file(MySQL_GetHandle(), "player_bank.sql");
     Logger_Log("setting up 'player_bank' table...");
 
     mysql_tquery_file(MySQL_GetHandle(), "armys.sql");
     Logger_Log("setting up 'armys' table...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "turfs.sql");
+    Logger_Log("setting up 'turfs' table...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "phone.sql");
+    Logger_Log("setting up 'phone_numbers' and 'phone_contacts' tables...");
+
 
     // --------------------------------------------------------------------------------------------
     // ADMIN
