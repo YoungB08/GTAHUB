@@ -1,80 +1,36 @@
 # Báo Cáo Tiến Độ Phát Triển Server RP (GTAHUB RP)
 
 **Branch hiện tại:** `feature/roleplay-system-upgrade`  
-**Trạng thái Git:** Working tree clean (`origin/feature/roleplay-system-upgrade` - Commit `2d74fef`).
+**Trạng thái Git:** Working tree clean (`origin/feature/roleplay-system-upgrade` - Commit `d159762`).
 
 ---
 
-## 📊 Tổng Quan Tiến Độ
+## 📊 Bảng Tổng Hợp Tất Cả Tính Năng Đã Hoàn Thành
 
-### ✅ Các Tính Năng Đã Hoàn Thành & Đã Push (Batch 1)
-
-#### 1. Hệ thống Chat IC/OOC (`core/chat/chat_rp.inc`)
-- **Chat IC Local**: Tự động chuyển OnPlayerText thành chat cục bộ trong bán kính `20m` (Local Chat).
-- **Hành động IC**:
-  - `/me <hành động>`: Hiển thị hành động nhân vật (màu tím).
-  - `/do <mô tả>`: Mô tả trạng thái/môi trường xung quanh (màu xanh da trời).
-- **Kênh chat phụ IC**:
-  - `/low` / `/w <tin>`: Nói thầm (bán kính 5m).
-  - `/s` / `/shout <tin>`: Hét to (bán kính 50m).
-- **Bộ đàm IC**:
-  - `/r <tin>`: Kênh radio nội bộ Faction (Cảnh sát, Quân đội, Y tế, Gangster).
-  - `/dep <tin>`: Kênh bộ đàm liên bộ (Cảnh sát & Quân đội).
-- **Kênh chat OOC**:
-  - `/b <tin>`: Local OOC (bán kính 20m).
-  - `/o <tin>`: Global OOC toàn server (có cooldown 20s/lần).
-
-#### 2. Nâng Cấp Xe Cá Nhân RP (`vehicle_fuel.inc`, `vehicle_keys.inc`, `vehicle_fuel.sql`)
-- **Hệ thống Xăng (Fuel System)**:
-  - Tiêu hao nhiên liệu theo vận tốc xe.
-  - Tự động cảnh báo khi xăng dưới `15%`.
-  - Nạp nhiên liệu bằng `/refuel` hoặc `/gas` tại 10 trạm xăng chính ở Los Santos.
-- **Động cơ & Khóa xe**:
-  - `/engine`: Bật/Tắt động cơ thủ công (yêu cầu còn xăng, chỉ chủ xe hoặc người có chìa phụ).
-  - `/lock`: Khóa/Mở cửa xe (ngăn người lạ vào xe).
-  - `/givekey` & `/takekey`: Giao/Thu hồi chìa khóa phụ (tối đa 4 chìa/xe).
-
-#### 3. Kinh Tế & Ngân Hàng RP (`paycheck_system.inc`, `cmds_bank.inc`)
-- **Paycheck System**:
-  - Trả lương tự động mỗi 60 phút theo Class/Job + bonus theo level.
-  - Lệnh `/paycheck`, `/salary` kiểm tra thông tin lương và thời gian đếm ngược.
-- **Ngân Hàng RP**:
-  - `/transfer [playerid] [số tiền]`: Chuyển khoản ngân hàng giữa người chơi (phí 2%).
-  - `/balance`, `/bal`: Tra cứu nhanh tiền mặt & số dư ngân hàng.
-
-#### 4. LSPD Duty & MDC System (`lspd_system.inc`)
-- **Chế độ `/duty`**: Bật/tắt trực ban, mặc đồng phục theo Rank, cấp phát trang bị (Dùi đùi, Pistol, Shotgun).
-- **Máy tính MDC (`/mdc [playerid]`)**: Tra cứu thông tin nhân thân, mức truy nã, chỉ số Kills/Deaths và các loại Giấy phép (Bằng lái xe, Xe tải, Máy bay, Bằng súng).
-- **Phiếu phạt IC (`/fine [playerid] [số tiền] [lý do]`)**: Phạt tiền IC có lý do, tự động trừ tiền mặt/ngân hàng.
-- **Thăng cấp (`/setrank`)**: Admin (level 4+) cấp rank Cảnh sát (Cadet -> Captain).
-
-#### 5. Turf War System - Chiếm Đánh Địa Bàn (`turf_system.inc`, `turfs.sql`)
-- **10 Địa bàn tại Los Santos**: Ganton, Glen Park, Idlewood, East Beach, Jefferson...
-- **GangZone Display**: Hiển thị màu đại diện Gang trên minimap, nhấp nháy khi bị tấn công.
-- **Tấn công địa bàn (`/attackturf`)**: Cần tối thiểu 2 thành viên trong turf, đếm ngược 60 giây.
-- **Thu thuế tự động**: Mỗi 30 phút tự phân phối tiền thuế thu nhập từ địa bàn chia đều cho các thành viên gang đang online.
-- **Xem thông tin (`/turfinfo`)**: Tra cứu chủ sở hữu và trạng thái địa bàn.
-
-#### 6. Smartphone System (`phone_system.inc`, `phone.sql`)
-- **Số điện thoại duy nhất**: Tự động tạo số điện thoại 7 chữ số (`09xxxxx`) khi đăng ký tài khoản.
-- **Nhắn tin & Cuộc gọi**: `/sms [số] [nội dung]`, `/call [số]` (hiển thị Dialog phản hồi Realtime), `/hangup` (cúp máy).
-- **Gọi khẩn cấp `/911 [lý do]`**: Gửi vị trí & tự động bật Checkpoint dẫn đường tới tất cả Cảnh sát đang On-Duty.
-- **Danh bạ (`/addcontact`, `/myphone`)**: Quản lý danh bạ cá nhân.
-
-#### 7. Admin RP Tools (`cmds_admin_rp.inc`)
-- **Ticket Support System**:
-  - `/report [nội dung]`: Người chơi gửi yêu cầu hỗ trợ.
-  - `/reports`: Admin xem danh sách ticket đang mở.
-  - `/closereport [id]`: Admin đóng ticket sau khi xử lý.
-- **Cảnh báo OOC (`/warn [playerid] [lý do]`, `/warns`)**: Tích lũy 3 cảnh cáo tự động Ban 24 giờ.
-- **Chế độ Admin Duty (`/aduty`)**: Chuyển đổi trạng thái làm việc OOC (đổi màu tên sang đỏ).
+| Mục | Tên Hệ Thống | Chi Tiết Chức Năng | File Code |
+|:---:|:---|:---|:---|
+| **13** | **Multi-Character System** | Quản lý 2 nhân vật IC/tài khoản, Dialog tạo/chọn nhân vật, Validate tên IC, Auto-save vị trí 3 phút, `/charinfo`, `/switchchar`, `/deletechar`. | `core/account/account_character.inc`<br>`scriptfiles/characters.sql` |
+| **14** | **Kênh Chat IC/OOC** | Local IC chat (bán kính 20m), `/me`, `/do`, `/low`, `/s`, `/r` (Faction Radio), `/dep` (Liên bộ), `/b` (Local OOC), `/o` (Global OOC). | `core/chat/chat_rp.inc` |
+| **15** | **Dynamic Inventory** | Túi đồ 12 slot, giới hạn 15kg, 24 loại vật phẩm, cốp xe (`/trunk`, `/puttrunk`, `/taketrunk`), thả đồ (`/drop`), đưa đồ (`/giveitem2`), khám người (`/inspect`). | `core/player/player_inventory.inc`<br>`scriptfiles/player_inventory.sql` |
+| **16** | **Kinh Tế & Ngân Hàng** | Paycheck trả lương 60 phút theo Class/Job, `/paycheck`, `/salary`, chuyển khoản ngân hàng `/transfer` (phí 2%), `/balance`. | `core/systems/paycheck_system.inc`<br>`core/cmds/cmds_bank.inc` |
+| **17** | **Nâng Cấp Xe Cá Nhân** | Fuel System tiêu hao xăng theo tốc độ, đổ xăng `/refuel`, `/gas`, động cơ thủ công `/engine`, khóa xe `/lock`, giao chìa phụ `/givekey`, `/takekey`. | `core/player/vehicle/vehicle_fuel.inc`<br>`core/player/vehicle/vehicle_keys.inc` |
+| **18A**| **LSPD Duty & MDC** | Chế độ `/duty` (đồng phục + trang bị), Máy tính `/mdc` (hồ sơ nhân thân/wanted/bằng lái), Phiếu phạt IC `/fine`, Thăng cấp `/setrank`. | `core/systems/lspd_system.inc` |
+| **18B**| **EMS/LSFD System** | `/emsduty` (bật/tắt ca trực), Băng bó `/bandage` (+25 HP), Hồi phục `/heal` (100 HP), Hồi sức tim `/cpr` (60% thành công), Hồi sinh `/revive`. | `core/systems/ems_system.inc` |
+| **18C**| **City Hall RP** | Đăng ký biển số xe IC (`/platereg`, `$5,000`), Đổi biển số (`/changeplate`), Đăng ký GPDKD (`/bizlicense`, `$25,000`), Xem giấy phép (`/mybiz`). | `core/systems/cityhall_rp.inc` |
+| **19A**| **Turf War System** | 10 địa bàn tại Los Santos, GangZone nhấp nháy trên minimap khi bị tấn công, `/attackturf` (đếm ngược 60s), Tự động chia thuế địa bàn mỗi 30 phút. | `core/systems/turf_system.inc`<br>`scriptfiles/turfs.sql` |
+| **19B**| **Black Market & Crafting**| Chợ đen vị trí ngẫu nhiên mỗi restart, NPC pickup, Menu mua súng/ma túy/C4, `/bmlocate`, Chế tạo ma túy `/craftdrug crack` / `heroin`. | `core/systems/blackmarket_system.inc` |
+| **20A**| **Smartphone System** | Cấp số điện thoại 7 chữ số duy nhất khi đăng ký, `/sms`, `/call`, `/hangup`, Gọi khẩn cấp `/911` (bật Checkpoint cho LSPD), Danh bạ `/addcontact`. | `core/systems/phone_system.inc`<br>`scriptfiles/phone.sql` |
+| **20B**| **Smartphone HUD** | PlayerTextDraw góc phải trên màn hình hiển thị số điện thoại, trạng thái cuộc gọi (IDLE / RINGING / ON_CALL) + bộ đếm thời gian đàm thoại. | `core/user-interface/ui_phone.inc` |
+| **21A**| **Admin RP Tools** | Ticket support (`/report`, `/reports`, `/closereport`), Warn system (`/warn`, `/warns` - 3 warn ban 24h), Admin duty (`/aduty`). | `core/cmds/cmds_admin_rp.inc` |
+| **21B**| **Server-side Anti-Cheat**| Kiểm tra 5 loại cheat: Health hack, Money hack, Weapon hack, Teleport hack, Vehicle Speedhack (>342km/h). Tích lũy 5 vi phạm -> Kick, 15 -> Ban. | `core/systems/anticheat_rp.inc` |
+| **22** | **Driving School** | NPC Trường thi lái xe IC, Thi lý thuyết 5 câu Dialog trắc nghiệm, Thi thực hành 10 Checkpoint (tốc độ <60 km/h), Tự cấp `LICENSE_CAR`. | `core/systems/driving_school.inc` |
+| **23** | **Tủ Đồ Nhà Riêng** | Cất/Lấy tiền mặt nhà riêng (`/housedeposit`, `/housewithdraw`), Xem tủ đồ nhà (`/houseinv`), Bảng `house_inventory`. | `core/systems/house_storage.inc` |
+| **26** | **RP Fishing System** | 3 bãi câu cá, lệnh `/fish` (timer 6s cá cắn), 3 loại cá (Cá Trích, Cá Ngừ, Cá Mập Nhỏ), bán cá lấy tiền mặt (`/sellfish`). | `core/systems/fishing_system.inc` |
+| **27** | **VIP Perks System** | Bonus Paycheck theo cấp VIP (+10% / +20% / +30%), Dashboard `/myvip`, Màu tên OOC độc quyền `/vipcolor`, Chat VIP `/vipchat`, Admin cấp VIP `/setvip`. | `core/account/account_vip_perks.inc` |
 
 ---
 
-## ⌛ Các Mục Còn Lại Cần Làm (Phần B)
-
-- [ ] **Mục 13**: Multi-Character System (Quản lý 2-3 nhân vật IC trên 1 tài khoản).
-- [ ] **Mục 15**: Dynamic Inventory System (Túi đồ Slot/Weight, Cốp xe, Tủ đồ nhà riêng).
-- [ ] **Mục 18 (B)**: EMS/LSFD System (Băng bó, CPR, Cáng cứu thương, Bệnh viện).
-- [ ] **Mục 19 (B)**: Crafting & Black Market (Chế tạo ma túy, Chợ đen súng).
-- [ ] **Mục 20 (B)**: Smartphone TextDraw UI (Giao diện hình chiếc điện thoại góc màn hình).
+## 📌 Các Tài Liệu Liên Quan
+- [`TODO_PLAN.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/TODO_PLAN.md) - Kế hoạch nền tảng ban đầu.
+- [`DEVELOPMENT_PLAN_RP.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_RP.md) - Kế hoạch tính năng RP cốt lõi (Phần 2).
+- [`DEVELOPMENT_PLAN_EXPANSION.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_EXPANSION.md) - Kế hoạch mở rộng gameplay (Phần 3).
