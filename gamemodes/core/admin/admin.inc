@@ -41,6 +41,8 @@ hook OnGameModeInit() {
     Admin_AddCommandToList(2, "/unjail - release a player from jail");
     Admin_AddCommandToList(2, "/tempban - temporary ban (days/months/years)");
     Admin_AddCommandToList(2, "/offban - offline ban by name (days/months/years)");
+    Admin_AddCommandToList(2, "/goto entrance - open entrance goto dialog");
+    Admin_AddCommandToList(2, "/entrances - manage/goto entrance list");
 
     // Level 3
     Admin_AddCommandToList(3, "/getallciv - teleport all civilians to your position");
@@ -78,5 +80,11 @@ hook OnGameModeInit() {
     Admin_AddCommandToList(5, "/deleteatm - delete an ATM");
     Admin_AddCommandToList(5, "/editatm - edit an ATM");
     Admin_AddCommandToList(5, "/fly - fly mode");
-    Admin_AddCommandToList(5, "/createentrance - create an entrance and exit");
+    Admin_AddCommandToList(5, "/addentrance - create an entrance from interior presets");
+    Admin_AddCommandToList(5, "/createentrance - create an entrance and exit by coordinates");
+    Admin_AddCommandToList(5, "/editentrance - edit an entrance pair");
+    Admin_AddCommandToList(5, "/deleteentrance - delete an entrance pair");
+    Admin_AddCommandToList(5, "/renameentrance - rename an entrance pair");
+    Admin_AddCommandToList(5, "/setentranceentry - set entry position to current position");
+    Admin_AddCommandToList(5, "/setentranceexit - set exit position to current position");
 }

@@ -25,8 +25,11 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerDisconnect(playerid, reason) {
-    Player_AccountUID[playerid] = 0;
-    Player_CharacterUID[playerid] = 0;
+    #pragma unused reason
+
+    if(Player_GetAccountID(playerid) > 0) {
+        CallLocalFunction("OnPlayerAutoSave", "i", playerid);
+    }
     return 1;
 }
 

@@ -12,8 +12,8 @@ hook OnGameModeInit() {
   		rot float NOT NULL, \
   		color_1 tinyint(4) NOT NULL, \
   		color_2 tinyint(4) NOT NULL, \
-  		intid tinyint(4) NOT NULL, \
-  		vworld smallint(6) NOT NULL, \
+        intid tinyint(4) NOT NULL DEFAULT '0', \
+        vworld smallint(6) NOT NULL DEFAULT '0', \
   		PRIMARY KEY (vehicle_id), \
   		FOREIGN KEY (u_id) REFERENCES players(u_id) ON DELETE CASCADE ON UPDATE CASCADE)");
 

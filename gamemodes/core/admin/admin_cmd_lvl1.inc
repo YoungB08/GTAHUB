@@ -32,6 +32,23 @@ ACMD:[1]get(playerid, params[])
 
 ACMD:[1]goto(playerid, params[])
 {
+    new gotoType[16];
+
+    if(!sscanf(params, "s[16]", gotoType)) {
+        if(
+            !strcmp(gotoType, "entrance", true) ||
+            !strcmp(gotoType, "entrace", true) ||
+            !strcmp(gotoType, "door", true) ||
+            !strcmp(gotoType, "biz", true) ||
+            !strcmp(gotoType, "business", true)
+        ) {
+            if(Admin_GetPlayerLevel(playerid) < ADM_LVL_2) {
+                return SendErrorMsg(playerid, "Lenh nay can admin level 2 tro len.");
+            }
+            return CallLocalFunction("cmd_gotoentrance", "is", playerid, "\1");
+        }
+    }
+
 	new
 		targetid;
 

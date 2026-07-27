@@ -7,6 +7,7 @@
 #define ENTRANCE_AREA_RADIUS        (1.5)
 #define ENTRANCE_EXIT_AREA_RADIUS   (3.0)
 #define ENTRANCE_TELEPORT_OFFSET    (2.0)
+#define ENTRANCE_DYNAMIC_WORLD_BASE (1000)
 
 // Declarations
 static
@@ -14,6 +15,7 @@ static
     bool:EnExObjectState[MAX_ENTRANCES],
     EnExObject[MAX_ENTRANCES],
     Text3D:EnExLabel[MAX_ENTRANCES],
+    EnExMapIcon[MAX_ENTRANCES],
     // Area
     EnExArea[MAX_ENTRANCES],
     // Entrance
@@ -33,12 +35,16 @@ static
     exitVirtualID[MAX_ENTRANCES],
     exitInteriorID[MAX_ENTRANCES],
     entranceLinkedID[MAX_ENTRANCES],
+    entranceDatabaseID[MAX_ENTRANCES],
+    entranceMapIcon[MAX_ENTRANCES],
     // Other
     Iterator: entranceID<MAX_ENTRANCES>,
     playerEnExCoolDown[MAX_PLAYERS],
     getShopName[MAX_PLAYERS][MAX_STORE_NAME],
     entranceFreezePlayer[MAX_ENTRANCES],
-    PlayerInteriorExitID[MAX_PLAYERS];
+    PlayerInteriorExitID[MAX_PLAYERS],
+    PlayerAdminEntranceListID[MAX_PLAYERS][MAX_ENTRANCES],
+    PlayerAdminEntranceListCount[MAX_PLAYERS];
 
 stock Entrance_UpdateLabel(id) {
     if(!Iter_Contains(entranceID, id)) {
@@ -101,7 +107,17 @@ stock Entrance_SetIcon(id, iconid) {
         return 0;
     }
 
-    CreateDynamicMapIcon(entranceX[id], entranceY[id], entranceZ[id], iconid, -1, .style = MAPICON_GLOBAL);
+    entranceMapIcon[id] = iconid;
+
+    if(entranceIsExitPoint[id] || iconid <= 0) {
+        return 1;
+    }
+
+    if(EnExMapIcon[id] != INVALID_STREAMER_ID) {
+        DestroyDynamicMapIcon(EnExMapIcon[id]);
+    }
+
+    EnExMapIcon[id] = CreateDynamicMapIcon(entranceX[id], entranceY[id], entranceZ[id], iconid, -1, .style = MAPICON_GLOBAL);
     return 1;
 }
 
@@ -161,7 +177,12 @@ stock Entrance_Create(
         arr[2],
         Float:areaRadius = ENTRANCE_AREA_RADIUS;
 
+    if(idx == INTERACTION_INVALID_ID) {
+        return INTERACTION_INVALID_ID;
+    }
+
     EnExLabel[idx] = INVALID_3DTEXT_ID;
+    EnExMapIcon[idx] = INVALID_STREAMER_ID;
 
     arr[0] = ENEX_STREAMER_IDENTIFIER;
     arr[1] = idx;
@@ -200,6 +221,8 @@ stock Entrance_Create(
     exitVirtualID[idx]              = eWorld;
     exitInteriorID[idx]             = eInterior;
     entranceLinkedID[idx]           = INTERACTION_INVALID_ID;
+    entranceDatabaseID[idx]         = 0;
+    entranceMapIcon[idx]            = 0;
     Entrance_UpdateLabel(idx);
     return idx;
 }
@@ -211,6 +234,533 @@ stock Entrance_LinkPair(entranceid, exitid) {
 
     entranceLinkedID[entranceid] = exitid;
     entranceLinkedID[exitid] = entranceid;
+    return 1;
+}
+
+stock Entrance_GetLinkedID(id) {
+    if(!Iter_Contains(entranceID, id)) {
+        return INTERACTION_INVALID_ID;
+    }
+    return entranceLinkedID[id];
+}
+
+stock Entrance_GetEntryID(id) {
+    if(!Iter_Contains(entranceID, id)) {
+        return INTERACTION_INVALID_ID;
+    }
+
+    if(entranceIsExitPoint[id] && Iter_Contains(entranceID, entranceLinkedID[id])) {
+        return entranceLinkedID[id];
+    }
+    return id;
+}
+
+stock Entrance_GetExitID(id) {
+    if(!Iter_Contains(entranceID, id)) {
+        return INTERACTION_INVALID_ID;
+    }
+
+    if(entranceIsExitPoint[id]) {
+        return id;
+    }
+
+    if(Iter_Contains(entranceID, entranceLinkedID[id])) {
+        return entranceLinkedID[id];
+    }
+    return INTERACTION_INVALID_ID;
+}
+
+stock Entrance_AllocateVirtualWorld() {
+    new world = ENTRANCE_DYNAMIC_WORLD_BASE;
+
+    foreach(new idx : entranceID) {
+        if(entranceVirtualID[idx] >= world) {
+            world = entranceVirtualID[idx] + 1;
+        }
+
+        if(exitVirtualID[idx] >= world) {
+            world = exitVirtualID[idx] + 1;
+        }
+    }
+    return world;
+}
+
+stock Entrance_CreatePair(
+    const name[],
+    iconid,
+    bool:freeze,
+    Float:entryX,
+    Float:entryY,
+    Float:entryZ,
+    Float:entryA,
+    entryWorld,
+    entryInterior,
+    Float:targetX,
+    Float:targetY,
+    Float:targetZ,
+    Float:targetA,
+    targetWorld,
+    targetInterior,
+    databaseid = 0
+) {
+    new entryid = Entrance_Create(
+        entryX,
+        entryY,
+        entryZ,
+        entryA,
+        entryWorld,
+        entryInterior,
+        targetX,
+        targetY,
+        targetZ,
+        targetA,
+        targetWorld,
+        targetInterior
+    );
+
+    if(!Iter_Contains(entranceID, entryid)) {
+        return INTERACTION_INVALID_ID;
+    }
+
+    new exitid = Entrance_Create(
+        targetX,
+        targetY,
+        targetZ,
+        targetA,
+        targetWorld,
+        targetInterior,
+        entryX,
+        entryY,
+        entryZ,
+        entryA,
+        entryWorld,
+        entryInterior,
+        .isExitPoint = true
+    );
+
+    if(!Iter_Contains(entranceID, exitid)) {
+        return entryid;
+    }
+
+    Entrance_LinkPair(entryid, exitid);
+    Entrance_SetName(entryid, name);
+    Entrance_SetName(exitid, name);
+    Entrance_EnableFreeze(entryid, freeze);
+    Entrance_EnableFreeze(exitid, freeze);
+    Entrance_SetIcon(entryid, iconid);
+
+    entranceDatabaseID[entryid] = databaseid;
+    entranceDatabaseID[exitid] = databaseid;
+    entranceMapIcon[entryid] = iconid;
+    entranceMapIcon[exitid] = iconid;
+    return entryid;
+}
+
+stock Entrance_SavePairToDatabase(id) {
+    new
+        entryid = Entrance_GetEntryID(id),
+        exitid = Entrance_GetExitID(id);
+
+    if(!Iter_Contains(entranceID, entryid) || !Iter_Contains(entranceID, exitid)) {
+        return 0;
+    }
+
+    new
+        query[1024],
+        dbid = entranceDatabaseID[entryid];
+
+    if(dbid > 0) {
+        mysql_format(
+            MySQL_GetHandle(),
+            query,
+            sizeof(query),
+            "\
+                UPDATE entrances SET \
+                    name = '%e', map_icon = %i, freeze_player = %i, \
+                    entry_x = %f, entry_y = %f, entry_z = %f, entry_a = %f, entry_world = %i, entry_interior = %i, \
+                    exit_x = %f, exit_y = %f, exit_z = %f, exit_a = %f, exit_world = %i, exit_interior = %i, enabled = 1 \
+                WHERE entrance_id = %i",
+            entranceStoreName[entryid],
+            entranceMapIcon[entryid],
+            entranceFreezePlayer[entryid] ? 1 : 0,
+            entranceX[entryid],
+            entranceY[entryid],
+            entranceZ[entryid],
+            entranceAng[entryid],
+            entranceVirtualID[entryid],
+            entranceInteriorID[entryid],
+            entranceX[exitid],
+            entranceY[exitid],
+            entranceZ[exitid],
+            entranceAng[exitid],
+            entranceVirtualID[exitid],
+            entranceInteriorID[exitid],
+            dbid
+        );
+        mysql_tquery(MySQL_GetHandle(), query);
+        return 1;
+    }
+
+    inline const OnEntranceInserted()
+    {
+        new insertedid = cache_insert_id();
+
+        if(insertedid > 0) {
+            entranceDatabaseID[entryid] = insertedid;
+            entranceDatabaseID[exitid] = insertedid;
+        }
+    }
+
+    mysql_format(
+        MySQL_GetHandle(),
+        query,
+        sizeof(query),
+        "\
+            INSERT INTO entrances \
+                (name, map_icon, freeze_player, entry_x, entry_y, entry_z, entry_a, entry_world, entry_interior, \
+                exit_x, exit_y, exit_z, exit_a, exit_world, exit_interior) \
+            VALUES \
+                ('%e', %i, %i, %f, %f, %f, %f, %i, %i, %f, %f, %f, %f, %i, %i)",
+        entranceStoreName[entryid],
+        entranceMapIcon[entryid],
+        entranceFreezePlayer[entryid] ? 1 : 0,
+        entranceX[entryid],
+        entranceY[entryid],
+        entranceZ[entryid],
+        entranceAng[entryid],
+        entranceVirtualID[entryid],
+        entranceInteriorID[entryid],
+        entranceX[exitid],
+        entranceY[exitid],
+        entranceZ[exitid],
+        entranceAng[exitid],
+        entranceVirtualID[exitid],
+        entranceInteriorID[exitid]
+    );
+    MySQL_TQueryInline(MySQL_GetHandle(), using inline OnEntranceInserted, query);
+    return 1;
+}
+
+static Entrance_DestroyPoint(id) {
+    if(!Iter_Contains(entranceID, id)) {
+        return 0;
+    }
+
+    if(EnExObject[id] != INVALID_STREAMER_ID) {
+        DestroyDynamicObject(EnExObject[id]);
+    }
+
+    if(EnExArea[id] != INVALID_STREAMER_ID) {
+        DestroyDynamicArea(EnExArea[id]);
+    }
+
+    if(EnExLabel[id] != INVALID_3DTEXT_ID) {
+        DestroyDynamic3DTextLabel(EnExLabel[id]);
+    }
+
+    if(EnExMapIcon[id] != INVALID_STREAMER_ID) {
+        DestroyDynamicMapIcon(EnExMapIcon[id]);
+    }
+
+    EnExObject[id] = INVALID_STREAMER_ID;
+    EnExArea[id] = INVALID_STREAMER_ID;
+    EnExLabel[id] = INVALID_3DTEXT_ID;
+    EnExMapIcon[id] = INVALID_STREAMER_ID;
+    entranceStoreName[id][0] = EOS;
+    entranceLinkedID[id] = INTERACTION_INVALID_ID;
+    entranceDatabaseID[id] = 0;
+    entranceMapIcon[id] = 0;
+    entranceFreezePlayer[id] = false;
+    Iter_Remove(entranceID, id);
+    return 1;
+}
+
+static Entrance_RebuildPoint(id) {
+    if(!Iter_Contains(entranceID, id)) {
+        return 0;
+    }
+
+    new
+        arr[2],
+        Float:areaRadius = entranceIsExitPoint[id] ? ENTRANCE_EXIT_AREA_RADIUS : ENTRANCE_AREA_RADIUS;
+
+    if(EnExObject[id] != INVALID_STREAMER_ID) {
+        DestroyDynamicObject(EnExObject[id]);
+    }
+
+    if(EnExArea[id] != INVALID_STREAMER_ID) {
+        DestroyDynamicArea(EnExArea[id]);
+    }
+
+    if(EnExLabel[id] != INVALID_3DTEXT_ID) {
+        DestroyDynamic3DTextLabel(EnExLabel[id]);
+    }
+
+    if(EnExMapIcon[id] != INVALID_STREAMER_ID) {
+        DestroyDynamicMapIcon(EnExMapIcon[id]);
+    }
+
+    arr[0] = ENEX_STREAMER_IDENTIFIER;
+    arr[1] = id;
+    EnExLabel[id] = INVALID_3DTEXT_ID;
+    EnExMapIcon[id] = INVALID_STREAMER_ID;
+    EnExObject[id] = CreateDynamicObject(19198, entranceX[id], entranceY[id], entranceZ[id], 0.0, 0.0, 0.0, entranceVirtualID[id], entranceInteriorID[id], -1, 200.0, 200.0);
+    Streamer_SetArrayData(STREAMER_TYPE_OBJECT, EnExObject[id], E_STREAMER_EXTRA_ID, arr, sizeof(arr));
+    MoveDynamicObject(EnExObject[id], entranceX[id], entranceY[id], entranceZ[id] + 1.0, 1.0);
+
+    EnExArea[id] = CreateDynamicCircle(entranceX[id], entranceY[id], areaRadius, entranceVirtualID[id], entranceInteriorID[id]);
+    Streamer_SetArrayData(STREAMER_TYPE_AREA, EnExArea[id], E_STREAMER_EXTRA_ID, arr, sizeof(arr));
+    Entrance_UpdateLabel(id);
+
+    if(!entranceIsExitPoint[id] && entranceMapIcon[id] > 0) {
+        Entrance_SetIcon(id, entranceMapIcon[id]);
+    }
+    return 1;
+}
+
+stock Entrance_DeletePair(id) {
+    new
+        entryid = Entrance_GetEntryID(id),
+        exitid = Entrance_GetExitID(id),
+        dbid;
+
+    if(!Iter_Contains(entranceID, entryid)) {
+        return 0;
+    }
+
+    dbid = entranceDatabaseID[entryid];
+
+    if(dbid > 0) {
+        new query[96];
+        mysql_format(MySQL_GetHandle(), query, sizeof(query), "DELETE FROM entrances WHERE entrance_id = %i", dbid);
+        mysql_tquery(MySQL_GetHandle(), query);
+    }
+
+    if(Iter_Contains(entranceID, exitid)) {
+        Entrance_DestroyPoint(exitid);
+    }
+
+    Entrance_DestroyPoint(entryid);
+    return 1;
+}
+
+stock Entrance_SetPairName(id, const name[]) {
+    new
+        entryid = Entrance_GetEntryID(id),
+        exitid = Entrance_GetExitID(id);
+
+    if(!Iter_Contains(entranceID, entryid)) {
+        return 0;
+    }
+
+    Entrance_SetName(entryid, name);
+
+    if(Iter_Contains(entranceID, exitid)) {
+        Entrance_SetName(exitid, name);
+    }
+
+    Entrance_SavePairToDatabase(entryid);
+    return 1;
+}
+
+stock Entrance_SetEntryPosition(id, Float:x, Float:y, Float:z, Float:a, world, interior) {
+    new
+        entryid = Entrance_GetEntryID(id),
+        exitid = Entrance_GetExitID(id);
+
+    if(!Iter_Contains(entranceID, entryid)) {
+        return 0;
+    }
+
+    entranceX[entryid] = x;
+    entranceY[entryid] = y;
+    entranceZ[entryid] = z;
+    entranceAng[entryid] = a;
+    entranceVirtualID[entryid] = world;
+    entranceInteriorID[entryid] = interior;
+
+    if(Iter_Contains(entranceID, exitid)) {
+        exitX[exitid] = x;
+        exitY[exitid] = y;
+        exitZ[exitid] = z;
+        exitAng[exitid] = a;
+        exitVirtualID[exitid] = world;
+        exitInteriorID[exitid] = interior;
+    }
+
+    Entrance_RebuildPoint(entryid);
+    Entrance_SavePairToDatabase(entryid);
+    return 1;
+}
+
+stock Entrance_SetExitPosition(id, Float:x, Float:y, Float:z, Float:a, world, interior) {
+    new
+        entryid = Entrance_GetEntryID(id),
+        exitid = Entrance_GetExitID(id);
+
+    if(!Iter_Contains(entranceID, entryid) || !Iter_Contains(entranceID, exitid)) {
+        return 0;
+    }
+
+    entranceX[exitid] = x;
+    entranceY[exitid] = y;
+    entranceZ[exitid] = z;
+    entranceAng[exitid] = a;
+    entranceVirtualID[exitid] = world;
+    entranceInteriorID[exitid] = interior;
+
+    exitX[entryid] = x;
+    exitY[entryid] = y;
+    exitZ[entryid] = z;
+    exitAng[entryid] = a;
+    exitVirtualID[entryid] = world;
+    exitInteriorID[entryid] = interior;
+
+    Entrance_RebuildPoint(exitid);
+    Entrance_SavePairToDatabase(entryid);
+    return 1;
+}
+
+stock Entrance_TeleportAdmin(playerid, id, bool:toExit = false) {
+    new
+        targetid = toExit ? Entrance_GetExitID(id) : Entrance_GetEntryID(id);
+
+    if(!Iter_Contains(entranceID, targetid)) {
+        return 0;
+    }
+
+    Interaction_LoadSafeTeleport(
+        playerid,
+        entranceX[targetid],
+        entranceY[targetid],
+        entranceZ[targetid] + 0.5,
+        entranceAng[targetid],
+        entranceVirtualID[targetid],
+        entranceInteriorID[targetid],
+        false,
+        500
+    );
+    return 1;
+}
+
+stock Entrance_BuildAdminList(playerid, output[], len) {
+    output[0] = EOS;
+    PlayerAdminEntranceListCount[playerid] = 0;
+
+    strcat(output, "ID\tSQL\tTen\tLoai\n", len);
+
+    foreach(new idx : entranceID) {
+        if(entranceIsExitPoint[idx]) {
+            continue;
+        }
+
+        new
+            line[96],
+            dbid = entranceDatabaseID[idx];
+
+        format(
+            line,
+            sizeof(line),
+            "%i\t%i\t%s\t%s\n",
+            idx,
+            dbid,
+            isnull(entranceStoreName[idx]) ? ("LOI VAO") : entranceStoreName[idx],
+            dbid > 0 ? ("SQL") : ("Static")
+        );
+        strcat(output, line, len);
+        PlayerAdminEntranceListID[playerid][PlayerAdminEntranceListCount[playerid]] = idx;
+        PlayerAdminEntranceListCount[playerid] ++;
+    }
+    return PlayerAdminEntranceListCount[playerid];
+}
+
+stock Entrance_GetAdminListSelection(playerid, listitem) {
+    if(!(0 <= listitem < PlayerAdminEntranceListCount[playerid])) {
+        return INTERACTION_INVALID_ID;
+    }
+    return PlayerAdminEntranceListID[playerid][listitem];
+}
+
+stock Entrance_LoadPersisted() {
+    inline const OnEntranceLoad()
+    {
+        new
+            rows = cache_num_rows(),
+            dbid,
+            iconid,
+            freezeInt,
+            entryWorld,
+            entryInterior,
+            targetWorld,
+            targetInterior,
+            name[MAX_STORE_NAME],
+            Float:entryX,
+            Float:entryY,
+            Float:entryZ,
+            Float:entryA,
+            Float:targetX,
+            Float:targetY,
+            Float:targetZ,
+            Float:targetA;
+
+        for(new i; i < rows; i++) {
+            cache_get_value_name_int(i, "entrance_id", dbid);
+            cache_get_value_name(i, "name", name, sizeof(name));
+            cache_get_value_name_int(i, "map_icon", iconid);
+            cache_get_value_name_int(i, "freeze_player", freezeInt);
+            cache_get_value_name_float(i, "entry_x", entryX);
+            cache_get_value_name_float(i, "entry_y", entryY);
+            cache_get_value_name_float(i, "entry_z", entryZ);
+            cache_get_value_name_float(i, "entry_a", entryA);
+            cache_get_value_name_int(i, "entry_world", entryWorld);
+            cache_get_value_name_int(i, "entry_interior", entryInterior);
+            cache_get_value_name_float(i, "exit_x", targetX);
+            cache_get_value_name_float(i, "exit_y", targetY);
+            cache_get_value_name_float(i, "exit_z", targetZ);
+            cache_get_value_name_float(i, "exit_a", targetA);
+            cache_get_value_name_int(i, "exit_world", targetWorld);
+            cache_get_value_name_int(i, "exit_interior", targetInterior);
+
+            Entrance_CreatePair(
+                name,
+                iconid,
+                freezeInt ? true : false,
+                entryX,
+                entryY,
+                entryZ,
+                entryA,
+                entryWorld,
+                entryInterior,
+                targetX,
+                targetY,
+                targetZ,
+                targetA,
+                targetWorld,
+                targetInterior,
+                dbid
+            );
+        }
+    }
+
+    MySQL_TQueryInline(
+        MySQL_GetHandle(),
+        using inline OnEntranceLoad,
+        "\
+            SELECT \
+                entrance_id, name, map_icon, freeze_player, \
+                entry_x, entry_y, entry_z, entry_a, entry_world, entry_interior, \
+                exit_x, exit_y, exit_z, exit_a, exit_world, exit_interior \
+            FROM entrances \
+            WHERE enabled = 1 \
+            ORDER BY entrance_id ASC"
+    );
+    return 1;
+}
+
+hook OnMySQLConnected()
+{
+    mysql_query_file(MySQL_GetHandle(), "entrances.sql", false);
+    Entrance_LoadPersisted();
     return 1;
 }
 
@@ -438,6 +988,7 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 
 hook OnPlayerConnect(playerid) {
     PlayerInteriorExitID[playerid] = INTERACTION_INVALID_ID;
+    PlayerAdminEntranceListCount[playerid] = 0;
     return 1;
 }
 

@@ -36,9 +36,9 @@ hook OnMySQLConnected() {
 
     static const insertQuery[] = "\
         INSERT INTO \
-            player_vehicles (u_id, model_id, x, y, z, rot, color_1, color_2) \
+            player_vehicles (u_id, model_id, x, y, z, rot, color_1, color_2, intid, vworld) \
         VALUES \
-            (?, ?, ?, ?, ?, ?, ?, ?) \
+            (?, ?, ?, ?, ?, ?, ?, ?, ?, ?) \
     ";
     stmt_insertVehicle = MySQL_PrepareStatement(MySQL_GetHandle(), insertQuery);
 
@@ -85,7 +85,9 @@ hook OnMySQLConnected() {
             x = ?, \
             y = ?, \
             z = ? , \
-            rot = ? \
+            rot = ?, \
+            intid = ?, \
+            vworld = ? \
         WHERE \
             u_id = ? \
         AND \
@@ -141,7 +143,7 @@ hook OnVehicleRespray(playerid, vehicleid, color1, color2) {
         if (VehicleHandler[i] == vehicleid) {
 
             MySQL_BindInt(stmt_updateColor, 0, color1);
-            MySQL_BindInt(stmt_updateColor, 1, color1);
+            MySQL_BindInt(stmt_updateColor, 1, color2);
 
             MySQL_BindInt(stmt_updateColor, 2, VehicleUID[i]);
             MySQL_ExecuteThreaded(stmt_updateColor);
@@ -228,6 +230,8 @@ Vehicle_Create(playerid, modelid, Float:x, Float:y, Float:z, Float:rot) {
     MySQL_BindFloat(stmt_insertVehicle, 5, rot);
     MySQL_BindFloat(stmt_insertVehicle, 6, color);
     MySQL_BindFloat(stmt_insertVehicle, 7, color);
+    MySQL_BindInt(stmt_insertVehicle, 8, 0);
+    MySQL_BindInt(stmt_insertVehicle, 9, 0);
 
     MySQL_ExecuteThreaded_Inline(stmt_insertVehicle, using inline OnSaveCreatedVehicle);
 }
@@ -282,10 +286,39 @@ stock Vehicle_Park(playerid) {
     MySQL_BindFloat(stmt_updatePosition, 1, y);
     MySQL_BindFloat(stmt_updatePosition, 2, z);
     MySQL_BindFloat(stmt_updatePosition, 3, a);
+    MySQL_BindInt(stmt_updatePosition, 4, GetPlayerInterior(playerid));
+    MySQL_BindInt(stmt_updatePosition, 5, GetPlayerVirtualWorld(playerid));
 
-    MySQL_BindInt(stmt_updatePosition, 4, Player_GetAccountID(playerid));
-    MySQL_BindInt(stmt_updatePosition, 5, VehicleUID[index]);
+    MySQL_BindInt(stmt_updatePosition, 6, Player_GetAccountID(playerid));
+    MySQL_BindInt(stmt_updatePosition, 7, VehicleUID[index]);
 
+    MySQL_ExecuteThreaded(stmt_updatePosition);
+    return 1;
+}
+
+static Vehicle_SavePositionIndex(index)
+{
+    if(!Iter_Contains(PersonalVehicle, index)) {
+        return 0;
+    }
+
+    new
+        Float:x,
+        Float:y,
+        Float:z,
+        Float:a;
+
+    GetVehiclePos(VehicleHandler[index], x, y, z);
+    GetVehicleZAngle(VehicleHandler[index], a);
+
+    MySQL_BindFloat(stmt_updatePosition, 0, x);
+    MySQL_BindFloat(stmt_updatePosition, 1, y);
+    MySQL_BindFloat(stmt_updatePosition, 2, z);
+    MySQL_BindFloat(stmt_updatePosition, 3, a);
+    MySQL_BindInt(stmt_updatePosition, 4, VehicleInteriorID[index]);
+    MySQL_BindInt(stmt_updatePosition, 5, VehicleVWorld[index]);
+    MySQL_BindInt(stmt_updatePosition, 6, VehicleOwnerID[index]);
+    MySQL_BindInt(stmt_updatePosition, 7, VehicleUID[index]);
     MySQL_ExecuteThreaded(stmt_updatePosition);
     return 1;
 }
@@ -403,6 +436,8 @@ Vehicle_Destroy(playerid) {
             Logger_I("account id", Player_GetAccountID(playerid)),
             Logger_I("total", Vehicle_GetPlayerTotal(playerid))
         );
+
+        Vehicle_SavePositionIndex(i);
 
         VehicleX[i]	            =
         VehicleY[i]	            =
