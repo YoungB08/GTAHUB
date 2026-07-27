@@ -22,6 +22,10 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnExplosiveDetonate(playerid, Float: x, Float: y, Float:z) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
 	new
 		Float:distCompare = Distance(x, y, z, 266.36240, 82.94550, 1001.29077);
 

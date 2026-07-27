@@ -55,11 +55,19 @@ timer ProduceCrackUpdate[1000](playerid) {
 }
 
 hook OnGameModeInit() {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     CreateDynamic3DTextLabel("Nhan "C_YELLOW"~k~~CONVERSATION_NO~"C_WHITE"\nde bat dau san xuat crack cocaine", COLOR_WHITE, DRUG_CREATION_POSX, DRUG_CREATION_POSY, DRUG_CREATION_POSZ, TEXTLABEL_STREAMDISTANCE, .testlos = 1);
 	return 1;
 }
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+    if(FreeRoleplay_IsEnabled()) {
+        return Y_HOOKS_CONTINUE_RETURN_1;
+    }
+
 	if ((newkeys & KEY_NO) == KEY_NO) {
 
 		if(GetPlayerState(playerid) != PLAYER_STATE_ONFOOT) {
@@ -108,6 +116,10 @@ hook OnPlayerDeathEx(playerid, killerid, reason) {
 }
 
 Crack_Produce(playerid, seq = SEQ_ADDCOCALEAVES) {
+    if(FreeRoleplay_IsEnabled()) {
+        return SendErrorMsg(playerid, "Tinh nang nay dang duoc an trong che do roleplay tu do.");
+    }
+
 	if(gettime() < plyJustCreatedCocaine[playerid])
 		return SendErrorMsgF(playerid, "Ban vua san xuat crack cocaine gan day, hay cho... "C_GREY"%i "C_WHITE"giay", plyJustCreatedCocaine[playerid] - gettime());
 

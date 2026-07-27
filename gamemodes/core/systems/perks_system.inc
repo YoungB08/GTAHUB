@@ -21,13 +21,13 @@ static Perk_ShowMenu(playerid)
     format(
         info,
         sizeof(info),
-        "VIP cap hien tai: %d\nReward bonus VIP: %d%%\nReward bonus giay phep nghe: %s\n\nPerk dang mo khoa:\n- Mobile phone, SMS va call\n- Job XP rieng tung nghe\n- Reward scale theo level nghe\n- VIP bonus gioi han toi da 30%%\n- Poker/minigame co XP rieng\n\nPerk sap mo khoa:\n- Miner/Fisher can level 2 + giay phep nghe\n- Pilot side-job can level 3 + bang may bay",
+        "VIP cap hien tai: %d\nThuong them tu VIP: %d%%\nThuong them tu giay phep nghe: %s\n\nDac quyen dang mo khoa:\n- Dien thoai di dong, tin nhan va goi dien\n- XP rieng cho tung nghe\n- Thuong tang theo level nghe\n- Thuong VIP toi da 30%%\n- Poker/minigame co XP rieng\n\nDac quyen sap mo khoa:\n- Tho mo/Ngu dan can level 2 + giay phep nghe\n- Phi cong can level 3 + bang may bay",
         vipLevel,
         min(vipLevel * 10, 30),
         License_PlayerHas(playerid, LICENSE_JOB) ? ("+5%") : ("Chua co")
     );
 
-    Dialog_Show(playerid, DIALOG_STYLE_MSGBOX, "Perk va VIP", info, "Dong", "");
+    Dialog_Show(playerid, DIALOG_STYLE_MSGBOX, "Dac quyen va VIP", info, "Dong", "");
     return 1;
 }
 

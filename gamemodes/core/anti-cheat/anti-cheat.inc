@@ -115,14 +115,14 @@ stock AC_DetectedCheatToString( iDetection ) {
 		szString[ 16 ] = "unknown";
 
 	switch( iDetection ) {
-		case CHEAT_TYPE_ARMOUR: 		szString = "Armour Hacks";
-		case CHEAT_TYPE_HEALTH:			szString = "Health Hacks";
-		case CHEAT_TYPE_WEAPON: 		szString = "Weapon Hacks";
-		case CHEAT_TYPE_AIRBRAKE: 		szString = "Airbrake";
-		case CHEAT_TYPE_PROAIM: 		szString = "Silent Aimbot";
+		case CHEAT_TYPE_ARMOUR: 		szString = "Hack giap";
+		case CHEAT_TYPE_HEALTH:			szString = "Hack mau";
+		case CHEAT_TYPE_WEAPON: 		szString = "Hack vu khi";
+		case CHEAT_TYPE_AIRBRAKE: 		szString = "Bay bat thuong";
+		case CHEAT_TYPE_PROAIM: 		szString = "Ngam ban an";
 		case CHEAT_TYPE_AUTOCBUG: 		szString = "Auto CBUG";
-		case CHEAT_TYPE_FLYHACKS: 		szString = "Fly Hacks";
-		case CHEAT_TYPE_REMOTE_JACK:	szString = "Remote Jacking";
+		case CHEAT_TYPE_FLYHACKS: 		szString = "Hack bay";
+		case CHEAT_TYPE_REMOTE_JACK:	szString = "Cuop xe tu xa";
 	}
 	return szString;
 }
@@ -173,5 +173,4 @@ stock AC_SetPlayerSpawned( playerid, bool: spawned ) {
 #include <anti-cheat_carwarp>
 //#include "car_particle_spam.pwn"
 //#include "pickup_spam.pwn"
-
 

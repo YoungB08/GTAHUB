@@ -18,6 +18,10 @@ stock bool:IsArmyVehicle(vehicleid)
 
 hook OnGameModeInit()
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     Create3DTextLabel("Nhan "C_YELLOW"~k~~CONVERSATION_NO~"C_WHITE" de mo cong", COLOR_WHITE, 1240.9739, -2035.3715, 59.9941, 40.0, 0, false);
     Create3DTextLabel("Nhan "C_YELLOW"~k~~CONVERSATION_NO~"C_WHITE" de mo cong", COLOR_WHITE, 1086.5114, -2098.7629, 64.5963, 40.0, 0, false);
 
@@ -36,6 +40,10 @@ hook OnGameModeInit()
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(PRESSED(KEY_YES) && Player_GetClass(playerid) == TEAM_ARMY)
     {
         if(IsPlayerInRangeOfPoint(playerid, 3.0, 1157.1663, -2019.1108, 69.1159)) {

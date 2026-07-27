@@ -113,6 +113,10 @@ hook OnPlayerDisconnect(playerid, reason)
 
 hook OnGameModeInit()
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     //bank
     CreateDynamicObject(2332, 2305.8000488281, -5.0999999046326, 26.200000762939, 0.0, 0.0, 90, 30);
     bankcp = CreateDynamicCP(2306.5659, -5.1260, 26.7422, 1.0, 30, 0, .streamdistance = CHECKPOINT_STREAMDISTANCE);
@@ -121,10 +125,15 @@ hook OnGameModeInit()
     casinocp = CreateDynamicCP(1141.6899, 11.1338, 1000.6797, 1.0, 31, 12, .streamdistance = CHECKPOINT_STREAMDISTANCE);
     //mansion
     manscp = CreateDynamicCP(1230.8403, -807.2298, 1084.0078, 1.0, 32, 5, .streamdistance = CHECKPOINT_STREAMDISTANCE);
+    return 1;
 }
 
 hook OnPlayerEnterDynamicCP(playerid, checkpointid)
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(checkpointid == bankcp) {
         if(robbing[playerid] == 1) return 0;
         SendServerMsg(playerid, "Dung /robbery de cuop ngan hang!");

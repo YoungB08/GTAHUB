@@ -29,10 +29,10 @@ enum E_DELIVERY_DATA
 static
     const DeliverData[][E_DELIVERY_DATA] =
 {
-    {"Disco", 1821.5656, -1682.2516, 13.3828},
-    {"LSPD", 1535.8329, -1673.7499, 13.3828},
-    {"LS BANK", 590.8960, -1231.8680, 17.7482},
-    {"Ammunation Plaza", 1358.8153, -1278.5531, 13.3517}
+    {"San nhay", 1821.5656, -1682.2516, 13.3828},
+    {"Trung Tam Dich Vu", 1535.8329, -1673.7499, 13.3828},
+    {"Ngan Hang LS", 590.8960, -1231.8680, 17.7482},
+    {"Cua Hang Vu Khi", 1358.8153, -1278.5531, 13.3517}
 };
 
 CMD:trucker(playerid) {

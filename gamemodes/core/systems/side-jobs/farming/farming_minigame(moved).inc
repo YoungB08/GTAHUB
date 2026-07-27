@@ -67,7 +67,7 @@ public MiniGame_InitPlayer(playerid) {
      MiniGameProgressBar[playerid] = CreatePlayerProgressBar(playerid, 272.0, 363.0, 107.5, 9.2, -1347440641, 100.0, 0);
 
      // Create title textdraw
-     MiniGameTitle[playerid] = CreatePlayerTextDraw(playerid, 270.0, 350.0, "[HARVEST]");
+     MiniGameTitle[playerid] = CreatePlayerTextDraw(playerid, 270.0, 350.0, "[THU HOACH]");
      PlayerTextDrawBackgroundColor(playerid, MiniGameTitle[playerid], 255);
      PlayerTextDrawFont(playerid, MiniGameTitle[playerid], TEXT_DRAW_FONT_2);
      PlayerTextDrawLetterSize(playerid, MiniGameTitle[playerid], 0.249999, 1.100000);
@@ -78,7 +78,7 @@ public MiniGame_InitPlayer(playerid) {
      PlayerTextDrawSetSelectable(playerid, MiniGameTitle[playerid], false);
 
      // Create instructions textdraw below progress bar
-     MiniGameInstructions[playerid] = CreatePlayerTextDraw(playerid, 270.0, 375.0, "Press 'SPACE' to harvest");
+     MiniGameInstructions[playerid] = CreatePlayerTextDraw(playerid, 270.0, 375.0, "Nhan 'SPACE' de thu hoach");
      PlayerTextDrawBackgroundColor(playerid, MiniGameInstructions[playerid], 255);
      PlayerTextDrawFont(playerid, MiniGameInstructions[playerid], TEXT_DRAW_FONT_2);
      PlayerTextDrawLetterSize(playerid, MiniGameInstructions[playerid], 0.249999, 1.000000);
@@ -190,7 +190,7 @@ static MiniGame_Complete(playerid) {
 }
 
 static MiniGame_Fail(playerid) {
-     Alert_Send(playerid, "~r~ERROR:~w~ You were too slow! Collection failed.", 3000);
+     Alert_Send(playerid, "~r~LOI:~w~ Ban thao tac qua cham! Thu hoach that bai.", 3000);
      MiniGame_End(playerid, false);
 }
 
@@ -246,7 +246,7 @@ public MiniGame_End(playerid, bool:success) {
 public MiniGame_OnTimeout(playerid) {
      if(!MiniGameState[playerid][IsActive]) return 0;
 
-     Alert_Send(playerid, "~r~ERROR:~w~ Time's up!", 3000);
+     Alert_Send(playerid, "~r~LOI:~w~ Da het thoi gian!", 3000);
      MiniGame_End(playerid, false);
      return 1;
 }

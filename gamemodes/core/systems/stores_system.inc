@@ -187,7 +187,7 @@ static ShowRifleMenu(playerid) {
 
 Store_ShowAmmunationMenu(playerid) {
     if(!License_PlayerHas(playerid, LICENSE_WEAPON)) {
-        return SendErrorMsg(playerid, "Ban can giay phep sung de mua vu khi tai Ammu-Nation.");
+        return SendErrorMsg(playerid, "Ban can giay phep sung de mua vu khi tai Cua Hang Vu Khi.");
     }
 
     inline _response(response, listitem, string:inputtext[]) {
@@ -209,6 +209,6 @@ Store_ShowAmmunationMenu(playerid) {
                 //Rifles
         }
     }
-    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_LIST, "Ammu-Nation", "Sung ngan\nTieu lien\nShotgun\nSung truong tan cong\nSung truong", "Chon", "Dong");
+    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_LIST, "Cua Hang Vu Khi", "Sung ngan\nTieu lien\nSung dan chum\nSung truong tan cong\nSung truong", "Chon", "Dong");
     return 1;
 }

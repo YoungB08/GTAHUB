@@ -34,13 +34,13 @@ static stock Speedometer_GetVehicleType(vehicleid, output[], len)
         modelid = GetVehicleModel(vehicleid);
 
     if(Speedometer_IsAircraftModel(modelid)) {
-        strcpy(output, "AIR", len);
+        strcpy(output, "MAY BAY", len);
     }
     else if(Speedometer_IsBoatModel(modelid)) {
-        strcpy(output, "BOAT", len);
+        strcpy(output, "THUYEN", len);
     }
     else {
-        strcpy(output, "VEH", len);
+        strcpy(output, "XE", len);
     }
     return 1;
 }
@@ -70,7 +70,7 @@ static stock Speedometer_Create(playerid)
     PlayerTextDrawSetProportional(playerid, SpeedometerBox[playerid], true);
     PlayerTextDrawSetSelectable(playerid, SpeedometerBox[playerid], false);
 
-    SpeedometerText[playerid] = CreatePlayerTextDraw(playerid, 508.000000, 344.000000, "SPD");
+    SpeedometerText[playerid] = CreatePlayerTextDraw(playerid, 508.000000, 344.000000, "TOC DO");
     PlayerTextDrawFont(playerid, SpeedometerText[playerid], TEXT_DRAW_FONT_1);
     PlayerTextDrawLetterSize(playerid, SpeedometerText[playerid], 0.220000, 1.000000);
     PlayerTextDrawTextSize(playerid, SpeedometerText[playerid], 620.000000, 0.000000);
@@ -155,12 +155,12 @@ static stock Speedometer_Update(playerid)
     format(
         string,
         sizeof(string),
-        "~y~~h~%s~n~~w~%03d KM/H~n~HP: ~g~%.0f~n~~w~Fuel: ~r~N/A~n~~w~ENG:%s  LIGHT:%s",
+        "~y~~h~%s~n~~w~%03d KM/H~n~Tinh trang: ~g~%.0f~n~~w~Nhien lieu: ~r~N/A~n~~w~May:%s  Den:%s",
         type,
         speed,
         health,
-        engine ? ("ON") : ("OFF"),
-        lights ? ("ON") : ("OFF")
+        engine ? ("BAT") : ("TAT"),
+        lights ? ("BAT") : ("TAT")
     );
 
     PlayerTextDrawSetString(playerid, SpeedometerText[playerid], string);

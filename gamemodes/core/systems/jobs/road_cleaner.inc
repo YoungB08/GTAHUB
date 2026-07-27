@@ -60,7 +60,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 					SendClientMessage(
 						playerid,
 						COLOR_ORANGE,
-						"(quet duong) "C_WHITE"Ban da bat dau nghe quet duong. Di den checkpoint de don duong!"
+						"(quet duong) "C_WHITE"Ban da bat dau nghe quet duong. Di den diem danh dau de don duong!"
 					);
 
 					PlayerSweepCount[playerid] = 0;

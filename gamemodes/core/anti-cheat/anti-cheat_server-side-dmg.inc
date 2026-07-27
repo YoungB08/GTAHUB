@@ -504,7 +504,7 @@ stock AC_CheckForHealthHacks( playerid, iTicks )
                 }
 
                 if(p_PlayerHealth[playerid][E_UPDATE_FAIL] >= 10) {
-                    SendClientMessage(playerid, 0xa9c4e4ff, "You have been kicked as you are desynced from the server. Please relog!");
+                    SendClientMessage(playerid, 0xa9c4e4ff, "Ban da bi kick vi mat dong bo voi may chu. Vui long vao lai!");
                     printf("[Heath AC] Player %d was desynced thus kicked.", playerid);
                     Kick(playerid);
                 }
@@ -555,7 +555,7 @@ stock AC_CheckForHealthHacks( playerid, iTicks )
                 }
 
                 if(p_PlayerArmour[playerid] [E_UPDATE_FAIL] >= 10) {
-                    SendClientMessage(playerid, 0xa9c4e4ff, "You have been kicked as you are desynced from the server. Please relog!");
+                    SendClientMessage(playerid, 0xa9c4e4ff, "Ban da bi kick vi mat dong bo voi may chu. Vui long vao lai!");
                     printf("[AC Armour] Player %d was desynced thus kicked.", playerid);
                     Kick(playerid);
                 }

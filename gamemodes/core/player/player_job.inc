@@ -6,11 +6,12 @@ static
     Statement:stmt_savePlayerJob;
 
 static const JOB_LIST[] = "\
-    Buon Ma Tuy\n\
-    Buon Vu Khi\n\
-    Hitman\n\
-    Khung Bo\n\
-    Ke Truyen Benh"
+    Giao Hang\n\
+    Lai Xe Tai\n\
+    Tai Xe Taxi\n\
+    Nhan Vien Kho\n\
+    Nong Dan\n\
+    Tho May"
 ;
 
 // Hook
@@ -62,33 +63,33 @@ Player_ShowJobMenu(playerid) {
 
         switch(listitem) {
             case TYPE_DRUGDEALER:  {
-                title = "~r~Buon Ma Tuy";
-                objective = "Muc tieu cua ban la san xuat va ban ma tuy de kiem loi.";
+                title = "~g~Giao Hang";
+                objective = "Nhan va giao don hang cho cac cua hang trong thanh pho.";
                 jobID = TYPE_DRUGDEALER;
             }
             case TYPE_WEAPONDEALER: {
-                title = "~r~Buon Vu Khi";
-                objective = "Muc tieu cua ban la ban cac loai vu khi de kiem tien.";
+                title = "~g~Lai Xe Tai";
+                objective = "Van chuyen hang hoa bang xe tai va nhan thuong theo chuyen.";
                 jobID = TYPE_WEAPONDEALER;
             }
             case TYPE_HITMAN: {
-                title = "~r~Hitman";
-                objective = "Muc tieu cua ban la thuc hien hop dong sat thu de kiem tien lon.";
+                title = "~g~Tai Xe Taxi";
+                objective = "Dua don hanh khach va xay dung nghe lai xe dich vu.";
                 jobID = TYPE_HITMAN;
             }
             case TYPE_TERRORIST: {
-                title = "~r~Khung Bo";
-                objective = "Muc tieu cua ban la dat bom vao xe, ngan hang va khu nha tu.";
+                title = "~g~Nhan Vien Kho";
+                objective = "Sap xep, boc do va hoan thanh cac viec trong kho hang.";
                 jobID = TYPE_TERRORIST;
             }
             case TYPE_RAPIST: {
-                title = "~r~Ke Truyen Benh";
-                objective = "Muc tieu cua ban la lam nguoi choi khac nhiem benh.";
+                title = "~g~Nong Dan";
+                objective = "Thu hoach nong san, che bien va ban hang de kiem tien.";
                 jobID = TYPE_RAPIST;
             }
             case TYPE_MECHANIC: {
-                title = "~r~Tho May";
-                objective = "Tho may co the sua xe cua ban va xe cua nguoi choi khac.";
+                title = "~g~Tho May";
+                objective = "Sua chua xe va ho tro nguoi choi tren duong.";
                 jobID = TYPE_MECHANIC;
             }
         }
@@ -107,11 +108,11 @@ stock Player_GetJobName(playerid)
 {
     new job_rankname[6][24] =
     {
-        "Buon Ma Tuy",
-        "Buon Vu Khi",
-        "Hitman",
-        "Khung Bo",
-        "Ke Truyen Benh",
+        "Giao Hang",
+        "Lai Xe Tai",
+        "Tai Xe Taxi",
+        "Nhan Vien Kho",
+        "Nong Dan",
         "Tho May"
     };
 
@@ -119,34 +120,6 @@ stock Player_GetJobName(playerid)
 }
 
 stock Player_GiveJobWeapons(playerid) {
-    switch(Player_GetJob(playerid)) {
-        case TYPE_DRUGDEALER: {
-            GivePlayerWeapon(playerid, WEAPON_COLT45,   200);
-            GivePlayerWeapon(playerid, WEAPON_SHOTGUN,  200);
-        }
-        case TYPE_WEAPONDEALER: {
-            GivePlayerWeapon(playerid, WEAPON_M4,       200);
-            GivePlayerWeapon(playerid, WEAPON_SHOTGSPA, 200);
-        }
-        case TYPE_HITMAN: {
-            GivePlayerWeapon(playerid, WEAPON_KNIFE,    1);
-            GivePlayerWeapon(playerid, WEAPON_SILENCED, 200);
-            GivePlayerWeapon(playerid, WEAPON_SNIPER,   200);
-        }
-        case TYPE_TERRORIST: {
-            GivePlayerWeapon(playerid, WEAPON_RIFLE,    200);
-            GivePlayerWeapon(playerid, WEAPON_AK47,     200);
-        }
-        case TYPE_RAPIST: {
-            GivePlayerWeapon(playerid, WEAPON_DILDO,    1);
-            GivePlayerWeapon(playerid, WEAPON_COLT45,   200);
-            GivePlayerWeapon(playerid, WEAPON_SNIPER,   200);
-        }
-        case TYPE_MECHANIC: {
-            GivePlayerWeapon(playerid, WEAPON_AK47,     200);
-            GivePlayerWeapon(playerid, WEAPON_SHOTGSPA, 200);
-            GivePlayerWeapon(playerid, WEAPON_COLT45,   200);
-        }
-    }
+    #pragma unused playerid
     return 1;
 }

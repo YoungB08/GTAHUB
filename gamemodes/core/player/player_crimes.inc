@@ -14,6 +14,10 @@ hook OnPlayerConnect(playerid) {
 
 // Entering Police Vehicle
 hook OnPlayerStateChange(playerid, newstate, oldstate) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(newstate != PLAYER_STATE_DRIVER) {
         return 1;
     }
@@ -41,6 +45,10 @@ hook OnPlayerStateChange(playerid, newstate, oldstate) {
 
 // Murder
 hook OnPlayerDeathEx(playerid, killerid, reason) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(killerid != INVALID_PLAYER_ID) {
         Player_GiveWantedLevel(killerid, 6);
         SendMsgF(killerid, COLOR_RED, "Ban da giet nguoi, ban bi cong them 6 sao truy na.");
@@ -50,6 +58,10 @@ hook OnPlayerDeathEx(playerid, killerid, reason) {
 
 // Store Robbery
 hook OnPlayerRobStore(playerid, moneyTaken) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     new
         location[MAX_MAP_ZONE_NAME];
     Player_GetLocation(playerid, location, sizeof(location));
@@ -62,6 +74,10 @@ hook OnPlayerRobStore(playerid, moneyTaken) {
 
 // Player Roberry
 hook OnPlayerRobPlayer(playerid, targetid, moneyTaken) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     SendMsgF(playerid, COLOR_ORANGE, "(cuop nguoi choi) "C_WHITE"Ban da cuop thanh cong "C_GREY"%p (%i) "C_WHITE"va tim thay "C_GREEN"%m "C_WHITE"trong vi.", targetid, targetid, moneyTaken);
     SendMsgF(targetid, COLOR_ORANGE, "(cuop nguoi choi) "C_WHITE"Ban da bi "C_GREY"%p (%i) "C_WHITE"cuop va mat "C_GREEN"%m "C_WHITE"trong vi.", playerid, playerid, moneyTaken);
 
@@ -74,6 +90,10 @@ hook OnPlayerRobPlayer(playerid, targetid, moneyTaken) {
 
 // Shooting near a cop
 hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, Float:fZ) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     // shooter is not civilian.
     if(Player_GetClass(playerid) != TEAM_CIVILIAN) {
         return 1;
@@ -107,6 +127,10 @@ hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, 
 
 // Shooting a cop detection.
 hook OnPlayerDmgPlayerDone(playerid, issuerid, &Float: amount, weaponid, bodypart ) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     // shooter is not civilian.
     if(Player_GetClass(issuerid) != TEAM_CIVILIAN) {
         return 1;

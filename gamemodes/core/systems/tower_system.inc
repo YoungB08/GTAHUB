@@ -34,6 +34,10 @@ Briefcase_SetRandomLoc(playerid) {
 
 hook OnGameModeInit()
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     CreateObject(1652, 1788.966796, -1297.323242, 12.930883, 0, 0, 177.300064, 0.0); //fence
     CreateObject(2332, 1817.233276, -1306.228027, 97.952163, 0, 0, 0, 0.0); //safe
     TowerCP = CreateDynamicCP(1817.1315, -1307.1591, 98.5000, 1.0, 0, 0, .streamdistance = CHECKPOINT_STREAMDISTANCE);
@@ -44,6 +48,10 @@ hook OnGameModeInit()
 
 hook OnPlayerEnterDynamicCP(playerid, checkpointid)
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(checkpointid == TowerCP)
     {
         if(robbing[playerid] == 1) return 0;
@@ -54,6 +62,10 @@ hook OnPlayerEnterDynamicCP(playerid, checkpointid)
 
 hook OnPlayerLeaveDynamicCP(playerid, checkpointid)
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(checkpointid == TowerCP) {
         if(robbing[playerid] == 1 && BurglaryInfo[playerid] == 4) {
             if(robbingdone[playerid] == 1) return 0;

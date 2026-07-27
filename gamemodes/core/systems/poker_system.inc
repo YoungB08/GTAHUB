@@ -6,14 +6,14 @@
 static Poker_GetHandName(rank, output[], len)
 {
     switch(rank) {
-        case 0: format(output, len, "High card");
-        case 1: format(output, len, "One pair");
-        case 2: format(output, len, "Two pair");
-        case 3: format(output, len, "Three of a kind");
-        case 4: format(output, len, "Straight");
-        case 5: format(output, len, "Flush");
-        case 6: format(output, len, "Full house");
-        default: format(output, len, "Royal hand");
+        case 0: format(output, len, "Bai le");
+        case 1: format(output, len, "Mot doi");
+        case 2: format(output, len, "Hai doi");
+        case 3: format(output, len, "Bo ba");
+        case 4: format(output, len, "Sanh");
+        case 5: format(output, len, "Thung");
+        case 6: format(output, len, "Cu lu");
+        default: format(output, len, "Bai lon");
     }
     return 1;
 }

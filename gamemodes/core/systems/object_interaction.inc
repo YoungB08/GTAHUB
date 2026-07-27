@@ -12,7 +12,7 @@ enum E_OBJECT_INTERACTION_DATA {
 
 static const ObjectInteractionData[][E_OBJECT_INTERACTION_DATA] = {
     {"Bang thong tin", "Dung /licenses, /jobxp, /phone, /interact de xem cac he thong moi.", 1239, 1483.8500, -1745.3000, 13.5469, 0.0},
-    {"May thong bao viec lam", "Den bang viec lam gan City Hall de nhan job phu co level va giay phep.", 1274, 1485.5000, -1745.3000, 13.5469, 0.0}
+    {"May thong bao viec lam", "Den bang viec lam gan Toa Thi Chinh de nhan viec phu co level va giay phep.", 1274, 1485.5000, -1745.3000, 13.5469, 0.0}
 };
 
 static ObjectInteractionArea[sizeof(ObjectInteractionData)];
@@ -22,7 +22,7 @@ hook OnGameModeInit()
     new label[160];
 
     for(new i; i < sizeof(ObjectInteractionData); i++) {
-        Interaction_BuildPointLabel(label, sizeof(label), "Object", ObjectInteractionData[i][E_OBJECT_NAME], "San sang tuong tac", "xem thong tin");
+        Interaction_BuildPointLabel(label, sizeof(label), "Vat the", ObjectInteractionData[i][E_OBJECT_NAME], "San sang tuong tac", "xem thong tin");
 
         CreateDynamicObject(
             ObjectInteractionData[i][E_OBJECT_MODEL],
@@ -52,7 +52,7 @@ hook OnPlayerEnterDynArea(playerid, areaid)
 {
     for(new i; i < sizeof(ObjectInteractionData); i++) {
         if(areaid == ObjectInteractionArea[i]) {
-            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_OBJECT, i, "~y~~h~Object", "xem thong tin");
+            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_OBJECT, i, "~y~~h~Vat the", "xem thong tin");
             break;
         }
     }

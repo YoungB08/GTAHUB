@@ -20,7 +20,7 @@ enum F_MISSION_DATA
 static
     const MissionData[][F_MISSION_DATA] =
 {
-    {"Ammu-Nation", 1360.0903, -1279.8955, 13.3828},
+    {"Cua Hang Vu Khi", 1360.0903, -1279.8955, 13.3828},
     {"All Saints Hospital", 1196.0430, -1323.8611, 13.3984},
     {"Ngan hang", 587.2368, -1230.0907, 17.7013},
     {"Casino", 1023.2428, -1142.2000, 23.6563},
@@ -32,12 +32,20 @@ static
 
 hook OnGameModeInit()
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     pmissioncp = CreateDynamicCP(1580.2233, -1634.8108, 13.5615, 1.0, 0, 0, .streamdistance = CHECKPOINT_STREAMDISTANCE);
     return 1;
 }
 
 hook OnPlayerEnterDynamicCP(playerid, checkpointid)
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(checkpointid == pmissioncp)
     {
         if(Player_IsLEO(playerid))
@@ -56,6 +64,10 @@ hook OnPlayerEnterDynamicCP(playerid, checkpointid)
 
 hook OnPlayerLeaveDynamicCP(playerid, checkpointid)
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(CanMission[playerid]) {
         CanMission[playerid] = false;
     }

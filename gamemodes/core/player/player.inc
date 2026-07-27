@@ -54,6 +54,11 @@ stock Player_IsSpawned(playerid) {
 // > 12 = red.
 stock Player_UpdateColour(playerid) {
 
+    if(FreeRoleplay_IsEnabled()) {
+        SetPlayerColor(playerid, COLOR_WHITE);
+        return 1;
+    }
+
     if(Player_GetClass(playerid) == TEAM_POLICE) {
         SetPlayerColor(playerid, COLOR_BLUE);
         return 1;

@@ -71,14 +71,12 @@ CMD:commands(playerid, params[]) {
 
         switch(listitem) {
             case 0: _HelpMenu_General(pid);
-            case 1: _HelpMenu_LawEnforcement(pid);
-            case 2: _HelpMenu_Jobs(pid);
-            case 3: _HelpMenu_Criminal(pid);
-            case 4: _HelpMenu_SideJobs(pid);
-            case 5: _HelpMenu_House(pid);
-            case 6: _HelpMenu_Gang(pid);
-            case 7: _HelpMenu_Attachment(pid);
-            case 8: _HelpMenu_Animations(pid);
+            case 1: _HelpMenu_Jobs(pid);
+            case 2: _HelpMenu_SideJobs(pid);
+            case 3: _HelpMenu_House(pid);
+            case 4: _HelpMenu_Gang(pid);
+            case 5: _HelpMenu_Attachment(pid);
+            case 6: _HelpMenu_Animations(pid);
         }
     }
     Dialog_ShowCallback(
@@ -87,9 +85,7 @@ CMD:commands(playerid, params[]) {
         DIALOG_STYLE_LIST,
         ""C_ORANGE"Tro Giup & Lenh GTAHUB",
         ""C_WHITE"Chung & Lien Lac\n\
-        "C_WHITE"Luc Luong Chuc Nang (Canh Sat / Quan Doi)\n\
-        "C_WHITE"Ky Nang Nghe Nghiep\n\
-        "C_WHITE"Hoat Dong Pham Toi\n\
+        "C_WHITE"Nghe Nghiep Hop Phap\n\
         "C_WHITE"Viec Phu & Hoat Dong\n\
         "C_WHITE"Nha\n\
         "C_WHITE"Gang\n\
@@ -125,7 +121,8 @@ static _HelpMenu_General(playerid) {
     strcat(string, ""C_ORANGE"Khac\n\
         "C_GREY"/lotto <so> "C_WHITE"- Mua ve xo so.\n\
         "C_GREY"/animlist "C_WHITE"- Xem danh sach hoat anh.\n\
-        "C_GREY"/surrender "C_WHITE"- Gio tay dau hang.\n");
+        "C_GREY"/phone "C_WHITE"- Mo dien thoai di dong.\n\
+        "C_GREY"/interact [id] "C_WHITE"- Tuong tac voi nguoi choi gan ban.\n");
 
     inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
         #pragma unused dialogid, response, listitem, inputtext
@@ -136,195 +133,24 @@ static _HelpMenu_General(playerid) {
 }
 
 // ---------------------------------------------------------------------------
-// LAW ENFORCEMENT (POLICE / ARMY)
-// ---------------------------------------------------------------------------
-
-static _HelpMenu_LawEnforcement(playerid) {
-    new string[768];
-
-    strcat(string, ""C_ORANGE"Bat Giu & Kiem Soat\n\
-        "C_GREY"/ar <id> "C_WHITE"- Bat nguoi dang bi truy na va dua vao tu.\n\
-        "C_GREY"/cuff <id> "C_WHITE"- Cong tay nguoi choi gan ban.\n\
-        "C_GREY"/uncuff <id> "C_WHITE"- Thao cong tay cho nguoi choi.\n\
-        "C_GREY"/cuffcw "C_WHITE"- Cong tay toi pham truy na gan nhat.\n\
-        "C_GREY"/arcw "C_WHITE"- Bat toi pham truy na gan nhat.\n\n");
-
-    strcat(string, ""C_ORANGE"Lien Lac & Dieu Khien\n\
-        "C_GREY"! <noi dung> "C_WHITE"- Radio noi bo doi.\n\
-        "C_GREY"MMB (trong xe) "C_WHITE"- Yeu cau nghi pham tat vao le.\n\
-        "C_GREY"MMB (di bo) "C_WHITE"- Cong tay/bat toi pham gan nhat.\n\n");
-
-    strcat(string, ""C_ORANGE"Nhiem Vu Canh Sat\n\
-        "C_GREY"/mission "C_WHITE"- Bat dau nhiem vu tuan tra canh sat tai LSPD.\n");
-
-    inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, response, listitem, inputtext
-        CommandExecute(pid, "commands");
-    }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX, ""C_ORANGE"Lenh Luc Luong Chuc Nang", string, "Quay lai", "");
-    return 1;
-}
-
-// ---------------------------------------------------------------------------
 // JOBS
 // ---------------------------------------------------------------------------
 
 static _HelpMenu_Jobs(playerid) {
-
-    inline _response(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, inputtext
-        if (!response) {
-            // Go back to main help menu
-            CommandExecute(pid, "commands");
-            return 0;
-        }
-        switch(listitem) {
-            case 0: _HelpMenu_Job_DrugDealer(pid);
-            case 1: _HelpMenu_Job_WeaponDealer(pid);
-            case 2: _HelpMenu_Job_Hitman(pid);
-            case 3: _HelpMenu_Job_Terrorist(pid);
-            case 4: _HelpMenu_Job_Rapist(pid);
-            case 5: _HelpMenu_Job_Mechanic(pid);
-        }
-    }
-
-    Dialog_ShowCallback(
-        playerid,
-        using inline _response,
-        DIALOG_STYLE_LIST,
-        ""C_ORANGE"Ky Nang Nghe Nghiep",
-        ""C_WHITE"Buon Ma Tuy\n\
-        "C_WHITE"Buon Vu Khi\n\
-        "C_WHITE"Hitman\n\
-        "C_WHITE"Khung Bo\n\
-        "C_WHITE"Ke Truyen Benh\n\
-        "C_WHITE"Tho May",
-        "Chon",
-        "Quay lai"
-    );
-    return 1;
-}
-
-static _HelpMenu_Job_DrugDealer(playerid) {
-    inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, response, listitem, inputtext
-        _HelpMenu_Jobs(pid);
-    }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX,
-        ""C_ORANGE"Lenh Buon Ma Tuy",
-        ""C_GREY"/plantweed "C_WHITE"- Trong cay can sa.\n\
-        "C_GREY"/harvestweed "C_WHITE"- Thu hoach cay can sa cua ban.\n\
-        "C_GREY"/sellweed <id> "C_WHITE"- Rao ban weed cho nguoi choi.\n\
-        "C_GREY"/sellcrack <id> "C_WHITE"- Rao ban crack cho nguoi choi.\n\n\
-        "C_ORANGE"Ghi chu: "C_WHITE"Doi nghe tai City Hall ($7,500).",
-        "Quay lai", ""
-    );
-    return 1;
-}
-
-static _HelpMenu_Job_WeaponDealer(playerid) {
-    inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, response, listitem, inputtext
-        _HelpMenu_Jobs(pid);
-    }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX,
-        ""C_ORANGE"Lenh Buon Vu Khi",
-        ""C_GREY"/sellgun <id> <weaponid> <gia> <ammo> "C_WHITE"- Rao ban vu khi.\n\
-        "C_GREY"/acceptgun "C_WHITE"- Chap nhan giao dich vu khi.\n\
-        "C_GREY"/sellarmour <id> <gia> <so luong> "C_WHITE"- Rao ban giap.\n\
-        "C_GREY"/acceptarmour "C_WHITE"- Chap nhan giao dich giap.\n\n\
-        "C_ORANGE"Ghi chu: "C_WHITE"Doi nghe tai City Hall ($7,500).",
-        "Quay lai", ""
-    );
-    return 1;
-}
-
-static _HelpMenu_Job_Hitman(playerid) {
-    inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, response, listitem, inputtext
-        _HelpMenu_Jobs(pid);
-    }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX,
-        ""C_ORANGE"Lenh Sat Thu",
-        ""C_GREY"/hitlist "C_WHITE"- Xem danh sach muc tieu dang co tien thuong.\n\
-        "C_GREY"/placehit <id> <so tien> "C_WHITE"- Dat tien thuong len nguoi choi.\n\n\
-        "C_ORANGE"Ghi chu: "C_WHITE"Doi nghe tai City Hall ($7,500).",
-        "Quay lai", ""
-    );
-    return 1;
-}
-
-static _HelpMenu_Job_Terrorist(playerid) {
-    inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, response, listitem, inputtext
-        _HelpMenu_Jobs(pid);
-    }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX,
-        ""C_ORANGE"Lenh Khung Bo",
-        ""C_GREY"/plantc4 "C_WHITE"- Dat bom C4.\n\
-        "C_GREY"/detonate "C_WHITE"- Kich no C4 da dat.\n\n\
-        "C_ORANGE"Mua C4: "C_WHITE"Den Bomb Dealer tren ban do.\n\
-        "C_ORANGE"Ghi chu: "C_WHITE"Doi nghe tai City Hall ($7,500).",
-        "Quay lai", ""
-    );
-    return 1;
-}
-
-static _HelpMenu_Job_Rapist(playerid) {
-    inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, response, listitem, inputtext
-        _HelpMenu_Jobs(pid);
-    }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX,
-        ""C_ORANGE"Lenh Truyen Benh",
-        ""C_GREY"/rape <id> "C_WHITE"- Lam nhiem benh nguoi choi gan ban.\n\n\
-        "C_ORANGE"Ghi chu: "C_WHITE"Doi nghe tai City Hall ($7,500).",
-        "Quay lai", ""
-    );
-    return 1;
-}
-
-static _HelpMenu_Job_Mechanic(playerid) {
-    inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
-        #pragma unused dialogid, response, listitem, inputtext
-        _HelpMenu_Jobs(pid);
-    }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX,
-        ""C_ORANGE"Lenh Tho May",
-        ""C_GREY"/mechfix "C_WHITE"- Sua chua xe ban dang ngoi.\n\n\
-        "C_ORANGE"Ghi chu: "C_WHITE"Doi nghe tai City Hall ($7,500).",
-        "Quay lai", ""
-    );
-    return 1;
-}
-
-// ---------------------------------------------------------------------------
-// CRIMINAL ACTIVITIES
-// ---------------------------------------------------------------------------
-
-static _HelpMenu_Criminal(playerid) {
-    new string[768];
-
-    strcat(string, ""C_ORANGE"Cuop Boc\n\
-        "C_GREY"/rob <id> "C_WHITE"- Cuop nguoi choi gan ban.\n\
-        "C_GREY"/robbery "C_WHITE"- Cuop cac diem trong thanh pho.\n\
-        "C_GREY"/towerrobbery "C_WHITE"- Thu cuop toa thap.\n\n");
-
-    strcat(string, ""C_ORANGE"Thoat Than & Vuot Nguc\n\
-        "C_GREY"/breakcuff "C_WHITE"- Thoat khoi cong tay (can picklock).\n\
-        "C_GREY"/breakout "C_WHITE"- Vuot nguc (can picklock).\n\
-        "C_GREY"/bail "C_WHITE"- Dong tien bao lanh de ra tu.\n\n");
-
-    strcat(string, ""C_ORANGE"Meo\n\
-        "C_WHITE"- Mua picklock tai cua hang 24/7.\n\
-        "C_WHITE"- C4 co the pha cua phong giam.\n\
-        "C_WHITE"- May nghien xe tai Willowfield tra tien cho xe bi truy na.\n");
-
     inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
         #pragma unused dialogid, response, listitem, inputtext
         CommandExecute(pid, "commands");
     }
-    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX, ""C_ORANGE"Hoat Dong Pham Toi", string, "Quay lai", "");
+
+    Dialog_ShowCallback(playerid, using inline _back, DIALOG_STYLE_MSGBOX,
+        ""C_ORANGE"Nghe Nghiep Hop Phap",
+        ""C_GREY"/sidejobs "C_WHITE"- Mo bang viec lam hop phap.\n\
+        "C_GREY"/jobxp "C_WHITE"- Xem level va XP tung nghe.\n\
+        "C_GREY"/drivingtest "C_WHITE"- Dang ky thi giay phep.\n\
+        "C_GREY"/mechfix "C_WHITE"- Sua xe neu ban la tho may.\n\n\
+        "C_ORANGE"Ghi chu: "C_WHITE"Doi nghe tai Toa Thi Chinh.",
+        "Quay lai", ""
+    );
     return 1;
 }
 
@@ -349,12 +175,12 @@ static _HelpMenu_SideJobs(playerid) {
         "C_GREY"/leavehunt "C_WHITE"- Roi phien san ma.\n\n");
 
     strcat(string, ""C_ORANGE"Nong Trai\n\
-        "C_GREY"/buyfarm "C_WHITE"- Mua dung cu nong trai gan NPC Farm Supplier.\n\
-        "C_GREY"/sellfarm "C_WHITE"- Ban nong san gan NPC Harvest Master.\n\n");
+        "C_GREY"/buyfarm "C_WHITE"- Mua dung cu nong trai gan NPC Nguoi Ban Vat Tu.\n\
+        "C_GREY"/sellfarm "C_WHITE"- Ban nong san gan NPC Nguoi Mua Nong San.\n\n");
 
     strcat(string, ""C_ORANGE"Khac\n\
         "C_WHITE"- Luc thung rac: tim do trong thung rac quanh ban do.\n\
-        "C_WHITE"- Nghien xe: ban xe bi truy na tai Willowfield.\n");
+        "C_WHITE"- Nghien xe: ban xe phe lieu tai Willowfield.\n");
 
     inline _back(pid, dialogid, response, listitem, string:inputtext[]) {
         #pragma unused dialogid, response, listitem, inputtext

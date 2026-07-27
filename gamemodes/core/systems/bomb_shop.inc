@@ -13,6 +13,10 @@ static
     gBombDealerAreaID;
 
 hook OnGameModeInit() {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     gBombDealerAreaID = CreateDynamicCircle(
         Float:gBombShopX,
         Float:gBombShopY,
@@ -51,6 +55,10 @@ hook OnGameModeInit() {
 }
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(PRESSED(KEY_YES) && IsPlayerInDynamicArea(playerid, gBombDealerAreaID)) {
         _BombUI_Show(playerid);
     }

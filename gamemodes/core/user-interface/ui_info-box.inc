@@ -30,7 +30,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetProportional(playerid, caption_TD[playerid][TYPE_MSGBOX], true);
     PlayerTextDrawSetShadow(playerid, caption_TD[playerid][TYPE_MSGBOX], 1);
 
-    info_TD[playerid][TYPE_MSGBOX] = CreatePlayerTextDraw(playerid, 22.000000, 220.000000, "This is a text. This is another one. The whole paragraph is supposed to be quite long. So, yeah!");
+    info_TD[playerid][TYPE_MSGBOX] = CreatePlayerTextDraw(playerid, 22.000000, 220.000000, "Noi dung thong bao se hien thi tai day.");
     PlayerTextDrawBackgroundColor(playerid, info_TD[playerid][TYPE_MSGBOX], TD_OUTLINE_COLOUR);
     PlayerTextDrawFont(playerid, info_TD[playerid][TYPE_MSGBOX], TEXT_DRAW_FONT_1);
     PlayerTextDrawLetterSize(playerid, info_TD[playerid][TYPE_MSGBOX], 0.2, 0.8);
@@ -52,7 +52,7 @@ hook OnPlayerConnect(playerid)
     PlayerTextDrawSetProportional(playerid, caption_TD[playerid][TYPE_INFORMATION], true);
     PlayerTextDrawSetShadow(playerid, caption_TD[playerid][TYPE_INFORMATION], 1);
 
-    info_TD[playerid][TYPE_INFORMATION] = CreatePlayerTextDraw(playerid, 161.000000, 393.000000, "This is the message. We tell the user what's going on here!");
+    info_TD[playerid][TYPE_INFORMATION] = CreatePlayerTextDraw(playerid, 161.000000, 393.000000, "Noi dung thong tin se hien thi tai day.");
     PlayerTextDrawBackgroundColor(playerid, info_TD[playerid][TYPE_INFORMATION], TD_OUTLINE_COLOUR);
     PlayerTextDrawFont(playerid, info_TD[playerid][TYPE_INFORMATION], TEXT_DRAW_FONT_1);
     PlayerTextDrawLetterSize(playerid, info_TD[playerid][TYPE_INFORMATION], 0.2, 0.8);

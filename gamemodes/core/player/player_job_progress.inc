@@ -103,18 +103,18 @@ stock JobProgress_Save(playerid, jobid)
 stock JobProgress_GetName(jobid, output[], len)
 {
     switch(jobid) {
-        case JOB_PROGRESS_DELIVERY: format(output, len, "Delivery");
-        case JOB_PROGRESS_TRUCKER: format(output, len, "Trucker");
+        case JOB_PROGRESS_DELIVERY: format(output, len, "Giao hang");
+        case JOB_PROGRESS_TRUCKER: format(output, len, "Lai xe tai");
         case JOB_PROGRESS_ROAD_CLEANER: format(output, len, "Quet duong");
         case JOB_PROGRESS_GARBAGE: format(output, len, "Don rac");
         case JOB_PROGRESS_ORANGE_FARM: format(output, len, "Trang trai cam");
-        case JOB_PROGRESS_PILOT: format(output, len, "Pilot");
-        case JOB_PROGRESS_MINER: format(output, len, "Miner");
-        case JOB_PROGRESS_FISHER: format(output, len, "Fisher");
-        case JOB_PROGRESS_WAREHOUSE: format(output, len, "Warehouse");
-        case JOB_PROGRESS_POKER: format(output, len, "Poker");
+        case JOB_PROGRESS_PILOT: format(output, len, "Phi cong");
+        case JOB_PROGRESS_MINER: format(output, len, "Tho mo");
+        case JOB_PROGRESS_FISHER: format(output, len, "Ngu dan");
+        case JOB_PROGRESS_WAREHOUSE: format(output, len, "Kho hang");
+        case JOB_PROGRESS_POKER: format(output, len, "Bai poker");
         case JOB_PROGRESS_TAXI: format(output, len, "Taxi");
-        case JOB_PROGRESS_MECHANIC: format(output, len, "Mechanic");
+        case JOB_PROGRESS_MECHANIC: format(output, len, "Tho may");
         default: format(output, len, "Khong xac dinh");
     }
     return 1;

@@ -25,6 +25,10 @@ stock PLAYER_GetPlayerWantedLevel(playerid) {
 
 stock PLAYER_SetPlayerWantedLevel(playerid, plevel) {
 
+    if(FreeRoleplay_IsEnabled()) {
+        plevel = 0;
+    }
+
     // we do not allow negative value.
     if(plevel < 0) {
        plevel = 0;

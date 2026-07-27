@@ -11,6 +11,10 @@ static
 #define ATM_COOLDOWN (1000 * 60) * ATM_COOLDOWN_MINUTES
 
 hook OnExplosiveDetonate(playerid, Float: x, Float: y, Float: z) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     new
         // TODO: ATM_GetClosest from X, Y, Z of explosion instead of player's closest atm.
         // so player can explode ATMs from far up to MAX_PLANTED_C4.
@@ -93,6 +97,10 @@ hook OnExplosiveDetonate(playerid, Float: x, Float: y, Float: z) {
 }
 
 hook OnPlayerPickUpDynPickup(playerid, pickupid) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     new
         arr[2];
     Streamer_GetArrayData(
@@ -139,4 +147,3 @@ timer ReplinishAtm[ATM_COOLDOWN](objectID, idx) {
         19324
     );
 }
-

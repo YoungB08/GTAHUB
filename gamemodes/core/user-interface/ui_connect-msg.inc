@@ -6,7 +6,7 @@ static
     joinString[5][MAX_PLAYER_NAME + 9 /* Colours */ +  6 /* brackets + ID */ ];
 
 hook OnGameModeInit() {
-    LeaveJoinTD = TextDrawCreate    (536.000000, 210.000000, "JOIN: PDS2K12");
+    LeaveJoinTD = TextDrawCreate    (536.000000, 210.000000, "VAO: GTAHUB");
     TextDrawLetterSize              (LeaveJoinTD, 0.2, 0.2 * 4);
     TextDrawAlignment(LeaveJoinTD, TEXT_DRAW_ALIGN_LEFT);
     TextDrawBackgroundColor         (LeaveJoinTD, TD_OUTLINE_COLOUR);
@@ -33,7 +33,7 @@ hook OnPlayerConnect(playerid) {
     new
         string[sizeof(joinString[]) * 5];
 
-    format(joinString[0], sizeof(joinString[]), "~n~~g~JOIN: ~w~%p (%i)", playerid, playerid);
+    format(joinString[0], sizeof(joinString[]), "~n~~g~VAO: ~w~%p (%i)", playerid, playerid);
 
     strcat(string, joinString[4], sizeof(string));
     strcat(string, joinString[3], sizeof(string));
@@ -55,8 +55,8 @@ hook OnPlayerDisconnect(playerid, reason) {
         leave_reason[16];
 
     switch(reason) {
-        case 0: leave_reason = "~y~LOST" ;
-        case 1: leave_reason = "~r~QUIT";
+        case 0: leave_reason = "~y~MAT" ;
+        case 1: leave_reason = "~r~RA";
         case 2: leave_reason = "~p~KICK" ;
     }
 

@@ -35,6 +35,7 @@
 #define YSI_NO_CACHE_MESSAGE
 
 // In-game settings / limits
+#define FREE_ROLEPLAY_MODE      (true)
 #define MAX_PLATE_NAME          24
 #define MAX_BAN_REASON          32
 #define MAX_VEHICLE_PER_PLAYER  2
@@ -104,4 +105,11 @@ enum {
     TEAM_POLICE,
     TEAM_ARMY,
     TEAM_MEDIC
+}
+
+static bool:gFreeRoleplayMode = FREE_ROLEPLAY_MODE;
+
+stock bool:FreeRoleplay_IsEnabled()
+{
+    return gFreeRoleplayMode;
 }

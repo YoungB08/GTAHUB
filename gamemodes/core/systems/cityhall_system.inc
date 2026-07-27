@@ -32,7 +32,7 @@ void:Cityhall_ChangeSkill(playerid) {
         }
 
         if(!License_PlayerHas(playerid, LICENSE_JOB)) {
-            SendErrorMsg(playerid, "Ban can giay phep nghe dac biet de doi ky nang tai City Hall.");
+            SendErrorMsg(playerid, "Ban can giay phep nghe dac biet de doi ky nang tai Toa Thi Chinh.");
             return;
         }
 

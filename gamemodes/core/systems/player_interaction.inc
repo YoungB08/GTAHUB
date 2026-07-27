@@ -5,11 +5,11 @@ static PlayerInteractTarget[MAX_PLAYERS];
 static PlayerInteract_GetJobName(jobid, output[], len)
 {
     switch(jobid) {
-        case TYPE_DRUGDEALER: format(output, len, "Buon Ma Tuy");
-        case TYPE_WEAPONDEALER: format(output, len, "Buon Vu Khi");
-        case TYPE_HITMAN: format(output, len, "Hitman");
-        case TYPE_TERRORIST: format(output, len, "Khung Bo");
-        case TYPE_RAPIST: format(output, len, "Ke Truyen Benh");
+        case TYPE_DRUGDEALER: format(output, len, "Giao Hang");
+        case TYPE_WEAPONDEALER: format(output, len, "Lai Xe Tai");
+        case TYPE_HITMAN: format(output, len, "Tai Xe Taxi");
+        case TYPE_TERRORIST: format(output, len, "Nhan Vien Kho");
+        case TYPE_RAPIST: format(output, len, "Nong Dan");
         case TYPE_MECHANIC: format(output, len, "Tho May");
         default: format(output, len, "Chua co");
     }
@@ -38,14 +38,13 @@ static PlayerInteract_ShowStats(playerid, targetid)
     format(
         info,
         sizeof(info),
-        "Ten: %s\nLevel: %d\nXP: %d/%d\nTien mat: %m\nNgan hang: %m\nWanted: %d\nNghe chinh: %s\nSo dien thoai: %d",
+        "Ten: %s\nLevel: %d\nXP: %d/%d\nTien mat: %m\nNgan hang: %m\nTrang thai: Tu do\nNghe chinh: %s\nSo dien thoai: %d",
         targetName,
         GetPlayerLevel(targetid),
         GetPlayerXp(targetid),
         GetPlayerXpRequired(targetid),
         GetPlayerMoney(targetid),
         Player_GetBankMoney(targetid),
-        GetPlayerWantedLevel(targetid),
         jobName,
         Phone_GetNumber(targetid)
     );

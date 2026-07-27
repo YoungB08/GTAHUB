@@ -117,7 +117,7 @@ stock MinigameUI_Initialize(playerid)
     );
 
     // Create title textdraw
-    s_MinigameUI[playerid][mg_Title] = CreatePlayerTextDraw(playerid, 270.0, 350.0, "[MINIGAME]");
+    s_MinigameUI[playerid][mg_Title] = CreatePlayerTextDraw(playerid, 270.0, 350.0, "[THU THACH]");
     PlayerTextDrawBackgroundColor(playerid, s_MinigameUI[playerid][mg_Title], 255);
     PlayerTextDrawFont(playerid, s_MinigameUI[playerid][mg_Title], TEXT_DRAW_FONT_2);
     PlayerTextDrawLetterSize(playerid, s_MinigameUI[playerid][mg_Title], 0.249999, 1.100000);
@@ -128,7 +128,7 @@ stock MinigameUI_Initialize(playerid)
     PlayerTextDrawSetSelectable(playerid, s_MinigameUI[playerid][mg_Title], false);
 
     // Create instructions textdraw
-    s_MinigameUI[playerid][mg_Instructions] = CreatePlayerTextDraw(playerid, 270.0, 375.0, "Press SPACE to start");
+    s_MinigameUI[playerid][mg_Instructions] = CreatePlayerTextDraw(playerid, 270.0, 375.0, "Nhan SPACE de bat dau");
     PlayerTextDrawBackgroundColor(playerid, s_MinigameUI[playerid][mg_Instructions], 255);
     PlayerTextDrawFont(playerid, s_MinigameUI[playerid][mg_Instructions], TEXT_DRAW_FONT_2);
     PlayerTextDrawLetterSize(playerid, s_MinigameUI[playerid][mg_Instructions], 0.249999, 1.000000);

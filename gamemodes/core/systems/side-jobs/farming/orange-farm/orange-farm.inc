@@ -99,7 +99,7 @@ hook OnPlayerDisconnect(playerid, reason) {
 
                // Update label to show empty state
                new labelText[128];
-               format(labelText, sizeof(labelText), "[ORANGE TREE]\n"C_RED"EMPTY - Respawn: %ds", ORANGE_RESPAWN_TIME / 1000);
+               format(labelText, sizeof(labelText), "[CAY CAM]\n"C_RED"HET CAM - Hoi lai: %ds", ORANGE_RESPAWN_TIME / 1000);
                UpdateDynamic3DTextLabelText(OrangeTreeLabels[treeIndex], COLOR_YELLOW, labelText);
 
                #if ORANGE_FARM_DEBUG
@@ -127,19 +127,19 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
                     // Tree is respawning (empty)
                     if(!TreeAvailable[treeIndex] && TreeRespawnTime[treeIndex] > 0) {
                          new msg[128];
-                         format(msg, sizeof(msg), "~r~[EMPTY]~w~ Tree respawns in ~y~%ds~w~!", TreeRespawnTime[treeIndex]);
+                         format(msg, sizeof(msg), "~r~[HET CAM]~w~ Cay se co lai sau ~y~%ds~w~!", TreeRespawnTime[treeIndex]);
                          Alert_Send(playerid, msg, 3000);
                     }
                     // Tree is being collected by another player
                     else if(!TreeAvailable[treeIndex]) {
-                         Alert_Send(playerid, "~r~[ERROR]~w~ This tree is already being collected by another player!", 3000);
+                         Alert_Send(playerid, "~r~[LOI]~w~ Cay nay dang duoc nguoi khac thu hoach!", 3000);
                     }
                     // Tree is available - start collection
                     else if(TreeAvailable[treeIndex]) {
                          Orange_StartCollection(playerid, treeIndex);
                     }
                } else {
-                    Alert_Send(playerid, "~r~[ERROR]~w~ You are already collecting from a tree!", 3000);
+                    Alert_Send(playerid, "~r~[LOI]~w~ Ban dang thu hoach mot cay khac!", 3000);
                }
           }
 
@@ -157,28 +157,28 @@ Orange_StartCollection(playerid, treeIndex) {
      }
 
      if(Player_GetFruitPicker(playerid) <= 0) {
-          Alert_Send(playerid, "~r~ERROR:~w~ You need a fruit picker to harvest!", 3000);
+          Alert_Send(playerid, "~r~LOI:~w~ Ban can dung cu hai trai de thu hoach!", 3000);
           return;
      }
 
      if(Player_GetOranges(playerid) >= MAX_ORANGES) {
-          Alert_Send(playerid, "~r~ERROR:~w~ Your orange inventory is full!", 3000);
+          Alert_Send(playerid, "~r~LOI:~w~ Kho cam cua ban da day!", 3000);
           return;
      }
 
      OrangePlayerState[playerid][IsCollecting] = true;
      OrangePlayerState[playerid][CurrentTree] = treeIndex;
      TreeAvailable[treeIndex] = false;
-     MessageBox_Show(playerid, TYPE_INFORMATION, "~y~Orange Farm Sessions", "To fill the skill bar press ~g~SPACE~w~ or ~g~SHIFT~w~. To cancel the Orange Farm Session press ~y~ALT~w~ button!", 5000);
+     MessageBox_Show(playerid, TYPE_INFORMATION, "~y~Nong trai cam", "Nhan ~g~SPACE~w~ hoac ~g~SHIFT~w~ de day thanh ky nang. Nhan ~y~ALT~w~ de huy phien thu hoach.", 5000);
      new labelText[128];
-     format(labelText, sizeof(labelText), "[ORANGE TREE]\n"C_RED"BEING COLLECTED");
+     format(labelText, sizeof(labelText), "[CAY CAM]\n"C_RED"DANG THU HOACH");
      UpdateDynamic3DTextLabelText(OrangeTreeLabels[treeIndex], COLOR_YELLOW, labelText);
 
      TogglePlayerControllable(playerid, false);
      ApplyAnimation(playerid, "BD_FIRE", "wash_up", 4.0, true, false, false, false, 0, 1);
      SetPlayerAttachedObject(playerid, 9, 19583, 6);
 
-     Keymash_Start(playerid, KEYMASH_TYPE_HARVEST, treeIndex, "[ORANGE HARVEST]", "Press 'SPACE' to harvest");
+     Keymash_Start(playerid, KEYMASH_TYPE_HARVEST, treeIndex, "[THU HOACH CAM]", "Nhan 'SPACE' de thu hoach");
 
      #if ORANGE_FARM_DEBUG
      printf("[ORANGE] Player %d started collecting at tree %d", playerid, treeIndex);
@@ -192,7 +192,7 @@ Orange_ShowProcessDialog(playerid) {
      new oranges = Player_GetOranges(playerid);
 
      if(oranges <= 0) {
-          Alert_Send(playerid, "~r~ERROR:~w~ You don't have any oranges!", 3000);
+          Alert_Send(playerid, "~r~LOI:~w~ Ban khong co cam!", 3000);
           return;
      }
 
@@ -203,7 +203,7 @@ Orange_ShowProcessDialog(playerid) {
 
           new amount = strval(inputtext);
           if(!amount || amount <= 0) {
-               Alert_Send(playerid, "~r~ERROR:~w~ Invalid amount!", 3000);
+               Alert_Send(playerid, "~r~LOI:~w~ So luong khong hop le!", 3000);
                return;
           }
 
@@ -213,25 +213,25 @@ Orange_ShowProcessDialog(playerid) {
 
           if(currentOranges < required) {
                new msg[128];
-               format(msg, sizeof(msg), "~r~Need~w~ %d oranges (have %d)", required, currentOranges);
+               format(msg, sizeof(msg), "~r~Can~w~ %d cam (dang co %d)", required, currentOranges);
                Alert_Send(playerid, msg, 3000);
                return;
           }
 
           if(currentBottles < amount) {
                new msg[128];
-               format(msg, sizeof(msg), "~r~Need~w~ %d bottles (have %d)", amount, currentBottles);
+               format(msg, sizeof(msg), "~r~Can~w~ %d chai (dang co %d)", amount, currentBottles);
                Alert_Send(playerid, msg, 3000);
                return;
           }
 
           new removeOrangesMsg[128];
-          format(removeOrangesMsg, sizeof(removeOrangesMsg), "~r~Oranges~w~ %d Removed from inventory!", required, currentOranges);
+          format(removeOrangesMsg, sizeof(removeOrangesMsg), "~r~Cam~w~ da xoa %d khoi kho do!", required);
           Notify_Send(playerid, removeOrangesMsg, 3000);
           Player_RemoveOranges(playerid, required);
 
           new removeBottlesMsg[128];
-          format(removeBottlesMsg, sizeof(removeBottlesMsg), "~r~Bottles~w~ %d Removed from inventory!", amount, currentBottles);
+          format(removeBottlesMsg, sizeof(removeBottlesMsg), "~r~Chai~w~ da xoa %d khoi kho do!", amount);
           Notify_Send(playerid, removeBottlesMsg, 3000);
           Player_RemoveBottles(playerid, amount);
 
@@ -239,7 +239,7 @@ Orange_ShowProcessDialog(playerid) {
           ApplyAnimation(playerid, "BD_FIRE", "wash_up", 4.0, true, false, false, false, 0, 1);
 
           new processingMsg[128];
-          format(processingMsg, sizeof(processingMsg), "~w~PROCESSING~n~~y~%d Orange Juice", amount);
+          format(processingMsg, sizeof(processingMsg), "~w~DANG CHE BIEN~n~~y~%d Nuoc cam", amount);
           GameTextForPlayer(playerid, processingMsg, ORANGE_PROCESSING_TIME, 5);
 
           SetTimerEx("Orange_ProcessComplete", ORANGE_PROCESSING_TIME, false, "ii", playerid, amount);
@@ -252,16 +252,16 @@ Orange_ShowProcessDialog(playerid) {
      new currentOranges = Player_GetOranges(playerid);
      new currentBottles = Player_GetBottles(playerid);
      new dialogText[256];
-     format(dialogText, sizeof(dialogText), "Your Inventory:\n\
-          Oranges: %d | Bottles: %d\n\n\
-          Recipe per batch:\n\
-          5 Oranges + 1 Bottle = 1 Juice ($50)\n\n\
-          How many batches?", currentOranges, currentBottles);
+     format(dialogText, sizeof(dialogText), "Kho do cua ban:\n\
+          Cam: %d | Chai: %d\n\n\
+          Cong thuc moi lo:\n\
+          5 cam + 1 chai = 1 nuoc cam ($50)\n\n\
+          Muon che bien bao nhieu lo?", currentOranges, currentBottles);
 
      Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_INPUT,
-          "[ORANGE JUICE FACTORY]",
+          "[XUONG NUOC CAM]",
           dialogText,
-          "Process", "Cancel");
+          "Che bien", "Huy");
 }
 
 public Orange_ProcessComplete(playerid, amount) {
@@ -274,7 +274,7 @@ public Orange_ProcessComplete(playerid, amount) {
      ClearAnimations(playerid, true);
 
      new msg[128];
-     format(msg, sizeof(msg), "~y~[PROCESSED]:~w~ +~y~%d Juice~w~ (~g~+$%d~w~)", amount, reward);
+     format(msg, sizeof(msg), "~y~[DA CHE BIEN]:~w~ +~y~%d Nuoc cam~w~ (~g~+$%d~w~)", amount, reward);
      Notify_Send(playerid, msg, 3000);
 
      #if ORANGE_FARM_DEBUG
@@ -286,7 +286,7 @@ public Orange_ProcessComplete(playerid, amount) {
 LoadOrangeJob() {
      for(new i = 0; i < sizeof(OrangeTrees); i++) {
           OrangeTreeLabels[i] = CreateDynamic3DTextLabel(
-               "[ORANGE TREE]\n"C_WHITE"Press 'N' to harvest",
+               "[CAY CAM]\n"C_WHITE"Nhan 'N' de thu hoach",
                COLOR_YELLOW,
                OrangeTrees[i][0], OrangeTrees[i][1], OrangeTrees[i][2],
                20.0
@@ -294,7 +294,7 @@ LoadOrangeJob() {
      }
 
      CreateDynamic3DTextLabel(
-          "[ORANGE PROCESSOR]\n"C_WHITE"Press 'N' to process",
+          "[MAY CHE BIEN CAM]\n"C_WHITE"Nhan 'N' de che bien",
           COLOR_GREEN,
           ORANGE_PROCESSOR_X, ORANGE_PROCESSOR_Y, ORANGE_PROCESSOR_Z,
           20.0
@@ -315,7 +315,7 @@ public Orange_RespawnTree(treeIndex) {
           TreeRespawnTimer[treeIndex] = 0;
      }
 
-     UpdateDynamic3DTextLabelText(OrangeTreeLabels[treeIndex], COLOR_YELLOW, "[ORANGE TREE]\n"C_WHITE"Press 'N' to harvest");
+     UpdateDynamic3DTextLabelText(OrangeTreeLabels[treeIndex], COLOR_YELLOW, "[CAY CAM]\n"C_WHITE"Nhan 'N' de thu hoach");
 
      #if ORANGE_FARM_DEBUG // debuger to track tree respawns
      printf("[ORANGE] Tree %d respawned", treeIndex);
@@ -332,7 +332,7 @@ public Orange_UpdateTreeTimer(treeIndex) {
 
      if(TreeRespawnTime[treeIndex] > 0) {
           new labelText[128];
-          format(labelText, sizeof(labelText), "[ORANGE TREE]\n"C_RED"EMPTY - Respawn: %ds", TreeRespawnTime[treeIndex]);
+          format(labelText, sizeof(labelText), "[CAY CAM]\n"C_RED"HET CAM - Hoi lai: %ds", TreeRespawnTime[treeIndex]);
           UpdateDynamic3DTextLabelText(OrangeTreeLabels[treeIndex], COLOR_YELLOW, labelText);
      } else {
           if(TreeRespawnTimer[treeIndex]) {
@@ -365,11 +365,11 @@ public Orange_MiniGame_OnComplete(playerid, customData) {
      RemovePlayerAttachedObject(playerid, 9);
 
      new labelText[128];
-     format(labelText, sizeof(labelText), "[ORANGE TREE]\n"C_RED"EMPTY - Respawn: %ds", ORANGE_RESPAWN_TIME / 1000);
+     format(labelText, sizeof(labelText), "[CAY CAM]\n"C_RED"HET CAM - Hoi lai: %ds", ORANGE_RESPAWN_TIME / 1000);
      UpdateDynamic3DTextLabelText(OrangeTreeLabels[customData], COLOR_YELLOW, labelText);
 
      new msg[128];
-     format(msg, sizeof(msg), "~y~[HARVEST]:~w~ +~y~%d Oranges~w~ (~g~+$%d~w~)", randomAmount, harvestReward);
+     format(msg, sizeof(msg), "~y~[THU HOACH]:~w~ +~y~%d Cam~w~ (~g~+$%d~w~)", randomAmount, harvestReward);
      Notify_Send(playerid, msg, 3000);
 
      SetTimerEx("Orange_RespawnTree", ORANGE_RESPAWN_TIME, false, "i", customData);
@@ -387,7 +387,7 @@ public Orange_MiniGame_OnFail(playerid, customData) {
      TreeAvailable[customData] = true;
 
      new labelText[128];
-     format(labelText, sizeof(labelText), "[ORANGE TREE]\n"C_WHITE"Press 'N' to harvest");
+     format(labelText, sizeof(labelText), "[CAY CAM]\n"C_WHITE"Nhan 'N' de thu hoach");
      UpdateDynamic3DTextLabelText(OrangeTreeLabels[customData], COLOR_YELLOW, labelText);
 
      RemovePlayerAttachedObject(playerid, 9);

@@ -12,9 +12,9 @@ enum E_PAYPHONE_DATA {
 }
 
 static const PayPhoneData[][E_PAYPHONE_DATA] = {
-    {"City Hall Payphone", 1472.9500, -1742.7000, 13.5469, 180.0},
-    {"Unity Station Payphone", 1743.6400, -1861.1500, 13.5700, 90.0},
-    {"Idlewood Payphone", 1933.2500, -1773.4200, 13.3828, 270.0}
+    {"Dien thoai Toa Thi Chinh", 1472.9500, -1742.7000, 13.5469, 180.0},
+    {"Dien thoai Ga Unity", 1743.6400, -1861.1500, 13.5700, 90.0},
+    {"Dien thoai Idlewood", 1933.2500, -1773.4200, 13.3828, 270.0}
 };
 
 static
@@ -81,8 +81,8 @@ static Phone_SendSMS(playerid, number, const message[])
         return SendErrorMsg(playerid, "So dien thoai nay hien khong online.");
     }
 
-    SendServerMsgF(playerid, "SMS den %d: %s", number, message);
-    SendServerMsgF(targetid, "SMS tu %d: %s", Phone_GetNumber(playerid), message);
+    SendServerMsgF(playerid, "Tin nhan den %d: %s", number, message);
+    SendServerMsgF(targetid, "Tin nhan tu %d: %s", Phone_GetNumber(playerid), message);
     return 1;
 }
 
@@ -168,7 +168,7 @@ static Phone_ShowSMSDialog(playerid)
         return 1;
     }
 
-    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_INPUT, "Gui SMS", "Nhap: so_dien_thoai noi_dung", "Gui", "Huy");
+    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_INPUT, "Gui tin nhan", "Nhap: so_dien_thoai noi_dung", "Gui", "Huy");
     return 1;
 }
 
@@ -260,7 +260,7 @@ static Phone_ShowMobileMenu(playerid)
         using inline _response,
         DIALOG_STYLE_LIST,
         "Dien thoai di dong",
-        "So cua toi\nGui SMS\nGoi dien\nDanh ba\nThem danh ba\nThong bao",
+        "So cua toi\nGui tin nhan\nGoi dien\nDanh ba\nThem danh ba\nThong bao",
         "Chon",
         "Dong"
     );
@@ -281,7 +281,7 @@ hook OnGameModeInit()
     new label[160];
 
     for(new i; i < sizeof(PayPhoneData); i++) {
-        Interaction_BuildPointLabel(label, sizeof(label), "Phone booth", PayPhoneData[i][E_PAYPHONE_NAME], "Can nhap so de goi", "goi dien");
+        Interaction_BuildPointLabel(label, sizeof(label), "Dien thoai cong cong", PayPhoneData[i][E_PAYPHONE_NAME], "Can nhap so de goi", "goi dien");
 
         CreateDynamicObject(
             1216,
@@ -323,7 +323,7 @@ hook OnPlayerEnterDynArea(playerid, areaid)
 {
     for(new i; i < sizeof(PayPhoneData); i++) {
         if(areaid == PayPhoneArea[i]) {
-            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_PHONE, i, "~y~~h~Phone booth", "goi dien");
+            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_PHONE, i, "~y~~h~Dien thoai cong cong", "goi dien");
             break;
         }
     }

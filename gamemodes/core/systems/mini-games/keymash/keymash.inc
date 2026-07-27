@@ -183,7 +183,7 @@ static Keymash_Complete(playerid) {
 }
 
 static Keymash_Fail(playerid) {
-    Alert_Send(playerid, "~r~ERROR:~w~ You were too slow! Collection failed.", 3000);
+    Alert_Send(playerid, "~r~LOI:~w~ Ban thao tac qua cham! Thu thach that bai.", 3000);
     Keymash_End(playerid, false);
 }
 
@@ -248,7 +248,7 @@ public Keymash_End(playerid, bool:success) {
 public Keymash_OnTimeout(playerid) {
     if(!KeymashState[playerid][IsActive]) return 0;
 
-    Alert_Send(playerid, "~r~ERROR:~w~ Time's up!", 3000);
+    Alert_Send(playerid, "~r~LOI:~w~ Da het thoi gian!", 3000);
     Keymash_End(playerid, false);
     return 1;
 }

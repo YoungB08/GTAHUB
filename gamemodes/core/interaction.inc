@@ -17,12 +17,13 @@ enum {
 
 static
     PlayerInteractionType[MAX_PLAYERS],
-    PlayerInteractionID[MAX_PLAYERS];
+    PlayerInteractionID[MAX_PLAYERS],
+    PlayerTeleportToken[MAX_PLAYERS];
 
-forward Interaction_UnfreezePlayer(playerid);
-public Interaction_UnfreezePlayer(playerid)
+forward Interaction_UnfreezePlayer(playerid, token);
+public Interaction_UnfreezePlayer(playerid, token)
 {
-    if(IsPlayerConnected(playerid)) {
+    if(IsPlayerConnected(playerid) && PlayerTeleportToken[playerid] == token) {
         TogglePlayerControllable(playerid, true);
         SetCameraBehindPlayer(playerid);
     }
@@ -33,6 +34,7 @@ hook OnPlayerConnect(playerid)
 {
     PlayerInteractionType[playerid] = INTERACTION_TYPE_NONE;
     PlayerInteractionID[playerid] = INTERACTION_INVALID_ID;
+    PlayerTeleportToken[playerid] = 0;
     return 1;
 }
 
@@ -103,19 +105,30 @@ stock Interaction_GetActiveID(playerid)
 
 stock Interaction_LoadSafeTeleport(playerid, Float:x, Float:y, Float:z, Float:a, worldid, interiorid, bool:freezePlayer = true, delay = INTERACTION_TELEPORT_DELAY)
 {
+    new
+        unfreezeDelay = delay + GetPlayerPing(playerid),
+        token = PlayerTeleportToken[playerid];
+
+    if(unfreezeDelay < 500) {
+        unfreezeDelay = 500;
+    }
+
     if(freezePlayer) {
+        PlayerTeleportToken[playerid]++;
+        token = PlayerTeleportToken[playerid];
         TogglePlayerControllable(playerid, false);
     }
 
     SetPlayerInterior(playerid, interiorid);
     SetPlayerVirtualWorld(playerid, worldid);
-    Streamer_UpdateEx(playerid, x, y, z, worldid, interiorid, -1, delay + GetPlayerPing(playerid), freezePlayer ? 1 : 0);
+    Streamer_UpdateEx(playerid, x, y, z, worldid, interiorid, -1, unfreezeDelay, 0);
     SetPlayerPos(playerid, x, y, z);
     SetPlayerFacingAngle(playerid, a);
     SetCameraBehindPlayer(playerid);
 
     if(freezePlayer) {
-        SetTimerEx("Interaction_UnfreezePlayer", delay + GetPlayerPing(playerid), false, "i", playerid);
+        SetTimerEx("Interaction_UnfreezePlayer", unfreezeDelay, false, "ii", playerid, token);
+        SetTimerEx("Interaction_UnfreezePlayer", unfreezeDelay + 1500, false, "ii", playerid, token);
     }
     return 1;
 }

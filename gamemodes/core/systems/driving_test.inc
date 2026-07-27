@@ -99,7 +99,7 @@ static DrivingTest_SetNextCheckpoint(playerid)
     }
 
     SetPlayerRaceCheckpoint(playerid, CP_TYPE_GROUND_FINISH, x, y, z, x, y, z, 4.0);
-    SendServerMsgF(playerid, "Bai thi: checkpoint %d/%d. Di cham va giu xe an toan.", step + 1, DrivingTest_GetRouteSize(testid));
+    SendServerMsgF(playerid, "Bai thi: diem %d/%d. Di cham va giu xe an toan.", step + 1, DrivingTest_GetRouteSize(testid));
     return 1;
 }
 

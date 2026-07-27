@@ -4,6 +4,7 @@
 
 #define ENTRANCE_UP                 (true)
 #define ENTRANCE_DOWN               (false)
+#define ENTRANCE_AREA_RADIUS        (1.5)
 
 // Declarations
 static
@@ -162,7 +163,7 @@ stock Entrance_Create(
     MoveDynamicObject(EnExObject[idx], x, y, (z + 1.0), 1.0);
 
     // Area
-    EnExArea[idx] = CreateDynamicCircle(x, y, 0.5, world, interior);
+    EnExArea[idx] = CreateDynamicCircle(x, y, ENTRANCE_AREA_RADIUS, world, interior);
 
     Streamer_SetArrayData(STREAMER_TYPE_AREA, EnExArea[idx], E_STREAMER_EXTRA_ID, arr, sizeof(arr));
 
@@ -210,15 +211,11 @@ stock Entrance_Use(playerid, idx) {
         return 0;
     }
 
-    if(!Entrance_IsPlayerAllowed(playerid)) {
-        return 1;
-    }
-
     if(IsPlayerInAnyVehicle(playerid)) {
         return 1;
     }
 
-    if(!IsPlayerInDynamicArea(playerid, EnExArea[idx])) {
+    if(!Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE, idx) && !IsPlayerInDynamicArea(playerid, EnExArea[idx])) {
         return 1;
     }
 
@@ -279,10 +276,6 @@ hook OnDynamicObjectMoved(objectid) {
 
 // Handler
 hook OnPlayerEnterDynArea(playerid, areaid) {
-    if (!Entrance_IsPlayerAllowed(playerid)) {
-        return 1;
-    }
-
     if (IsPlayerInAnyVehicle(playerid)) {
         return 1;
     }

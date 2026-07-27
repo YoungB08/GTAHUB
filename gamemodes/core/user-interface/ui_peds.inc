@@ -45,6 +45,10 @@ static
 };
 
 hook OnGameModeInit() {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     new
         Float:pedX,
         Float:pedY,
@@ -63,19 +67,24 @@ hook OnGameModeInit() {
 
         Robbery_CreateActor(pedSkin, pedX, pedY, pedZ, pedAng, pedVM, 500, 3000);
     }
+    return 1;
 }
 
 static
     LastRobberyMsgShown[MAX_PLAYERS];
 
 public OnPlayerStartRobbery(playerid, actorid, bool:robbed_recently) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(robbed_recently) {
         if(gettime() - LastRobberyMsgShown[playerid] < 2) {
             // this stops the spamming everytime the player aims.
             return 1;
         }
 
-        SendServerMsg(playerid, "This store have been robbed recently!");
+        SendServerMsg(playerid, "Cua hang nay vua bi cuop gan day!");
         LastRobberyMsgShown[playerid] = gettime();
         return 1;
     }
@@ -85,12 +94,16 @@ public OnPlayerStartRobbery(playerid, actorid, bool:robbed_recently) {
     Player_GetLocation(playerid, plocation, sizeof(plocation));
 
     // Notify Players.
-    SendMsgAllF(COLOR_ORANGE, "(store robbery) "C_GREY"%p(%i) "C_WHITE"began robbing "C_YELLOW"%s"C_WHITE" in "C_GREY"%s.", playerid, playerid, Entrance_PlayerIn(playerid), plocation);
+    SendMsgAllF(COLOR_ORANGE, "(cuop cua hang) "C_GREY"%p(%i) "C_WHITE"bat dau cuop "C_YELLOW"%s"C_WHITE" tai "C_GREY"%s.", playerid, playerid, Entrance_PlayerIn(playerid), plocation);
     return 1;
 }
 
 public OnPlayerRequestRobbery(playerid, actorid)
 {
+    if(FreeRoleplay_IsEnabled()) {
+        return 0;
+    }
+
     if(Player_GetClass(playerid) != TEAM_CIVILIAN) {
         return 0;
     }
@@ -98,6 +111,10 @@ public OnPlayerRequestRobbery(playerid, actorid)
 }
 
 public OnPlayerFinishRobbery(playerid, actorid, robbedmoney, type) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     switch(type) {
         case TYPE_SUCCESS:
         {
@@ -105,12 +122,12 @@ public OnPlayerFinishRobbery(playerid, actorid, robbedmoney, type) {
         }
         case TYPE_FAILED:
         {
-            GameTextForPlayer(playerid, "~r~Robbery Failed", 6000, 1);
+            GameTextForPlayer(playerid, "~r~Cuop that bai", 6000, 1);
         }
         case TYPE_UNFINISHED:
         {
-            GameTextForPlayer(playerid, "~r~Robbery Failed", 6000, 1);
-            SendServerMsg(playerid, "You have gone too far away from the shop keeper, he managed to call 911! RUN!");
+            GameTextForPlayer(playerid, "~r~Cuop that bai", 6000, 1);
+            SendServerMsg(playerid, "Ban da di qua xa nguoi ban hang, hay roi khoi khu vuc!");
         }
     }
     Player_GiveWantedLevel(playerid, 2);

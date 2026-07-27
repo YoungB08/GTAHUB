@@ -17,7 +17,7 @@ CMD:gps(playerid, params[]) {
         using inline _response,
         DIALOG_STYLE_LIST,
         ""C_ORANGE"GPS - Chon Danh Muc",
-        "Dia Diem Cong Cong\nNghe Nghiep\nCua Hang 24/7\nAmmu-Nation\nTram Xang\nXoa GPS",
+        "Dia Diem Cong Cong\nNghe Nghiep\nCua Hang 24/7\nCua Hang Vu Khi\nTram Xang\nXoa GPS",
         "Chon",
         "Dong"
     );
@@ -35,11 +35,11 @@ static GPS_ShowCategory(playerid, category) {
             switch(listitem) {
                 case 0: { GPS_SetLocation(pid, 1481.0377, -1772.3126, 18.7957, "Toa Thi Chinh"); }
                 case 1: { GPS_SetLocation(pid, 595.6651, -1250.7883, 18.2999, "Ngan Hang"); }
-                case 2: { GPS_SetLocation(pid, 1555.5012, -1675.6390, 16.1953, "LSPD"); }
+                case 2: { GPS_SetLocation(pid, 1555.5012, -1675.6390, 16.1953, "Trung Tam Dich Vu"); }
                 case 3: { GPS_SetLocation(pid, 2229.9028, -1721.2580, 13.5612, "Phong Gym"); }
             }
         }
-        Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_LIST, ""C_ORANGE"GPS - Dia Diem Cong Cong", "Toa Thi Chinh\nNgan Hang\nLSPD\nPhong Gym", "Dat", "Quay lai");
+        Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_LIST, ""C_ORANGE"GPS - Dia Diem Cong Cong", "Toa Thi Chinh\nNgan Hang\nTrung Tam Dich Vu\nPhong Gym", "Dat", "Quay lai");
     }
     else if (category == 1) { // Jobs
         inline _response(pid, dialogid, response, listitem, string:inputtext[]) {
@@ -68,16 +68,16 @@ static GPS_ShowCategory(playerid, category) {
         }
         Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_LIST, ""C_ORANGE"GPS - Cua Hang 24/7", "24/7 (Idlewood)\n24/7 (Temple)", "Dat", "Quay lai");
     }
-    else if (category == 3) { // Ammu-Nation
+    else if (category == 3) {
         inline _response(pid, dialogid, response, listitem, string:inputtext[]) {
             #pragma unused dialogid, inputtext
             if (!response) { CommandExecute(pid, "gps"); return 0; }
             switch(listitem) {
-                case 0: { GPS_SetLocation(pid, 2400.4934, -1981.9956, 13.5468, "Ammu-Nation (Willowfield)"); }
-                case 1: { GPS_SetLocation(pid, 1369.0001, -1279.7126, 13.5468, "Ammu-Nation (Market)"); }
+                case 0: { GPS_SetLocation(pid, 2400.4934, -1981.9956, 13.5468, "Cua Hang Vu Khi (Willowfield)"); }
+                case 1: { GPS_SetLocation(pid, 1369.0001, -1279.7126, 13.5468, "Cua Hang Vu Khi (Market)"); }
             }
         }
-        Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_LIST, ""C_ORANGE"GPS - Ammu-Nation", "Ammu-Nation (Willowfield)\nAmmu-Nation (Market)", "Dat", "Quay lai");
+        Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_LIST, ""C_ORANGE"GPS - Cua Hang Vu Khi", "Cua Hang Vu Khi (Willowfield)\nCua Hang Vu Khi (Market)", "Dat", "Quay lai");
     }
     else if (category == 4) { // Gas Stations
         inline _response(pid, dialogid, response, listitem, string:inputtext[]) {
@@ -92,13 +92,13 @@ static GPS_ShowCategory(playerid, category) {
     }
     else if (category == 5) { // Clear GPS
         GPS_ClearLocation(playerid);
-        SendServerMsg(playerid, "Da xoa checkpoint GPS.");
+        SendServerMsg(playerid, "Da xoa diem GPS.");
     }
     return 1;
 }
 
 CMD:cleargps(playerid, params[]) {
     GPS_ClearLocation(playerid);
-    SendServerMsg(playerid, "Da xoa checkpoint GPS.");
+    SendServerMsg(playerid, "Da xoa diem GPS.");
     return 1;
 }

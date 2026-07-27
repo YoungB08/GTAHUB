@@ -18,13 +18,13 @@ enum E_SIDE_JOB_DATA {
 }
 
 static const SideJobData[][E_SIDE_JOB_DATA] = {
-    {"Delivery", JOB_PROGRESS_DELIVERY, 1, LICENSE_DRIVING, 3200, 448, 2115.5190, -1788.4954, 13.5547, 0.0},
+    {"Giao hang", JOB_PROGRESS_DELIVERY, 1, LICENSE_DRIVING, 3200, 448, 2115.5190, -1788.4954, 13.5547, 0.0},
     {"Taxi", JOB_PROGRESS_TAXI, 1, LICENSE_DRIVING, 3600, 420, 1486.7281, -1737.4581, 13.2268, 89.0},
-    {"Warehouse", JOB_PROGRESS_WAREHOUSE, 1, LICENSE_NONE, 2800, 0, 0.0, 0.0, 0.0, 0.0},
-    {"Miner", JOB_PROGRESS_MINER, 2, LICENSE_JOB, 5200, 0, 0.0, 0.0, 0.0, 0.0},
-    {"Fisher", JOB_PROGRESS_FISHER, 2, LICENSE_JOB, 4800, 0, 0.0, 0.0, 0.0, 0.0},
-    {"Mechanic", JOB_PROGRESS_MECHANIC, 2, LICENSE_TRUCK, 4600, 525, 1648.6710, -1836.0947, 13.3828, 0.0},
-    {"Pilot", JOB_PROGRESS_PILOT, 3, LICENSE_PILOT, 7500, 593, 1964.6954, -2493.8677, 13.5469, 90.0}
+    {"Kho hang", JOB_PROGRESS_WAREHOUSE, 1, LICENSE_NONE, 2800, 0, 0.0, 0.0, 0.0, 0.0},
+    {"Tho mo", JOB_PROGRESS_MINER, 2, LICENSE_JOB, 5200, 0, 0.0, 0.0, 0.0, 0.0},
+    {"Ngu dan", JOB_PROGRESS_FISHER, 2, LICENSE_JOB, 4800, 0, 0.0, 0.0, 0.0, 0.0},
+    {"Tho may", JOB_PROGRESS_MECHANIC, 2, LICENSE_TRUCK, 4600, 525, 1648.6710, -1836.0947, 13.3828, 0.0},
+    {"Phi cong", JOB_PROGRESS_PILOT, 3, LICENSE_PILOT, 7500, 593, 1964.6954, -2493.8677, 13.5469, 90.0}
 };
 
 static const Float:SideJobDeliveryRoute[][3] = {
@@ -168,7 +168,7 @@ static SideJob_SetCheckpoint(playerid)
     }
 
     SetPlayerRaceCheckpoint(playerid, CP_TYPE_GROUND_FINISH, x, y, z, x, y, z, 4.0);
-    SendServerMsgF(playerid, "%s: checkpoint %d/%d.", SideJobData[sidejobid][E_SIDE_JOB_NAME], step + 1, SideJob_GetRouteSize(sidejobid));
+    SendServerMsgF(playerid, "%s: diem %d/%d.", SideJobData[sidejobid][E_SIDE_JOB_NAME], step + 1, SideJob_GetRouteSize(sidejobid));
     return 1;
 }
 
@@ -243,7 +243,7 @@ static SideJob_Start(playerid, sidejobid)
     SideJobDeadline[playerid] = gettime() + SIDE_JOB_TIMEOUT;
     SideJob_SetCheckpoint(playerid);
 
-    SendServerMsgF(playerid, "Ban da bat dau %s. Hoan thanh tat ca checkpoint truoc khi het gio.", SideJobData[sidejobid][E_SIDE_JOB_NAME]);
+    SendServerMsgF(playerid, "Ban da bat dau %s. Hoan thanh tat ca diem truoc khi het gio.", SideJobData[sidejobid][E_SIDE_JOB_NAME]);
     return 1;
 }
 

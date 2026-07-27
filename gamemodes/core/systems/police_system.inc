@@ -1,6 +1,10 @@
 #include <YSI_Coding\y_hooks>
 
 hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+    if(FreeRoleplay_IsEnabled()) {
+        return 1;
+    }
+
     if(PRESSED(KEY_LOOK_BEHIND)) {
 
         if(Player_GetClass(playerid) != TEAM_POLICE) {

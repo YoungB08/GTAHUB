@@ -21,16 +21,16 @@
 #define SHOP_SELLER_FACING  0.0
 #define SHOP_SELLER_SKIN    49
 
-#define BUYER_NAME          "Farm Supplier"
-#define SELLER_NAME         "Harvest Master"
+#define BUYER_NAME          "Nguoi Ban Vat Tu"
+#define SELLER_NAME         "Nguoi Mua Nong San"
 
 // ==================== BUY ITEMS ====================
 
 #define MAX_BUY_ITEMS 2
 
 new const BuyNames[][32] = {
-    "Fruit Picker",
-    "Empty Bottles"
+    "Dung cu hai trai",
+    "Chai rong"
 };
 
 new const BuyPrices[MAX_BUY_ITEMS] = {
@@ -43,8 +43,8 @@ new const BuyPrices[MAX_BUY_ITEMS] = {
 #define MAX_SELL_ITEMS 2
 
 new const SellNames[][32] = {
-    "Orange",
-    "Orange Juice"
+    "Cam",
+    "Nuoc cam"
 };
 
 new const SellPrices[MAX_SELL_ITEMS] = {
@@ -76,13 +76,13 @@ hook OnGameModeInit() {
     SetActorVirtualWorld(buyerActorID, 0);
     SetActorInvulnerable(buyerActorID, true);
     ApplyActorAnimation(buyerActorID, "SHOP", "ROB_Shifty", 4.1, true, false, false, false, 1);
-    CreateDynamic3DTextLabel("Farm Supplier\n"C_WHITE"[/buyfarm]", COLOR_GREEN, SHOP_BUYER_X, SHOP_BUYER_Y, SHOP_BUYER_Z + 1.0, 15.0);
+    CreateDynamic3DTextLabel("Nguoi Ban Vat Tu\n"C_WHITE"[/buyfarm]", COLOR_GREEN, SHOP_BUYER_X, SHOP_BUYER_Y, SHOP_BUYER_Z + 1.0, 15.0);
 
     sellerActorID = CreateActor(SHOP_SELLER_SKIN, SHOP_SELLER_X, SHOP_SELLER_Y, SHOP_SELLER_Z, SHOP_SELLER_FACING);
     SetActorVirtualWorld(sellerActorID, 0);
     SetActorInvulnerable(sellerActorID, true);
     ApplyActorAnimation(sellerActorID, "SHOP", "ROB_Shifty", 4.1, true, false, false, false, 1);
-    CreateDynamic3DTextLabel("Harvest Master\n"C_WHITE"[/sellfarm]", COLOR_YELLOW, SHOP_SELLER_X, SHOP_SELLER_Y, SHOP_SELLER_Z + 1.0, 15.0);
+    CreateDynamic3DTextLabel("Nguoi Mua Nong San\n"C_WHITE"[/sellfarm]", COLOR_YELLOW, SHOP_SELLER_X, SHOP_SELLER_Y, SHOP_SELLER_Z + 1.0, 15.0);
 
     print("[Farmers Market] System loaded");
     return 1;
@@ -93,14 +93,14 @@ hook OnGameModeInit() {
 ShowFarmMainMenu(playerid, npcType) {
     new dialogTitle[64];
     if (npcType == 0) {
-        format(dialogTitle, sizeof(dialogTitle), "{00AA00}%s{FFFFFF} - Farm Supplies", BUYER_NAME);
+        format(dialogTitle, sizeof(dialogTitle), "{00AA00}%s{FFFFFF} - Vat tu nong trai", BUYER_NAME);
         ShowPlayerDialog(playerid, DIALOG_FARM_MAIN_MENU, DIALOG_STYLE_LIST, dialogTitle,
-            "{00AA00}Buy Farm Tools\n{FF0000}Leave", "Select", "Cancel");
+            "{00AA00}Mua dung cu nong trai\n{FF0000}Roi", "Chon", "Huy");
         SetPVarInt(playerid, "FarmNPCType", 0);
     } else {
-        format(dialogTitle, sizeof(dialogTitle), "{FFAA00}%s{FFFFFF} - Harvest Sales", SELLER_NAME);
+        format(dialogTitle, sizeof(dialogTitle), "{FFAA00}%s{FFFFFF} - Ban nong san", SELLER_NAME);
         ShowPlayerDialog(playerid, DIALOG_FARM_MAIN_MENU, DIALOG_STYLE_LIST, dialogTitle,
-            "{00AA00}Sell Harvest\n{FF0000}Leave", "Select", "Cancel");
+            "{00AA00}Ban nong san\n{FF0000}Roi", "Chon", "Huy");
         SetPVarInt(playerid, "FarmNPCType", 1);
     }
     return 1;
@@ -112,18 +112,18 @@ ShowBuyMenu(playerid) {
     new fruitPickerCount = Player_GetFruitPicker(playerid);
     new bottlesCount = Player_GetBottles(playerid);
 
-    format(optionText, sizeof(optionText), "{00AA00}%s {FFFFFF}(Have: %d/1) - ${FFFF00}%d\n",
+    format(optionText, sizeof(optionText), "{00AA00}%s {FFFFFF}(Co: %d/1) - ${FFFF00}%d\n",
         BuyNames[0], fruitPickerCount, BuyPrices[0]);
     itemList = optionText;
 
-    format(optionText, sizeof(optionText), "{00AA00}%s {FFFFFF}(Have: %d/25) - ${FFFF00}%d/ea\n",
+    format(optionText, sizeof(optionText), "{00AA00}%s {FFFFFF}(Co: %d/25) - ${FFFF00}%d/cai\n",
         BuyNames[1], bottlesCount, BuyPrices[1]);
     strcat(itemList, optionText);
 
-    strcat(itemList, "\n{FF0000}Back");
+    strcat(itemList, "\n{FF0000}Quay lai");
 
     ShowPlayerDialog(playerid, DIALOG_FARM_BUY_MENU, DIALOG_STYLE_LIST,
-        "{00AA00}[Farm Supplier] What to buy?", itemList, "Select", "Cancel");
+        "{00AA00}[Nguoi Ban Vat Tu] Ban muon mua gi?", itemList, "Chon", "Huy");
     return 1;
 }
 
@@ -135,16 +135,16 @@ ShowSellMenu(playerid) {
         if (i == 0) itemCount = Player_GetOranges(playerid);
         else if (i == 1) itemCount = Player_GetOrangeJuice(playerid);
 
-        format(optionText, sizeof(optionText), "{FFAA00}%s {FFFFFF}(Have: %d) - ${FFFF00}%d/ea\n",
+        format(optionText, sizeof(optionText), "{FFAA00}%s {FFFFFF}(Co: %d) - ${FFFF00}%d/cai\n",
             SellNames[i], itemCount, SellPrices[i]);
         if (i == 0) itemList = optionText;
         else strcat(itemList, optionText);
     }
 
-    strcat(itemList, "\n{FF0000}Back");
+    strcat(itemList, "\n{FF0000}Quay lai");
 
     ShowPlayerDialog(playerid, DIALOG_FARM_SELL_MENU, DIALOG_STYLE_LIST,
-        "{FFAA00}[Harvest Master] What to sell?", itemList, "Select", "Cancel");
+        "{FFAA00}[Nguoi Mua Nong San] Ban muon ban gi?", itemList, "Chon", "Huy");
     return 1;
 }
 
@@ -176,15 +176,15 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
             if (listitem == 0) {
                 new fruitCount = Player_GetFruitPicker(playerid);
                 if (fruitCount >= 1) {
-                    Alert_Send(playerid, "~g~[Farm Supplier]~r~ You already have maximum pickers (1/1)!", 3000);
+                    Alert_Send(playerid, "~g~[Nguoi Ban Vat Tu]~r~ Ban da co toi da dung cu hai trai (1/1)!", 3000);
                     ShowBuyMenu(playerid);
                     return 1;
                 }
                 SetPVarInt(playerid, "BuyItem", 0);
                 new inputMsg[128];
-                format(inputMsg, sizeof(inputMsg), "{00AA00}%s\n{FFFFFF}Price: ${FFFF00}%d\n{00AA00}You have: {FFFFFF}%d/1\n{00AA00}How many to buy?", BuyNames[0], BuyPrices[0], fruitCount);
+                format(inputMsg, sizeof(inputMsg), "{00AA00}%s\n{FFFFFF}Gia: ${FFFF00}%d\n{00AA00}Ban co: {FFFFFF}%d/1\n{00AA00}Muon mua bao nhieu?", BuyNames[0], BuyPrices[0], fruitCount);
                 ShowPlayerDialog(playerid, DIALOG_FARM_BUY_QUANTITY_INPUT, DIALOG_STYLE_INPUT,
-                    "{00AA00}Buy Item", inputMsg, "Buy", "Cancel");
+                    "{00AA00}Mua vat pham", inputMsg, "Mua", "Huy");
                 return 1;
             }
 
@@ -192,9 +192,9 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
                 new bottleCount = Player_GetBottles(playerid);
                 SetPVarInt(playerid, "BuyItem", 1);
                 new inputMsg[128];
-                format(inputMsg, sizeof(inputMsg), "{00AA00}%s\n{FFFFFF}Price: ${FFFF00}%d/ea\n{00AA00}You have: {FFFFFF}%d/25\n{00AA00}How many to buy? (1-25)", BuyNames[1], BuyPrices[1], bottleCount);
+                format(inputMsg, sizeof(inputMsg), "{00AA00}%s\n{FFFFFF}Gia: ${FFFF00}%d/cai\n{00AA00}Ban co: {FFFFFF}%d/25\n{00AA00}Muon mua bao nhieu? (1-25)", BuyNames[1], BuyPrices[1], bottleCount);
                 ShowPlayerDialog(playerid, DIALOG_FARM_BUY_QUANTITY_INPUT, DIALOG_STYLE_INPUT,
-                    "{00AA00}Buy Item", inputMsg, "Buy", "Cancel");
+                    "{00AA00}Mua vat pham", inputMsg, "Mua", "Huy");
                 return 1;
             }
             return 1;
@@ -210,30 +210,30 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 
             if (item == 0) {
                 if (qty != 1) {
-                    Alert_Send(playerid, "~g~[Farm Supplier]~r~ You can only buy 1 picker!", 3000);
+                    Alert_Send(playerid, "~g~[Nguoi Ban Vat Tu]~r~ Ban chi co the mua 1 dung cu hai trai!", 3000);
                     ShowBuyMenu(playerid);
                     return 1;
                 }
                 if (Player_GetFruitPicker(playerid) >= 1) {
-                    Alert_Send(playerid, "~g~[Farm Supplier]~r~ You already have maximum pickers!", 3000);
+                    Alert_Send(playerid, "~g~[Nguoi Ban Vat Tu]~r~ Ban da co toi da dung cu hai trai!", 3000);
                     ShowBuyMenu(playerid);
                     return 1;
                 }
                 new price = BuyPrices[0];
                 if (GetPlayerMoney(playerid) < price) {
-                    Alert_Send(playerid, "~g~[Farm Supplier]~r~ Not enough money!", 3000);
+                    Alert_Send(playerid, "~g~[Nguoi Ban Vat Tu]~r~ Khong du tien!", 3000);
                     ShowBuyMenu(playerid);
                     return 1;
                 }
                 GivePlayerMoney(playerid, -price);
                 Player_GiveFruitPicker(playerid, 1);
                 new msg[128];
-                format(msg, sizeof(msg), "~g~[Farm Supplier]~w~ Bought %s for $%d!", BuyNames[0], price);
+                format(msg, sizeof(msg), "~g~[Nguoi Ban Vat Tu]~w~ Da mua %s voi gia $%d!", BuyNames[0], price);
                 Notify_Send(playerid, msg, 3000);
             }
             else if (item == 1) {
                 if (qty < 1 || qty > 25) {
-                    Alert_Send(playerid, "~g~[Farm Supplier]~r~ Invalid amount! (1-25)", 3000);
+                    Alert_Send(playerid, "~g~[Nguoi Ban Vat Tu]~r~ So luong khong hop le! (1-25)", 3000);
                     ShowBuyMenu(playerid);
                     return 1;
                 }
@@ -241,21 +241,21 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
                 if ((bottleCount + qty) > 25) {
                     new left = 25 - bottleCount;
                     new msg[128];
-                    format(msg, sizeof(msg), "~g~[Farm Supplier]~r~ You can only buy %d more bottles!", left);
+                    format(msg, sizeof(msg), "~g~[Nguoi Ban Vat Tu]~r~ Ban chi co the mua them %d chai!", left);
                     Alert_Send(playerid, msg, 3000);
                     ShowBuyMenu(playerid);
                     return 1;
                 }
                 new price = BuyPrices[1] * qty;
                 if (GetPlayerMoney(playerid) < price) {
-                    Alert_Send(playerid, "~g~[Farm Supplier]~r~ Not enough money!", 3000);
+                    Alert_Send(playerid, "~g~[Nguoi Ban Vat Tu]~r~ Khong du tien!", 3000);
                     ShowBuyMenu(playerid);
                     return 1;
                 }
                 GivePlayerMoney(playerid, -price);
                 Player_GiveBottles(playerid, qty);
                 new msg[128];
-                format(msg, sizeof(msg), "~g~[Farm Supplier]~w~ Bought %d bottles for $%d!", qty, price);
+                format(msg, sizeof(msg), "~g~[Nguoi Ban Vat Tu]~w~ Da mua %d chai voi gia $%d!", qty, price);
                 Notify_Send(playerid, msg, 3000);
             }
             ShowBuyMenu(playerid);
@@ -277,16 +277,16 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
             else if (listitem == 1) itemCount = Player_GetOrangeJuice(playerid);
 
             if (itemCount == 0) {
-                Alert_Send(playerid, "~y~[Harvest Master]~r~ You don't have this item!", 3000);
+                Alert_Send(playerid, "~y~[Nguoi Mua Nong San]~r~ Ban khong co vat pham nay!", 3000);
                 ShowSellMenu(playerid);
                 return 1;
             }
 
             SetPVarInt(playerid, "SellItem", listitem);
             new inputMsg[128];
-            format(inputMsg, sizeof(inputMsg), "{FFAA00}%s\n{FFFFFF}You have: {00AA00}%d\nHow many to sell? (1-%d)", SellNames[listitem], itemCount, itemCount);
+            format(inputMsg, sizeof(inputMsg), "{FFAA00}%s\n{FFFFFF}Ban co: {00AA00}%d\nMuon ban bao nhieu? (1-%d)", SellNames[listitem], itemCount, itemCount);
             ShowPlayerDialog(playerid, DIALOG_FARM_SELL_QUANTITY_INPUT, DIALOG_STYLE_INPUT,
-                "{FFAA00}Sell Quantity", inputMsg, "Sell", "Cancel");
+                "{FFAA00}So luong ban", inputMsg, "Ban", "Huy");
             return 1;
         }
 
@@ -303,7 +303,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
             else if (item == 1) itemCount = Player_GetOrangeJuice(playerid);
 
             if (qty < 1 || qty > itemCount) {
-                Alert_Send(playerid, "~y~[Harvest Master] ~r~Invalid quantity!", 3000);
+                Alert_Send(playerid, "~y~[Nguoi Mua Nong San] ~r~So luong khong hop le!", 3000);
                 ShowSellMenu(playerid);
                 return 1;
             }
@@ -316,7 +316,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
             GivePlayerMoney(playerid, totalPrice);
 
             new msg[128];
-            format(msg, sizeof(msg), "~y~[Harvest Master]~w~ Sold %d %s for $%d!", qty, SellNames[item], totalPrice);
+            format(msg, sizeof(msg), "~y~[Nguoi Mua Nong San]~w~ Da ban %d %s voi gia $%d!", qty, SellNames[item], totalPrice);
             Notify_Send(playerid, msg, 3000);
             ShowSellMenu(playerid);
             return 1;
@@ -330,7 +330,7 @@ hook OnDialogResponse(playerid, dialogid, response, listitem, inputtext[]) {
 CMD:buyfarm(playerid, params[]) {
     new Float:d = GetPlayerDistanceFromPoint(playerid, SHOP_BUYER_X, SHOP_BUYER_Y, SHOP_BUYER_Z);
     if (d > 10.0) {
-        Alert_Send(playerid, "~r~[ERROR]~w~ Too far!", 3000);
+        Alert_Send(playerid, "~r~[LOI]~w~ Qua xa!", 3000);
         return 1;
     }
     ShowFarmMainMenu(playerid, 0);
@@ -340,7 +340,7 @@ CMD:buyfarm(playerid, params[]) {
 CMD:sellfarm(playerid, params[]) {
     new Float:d = GetPlayerDistanceFromPoint(playerid, SHOP_SELLER_X, SHOP_SELLER_Y, SHOP_SELLER_Z);
     if (d > 10.0) {
-        Alert_Send(playerid, "~r~[ERROR]~w~ Too far!", 3000);
+        Alert_Send(playerid, "~r~[LOI]~w~ Qua xa!", 3000);
         return 1;
     }
     ShowFarmMainMenu(playerid, 1);

@@ -26,23 +26,23 @@ enum PIZZA_DELIVERY_DATA {
 
 static
     const DeliverData[][PIZZA_DELIVERY_DATA] = {
-    {"LSPD", 1535.8329, -1673.7499, 13.3828},
-    {"LS BANK", 590.8960, -1231.8680, 17.7482},
-    {"Ammunation Plaza", 1358.8153, -1278.5531, 13.3517},
-    {"Idlewood Fuelstation", 1936.578247, -1777.193237, 12.95578},
-	{"Alhambra Club", 1831.819580, -1682.267456, 13.11395},
-	{"CJ House", 2495.337402, -1684.785644, 13.03212},
-	{"Los Santos Race Arena", 2726.939208, -1851.421264, 9.146192},
-	{"Willowfield Mod Garage", 2644.418457, -2034.457031, 13.12427},
-	{"Willowfield Ammunation", 2399.982910, -1976.935302, 12.95189},
+    {"Trung Tam Dich Vu", 1535.8329, -1673.7499, 13.3828},
+    {"Ngan Hang LS", 590.8960, -1231.8680, 17.7482},
+    {"Cua Hang Vu Khi", 1358.8153, -1278.5531, 13.3517},
+    {"Tram Xang Idlewood", 1936.578247, -1777.193237, 12.95578},
+	{"Cau Lac Bo Alhambra", 1831.819580, -1682.267456, 13.11395},
+	{"Nha CJ", 2495.337402, -1684.785644, 13.03212},
+	{"San Dua Los Santos", 2726.939208, -1851.421264, 9.146192},
+	{"Gara Willowfield", 2644.418457, -2034.457031, 13.12427},
+	{"Cua Hang Vu Khi Willowfield", 2399.982910, -1976.935302, 12.95189},
 	{"Casa De Empeno", 2144.479980, -1901.673461, 13.11519},
-	{"The Mexican Bar", 1955.709838, -2004.178222, 13.11948},
+	{"Quan Bar Mexico", 1955.709838, -2004.178222, 13.11948},
 	{"24/7", 1829.145874, -1842.526489, 13.13035},
-	{"Unity Station", 1743.641601, -1861.159790, 13.14912},
-	{"Donut Shop", 1038.441650, -1337.099121, 13.29034},
+	{"Ga Unity", 1743.641601, -1861.159790, 13.14912},
+	{"Tiem Banh Donut", 1038.441650, -1337.099121, 13.29034},
 	{"Gnocchi", 553.708984, -1473.299804, 14.33577},
-	{"Italian Store", 479.580139, -1533.522949, 19.26560},
-	{"The Book Emporium", 832.689575, -1598.760498, 13.12357}
+	{"Cua Hang Italy", 479.580139, -1533.522949, 19.26560},
+	{"Nha Sach", 832.689575, -1598.760498, 13.12357}
 };
 
 timer PDeliveringPickup[300000](playerid) {
@@ -90,7 +90,7 @@ Pizza_Pickup(playerid) {
     UI_TimeLeft(playerid, 300);
     PizzaPickupTimer[playerid] = defer PDeliveringPickup(playerid);
 
-    SendServerMsg(playerid, "Ban da nhan viec giao pizza, hay lay pizza tai checkpoint!");
+    SendServerMsg(playerid, "Ban da nhan viec giao pizza, hay lay pizza tai diem nhan hang!");
     return 1;
 }
 
