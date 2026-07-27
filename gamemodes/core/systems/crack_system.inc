@@ -1,0 +1,201 @@
+#include <YSI_Coding\y_hooks>
+
+static
+	PlayerBar:TD_CrackStatus = PlayerBar:INVALID_PLAYER_BAR_ID,
+	PlayerText:TD_CrackTitle = PlayerText:INVALID_TEXT_DRAW,
+	Timer:crackProducingTimer[MAX_PLAYERS],
+	P_CRACKSequence[MAX_PLAYERS] = {0, ...},
+	plyIncrement[MAX_PLAYERS] = {0, ...},
+	plyJustCreatedCocaine[MAX_PLAYERS],
+	BitArray:HasBeganCocaineProduction<MAX_PLAYERS>
+;
+
+enum //5 * 8 = 40 seconds to finish.
+{
+	SEQ_ADDCOCALEAVES = 0,
+	SEQ_POURCEMENT,
+	SEQ_POURGASOLINE,
+	SEQ_MIXINGREDIENTS,
+	SEQ_FILTERGASOLINE,
+	SEQ_EXTRACOCOALEAVES,
+	SEQ_MARINATE,
+	SEQ_FINISHED
+}
+
+#define DRUG_CREATION_POSX	(720.7772)
+#define DRUG_CREATION_POSY	(209.3263)
+#define DRUG_CREATION_POSZ	(11552.6592)
+#define DRUG_CREATION_POSA	(220.0334)
+
+timer ProduceCrackUpdate[1000](playerid) {
+	if (plyIncrement[playerid] >= 5) {
+		plyIncrement[playerid] = 0;
+		PlayerTextDrawHide(playerid, TD_CrackTitle);
+		HidePlayerProgressBar(playerid, TD_CrackStatus);
+		SetPlayerProgressBarValue(playerid, TD_CrackStatus, 0.0);
+
+		switch(P_CRACKSequence[playerid])
+		{
+			case SEQ_ADDCOCALEAVES: 	Crack_Produce(playerid, SEQ_POURCEMENT);
+			case SEQ_POURCEMENT: 		Crack_Produce(playerid, SEQ_POURGASOLINE);
+			case SEQ_POURGASOLINE: 		Crack_Produce(playerid, SEQ_MIXINGREDIENTS);
+			case SEQ_MIXINGREDIENTS: 	Crack_Produce(playerid, SEQ_FILTERGASOLINE);
+			case SEQ_FILTERGASOLINE: 	Crack_Produce(playerid, SEQ_EXTRACOCOALEAVES);
+			case SEQ_EXTRACOCOALEAVES: 	Crack_Produce(playerid, SEQ_MARINATE);
+			case SEQ_MARINATE: 			Crack_Produce(playerid, SEQ_FINISHED);
+		}
+	}
+
+	new
+		Float:pb_val = GetPlayerProgressBarValue(playerid, TD_CrackStatus);
+
+	SetPlayerProgressBarValue(playerid, TD_CrackStatus, pb_val + 20);
+	plyIncrement[playerid] ++;
+	return 1;
+}
+
+hook OnGameModeInit() {
+    CreateDynamic3DTextLabel("Nhan "C_YELLOW"~k~~CONVERSATION_NO~"C_WHITE"\nde bat dau san xuat crack cocaine", COLOR_WHITE, DRUG_CREATION_POSX, DRUG_CREATION_POSY, DRUG_CREATION_POSZ, TEXTLABEL_STREAMDISTANCE, .testlos = 1);
+	return 1;
+}
+
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
+	if ((newkeys & KEY_NO) == KEY_NO) {
+
+		if(GetPlayerState(playerid) != PLAYER_STATE_ONFOOT) {
+			return 1;
+		}
+
+		if(!IsPlayerInRangeOfPoint(playerid, 3.0, DRUG_CREATION_POSX, DRUG_CREATION_POSY, DRUG_CREATION_POSZ)) {
+			return 1;
+		}
+
+		if(Player_GetClass(playerid) != TEAM_CIVILIAN) {
+			SendErrorMsg(playerid, "Tinh nang nay chi danh cho dan thuong.");
+			return 1;
+		}
+
+
+		if(Bit_Get(HasBeganCocaineProduction, playerid))
+			return SendErrorMsg(playerid, "Ban da bat dau san xuat crack cocaine roi.");
+
+		Crack_Produce(playerid);
+	}
+	return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+hook OnPlayerConnect(playerid) {
+    TD_CrackStatus = CreatePlayerProgressBar(playerid, 272.000000, 363.000000, 107.500000, 9.199998, -1347440641, 100.0000, 0);
+	TD_CrackTitle = CreatePlayerTextDraw(playerid, 270.000000, 350.000000, "Dang do xang");
+	PlayerTextDrawBackgroundColor(playerid, TD_CrackTitle, 255);
+	PlayerTextDrawFont(playerid, TD_CrackTitle, TEXT_DRAW_FONT_2);
+	PlayerTextDrawLetterSize(playerid, TD_CrackTitle, 0.249999, 1.100000);
+	PlayerTextDrawColor(playerid, TD_CrackTitle, -1);
+	PlayerTextDrawSetOutline(playerid, TD_CrackTitle, 0);
+	PlayerTextDrawSetProportional(playerid, TD_CrackTitle, true);
+	PlayerTextDrawSetShadow(playerid, TD_CrackTitle, 1);
+	PlayerTextDrawSetSelectable(playerid, TD_CrackTitle, false);
+   	return Y_HOOKS_CONTINUE_RETURN_1;
+}
+
+hook OnPlayerDeathEx(playerid, killerid, reason) {
+
+	if(P_CRACKSequence[playerid] >= 0) {
+		Crack_ResetData(playerid);
+		stop crackProducingTimer[playerid];
+	}
+	return 1;
+}
+
+Crack_Produce(playerid, seq = SEQ_ADDCOCALEAVES) {
+	if(gettime() < plyJustCreatedCocaine[playerid])
+		return SendErrorMsgF(playerid, "Ban vua san xuat crack cocaine gan day, hay cho... "C_GREY"%i "C_WHITE"giay", plyJustCreatedCocaine[playerid] - gettime());
+
+	if(Player_GetJob(playerid) != TYPE_DRUGDEALER)
+		return SendErrorMsg(playerid, "Ban khong the san xuat crack cocaine vi khong phai nguoi ban ma tuy.");
+
+	if(Player_GetCrack(playerid) >= MAX_CRACK)
+		return SendErrorMsg(playerid, "Ban khong the san xuat them crack cocaine vi da dat gioi han mang theo.");
+
+	P_CRACKSequence[playerid] = seq;
+	switch(seq) {
+		case SEQ_ADDCOCALEAVES: {
+			PlayerTextDrawSetString(playerid, TD_CrackTitle, "Dang do la coca...");
+			PlayerTextDrawShow(playerid, TD_CrackTitle);
+
+			ShowPlayerProgressBar(playerid, TD_CrackStatus);
+			P_CRACKSequence[playerid]= SEQ_ADDCOCALEAVES;
+
+			crackProducingTimer[playerid] 	= repeat ProduceCrackUpdate(playerid);
+
+			SendClientMessage(playerid, COLOR_TEAL, "** CRACK COCAINE ** "C_WHITE"Ban da bat dau san xuat crack cocaine, vui long cho den khi hoan tat.");
+
+			Bit_Set(HasBeganCocaineProduction, playerid, true);
+
+			SetPlayerFacingAngle(playerid, DRUG_CREATION_POSA);
+			SetPlayerPos(playerid, DRUG_CREATION_POSX, DRUG_CREATION_POSY, DRUG_CREATION_POSZ);
+			ApplyAnimation(playerid, "BD_FIRE", "wash_up", 4.1, true, true, true, true, 0, SYNC_ALL);
+		}
+		case SEQ_POURCEMENT: {
+			PlayerTextDrawSetString(playerid, TD_CrackTitle, "Dang do xi mang...");
+			PlayerTextDrawShow(playerid, TD_CrackTitle);
+
+			ShowPlayerProgressBar(playerid, TD_CrackStatus);
+			P_CRACKSequence[playerid]= SEQ_POURCEMENT;
+		}
+		case SEQ_POURGASOLINE: {
+			PlayerTextDrawSetString(playerid, TD_CrackTitle, "Dang do xang...");
+			PlayerTextDrawShow(playerid, TD_CrackTitle);
+
+			ShowPlayerProgressBar(playerid, TD_CrackStatus);
+			P_CRACKSequence[playerid]= SEQ_POURGASOLINE;
+		}
+		case SEQ_MIXINGREDIENTS: {
+			PlayerTextDrawSetString(playerid, TD_CrackTitle, "Dang tron nguyen lieu...");
+			PlayerTextDrawShow(playerid, TD_CrackTitle);
+
+			ShowPlayerProgressBar(playerid, TD_CrackStatus);
+			P_CRACKSequence[playerid]= SEQ_MIXINGREDIENTS;
+		}
+		case SEQ_FILTERGASOLINE: {
+			PlayerTextDrawSetString(playerid, TD_CrackTitle, "Dang loc xang");
+			PlayerTextDrawShow(playerid, TD_CrackTitle);
+
+			ShowPlayerProgressBar(playerid, TD_CrackStatus);
+			P_CRACKSequence[playerid]= SEQ_FILTERGASOLINE;
+		}
+		case SEQ_EXTRACOCOALEAVES: {
+			PlayerTextDrawSetString(playerid, TD_CrackTitle, "Dang chiet xuat coca");
+			PlayerTextDrawShow(playerid, TD_CrackTitle);
+
+			ShowPlayerProgressBar(playerid, TD_CrackStatus);
+			P_CRACKSequence[playerid]= SEQ_EXTRACOCOALEAVES;
+		}
+		case SEQ_MARINATE: {
+			PlayerTextDrawSetString(playerid, TD_CrackTitle, "Dang u cocaine");
+			PlayerTextDrawShow(playerid, TD_CrackTitle);
+
+			ShowPlayerProgressBar(playerid, TD_CrackStatus);
+			P_CRACKSequence[playerid]= SEQ_MARINATE;
+		}
+		case SEQ_FINISHED: {
+			SendClientMessage(playerid, COLOR_TEAL, "** CRACK COCAINE ** "C_WHITE"Ban da san xuat duoc 50 gram crack cocaine.");
+			Player_GiveCrack(playerid, 5);
+
+			ClearAnimations(playerid, SYNC_ALL);
+			Crack_ResetData(playerid);
+
+			plyJustCreatedCocaine[playerid] = gettime() + 30;
+			Bit_Set(HasBeganCocaineProduction, playerid, false);
+		}
+	}
+	return 1;
+}
+
+Crack_ResetData(playerid) {
+	plyIncrement[playerid] = 0;
+	PlayerTextDrawHide(playerid, TD_CrackTitle);
+	HidePlayerProgressBar(playerid, TD_CrackStatus);
+	SetPlayerProgressBarValue(playerid, TD_CrackStatus, 0.0);
+	stop crackProducingTimer[playerid];
+}

@@ -1,0 +1,1116 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GTAHUB - Developer Onboarding</title>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --panel: #ffffff;
+      --ink: #18202a;
+      --muted: #5a6778;
+      --line: #d9dee7;
+      --accent: #0d6b57;
+      --accent-strong: #08483b;
+      --warn-bg: #fff4d8;
+      --warn-line: #e2b84b;
+      --danger-bg: #ffe8e3;
+      --danger-line: #d66b56;
+      --code-bg: #eef2f6;
+      --ok-bg: #e8f6ef;
+      --ok-line: #62b785;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+    }
+
+    a {
+      color: var(--accent);
+      text-decoration-thickness: 1px;
+      text-underline-offset: 3px;
+    }
+
+    code,
+    pre {
+      font-family: "Cascadia Code", "Fira Code", Consolas, monospace;
+    }
+
+    code {
+      padding: 0.12rem 0.32rem;
+      border-radius: 4px;
+      background: var(--code-bg);
+      font-size: 0.92em;
+    }
+
+    pre {
+      overflow-x: auto;
+      padding: 1rem;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: #111827;
+      color: #f8fafc;
+      line-height: 1.5;
+    }
+
+    pre code {
+      padding: 0;
+      background: transparent;
+      color: inherit;
+      font-size: 0.92rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1rem 0;
+      background: var(--panel);
+    }
+
+    th,
+    td {
+      padding: 0.7rem 0.8rem;
+      border: 1px solid var(--line);
+      vertical-align: top;
+      text-align: left;
+    }
+
+    th {
+      background: #edf1f5;
+      font-weight: 700;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+      padding: 1.25rem;
+      border-right: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .brand {
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .brand h1 {
+      margin: 0 0 0.25rem;
+      font-size: 1.1rem;
+      line-height: 1.25;
+    }
+
+    .brand p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    .nav-title {
+      margin: 1rem 0 0.45rem;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .sidebar a {
+      display: block;
+      padding: 0.28rem 0;
+      color: #223044;
+      font-size: 0.94rem;
+      text-decoration: none;
+    }
+
+    .sidebar a:hover {
+      color: var(--accent-strong);
+      text-decoration: underline;
+    }
+
+    main {
+      max-width: 1180px;
+      width: 100%;
+      padding: 2rem 2.25rem 4rem;
+    }
+
+    .hero {
+      padding: 1.35rem 0 1.1rem;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .hero h2 {
+      margin: 0 0 0.5rem;
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .hero p {
+      max-width: 820px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    section {
+      margin-top: 2.2rem;
+    }
+
+    h2 {
+      margin: 0 0 0.7rem;
+      font-size: 1.65rem;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    h3 {
+      margin: 1.45rem 0 0.5rem;
+      font-size: 1.08rem;
+      line-height: 1.35;
+      letter-spacing: 0;
+    }
+
+    p {
+      margin: 0.55rem 0;
+    }
+
+    ul,
+    ol {
+      padding-left: 1.25rem;
+    }
+
+    li {
+      margin: 0.25rem 0;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1rem;
+    }
+
+    .note,
+    .warning,
+    .danger,
+    .success {
+      margin: 1rem 0;
+      padding: 0.9rem 1rem;
+      border-left: 4px solid var(--line);
+      border-radius: 4px;
+      background: var(--panel);
+    }
+
+    .note {
+      border-left-color: var(--accent);
+    }
+
+    .warning {
+      border-left-color: var(--warn-line);
+      background: var(--warn-bg);
+    }
+
+    .danger {
+      border-left-color: var(--danger-line);
+      background: var(--danger-bg);
+    }
+
+    .success {
+      border-left-color: var(--ok-line);
+      background: var(--ok-bg);
+    }
+
+    .pill-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.45rem;
+      padding: 0;
+      list-style: none;
+    }
+
+    .pill-list li {
+      margin: 0;
+      padding: 0.28rem 0.5rem;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: #fff;
+      font-size: 0.9rem;
+    }
+
+    details {
+      margin: 0.8rem 0;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      background: var(--panel);
+    }
+
+    summary {
+      cursor: pointer;
+      padding: 0.75rem 0.9rem;
+      font-weight: 700;
+    }
+
+    details > div {
+      padding: 0 0.9rem 0.9rem;
+      border-top: 1px solid var(--line);
+    }
+
+    .small {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .two-col {
+      columns: 2 320px;
+      column-gap: 2.5rem;
+    }
+
+    .kbd {
+      padding: 0.08rem 0.35rem;
+      border: 1px solid #b8c0cc;
+      border-bottom-width: 2px;
+      border-radius: 4px;
+      background: #fff;
+      font-family: inherit;
+      font-size: 0.85em;
+    }
+
+    @media (max-width: 880px) {
+      .layout {
+        display: block;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      main {
+        padding: 1.25rem 1rem 3rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar" aria-label="Mục lục">
+      <div class="brand">
+        <h1>GTAHUB</h1>
+        <p>Developer onboarding cho dev mới</p>
+      </div>
+
+      <div class="nav-title">Bắt đầu</div>
+      <a href="#purpose">Mục tiêu tài liệu</a>
+      <a href="#quick-start">Quick start</a>
+      <a href="#repo-map">Cấu trúc repo</a>
+      <a href="#runtime">Runtime flow</a>
+
+      <div class="nav-title">Kiến trúc</div>
+      <a href="#include-tree">Include tree</a>
+      <a href="#core-systems">Core systems</a>
+      <a href="#player-systems">Player systems</a>
+      <a href="#gameplay-systems">Gameplay systems</a>
+      <a href="#jobs">Jobs</a>
+      <a href="#ui">UI</a>
+      <a href="#admin">Admin</a>
+      <a href="#security">Anti-cheat</a>
+      <a href="#data">Database và data</a>
+
+      <div class="nav-title">Reference</div>
+      <a href="#commands">Commands</a>
+      <a href="#not-loaded">Files không chạy</a>
+      <a href="#dev-workflow">Dev workflow</a>
+      <a href="#checklists">Checklist</a>
+      <a href="#gotchas">Gotchas</a>
+    </aside>
+
+    <main>
+      <div class="hero">
+        <h2>Developer Onboarding</h2>
+        <p>
+          Tài liệu này dành cho dev mới vào project <strong>GTAHUB</strong>, một open.mp/SA-MP Pawn gamemode
+          theo kiểu Cảnh Sát và Tội Phạm tại Los Santos. Nội dung tập trung vào cách chạy project, kiến trúc include,
+          các hệ thống runtime, database, command và những điểm dễ nhầm khi sửa code.
+        </p>
+      </div>
+
+      <section id="purpose">
+        <h2>Mục tiêu tài liệu</h2>
+        <p>
+          File này là tài liệu nội bộ để đọc nhanh trước khi đụng code. README vẫn là nơi hướng dẫn build/run cơ bản,
+          còn tài liệu này giải thích gamemode được chia module như thế nào và module nào thật sự đang chạy.
+        </p>
+        <div class="note">
+          <strong>Phạm vi rà soát:</strong> cây include bắt đầu từ <code>gamemodes/main.pwn</code>, các file
+          <code>gamemodes/core/**/*.inc</code>, <code>scriptfiles</code>, <code>config.json</code> và
+          <code>pawn.json</code>.
+        </div>
+      </section>
+
+      <section id="quick-start">
+        <h2>Quick start</h2>
+        <h3>Yêu cầu</h3>
+        <ul>
+          <li>open.mp server runtime.</li>
+          <li>Pawn compiler <code>3.10.11</code>.</li>
+          <li>MySQL server và database, ví dụ <code>gtaopen</code>.</li>
+          <li><code>sampctl</code> để ensure dependencies và build.</li>
+        </ul>
+
+        <h3>Build</h3>
+        <pre><code>sampctl ensure
+sampctl build</code></pre>
+        <p>Nếu build thành công, output chính là <code>gamemodes/main.amx</code>.</p>
+
+        <h3>MySQL</h3>
+        <p>Tạo file <code>mysql.ini</code> ở root project, cùng cấp với <code>config.json</code>.</p>
+        <pre><code>hostname=localhost
+username=root
+password=yourpassword
+database=gtaopen</code></pre>
+        <p>
+          Nếu MySQL không có password, bỏ hẳn dòng <code>password=</code>. File này đã được ignore và không nên commit.
+        </p>
+
+        <h3>Run</h3>
+        <pre><code>./omp-server</code></pre>
+        <p>Server mặc định chạy port <code>7777</code>, max players <code>50</code>, script chính là <code>main</code>.</p>
+      </section>
+
+      <section id="repo-map">
+        <h2>Cấu trúc repo</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Path</th>
+              <th>Vai trò</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>gamemodes/main.pwn</code></td>
+              <td>Entrypoint của gamemode. Include toàn bộ core, set server metadata, init runtime.</td>
+            </tr>
+            <tr>
+              <td><code>gamemodes/core</code></td>
+              <td>Toàn bộ module gameplay, account, player, admin, UI, systems, chat, mapping.</td>
+            </tr>
+            <tr>
+              <td><code>gamemodes/utils</code></td>
+              <td>Helper dùng chung: command macro, color, player/vehicle utility, math, cuffs, fixes.</td>
+            </tr>
+            <tr>
+              <td><code>scriptfiles</code></td>
+              <td>SQL schema, config runtime, static vehicle data.</td>
+            </tr>
+            <tr>
+              <td><code>legacy</code></td>
+              <td>Include cũ hoặc vendor helpers như <code>EVF</code>, <code>progress2</code>, <code>formatex</code>, <code>actor_robbery</code>, <code>vSync</code>.</td>
+            </tr>
+            <tr>
+              <td><code>components</code></td>
+              <td>Debug symbol files cho open.mp components.</td>
+            </tr>
+            <tr>
+              <td><code>upgrader</code></td>
+              <td>Generated/runtime data cho upgrader, không phải gamemode runtime chính.</td>
+            </tr>
+            <tr>
+              <td><code>config.json</code></td>
+              <td>open.mp server config, plugins legacy, max players, port, script list.</td>
+            </tr>
+            <tr>
+              <td><code>pawn.json</code></td>
+              <td>sampctl package, compiler version và dependencies.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="runtime">
+        <h2>Runtime flow</h2>
+        <ol>
+          <li><code>main.pwn</code> include constants, thư viện, init, utils và toàn bộ core modules.</li>
+          <li><code>OnGameModeInit</code> set hostname, gamemode text, language, world time/weather, tắt stunt bonus, bật ped anims.</li>
+          <li><code>init.inc</code> đọc <code>mysql.ini</code>, connect MySQL, bật <code>AUTO_RECONNECT</code>.</li>
+          <li>Nếu <code>SETUP_TABLE</code> là <code>true</code>, hệ thống gọi setup table trước khi chạy logic sau connect.</li>
+          <li>Server load entrances, ATMs, static vehicles, messages, mapping, dealership, moneybag và các gameplay systems.</li>
+          <li>Khi player vào server, account flow check ban, login/register, load stats/items/bank/weapons/house/vehicle/admin/VIP.</li>
+          <li>Per-player tick và server tick xử lý autosave, UI, cooldown, wanted colors, GPS, side jobs và gameplay timers.</li>
+        </ol>
+      </section>
+
+      <section id="include-tree">
+        <h2>Include tree chính</h2>
+        <p>Thứ tự include trong <code>main.pwn</code> là quan trọng vì nhiều module hook callback và dùng macro/helper từ module trước.</p>
+        <pre><code>gamemodes/main.pwn
+  core/constants.inc
+  open.mp + third-party includes
+  core/init.inc
+  core/tables.inc
+  utils/utils.inc
+  core/user-interface/user-interface.inc
+  core/anti-cheat/anti-cheat.inc
+  core/server/server.inc
+  core/account/account.inc
+  core/player/player.inc
+  core/houses/houses.inc
+  core/admin/admin.inc
+  core/systems/system.inc
+  core/chat/chat.inc
+  core/cmds/cmds.inc
+  core/mapping/mapping.inc
+  core/gangs/gangs.inc</code></pre>
+
+        <div class="success">
+          <strong>Đã rà include:</strong> repo có 183 core <code>.inc/.pwn</code> files, trong đó 174 file đang được load bởi cây include hiện tại.
+        </div>
+      </section>
+
+      <section id="core-systems">
+        <h2>Core systems</h2>
+        <div class="grid">
+          <div>
+            <h3>Constants</h3>
+            <ul>
+              <li><code>MAX_PLAYERS</code>: 50.</li>
+              <li><code>SETUP_TABLE</code>: true trong source hiện tại.</li>
+              <li><code>MAX_VEHICLE_PER_PLAYER</code>: 2.</li>
+              <li><code>MAX_ATMS</code>: 50.</li>
+              <li><code>MAX_GANGS</code>: 10.</li>
+              <li>Server name: GTAHUB.</li>
+              <li>Domain: GTAHUB.vn.</li>
+              <li>Mode: Cảnh Sát và Tội Phạm.</li>
+            </ul>
+          </div>
+          <div>
+            <h3>Teams</h3>
+            <ul>
+              <li><code>TEAM_CIVILIAN</code></li>
+              <li><code>TEAM_POLICE</code></li>
+              <li><code>TEAM_ARMY</code></li>
+              <li><code>TEAM_MEDIC</code></li>
+            </ul>
+          </div>
+          <div>
+            <h3>Jobs</h3>
+            <ul>
+              <li>Drug Dealer</li>
+              <li>Weapon Dealer</li>
+              <li>Hitman</li>
+              <li>Terrorist</li>
+              <li>Rapist</li>
+              <li>Mechanic</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>Server base</h3>
+        <ul>
+          <li><strong>Entrances:</strong> entrance/exit động, map icons, marker, cooldown, optional freeze.</li>
+          <li><strong>ATMs:</strong> load từ DB, deposit/withdraw UI, admin create/edit/delete/update.</li>
+          <li><strong>MOTD:</strong> đọc từ <code>scriptfiles/config.ini</code>, show sau ban check.</li>
+          <li><strong>Server messages:</strong> rotating tips/messages.</li>
+          <li><strong>Server time:</strong> in-game clock, day reset, week reset, admin time control.</li>
+          <li><strong>Shop items:</strong> 24/7/gas station bán picklock, condom, wallet, rope, scissors.</li>
+          <li><strong>Tax:</strong> xử lý death tax và weekly reset hooks.</li>
+          <li><strong>Dealership:</strong> UI mua xe, showroom, max 2 personal vehicles/player.</li>
+        </ul>
+      </section>
+
+      <section id="player-systems">
+        <h2>Player systems</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>System</th>
+              <th>Chức năng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Account</td>
+              <td>Register/login bằng bcrypt, max 5 lần sai password, check ban, update last login, load account data.</td>
+            </tr>
+            <tr>
+              <td>Stats</td>
+              <td>Health, armour, kills, deaths, job, class, wanted level, bounty, money, score, XP, level, skin.</td>
+            </tr>
+            <tr>
+              <td>VIP</td>
+              <td>Load VIP level, expiry date, xử lý hết hạn.</td>
+            </tr>
+            <tr>
+              <td>Wanted Level</td>
+              <td>Wanted state riêng của gamemode, ảnh hưởng color/team logic và save DB.</td>
+            </tr>
+            <tr>
+              <td>Items</td>
+              <td>C4, crack, weed, picklock, wallet, rope, condom, scissors, oranges, bottles, orange juice, fruit picker.</td>
+            </tr>
+            <tr>
+              <td>Jail</td>
+              <td>Jail time, bail required, bail balance, jailed reconnect/disconnect handling.</td>
+            </tr>
+            <tr>
+              <td>Arrest/Cuff</td>
+              <td>Cuff, uncuff, arrest, breakout, breakcuff, police interaction.</td>
+            </tr>
+            <tr>
+              <td>Bank</td>
+              <td>Tiền ngân hàng riêng, dùng trong ATM/deposit/withdraw.</td>
+            </tr>
+            <tr>
+              <td>XP</td>
+              <td>Công thức level từ XP, UI XP gain, command kiểm tra level.</td>
+            </tr>
+            <tr>
+              <td>Shots</td>
+              <td>Accuracy/body-part statistics và command <code>/shots</code>.</td>
+            </tr>
+            <tr>
+              <td>Weapon save</td>
+              <td>Lưu/load vũ khí và ammo của player.</td>
+            </tr>
+            <tr>
+              <td>Attachment</td>
+              <td>Clothing/attachment editor, tối đa 5 slots, persist bảng <code>attachments</code>.</td>
+            </tr>
+            <tr>
+              <td>Personal vehicles</td>
+              <td>Xe cá nhân, components, spawn/destroy theo login/logout, persist DB.</td>
+            </tr>
+            <tr>
+              <td>Animations</td>
+              <td>Hệ thống command animation lớn, gồm các lệnh gesture, sit, dance, smoke, fight, injured.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="gameplay-systems">
+        <h2>Gameplay systems</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>System</th>
+              <th>File chính</th>
+              <th>Ghi chú runtime</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Burglary</td>
+              <td><code>burglary_system.inc</code></td>
+              <td><code>/robbery</code>, bank/casino/mansion robbery, cracking 20s, delivery 300s, reward theo location, wanted level 6.</td>
+            </tr>
+            <tr>
+              <td>Tower Robbery</td>
+              <td><code>tower_system.inc</code></td>
+              <td><code>/towerrobbery</code>, lấy briefcase ở tower, deliver về hideout, reward riêng.</td>
+            </tr>
+            <tr>
+              <td>Store Weapons</td>
+              <td><code>stores_system.inc</code></td>
+              <td>Ammu-Nation weapon shop, categories pistol/submachine/shotgun/assault/rifles, ammo 250.</td>
+            </tr>
+            <tr>
+              <td>Police</td>
+              <td><code>police_system.inc</code></td>
+              <td>Police dùng key để cuff hoặc arrest player wanted gần nhất.</td>
+            </tr>
+            <tr>
+              <td>Jailcell C4</td>
+              <td><code>jailcell_system.inc</code></td>
+              <td>C4 gần jail cell mở cửa 8s và release jailed players.</td>
+            </tr>
+            <tr>
+              <td>City Hall</td>
+              <td><code>cityhall_system.inc</code></td>
+              <td>Đổi job/skill, phí 7,500.</td>
+            </tr>
+            <tr>
+              <td>Hospital</td>
+              <td><code>hospital_system.inc</code></td>
+              <td>Heal, đổi class/skin, chữa disease.</td>
+            </tr>
+            <tr>
+              <td>Crack Lab</td>
+              <td><code>crack_system.inc</code></td>
+              <td>Drug dealer làm crack qua 8 bước, nhận 5 crack, cooldown 30s.</td>
+            </tr>
+            <tr>
+              <td>Weed</td>
+              <td><code>weed_system.inc</code></td>
+              <td>Trồng tối đa 5 cây/player, grow 10% mỗi 30s tới 100%.</td>
+            </tr>
+            <tr>
+              <td>Army Base</td>
+              <td><code>army_system.inc</code></td>
+              <td>Army gates, heal actor, restrict Hydra/Hunter cho TEAM_ARMY.</td>
+            </tr>
+            <tr>
+              <td>Bomb Shop</td>
+              <td><code>bomb_shop.inc</code></td>
+              <td>Mua C4 giá 3,000, dynamic actor/icon.</td>
+            </tr>
+            <tr>
+              <td>Car Crusher</td>
+              <td><code>car_crusher.inc</code></td>
+              <td>Nghiền xe trong list wanted models, cooldown 1 phút, reward 3,000-7,999.</td>
+            </tr>
+            <tr>
+              <td>ATM Robbery</td>
+              <td><code>atm_robbery.inc</code></td>
+              <td>C4 phá ATM, spawn 15 money pickups, mỗi pickup 800-1,399, cooldown ATM 3 phút.</td>
+            </tr>
+            <tr>
+              <td>Slot Machine</td>
+              <td><code>slot-machine_system.inc</code></td>
+              <td>7 machines, bet 5-500, symbol multipliers.</td>
+            </tr>
+            <tr>
+              <td>Lotto</td>
+              <td><code>lotto_system.inc</code></td>
+              <td><code>/lotto &lt;1-50&gt;</code>, ticket 500, jackpot từ 25,000. Hiện số trúng hardcode là 10.</td>
+            </tr>
+            <tr>
+              <td>Moneybag</td>
+              <td><code>moneybag_system.inc</code></td>
+              <td>Random hidden moneybag, reward 30,000-75,000, hint theo zone mỗi 8 phút.</td>
+            </tr>
+            <tr>
+              <td>Dumpster Diving</td>
+              <td><code>dumpster_diving.inc</code></td>
+              <td>24 dumpsters, search 7s, cooldown 10 phút/dumpster, random cash/weapons.</td>
+            </tr>
+            <tr>
+              <td>Ghost Hunting</td>
+              <td><code>ghosthunting_system.inc</code></td>
+              <td><code>/starthunt</code>, <code>/leavehunt</code>, chạy 20:00-06:00 server time, camera detection, reward cash + XP.</td>
+            </tr>
+            <tr>
+              <td>GPS</td>
+              <td><code>gps_system.inc</code></td>
+              <td><code>/gps</code>, <code>/cleargps</code>, route plugin, dynamic checkpoint, arrow objects, distance UI.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="jobs">
+        <h2>Jobs và side jobs</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Job</th>
+              <th>Commands/entry</th>
+              <th>Chức năng</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Drug Dealer</td>
+              <td><code>/sellcrack</code>, <code>/buycrack</code>, <code>/plantweed</code>, <code>/harvestweed</code>, <code>/sellweed</code>, <code>/buyweed</code></td>
+              <td>Bán/mua crack, trồng/thu hoạch/bán weed.</td>
+            </tr>
+            <tr>
+              <td>Weapon Dealer</td>
+              <td><code>/sellgun</code>, <code>/acceptgun</code>, <code>/sellarmour</code>, <code>/acceptarmour</code></td>
+              <td>Bán súng và armour giữa players.</td>
+            </tr>
+            <tr>
+              <td>Hitman</td>
+              <td><code>/hitlist</code>, <code>/placehit</code></td>
+              <td>Bounty contract, trả reward khi target chết đúng flow.</td>
+            </tr>
+            <tr>
+              <td>Terrorist</td>
+              <td><code>/plantc4</code>, <code>/detonate</code></td>
+              <td>Đặt C4, kích nổ, tích hợp jailcell và ATM robbery.</td>
+            </tr>
+            <tr>
+              <td>Rapist</td>
+              <td><code>/rape</code></td>
+              <td>Gây disease effect/damage timer.</td>
+            </tr>
+            <tr>
+              <td>Mechanic</td>
+              <td><code>/mechfix</code></td>
+              <td>Sửa xe.</td>
+            </tr>
+            <tr>
+              <td>Trucker</td>
+              <td><code>/trucker</code></td>
+              <td>Yêu cầu Mule model 414, pickup goods, deliver 1 trong 4 điểm, reward 4k-9k.</td>
+            </tr>
+            <tr>
+              <td>Pizza Delivery</td>
+              <td><code>/pdelivery</code></td>
+              <td>Yêu cầu Pizzaboy model 448, 17 delivery destinations, reward 2,500-4,499.</td>
+            </tr>
+            <tr>
+              <td>Police Mission</td>
+              <td><code>/mission</code></td>
+              <td>Law enforcement mission tại LSPD CP, 3 callouts, reward per call và completion bonus.</td>
+            </tr>
+            <tr>
+              <td>Road Cleaner</td>
+              <td>Sweeper model 574 + key interaction</td>
+              <td>13 trash route points, reward 500/checkpoint.</td>
+            </tr>
+            <tr>
+              <td>Garbage Collector</td>
+              <td><code>/pickup</code></td>
+              <td>Trashmaster model 408, capacity 10 bags, bag value 375, sell tại recycling factories.</td>
+            </tr>
+            <tr>
+              <td>Farming</td>
+              <td><code>/buyfarm</code>, <code>/sellfarm</code></td>
+              <td>Mua fruit picker/bottles, hái cam, ép orange juice, bán oranges/juice.</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="ui">
+        <h2>User Interface</h2>
+        <p>UI được gom trong <code>core/user-interface/user-interface.inc</code>. Các module con đang load:</p>
+        <ul class="pill-list">
+          <li>connect message</li>
+          <li>FPS/ping/packet HUD</li>
+          <li>info box</li>
+          <li>wanted level UI</li>
+          <li>class selection</li>
+          <li>ped/actor robbery UI</li>
+          <li>time left countdown</li>
+          <li>location UI</li>
+          <li>GPS UI</li>
+          <li>error UI</li>
+          <li>previous dialog preview</li>
+          <li>dealership TextDraws</li>
+          <li>game time</li>
+          <li>money notification</li>
+          <li>XP bar</li>
+          <li>notify</li>
+          <li>alert</li>
+          <li>gamefeed</li>
+          <li>minigame UI</li>
+        </ul>
+      </section>
+
+      <section id="admin">
+        <h2>Admin</h2>
+        <p>
+          Admin system load account, ban, command modules, spectate, fly, RCON helpers và remove-account. Admin level tối đa là 5.
+        </p>
+        <table>
+          <thead>
+            <tr>
+              <th>Level</th>
+              <th>Command chính</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>1</td>
+              <td><code>/acmds</code>, <code>/afix</code>, <code>/akill</code>, <code>/bulletstats</code>, <code>/freeze</code>, <code>/get</code>, <code>/goto</code>, <code>/kick</code>, <code>/relog</code>, <code>/respawn</code>, <code>/setwanted</code>, <code>/spec</code>, <code>/specoff</code></td>
+            </tr>
+            <tr>
+              <td>2</td>
+              <td><code>/jail</code>, <code>/offban</code>, <code>/tempban</code>, <code>/unjail</code></td>
+            </tr>
+            <tr>
+              <td>3</td>
+              <td><code>/aveh</code>, <code>/dav</code>, <code>/disarm</code>, <code>/getallciv</code>, <code>/giveweaps</code>, <code>/revokearmy</code>, <code>/rscars</code>, <code>/setarmour</code>, <code>/setarmy</code>, <code>/sethealth</code>, <code>/setname</code>, <code>/unban</code>, <code>/veh</code></td>
+            </tr>
+            <tr>
+              <td>4</td>
+              <td><code>/fine</code>, <code>/getmoney</code>, <code>/giveitem</code>, <code>/givemoney</code>, <code>/hcreate</code>, <code>/hdelete</code>, <code>/motd</code>, <code>/setvip</code></td>
+            </tr>
+            <tr>
+              <td>5</td>
+              <td><code>/createatm</code>, <code>/createentrance</code>, <code>/deleteacc</code>, <code>/deleteatm</code>, <code>/editatm</code>, <code>/fly</code>, <code>/gotoco</code>, <code>/mypos</code>, <code>/setadmin</code>, <code>/settime</code>, <code>/skick</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+
+      <section id="security">
+        <h2>Anti-cheat</h2>
+        <p>Anti-cheat đang chạy qua <code>core/anti-cheat/anti-cheat.inc</code>. Các module standalone <code>.pwn</code> ở cùng folder không tự chạy nếu không được include.</p>
+        <ul class="pill-list">
+          <li>money</li>
+          <li>thermal vision</li>
+          <li>player bugger</li>
+          <li>bot attack</li>
+          <li>server-side damage</li>
+          <li>vending machine validation</li>
+          <li>weapon</li>
+          <li>carmod</li>
+          <li>airbreak</li>
+          <li>flying</li>
+          <li>remotejack</li>
+          <li>carwarp</li>
+        </ul>
+      </section>
+
+      <section id="data">
+        <h2>Database và data</h2>
+        <h3>SQL trong <code>scriptfiles</code></h3>
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Nội dung</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>players.sql</code></td><td>Account base: id, username, password, register date, last login.</td></tr>
+            <tr><td><code>player_stats.sql</code></td><td>Stats gameplay: health, armour, kills, deaths, job, class, wanted, bounty, money, score, skin, XP, level.</td></tr>
+            <tr><td><code>player_bank.sql</code></td><td>Bank balance.</td></tr>
+            <tr><td><code>player_items.sql</code></td><td>Inventory items.</td></tr>
+            <tr><td><code>player_shots.sql</code></td><td>Body-part shot stats.</td></tr>
+            <tr><td><code>weapons.sql</code></td><td>Saved weapons/ammo.</td></tr>
+            <tr><td><code>vips.sql</code></td><td>VIP level và expiry.</td></tr>
+            <tr><td><code>jail.sql</code></td><td>Jail time, bail required, bail balance.</td></tr>
+            <tr><td><code>armys.sql</code></td><td>Army whitelist/state.</td></tr>
+            <tr><td><code>admins.sql</code></td><td>Admin accounts và levels.</td></tr>
+            <tr><td><code>bans.sql</code></td><td>Ban records by name/IP/GCPI.</td></tr>
+            <tr><td><code>houses.sql</code></td><td>Houses, settings, key holders, furniture.</td></tr>
+            <tr><td><code>gangs.sql</code></td><td>Gang records, members, stats.</td></tr>
+            <tr><td><code>atms.sql</code></td><td>ATM locations/state, có default rows.</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Tables tạo bởi module</h3>
+        <ul>
+          <li><code>attachments</code>: tạo bởi attachment setup table.</li>
+          <li><code>player_vehicles</code>: tạo bởi personal vehicle setup table.</li>
+          <li><code>vehicle_components</code>: tạo bởi vehicle components setup table.</li>
+        </ul>
+
+        <h3>Data files khác</h3>
+        <ul>
+          <li><code>scriptfiles/config.ini</code>: MOTD.</li>
+          <li><code>scriptfiles/vehicles/ls.txt</code>: 421 static vehicles được load ở startup.</li>
+          <li><code>bans.json</code>: file JSON hiện tại rỗng.</li>
+        </ul>
+      </section>
+
+      <section id="commands">
+        <h2>Commands</h2>
+        <p>Gamemode hiện có khoảng 210 loaded player commands/aliases và 49 admin commands. Danh sách dưới đây là command đang được include.</p>
+
+        <details>
+          <summary>Player commands và aliases</summary>
+          <div>
+            <p class="small">Bao gồm animation commands, gameplay commands, job commands, chat commands và aliases.</p>
+            <p class="two-col">
+              <code>/acceptarmour</code>, <code>/acceptgun</code>, <code>/aim</code>, <code>/airkick</code>,
+              <code>/akick</code>, <code>/angry</code>, <code>/animcrack</code>, <code>/animhelp</code>,
+              <code>/animlist</code>, <code>/ar</code>, <code>/arcw</code>, <code>/arrest</code>,
+              <code>/arrestcw</code>, <code>/attachment</code>, <code>/bail</code>, <code>/bar</code>,
+              <code>/basket</code>, <code>/bat</code>, <code>/bed</code>, <code>/benddown</code>,
+              <code>/bj</code>, <code>/bomb</code>, <code>/box</code>, <code>/breakcuff</code>,
+              <code>/breakout</code>, <code>/breathless</code>, <code>/buycrack</code>, <code>/buyfarm</code>,
+              <code>/buyhouse</code>, <code>/buyweed</code>, <code>/carjacked</code>, <code>/carlock</code>,
+              <code>/carsmoke</code>, <code>/celebrate</code>, <code>/cellin</code>, <code>/cellout</code>,
+              <code>/chairsit</code>, <code>/chant</code>, <code>/chat</code>, <code>/checkout</code>,
+              <code>/cheer</code>, <code>/chora</code>, <code>/clearanim</code>, <code>/cleargps</code>,
+              <code>/cmds</code>, <code>/cockgun</code>, <code>/commands</code>, <code>/cop</code>,
+              <code>/cpranim</code>, <code>/crabs</code>, <code>/crack</code>, <code>/cross</code>,
+              <code>/crossarms</code>, <code>/cry</code>, <code>/cuff</code>, <code>/cuffcw</code>,
+              <code>/dance</code>, <code>/deal</code>, <code>/dealer</code>, <code>/dealstance</code>,
+              <code>/detonate</code>, <code>/die</code>, <code>/dj</code>, <code>/dnd</code>,
+              <code>/drunk</code>, <code>/eat</code>, <code>/elbow</code>, <code>/entrenar</code>,
+              <code>/exhaust</code>, <code>/fall</code>, <code>/fallback</code>, <code>/finger</code>,
+              <code>/follow</code>, <code>/followme</code>, <code>/foodeat</code>, <code>/forcerace</code>,
+              <code>/fstance</code>, <code>/fuck</code>, <code>/fucku</code>, <code>/furniture</code>,
+              <code>/gang</code>, <code>/gangs</code>, <code>/gesture</code>, <code>/getarrested</code>,
+              <code>/getlevel</code>, <code>/getup</code>, <code>/giftgiving</code>, <code>/giveweaponcam</code>,
+              <code>/gkick</code>, <code>/gps</code>, <code>/gpunch</code>, <code>/greeting</code>,
+              <code>/groundsit</code>, <code>/gwalk</code>, <code>/handsup</code>, <code>/harvestweed</code>,
+              <code>/hdescription</code>, <code>/headbutt</code>, <code>/help</code>, <code>/hgivekey</code>,
+              <code>/hide</code>, <code>/highthrow</code>, <code>/hitch</code>, <code>/hitlist</code>,
+              <code>/hlock</code>, <code>/hoodfrisked</code>, <code>/hremovekey</code>, <code>/inbedleft</code>,
+              <code>/inbedright</code>, <code>/info</code>, <code>/injured</code>, <code>/invite1</code>,
+              <code>/jiggy</code>, <code>/joint</code>, <code>/kill</code>, <code>/killveh</code>,
+              <code>/kiss</code>, <code>/kneekick</code>, <code>/knife</code>, <code>/koface</code>,
+              <code>/kostomach</code>, <code>/laugh</code>, <code>/lay</code>, <code>/lay2</code>,
+              <code>/lcarjack1</code>, <code>/lcarjack2</code>, <code>/lean</code>, <code>/leavehunt</code>,
+              <code>/leftslap</code>, <code>/lifejump</code>, <code>/liftup</code>, <code>/lightcig</code>,
+              <code>/lookout</code>, <code>/lotto</code>, <code>/lowbodypush</code>, <code>/lowthrow</code>,
+              <code>/lranim</code>, <code>/mechfix</code>, <code>/medic</code>, <code>/mission</code>,
+              <code>/mourn</code>, <code>/nod</code>, <code>/palmbitch</code>, <code>/pdelivery</code>,
+              <code>/ped</code>, <code>/pee</code>, <code>/pickup</code>, <code>/placehit</code>,
+              <code>/plantc4</code>, <code>/plantweed</code>, <code>/pm</code>, <code>/poli</code>,
+              <code>/pump</code>, <code>/push</code>, <code>/putdown</code>, <code>/r</code>,
+              <code>/rap</code>, <code>/rape</code>, <code>/rcarjack1</code>, <code>/rcarjack2</code>,
+              <code>/rconsetadmin</code>, <code>/relax</code>, <code>/reload</code>, <code>/rob</code>,
+              <code>/robbery</code>, <code>/robman</code>, <code>/rollfall</code>, <code>/scratch</code>,
+              <code>/seat</code>, <code>/sellarmour</code>, <code>/sellcrack</code>, <code>/sellfarm</code>,
+              <code>/sellgun</code>, <code>/sellweed</code>, <code>/sexy</code>, <code>/shakehead</code>,
+              <code>/shots</code>, <code>/shouting</code>, <code>/sit</code>, <code>/slap2</code>,
+              <code>/slapass</code>, <code>/slapped</code>, <code>/sleep</code>, <code>/smoke</code>,
+              <code>/spray</code>, <code>/stand</code>, <code>/starthunt</code>, <code>/still</code>,
+              <code>/stop</code>, <code>/strip</code>, <code>/sup</code>, <code>/surrender</code>,
+              <code>/taichi</code>, <code>/tapcig</code>, <code>/testalert</code>, <code>/testnotify</code>,
+              <code>/testse</code>, <code>/thankyou</code>, <code>/tosteal</code>, <code>/towerrobbery</code>,
+              <code>/trucker</code>, <code>/uncuff</code>, <code>/urinate</code>, <code>/v</code>,
+              <code>/vomit</code>, <code>/wank</code>, <code>/wash</code>, <code>/wave</code>,
+              <code>/win</code>, <code>/yes</code>
+            </p>
+          </div>
+        </details>
+
+        <details>
+          <summary>Admin commands đầy đủ</summary>
+          <div>
+            <p class="two-col">
+              <code>[1]/acmds</code>, <code>[1]/afix</code>, <code>[1]/akill</code>, <code>[1]/bulletstats</code>,
+              <code>[1]/freeze</code>, <code>[1]/get</code>, <code>[1]/goto</code>, <code>[1]/kick</code>,
+              <code>[1]/relog</code>, <code>[1]/respawn</code>, <code>[1]/setwanted</code>, <code>[1]/spec</code>,
+              <code>[1]/specoff</code>, <code>[2]/jail</code>, <code>[2]/offban</code>, <code>[2]/tempban</code>,
+              <code>[2]/unjail</code>, <code>[3]/aveh</code>, <code>[3]/dav</code>, <code>[3]/disarm</code>,
+              <code>[3]/getallciv</code>, <code>[3]/giveweaps</code>, <code>[3]/revokearmy</code>,
+              <code>[3]/rscars</code>, <code>[3]/setarmour</code>, <code>[3]/setarmy</code>,
+              <code>[3]/sethealth</code>, <code>[3]/setname</code>, <code>[3]/unban</code>, <code>[3]/veh</code>,
+              <code>[4]/fine</code>, <code>[4]/getmoney</code>, <code>[4]/giveitem</code>, <code>[4]/givemoney</code>,
+              <code>[4]/hcreate</code>, <code>[4]/hdelete</code>, <code>[4]/motd</code>, <code>[4]/setvip</code>,
+              <code>[5]/createatm</code>, <code>[5]/createentrance</code>, <code>[5]/deleteacc</code>,
+              <code>[5]/deleteatm</code>, <code>[5]/editatm</code>, <code>[5]/fly</code>, <code>[5]/gotoco</code>,
+              <code>[5]/mypos</code>, <code>[5]/setadmin</code>, <code>[5]/settime</code>, <code>[5]/skick</code>
+            </p>
+          </div>
+        </details>
+      </section>
+
+      <section id="not-loaded">
+        <h2>Files có trong repo nhưng không chạy</h2>
+        <div class="warning">
+          Các file dưới đây tồn tại trong <code>gamemodes/core</code> nhưng không nằm trong cây include từ <code>main.pwn</code>. Sửa chúng sẽ không đổi behavior runtime nếu không include lại.
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>File</th>
+              <th>Ghi chú</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><code>core/anti-cheat/autocbug.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
+            <tr><td><code>core/anti-cheat/car_particle_spam.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
+            <tr><td><code>core/anti-cheat/pickup_spam.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
+            <tr><td><code>core/anti-cheat/proaim.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
+            <tr><td><code>core/anti-cheat/rapidfire.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
+            <tr><td><code>core/player/job/job_weapon-dealer(xomox).inc</code></td><td>XomoX weapon inventory commands nằm ở đây nhưng không chạy.</td></tr>
+            <tr><td><code>core/player/job/job_weapon-dealer-table(xomox).inc</code></td><td>Table <code>weapon_Inventory_player</code> không được tạo bởi runtime hiện tại.</td></tr>
+            <tr><td><code>core/systems/mini-games/mini-games.inc</code></td><td>Aggregator không được include trực tiếp.</td></tr>
+            <tr><td><code>core/systems/side-jobs/farming/farming_minigame(moved).inc</code></td><td>File moved/old, không chạy.</td></tr>
+          </tbody>
+        </table>
+        <div class="danger">
+          <strong>Mismatch hiện tại:</strong> help có nhắc <code>/weapons</code>, <code>/weaponinventory</code>,
+          <code>/wi</code>, <code>/ws</code>, <code>/weapinv</code>, <code>/nosell</code>, nhưng các command này thuộc XomoX
+          weapon dealer file không được include.
+        </div>
+      </section>
+
+      <section id="dev-workflow">
+        <h2>Dev workflow</h2>
+        <h3>Thêm một gameplay system mới</h3>
+        <ol>
+          <li>Tạo file trong <code>gamemodes/core/systems</code> hoặc subfolder phù hợp.</li>
+          <li>Đặt prefix function theo tên module, ví dụ <code>Fishing_Start</code>, <code>Fishing_Stop</code>.</li>
+          <li>Include file mới trong <code>core/systems/system.inc</code> hoặc aggregator tương ứng.</li>
+          <li>Nếu cần DB, thêm setup table module hoặc SQL file, rồi hook vào <code>tables.inc</code> nếu phù hợp.</li>
+          <li>Hook callback bằng pattern đang dùng trong repo, tránh tạo global trùng tên.</li>
+          <li>Thêm command qua <code>CMD:</code>, alias qua <code>ALTCMD:</code>, admin command qua <code>ACMD:</code>.</li>
+          <li>Build lại bằng <code>sampctl build</code> và chạy server với crashdetect.</li>
+        </ol>
+
+        <h3>Sửa module có DB</h3>
+        <ul>
+          <li>Kiểm tra schema trong <code>scriptfiles/*.sql</code> và setup table trong module.</li>
+          <li>Không đổi tên column nếu chưa có migration hoặc reset DB dev.</li>
+          <li>Với query dài, giữ style multiline static const như README hướng dẫn.</li>
+          <li>Luôn kiểm tra load/save ở cả login, disconnect, autosave và command admin nếu có.</li>
+        </ul>
+
+        <h3>Sửa command</h3>
+        <ul>
+          <li>Tìm command bằng <code>rg "CMD:command"</code> hoặc <code>rg "ACMD:command"</code>.</li>
+          <li>Kiểm tra alias trong <code>ALTCMD:</code>.</li>
+          <li>Cập nhật help text nếu behavior hoặc command name thay đổi.</li>
+          <li>Kiểm tra command cooldown/spam logic trong command framework.</li>
+        </ul>
+      </section>
+
+      <section id="checklists">
+        <h2>Checklist trước khi merge</h2>
+        <h3>Gameplay change</h3>
+        <ul>
+          <li>Build qua <code>sampctl build</code>.</li>
+          <li>Test command happy path và error path.</li>
+          <li>Test disconnect/reconnect nếu state cần persist.</li>
+          <li>Test khi player chết, bị jail, đổi class/job, vào/ra vehicle nếu liên quan.</li>
+          <li>Kiểm tra wanted level, money, XP, inventory không bị desync.</li>
+        </ul>
+
+        <h3>Database change</h3>
+        <ul>
+          <li>Schema mới có default hợp lý.</li>
+          <li>Query load/save dùng đúng <code>u_id</code>.</li>
+          <li>Không tạo table trùng với SQL import hiện có.</li>
+          <li>Ghi chú migration hoặc cách reset DB dev.</li>
+        </ul>
+
+        <h3>UI/TextDraw change</h3>
+        <ul>
+          <li>Destroy TextDraw/PlayerTextDraw khi không dùng.</li>
+          <li>Không để timer/UI state leak sau disconnect.</li>
+          <li>Test nhiều resolution nếu có layout phức tạp.</li>
+        </ul>
+      </section>
+
+      <section id="gotchas">
+        <h2>Gotchas</h2>
+        <ul>
+          <li><code>SETUP_TABLE</code> đang là <code>true</code>. README khuyên chạy setup xong thì đổi về <code>false</code> và recompile.</li>
+          <li>Không phải file nào trong <code>core</code> cũng chạy. Luôn đi từ include tree thay vì đoán theo tên file.</li>
+          <li><code>gps_system.inc</code> đang chạy và phụ thuộc GPS plugin.</li>
+          <li>Static vehicles nằm trong <code>scriptfiles/vehicles/ls.txt</code>, không hardcode toàn bộ trong Pawn.</li>
+          <li>Command help có thể lệch với command thật, cụ thể là XomoX weapon inventory commands.</li>
+          <li>Admin command list trong UI/help không nhất thiết bao phủ mọi <code>ACMD</code>; nên grep code khi audit quyền.</li>
+          <li>Lotto hiện hardcode số trúng là <code>10</code>, không random như intent nhìn qua tên biến.</li>
+          <li>Army heal label và giá trong code có thể lệch: label nói 500 nhưng logic kiểm tra/trừ 250.</li>
+        </ul>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
