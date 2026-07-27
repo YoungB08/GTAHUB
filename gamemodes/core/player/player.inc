@@ -13,6 +13,7 @@
 #include <player_army>
 #include <player_bank>
 #include <player_xp>
+#include <player_inventory> // he thong tui do slot/weight RP
 
 #include <player_hitpoint-save>
 #include <player_weapon-save>

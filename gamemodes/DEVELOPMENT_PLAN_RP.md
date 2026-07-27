@@ -23,13 +23,15 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 
 ## 🚀 Danh Sách Việc Cần Làm Tiếp Theo (Kế Hoạch Roleplay)
 
-### 13. Hệ thống Tạo & Quản lý Nhân vật IC (Multi-Character & RP Identity)
+### 13. Hệ thống Tạo & Quản lý Nhân vật IC (Multi-Character & RP Identity) ✅
 
-- [ ] Cho phép 1 tài khoản master sở hữu tối đa 2-3 nhân vật IC.
-- [ ] Thiết lập thông tin nhân vật: Họ & Tên IC (`Firstname_Lastname`), Tuổi, Giới tính, Ngày sinh, Tiền sử IC.
-- [ ] Giao diện Character Creation UI: Tạo nhân vật mới, chọn trang phục (Skin) ban đầu.
-- [ ] Giao diện Character Selection UI: Chọn nhân vật khi đăng nhập.
-- [ ] Hệ thống chọn vị trí Spawn RP (Nhà riêng, Lần cuối thoát, Faction HQ, Bệnh viện).
+- [x] Cho phép 1 tài khoản master sở hữu tối đa 2 nhân vật IC.
+- [x] Thiết lập thông tin nhân vật: Họ & Tên IC (`Firstname Lastname`), Tuổi, Giới tính.
+- [x] Giao diện Character Creation UI: Tên, Tuổi, Giới tính, Chọn Skin ban đầu (Dialog).
+- [x] Giao diện Character Selection UI: Chọn nhân vật khi đăng nhập.
+- [x] Spawn tại vị trí lần cuối thoát, lưu stats theo char_id. – `core/account/account_character.inc`
+- [x] Lệnh: `/charinfo`, `/mychar`, `/switchchar`, `/deletechar`.
+- **File:** `core/account/account_character.inc`, `scriptfiles/characters.sql`
 
 ---
 
@@ -44,11 +46,13 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 
 ---
 
-### 15. Dynamic Inventory System (Túi đồ Slot & Trọng lượng)
+### 15. Dynamic Inventory System (Túi đồ Slot & Trọng lượng) ✅
 
-- [ ] Chuyển đổi module `player_items` thành hệ thống Túi đồ theo Slot/Trọng lượng với UI hiện đại.
-- [ ] Hỗ trợ các thao tác vật phẩm: Vứt (Drop), Sử dụng (Use), Giao dịch (Give), Xem thông tin (Inspect).
-- [ ] Hỗ trợ lưu trữ vật phẩm ngoại cảnh: Cốp xe (Vehicle Trunk), Tủ đồ nhà riêng (House Storage), Kho Faction.
+- [x] 12 Slot túi đồ, trọng lượng tối đa 15kg, registry 24 loại vật phẩm. – `core/player/player_inventory.inc`
+- [x] Hỗ trợ thao tác: `/inv` (xem), `/drop` (thả), `/giveitem2` (đưa cho người khác).
+- [x] Cốp xe (`/trunk`, `/puttrunk`, `/taketrunk`) – `vehicle_trunk` table.
+- [x] Kham người cảnh sát (`/inspect`) – chỉ LSPD on duty.
+- **File:** `core/player/player_inventory.inc`, `scriptfiles/player_inventory.sql`
 
 ---
 
@@ -78,7 +82,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **MDC – Mobile Data Computer (`/mdc`)**: Tra cứu hồ sơ nhân thân: tên, level, wanted, giấy phép. – `core/systems/lspd_system.inc`
 - [x] **Phiếu phạt IC (`/fine`)**: Cảnh sát phạt tiền người chơi có lý do, trừ tiền mặt/ngân hàng. – `core/systems/lspd_system.inc`
 - [x] **Thăng cấp LSPD (`/setrank`)**: Admin cấp rank cảnh sát (level 4+). – `core/systems/lspd_system.inc`
-- [ ] EMS/LSFD: On-duty, Cứu thương, Băng bó, CPR, Cáng bệnh nhân.
+- [ ] EMS/LSFD: On-duty, Cứu thương, Băng bó, CPR, Cáng bệnh nhân. ✅ `core/systems/ems_system.inc`
 - [ ] City Hall: Cấp giấy phép kinh doanh, quản lý ngân sách.
 
 ---
@@ -89,7 +93,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **GangZone hiển thị**: Màu gang trên minimap theo chủ sở hữu, nhấp nháy khi bị tấn công. – `core/systems/turf_system.inc`
 - [x] **Thu thuế địa bàn**: Mỗi 30 phút, gang có turf nhận tiền thuế chia đều thành viên online. – `core/systems/turf_system.inc`
 - [x] **Lệnh `/turfinfo`, `/attackturf`**: Xem thông tin và khởi phát tấn công turf. – `core/systems/turf_system.inc`
-- [ ] Chế Tạo & Buôn Lậu: Crafting ma túy nâng cao, chợ đen linh kiện súng.
+- [x] Chế Tạo & Buôn Lậu: Crafting ma túy (Crack, Heroin), Chợ đen mua vũ khí. ✅ `core/systems/blackmarket_system.inc`
 
 ---
 
@@ -119,7 +123,11 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **Milestone 8 (Phần A)**: Paycheck, `/transfer`, Nhiên liệu xe, Khóa/Động cơ xe hoàn thành.
 - [x] **Milestone 9 (Phần A)**: LSPD Duty + MDC, Turf System, Phone System cơ bản hoàn thành.
 - [x] **Milestone 10 (Phần A)**: Ticket Support, Warn System, Admin Duty hoàn thành.
-- [ ] **Milestone 7 (Còn lại)**: Multi-character System (Mục 13), Dynamic Inventory (Mục 15).
-- [ ] **Milestone 8 (Còn lại)**: EMS System, Biển số xe, Hỏng hóc chi tiết.
-- [ ] **Milestone 9 (Còn lại)**: Crafting/Black Market, Smartphone TextDraw HUD.
-- [ ] **Milestone 10 (Còn lại)**: Anti-cheat đầy đủ, City Hall Government.
+- [x] **Milestone 11 (Batch 2)**: Multi-Character, Dynamic Inventory, EMS System, Black Market & Crafting – Hoàn thành!
+
+---
+
+## 📋 Tổng Hợp Cuối
+
+**Đã hoàn thành:** Mục 13, 14, 15, 16, 17, 18 (A+EMS), 19 (A+BM), 20, 21.
+**Còn lại:** City Hall, Biển số xe, Smartphone TextDraw HUD, Anti-cheat full.

@@ -4,6 +4,7 @@
 #include <account_vip>
 #include <account_wanted-level>
 #include <account_stats>
+#include <account_character> // he thong da nhan vat IC RP
 
 #include <YSI_Coding\y_hooks>
 

@@ -42,3 +42,9 @@
 // Phone System
 #include <phone_system>
 
+// EMS / LSFD System
+#include <ems_system>
+
+// Black Market & Drug Crafting
+#include <blackmarket_system>
+

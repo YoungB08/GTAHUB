@@ -14,6 +14,10 @@ hook OnMySQLSetupTable() {
     mysql_tquery_file(MySQL_GetHandle(), "players.sql");
     Logger_Log("setting up 'players' table...");
 
+    // characters table (da nhan vat IC).
+    mysql_tquery_file(MySQL_GetHandle(), "characters.sql");
+    Logger_Log("setting up 'characters' table...");
+
     // player stats table.
     mysql_tquery_file(MySQL_GetHandle(), "player_stats.sql");
     Logger_Log("setting up 'stats' table...");
@@ -35,6 +39,9 @@ hook OnMySQLSetupTable() {
 
     mysql_tquery_file(MySQL_GetHandle(), "player_items.sql");
     Logger_Log("setting up 'player_items' table...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "player_inventory.sql");
+    Logger_Log("setting up 'player_inventory' and 'vehicle_trunk' tables...");
 
     mysql_tquery_file(MySQL_GetHandle(), "player_licenses.sql");
     Logger_Log("setting up 'player_licenses' table...");
