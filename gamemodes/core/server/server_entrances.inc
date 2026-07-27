@@ -8,6 +8,7 @@
 #define ENTRANCE_EXIT_AREA_RADIUS   (3.0)
 #define ENTRANCE_TELEPORT_OFFSET    (2.0)
 #define ENTRANCE_DYNAMIC_WORLD_BASE (1000)
+#define ENTRANCE_REUSE_BLOCK_MS     (3500)
 
 // Declarations
 static
@@ -43,6 +44,8 @@ static
     getShopName[MAX_PLAYERS][MAX_STORE_NAME],
     entranceFreezePlayer[MAX_ENTRANCES],
     PlayerInteriorExitID[MAX_PLAYERS],
+    PlayerBlockedEntranceID[MAX_PLAYERS],
+    PlayerBlockedEntranceUntil[MAX_PLAYERS],
     PlayerAdminEntranceListID[MAX_PLAYERS][MAX_ENTRANCES],
     PlayerAdminEntranceListCount[MAX_PLAYERS];
 
@@ -800,6 +803,37 @@ stock Entrance_GetTargetPoint(idx, &Float:x, &Float:y, &Float:z, &Float:a) {
     return 1;
 }
 
+stock Entrance_ClearReuseBlock(playerid)
+{
+    PlayerBlockedEntranceID[playerid] = INTERACTION_INVALID_ID;
+    PlayerBlockedEntranceUntil[playerid] = 0;
+    return 1;
+}
+
+stock Entrance_BlockReuse(playerid, idx, duration = ENTRANCE_REUSE_BLOCK_MS)
+{
+    if(!Iter_Contains(entranceID, idx)) {
+        return 0;
+    }
+
+    PlayerBlockedEntranceID[playerid] = idx;
+    PlayerBlockedEntranceUntil[playerid] = GetTickCount() + duration;
+    return 1;
+}
+
+stock bool:Entrance_IsReuseBlocked(playerid, idx)
+{
+    if(PlayerBlockedEntranceID[playerid] != idx) {
+        return false;
+    }
+
+    if(GetTickCount() >= PlayerBlockedEntranceUntil[playerid]) {
+        Entrance_ClearReuseBlock(playerid);
+        return false;
+    }
+    return true;
+}
+
 stock bool:Entrance_IsInteriorExitForPlayer(playerid, idx) {
     return (
         Iter_Contains(entranceID, idx) &&
@@ -811,6 +845,10 @@ stock bool:Entrance_IsInteriorExitForPlayer(playerid, idx) {
 
 stock Entrance_ShowPrompt(playerid, idx) {
     if(!Iter_Contains(entranceID, idx)) {
+        return 0;
+    }
+
+    if(Entrance_IsReuseBlocked(playerid, idx)) {
         return 0;
     }
 
@@ -834,21 +872,35 @@ stock Entrance_ShowPrompt(playerid, idx) {
 
 stock Entrance_FindUsable(playerid) {
     if(Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE)) {
-        return Interaction_GetActiveID(playerid);
+        new activeid = Interaction_GetActiveID(playerid);
+
+        if(!Entrance_IsReuseBlocked(playerid, activeid)) {
+            return activeid;
+        }
+
+        Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ENTRANCE, activeid);
     }
 
     foreach(new idx : entranceID) {
+        if(Entrance_IsReuseBlocked(playerid, idx)) {
+            continue;
+        }
+
         if(IsPlayerInDynamicArea(playerid, EnExArea[idx])) {
             return idx;
         }
     }
 
     new exitid = PlayerInteriorExitID[playerid];
-    if(Entrance_IsInteriorExitForPlayer(playerid, exitid)) {
+    if(Entrance_IsInteriorExitForPlayer(playerid, exitid) && !Entrance_IsReuseBlocked(playerid, exitid)) {
         return exitid;
     }
 
     foreach(new exitidx : entranceID) {
+        if(Entrance_IsReuseBlocked(playerid, exitidx)) {
+            continue;
+        }
+
         if(Entrance_IsInteriorExitForPlayer(playerid, exitidx)) {
             return exitidx;
         }
@@ -870,6 +922,10 @@ stock Entrance_Use(playerid, idx) {
         return 1;
     }
 
+    if(Entrance_IsReuseBlocked(playerid, idx)) {
+        return 1;
+    }
+
     if(
         !Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE, idx) &&
         !IsPlayerInDynamicArea(playerid, EnExArea[idx]) &&
@@ -885,9 +941,12 @@ stock Entrance_Use(playerid, idx) {
         Float:a,
         teleportDelay = entranceFreezePlayer[idx] ? 2000 : INTERACTION_TELEPORT_DELAY;
 
+    new targetid = entranceLinkedID[idx];
+
     Entrance_GetTargetPoint(idx, x, y, z, a);
     Interaction_ClearPrompt(playerid);
     Interaction_LockPrompts(playerid, teleportDelay + GetPlayerPing(playerid) + 1000);
+    Entrance_BlockReuse(playerid, targetid, teleportDelay + GetPlayerPing(playerid) + ENTRANCE_REUSE_BLOCK_MS);
     Interaction_LoadSafeTeleport(
         playerid,
         x,
@@ -988,6 +1047,7 @@ hook OnPlayerEnterDynArea(playerid, areaid) {
 
 hook OnPlayerConnect(playerid) {
     PlayerInteriorExitID[playerid] = INTERACTION_INVALID_ID;
+    Entrance_ClearReuseBlock(playerid);
     PlayerAdminEntranceListCount[playerid] = 0;
     return 1;
 }
@@ -1015,6 +1075,10 @@ hook OnPlayerLeaveDynArea(playerid, areaid) {
             idx = arr[1];
 
         if(areaid == EnExArea[idx]) {
+            if(PlayerBlockedEntranceID[playerid] == idx) {
+                Entrance_ClearReuseBlock(playerid);
+            }
+
             Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ENTRANCE, idx);
         }
     }
