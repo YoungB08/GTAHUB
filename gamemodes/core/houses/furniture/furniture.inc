@@ -31,10 +31,6 @@ static
 */
 
 hook OnMySQLConnected() {
-    // TODO:
-    // Improvement!
-    // Load object when user connect instead of loadin it through gamemode init.
-    // Delete object when user disconnect, this case we save memory usage.
     inline LoadFurnitureObjects() {
         new
             rows = cache_num_rows();

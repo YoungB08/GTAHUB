@@ -38,7 +38,7 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnGameModeInit() {
-    g_stmt_insert_player_items = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT INTO player_items (u_id) VALUES (?)");
+    g_stmt_insert_player_items = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT IGNORE INTO player_items (u_id) VALUES (?)");
 
     static const load_query[] = "\
         SELECT \

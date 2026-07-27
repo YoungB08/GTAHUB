@@ -165,6 +165,30 @@ stock ATM_GetClosest(playerid, Float:lowestdistance = 5000.0) {
     return closestATM;
 }
 
+stock ATM_GetClosestFromPoint(Float:px, Float:py, Float:pz, world = -1, interior = -1, Float:lowestdistance = 5000.0) {
+    new
+        Float:distance = 5.0,
+        closestATM = INVALID_ATM_ID;
+
+    foreach(new i : ATMIndex) {
+        if(world != -1 && ATM_World[i] != world) {
+            continue;
+        }
+
+        if(interior != -1 && ATM_Interior[i] != interior) {
+            continue;
+        }
+
+        distance = Distance(px, py, pz, ATM_X[i], ATM_Y[i], ATM_Z[i]);
+
+        if(distance < lowestdistance) {
+            lowestdistance = distance;
+            closestATM = ATM_ID[i];
+        }
+    }
+    return closestATM;
+}
+
 // returns
 // true -> player is within range of ATM.
 // false -> player not close to any ATM.

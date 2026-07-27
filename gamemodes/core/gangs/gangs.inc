@@ -28,6 +28,7 @@ static
     Statement: stmt_DeleteMember,
     Statement: stmt_DeleteGang,
     Statement: stmt_LoadGang,
+    Statement: stmt_LoadGangMembers,
     Statement: stmt_IsGangMember;
 
 hook OnMySQLConnected() {
@@ -36,6 +37,26 @@ hook OnMySQLConnected() {
     stmt_InsertMember = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT into gang_members (gang_id, user_id) VALUES (?,?)");
     stmt_DeleteMember = MySQL_PrepareStatement(MySQL_GetHandle(), "DELETE FROM gang_members WHERE user_id = ?");
     stmt_DeleteGang = MySQL_PrepareStatement(MySQL_GetHandle(), "DELETE FROM gangs WHERE leader_uid = ? AND id = ?");
+    stmt_LoadGangMembers = MySQL_PrepareStatement(MySQL_GetHandle(), "\
+        SELECT \
+            p.u_id, \
+            p.username, \
+            gm.gang_rank, \
+            IF(g.leader_uid = p.u_id, 1, 0) AS is_leader \
+        FROM \
+            gang_members AS gm \
+        INNER JOIN \
+            players AS p \
+        ON \
+            p.u_id = gm.user_id \
+        INNER JOIN \
+            gangs AS g \
+        ON \
+            g.id = gm.gang_id \
+        WHERE \
+            gm.gang_id = ? \
+        ORDER BY \
+            is_leader DESC, gm.gang_rank DESC, p.username ASC");
 
     static const loadGangs_Query[] =
     "SELECT \
@@ -386,22 +407,49 @@ Gang_Leave(playerid) {
     return 1;
 }
 
-void:Gang_ShowMembers(playerid, bool:online = true) {
+static bool:Gang_FindOnlineAccount(accountid, &onlinePlayer) {
+    onlinePlayer = INVALID_PLAYER_ID;
+
+    foreach(new i : Player) {
+        if(Player_GetAccountID(i) == accountid) {
+            onlinePlayer = i;
+            return true;
+        }
+    }
+    return false;
+}
+
+static Gang_GetMemberRole(bool:isLeader, rank, role[], len = sizeof(role)) {
+    if(isLeader) {
+        strcpy(role, "Leader", len);
+        return 1;
+    }
+
+    format(role, len, "Thanh vien %d", rank);
+    return 1;
+}
+
+void:Gang_ShowMembers(playerid, bool:online = false) {
+    if(Player_GetGangID(playerid) == INVALID_GANG_ID) {
+        SendErrorMsg(playerid, "Ban khong o trong gang nao.");
+        return;
+    }
+
     new
         count = 0,
-        content[512];
+        content[2048];
+
     if(online) {
-        strcat(content, "Ten\tRank\n");
+        strcat(content, "Ten\tVai tro\tTrang thai\n");
         foreach(new i : Player) {
-            // skip self
-            if(playerid == i) {
-                continue;
-            }
             if(Player_GetGangID(playerid) == Player_GetGangID(i)) {
-                strcat(content, ReturnPlayerName(i));
-                strcat(content, "\t");
-                strcat(content, (PlayerIsLeader[playerid]) ? ("Leader") : ("Thanh vien"));
-                strcat(content, "\n");
+                new
+                    line[96],
+                    role[24];
+
+                Gang_GetMemberRole(PlayerIsLeader[i], 1, role, sizeof(role));
+                format(line, sizeof(line), "%p\t%s\tOnline\n", i, role);
+                strcat(content, line, sizeof(content));
                 count ++;
             }
         }
@@ -426,7 +474,60 @@ void:Gang_ShowMembers(playerid, bool:online = true) {
 
     }
     else {
-        // TODO: show offline members
+        inline const OnGangMembersLoad() {
+            new
+                accountID,
+                gangRank,
+                isLeader,
+                onlinePlayer,
+                memberName[MAX_PLAYER_NAME],
+                line[112],
+                role[24],
+                status[12];
+
+            MySQL_BindResultInt(stmt_LoadGangMembers, 0, accountID);
+            MySQL_BindResult(stmt_LoadGangMembers, 1, memberName, sizeof(memberName));
+            MySQL_BindResultInt(stmt_LoadGangMembers, 2, gangRank);
+            MySQL_BindResultInt(stmt_LoadGangMembers, 3, isLeader);
+
+            strcat(content, "Ten\tVai tro\tTrang thai\n", sizeof(content));
+            while(MySQL_Statement_FetchRow(stmt_LoadGangMembers)) {
+                Gang_GetMemberRole((isLeader == 1), gangRank, role, sizeof(role));
+                strcpy(status, Gang_FindOnlineAccount(accountID, onlinePlayer) ? ("Online") : ("Offline"), sizeof(status));
+
+                if(onlinePlayer != INVALID_PLAYER_ID) {
+                    format(line, sizeof(line), "%p\t%s\t%s\n", onlinePlayer, role, status);
+                }
+                else {
+                    format(line, sizeof(line), "%s\t%s\t%s\n", memberName, role, status);
+                }
+
+                strcat(content, line, sizeof(content));
+                count ++;
+            }
+
+            if(count == 0) {
+                Dialog_Show(
+                    playerid,
+                    DIALOG_STYLE_MSGBOX,
+                    "Thanh Vien Gang",
+                    "Gang nay chua co thanh vien nao.",
+                    "Dong"
+                );
+                return;
+            }
+
+            Dialog_Show(
+                playerid,
+                DIALOG_STYLE_TABLIST_HEADERS,
+                "Thanh Vien Gang",
+                content,
+                "Dong"
+            );
+        }
+
+        MySQL_BindInt(stmt_LoadGangMembers, 0, Player_GetGangID(playerid));
+        MySQL_ExecuteThreaded_Inline(stmt_LoadGangMembers, using inline OnGangMembersLoad);
     }
 }
 

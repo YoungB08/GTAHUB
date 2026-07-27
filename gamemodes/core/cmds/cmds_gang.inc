@@ -101,8 +101,8 @@ CMD:gang(playerid, params[]) {
 		SetPlayerColor(playerid,  gangColour);
 
     }
-    else if(!strcmp(params, "members", false, 7)) {
-        Gang_ShowMembers(playerid);
+	else if(!strcmp(params, "members", false, 7)) {
+        Gang_ShowMembers(playerid, !strcmp(params, "members online", false));
     }
     return 1;
 }

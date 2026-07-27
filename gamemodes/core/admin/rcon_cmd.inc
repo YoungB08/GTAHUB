@@ -5,7 +5,7 @@ CMD:rconsetadmin(playerid, params[])
         new target, level;
         if(sscanf(params, "ui", target, level)) return SendSyntaxMsg(playerid, "/rconsetadmin [player] [level]");
         if(target == INVALID_PLAYER_ID) return SendErrorMsg(playerid, "NGUOI CHOI KHONG HOP LE!");
-        if(Admin_GetPlayerLevel(target) == level) {
+        if(Admin_GetPlayerStoredLevel(target) == level) {
         return SendErrorMsg(playerid, "Nguoi choi nay dang o dung cap admin do.");
         }
         if(level < 0 || level > MAX_ADMIN_LEVELS) {

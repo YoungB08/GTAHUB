@@ -96,11 +96,7 @@ stock Player_SendToJail(playerid, seconds, bool:save = false) {
 
     ResetPlayerWeapons(playerid);
 
-    // temporary fix
-    // TODO: revamp burglary system!
-    // if(BurglaryInfo[playerid] != 0) {
-    //     Player_StopRobbery(playerid);
-    // }
+    Player_StopRobberyIfActive(playerid);
 
     if(save) {
         _Player_SaveJailTime(playerid, seconds);
@@ -201,15 +197,15 @@ hook OnPlayerSecondUpdate(playerid) {
 }
 
 stock Player_TimeLeftInJail(playerid) {
-    return (PlayerJailTime[playerid] - (gettime() - PlayerJailTick[playerid]));
+    return max(PlayerJailTime[playerid] - (gettime() - PlayerJailTick[playerid]), 0);
 }
 
 stock Player_HasServedSentence(playerid) {
-    return ((gettime() -  PlayerJailTick[playerid]) >= PlayerJailTime[playerid]);
+    return (PlayerJailTime[playerid] > 0 && (gettime() -  PlayerJailTick[playerid]) >= PlayerJailTime[playerid]);
 }
 
 stock Player_IsInJail(playerid) {
-    return (PlayerJailTime[playerid] > 0 && Player_HasServedSentence(playerid));
+    return (PlayerJailTime[playerid] > 0);
 }
 
 stock Player_SetBailAmount(playerid, amount) {

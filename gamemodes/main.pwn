@@ -155,7 +155,6 @@ public OnGameModeInit() {
 	UsePlayerPedAnims();
 
 	// Init Vehicles
-	LoadStaticVehiclesFromFile("vehicles/ls.txt");
 	return 1;
 }
 

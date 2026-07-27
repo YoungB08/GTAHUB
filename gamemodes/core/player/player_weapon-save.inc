@@ -56,11 +56,19 @@ hook OnPlayerAutoSave(playerid) {
 }
 
 static
-    BitArray:PlayerWeaponExcludeSave<MAX_PLAYERS>;
+    BitArray:PlayerWeaponSaveEnabled<MAX_PLAYERS>,
+    BitArray:PlayerWeaponLoading<MAX_PLAYERS>;
+
+hook OnPlayerConnect(playerid) {
+    Bit_Set(PlayerWeaponSaveEnabled, playerid, true);
+    Bit_Set(PlayerWeaponLoading, playerid, false);
+    return 1;
+}
 
 hook OnPlayerDisconnect(playerid, reason) {
     Weapon_Save(playerid);
-    Bit_Set(PlayerWeaponExcludeSave, playerid, true);
+    Bit_Set(PlayerWeaponSaveEnabled, playerid, false);
+    Bit_Set(PlayerWeaponLoading, playerid, false);
     return 1;
 }
 
@@ -81,20 +89,18 @@ hook OnPlayerWeaponShot(playerid, weaponid, hittype, hitid, Float:fX, Float:fY, 
     }
     return 1;
 }
-// TODO: Look at this again.
-// Simple solution!
-// Think of a better solution to exclude class weapons from saving.
-// but for now this does the job.
-Weapon_DoNotSaveBegin(playerid) {
-    Bit_Set(PlayerWeaponExcludeSave, playerid, false);
+stock Weapon_DoNotSaveBegin(playerid) {
+    Bit_Set(PlayerWeaponSaveEnabled, playerid, false);
+    return 1;
 }
 
-Weapon_DoNotSaveEnd(playerid) {
-    Bit_Set(PlayerWeaponExcludeSave, playerid, true);
+stock Weapon_DoNotSaveEnd(playerid) {
+    Bit_Set(PlayerWeaponSaveEnabled, playerid, true);
+    return 1;
 }
 
 hook function GivePlayerWeapon(playerid, WEAPON:weaponid, ammo) {
-    if(Bit_Get(PlayerWeaponExcludeSave, playerid)) {
+    if(Bit_Get(PlayerWeaponSaveEnabled, playerid) && !Bit_Get(PlayerWeaponLoading, playerid)) {
         MySQL_BindInt(stmt_insertWeapon, 0, Player_GetAccountID(playerid));
         MySQL_BindInt(stmt_insertWeapon, 1, weaponid);
         MySQL_BindInt(stmt_insertWeapon, 2, ammo);
@@ -111,6 +117,8 @@ void:Weapon_DeleteEntry(playerid, weaponid) {
 }
 
 void:Weapon_Load(playerid) {
+    Bit_Set(PlayerWeaponLoading, playerid, true);
+
     inline const OnWeaponLoad() {
         new
             weaponid,
@@ -128,6 +136,7 @@ void:Weapon_Load(playerid) {
                      Logger_I("weaponid", weaponid)
                 );
                 Weapon_DeleteEntry(playerid, weaponid);
+                continue;
             }
 
             GivePlayerWeapon(playerid, weaponid, ammo);
@@ -139,6 +148,8 @@ void:Weapon_Load(playerid) {
                     Logger_P(playerid)
             );
         }
+
+        Bit_Set(PlayerWeaponLoading, playerid, false);
     }
 
     MySQL_BindInt(stmt_loadWeapon, 0, Player_GetAccountID(playerid));

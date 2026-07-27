@@ -14,7 +14,10 @@ void:Acc_Remove(username[], playerid = INVALID_PLAYER_ID)
             }
         }
 
-        mysql_format(MySQL_GetHandle(), string, sizeof(string), "DELETE FROM players WHERE username = '%e'", name);
+        new accountid;
+        cache_get_value_name_int(0, "u_id", accountid);
+
+        mysql_format(MySQL_GetHandle(), string, sizeof(string), "DELETE FROM players WHERE u_id = %i OR account_id = %i", accountid, accountid);
         mysql_tquery(MySQL_GetHandle(), string, "", "");
         if (playerid != INVALID_PLAYER_ID) {
             SendServerMsgF(playerid, "Ban da xoa thanh cong tai khoan cua "C_GREY"%s"C_WHITE".", name);
@@ -24,11 +27,11 @@ void:Acc_Remove(username[], playerid = INVALID_PLAYER_ID)
 
     static const query[] = "\
         SELECT \
-            username \
+            u_id \
         FROM \
             players \
         WHERE \
-            username = '%e'"
+            username = '%e' AND is_character = 0"
     ;
     MySQL_TQueryInline(MySQL_GetHandle(), using inline OnPlayerRemoveAcc, query, username, playerid);
 }

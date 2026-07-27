@@ -33,7 +33,7 @@ hook OnMySQLConnected() {
 
     stmt_loadPlayerStats = MySQL_PrepareStatement(MySQL_GetHandle(), loadQuery);
 
-    stmt_insertPlayerStats = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT INTO player_stats (u_id) VALUES (?)");
+    stmt_insertPlayerStats = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT IGNORE INTO player_stats (u_id, skin) VALUES (?, ?)");
 
     static const updateQuery[] = "\
     UPDATE \
@@ -74,6 +74,7 @@ hook OnPlayerLogin(playerid) {
 hook OnPlayerRegister(playerid) {
     // insert stats default data.
     MySQL_BindInt(stmt_insertPlayerStats, 0, Player_GetAccountID(playerid));
+    MySQL_BindInt(stmt_insertPlayerStats, 1, Player_GetSkin(playerid));
     MySQL_ExecuteThreaded(stmt_insertPlayerStats);
 }
 

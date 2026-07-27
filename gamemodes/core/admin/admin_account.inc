@@ -13,6 +13,7 @@ enum {
 
 static
     PlayerAdminLevel[MAX_PLAYERS],
+    PlayerTempAdminLevel[MAX_PLAYERS],
     BitArray: adminOnDuty<MAX_PLAYERS>,
     Statement: stmt_retrieveAdmin;
 
@@ -32,6 +33,15 @@ hook OnGameModeInit() {
 
 hook OnPlayerConnect(playerid) {
     PlayerAdminLevel[playerid] = 0 ;
+    PlayerTempAdminLevel[playerid] = 0;
+    Bit_Set(adminOnDuty, playerid, false);
+    return 1;
+}
+
+hook OnPlayerDisconnect(playerid, reason) {
+    PlayerAdminLevel[playerid] = 0;
+    PlayerTempAdminLevel[playerid] = 0;
+    Bit_Set(adminOnDuty, playerid, false);
     return 1;
 }
 
@@ -47,7 +57,7 @@ hook OnPlayerLogin(playerid) {
         }
 
     }
-    MySQL_BindInt(stmt_retrieveAdmin, 0, Player_GetAccountID(playerid));
+    MySQL_BindInt(stmt_retrieveAdmin, 0, Player_GetMasterAccountID(playerid));
     MySQL_ExecuteThreaded_Inline(stmt_retrieveAdmin, using inline OnPlayerAdminLoad);
 }
 
@@ -83,6 +93,7 @@ stock SendAdminMsgF(const fmat[], {Float,_}:...) {
 
 stock Admin_SetPlayerLevel(playerid, plevel) {
     PlayerAdminLevel[playerid] = plevel;
+    PlayerTempAdminLevel[playerid] = 0;
 
     new string[256];
 
@@ -95,9 +106,20 @@ stock Admin_SetPlayerLevel(playerid, plevel) {
         admin_level = %i \
     ";
 
-    mysql_format(MySQL_GetHandle(), string, sizeof(string), query, Player_GetAccountID(playerid), plevel, plevel);
+    mysql_format(MySQL_GetHandle(), string, sizeof(string), query, Player_GetMasterAccountID(playerid), plevel, plevel);
     mysql_tquery(MySQL_GetHandle(), string);
 }
+
+stock Admin_SetPlayerTempLevel(playerid, plevel) {
+    PlayerTempAdminLevel[playerid] = plevel;
+    return 1;
+}
+
+stock Admin_GetPlayerStoredLevel(playerid)
+    return PlayerAdminLevel[playerid];
+
+stock Admin_GetPlayerTempLevel(playerid)
+    return PlayerTempAdminLevel[playerid];
 
 stock Admin_GetRankName(playerid) {
     new admin_RankNames[6][24] = {
@@ -112,8 +134,12 @@ stock Admin_GetRankName(playerid) {
     return admin_RankNames[Admin_GetPlayerLevel(playerid)];
 }
 
-stock Admin_GetPlayerLevel(playerid)
+stock Admin_GetPlayerLevel(playerid) {
+    if(PlayerTempAdminLevel[playerid] > PlayerAdminLevel[playerid]) {
+        return PlayerTempAdminLevel[playerid];
+    }
     return PlayerAdminLevel[playerid];
+}
 
 stock SendAdminCmdUsage(playerid, const cmd[], const params[]) {
 
@@ -132,9 +158,14 @@ stock SendAdminCmdUsage(playerid, const cmd[], const params[]) {
 }
 
 stock Admin_SetPlayerDuty(playerid, bool:toggle) {
-    // TODO: Change colour when player is on duty.
-
     Bit_Set(adminOnDuty, playerid, toggle);
+
+    if(toggle) {
+        SetPlayerColor(playerid, COLOR_MODERATION);
+    }
+    else if(Player_IsSpawned(playerid)) {
+        Player_UpdateColour(playerid);
+    }
     return 1;
 }
 

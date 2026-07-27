@@ -20,7 +20,7 @@ hook OnGameModeInit() {
     new
         MySQL:handle = MySQL_GetHandle();
 
-    static const insertQuery[] = "INSERT INTO player_shots_stats (uid) VALUES (?)";
+    static const insertQuery[] = "INSERT IGNORE INTO player_shots_stats (uid) VALUES (?)";
     stmt_InsertShots = MySQL_PrepareStatement(handle, insertQuery);
 
     static const loadQuery[] = "\

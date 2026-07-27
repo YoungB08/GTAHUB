@@ -1,9 +1,6 @@
 /*
     Written by s4marium
 
-    todo:
-    - need to change the configs for the actors locations its with the same as textlabels
-    - set the ideal prices on each items
  */
 #include <YSI_Coding\y_hooks>
 
@@ -34,8 +31,8 @@ new const BuyNames[][32] = {
 };
 
 new const BuyPrices[MAX_BUY_ITEMS] = {
-    2500,
-    75
+    2000,
+    50
 };
 
 // ==================== SELL ITEMS ====================
@@ -48,8 +45,8 @@ new const SellNames[][32] = {
 };
 
 new const SellPrices[MAX_SELL_ITEMS] = {
-    400,
-    1200
+    300,
+    900
 };
 
 // ==================== DIALOG IDS ====================

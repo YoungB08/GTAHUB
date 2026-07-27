@@ -68,8 +68,12 @@ hook OnGameModeInit() {
 
     // Level 5
     Admin_AddCommandToList(5, "/setadmin - set a player's admin level");
+    Admin_AddCommandToList(5, "/makeadmin - set a temporary admin level for this session");
     Admin_AddCommandToList(5, "/skick - silently kick (no broadcast)");
     Admin_AddCommandToList(5, "/deleteacc - delete an account from the database");
+    Admin_AddCommandToList(5, "/setxp - set a player's XP");
+    Admin_AddCommandToList(5, "/setlevel - set a player's level");
+    Admin_AddCommandToList(5, "/xpleaderboard - view the XP leaderboard");
     Admin_AddCommandToList(5, "/createatm - create an ATM");
     Admin_AddCommandToList(5, "/deleteatm - delete an ATM");
     Admin_AddCommandToList(5, "/editatm - edit an ATM");

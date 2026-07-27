@@ -54,6 +54,11 @@ stock Player_IsSpawned(playerid) {
 // > 12 = red.
 stock Player_UpdateColour(playerid) {
 
+    if(Admin_IsOnDuty(playerid)) {
+        SetPlayerColor(playerid, COLOR_MODERATION);
+        return 1;
+    }
+
     if(FreeRoleplay_IsEnabled()) {
         SetPlayerColor(playerid, COLOR_WHITE);
         return 1;

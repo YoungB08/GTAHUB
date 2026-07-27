@@ -1,6 +1,7 @@
 
 #include <account_create>
 #include <account_login>
+#include <account_characters>
 #include <account_vip>
 #include <account_wanted-level>
 #include <account_stats>
@@ -8,22 +9,32 @@
 #include <YSI_Coding\y_hooks>
 
 static
-    Statement: stmt_checkPlayer,
     Statement: stmt_savePlayerMoney,
-    Player_UID[MAX_PLAYERS];
+    Player_AccountUID[MAX_PLAYERS],
+    Player_CharacterUID[MAX_PLAYERS];
 
 hook OnMySQLConnected() {
-    stmt_checkPlayer = MySQL_PrepareStatement(MySQL_GetHandle(), "SELECT u_id, password FROM players WHERE username=?");
     stmt_savePlayerMoney = MySQL_PrepareStatement(MySQL_GetHandle(), "UPDATE player_stats SET money=? WHERE u_id=?");
     return 1;
 }
 
 hook OnPlayerConnect(playerid) {
-    Player_UID[playerid] = 0;
+    Player_AccountUID[playerid] = 0;
+    Player_CharacterUID[playerid] = 0;
+    return 1;
+}
+
+hook OnPlayerDisconnect(playerid, reason) {
+    Player_AccountUID[playerid] = 0;
+    Player_CharacterUID[playerid] = 0;
     return 1;
 }
 
 public OnPlayerMoneyChange(playerid, previous, current) {
+    if(Player_GetAccountID(playerid) <= 0) {
+        return 1;
+    }
+
     MySQL_BindInt(stmt_savePlayerMoney, 0, current);
     MySQL_BindInt(stmt_savePlayerMoney, 1, Player_GetAccountID(playerid));
     MySQL_ExecuteThreaded(stmt_savePlayerMoney);
@@ -43,10 +54,9 @@ hook OnPlayerPassedBanCheck(playerid) {
             playerUID,
             playerHash[BCRYPT_HASH_LENGTH];
 
-        MySQL_BindResultInt(stmt_checkPlayer, 0, playerUID);
-        MySQL_BindResult(stmt_checkPlayer, 1, playerHash, sizeof(playerHash));
-
-        if(MySQL_Statement_FetchRow(stmt_checkPlayer)) {
+        if(cache_num_rows()) {
+            cache_get_value_name_int(0, "u_id", playerUID);
+            cache_get_value_name(0, "password", playerHash, sizeof(playerHash));
             Player_SetAccountID(playerid, playerUID);
 
             Account_PromptLogin(playerid, playerHash);
@@ -59,14 +69,31 @@ hook OnPlayerPassedBanCheck(playerid) {
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    MySQL_Bind(stmt_checkPlayer, 0, playerName);
-    MySQL_ExecuteParallel_Inline(stmt_checkPlayer, using inline OnDataLoad);
+    MySQL_TQueryInline(
+        MySQL_GetHandle(),
+        using inline OnDataLoad,
+        "SELECT u_id, password FROM players WHERE username = '%e' AND password <> '"CHARACTER_PASSWORD_MARKER"' LIMIT 1",
+        playerName
+    );
+    return 1;
 }
 
 stock Player_SetAccountID(playerid, value) {
-    return Player_UID[playerid] = value;
+    return Player_AccountUID[playerid] = value;
+}
+
+stock Player_GetMasterAccountID(playerid) {
+    return Player_AccountUID[playerid];
+}
+
+stock Player_SetCharacterID(playerid, value) {
+    return Player_CharacterUID[playerid] = value;
+}
+
+stock Player_GetCharacterID(playerid) {
+    return Player_CharacterUID[playerid];
 }
 
 stock Player_GetAccountID(playerid) {
-    return Player_UID[playerid];
+    return Player_CharacterUID[playerid];
 }

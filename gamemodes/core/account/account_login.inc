@@ -64,23 +64,25 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
 }
 
 // Local
-static void:Account_NotifySuccess(playerid) {
-    static const
-        msg_title[] = "~g~Chao mung tro lai!",
-        msg_content[] = "Xin chao ~p~%p, ~w~chao mung tro lai ~p~%s. ~n~~n~~y~Chuc ban choi vui!";
-    MessageBox_ShowF(playerid, TYPE_MSGBOX, msg_title, msg_content, 8000, playerid, SERVER_NAME);
-}
-
-
 hook OnPlayerLogin(playerid) {
     gPlayerLoginStatus[playerid] = true;
 
     new
-        Statement: stmt_updatePlayerLastLogin;
+        query[128],
+        accountid = Player_GetMasterAccountID(playerid),
+        characterid = Player_GetAccountID(playerid);
 
-    stmt_updatePlayerLastLogin = MySQL_PrepareStatement(MySQL_GetHandle(), "UPDATE players SET last_login = CURRENT_TIMESTAMP() WHERE u_id = ?");
-    MySQL_BindInt(stmt_updatePlayerLastLogin, 0, Player_GetAccountID(playerid));
-    MySQL_ExecuteThreaded(stmt_updatePlayerLastLogin);
+    if(characterid > 0) {
+        mysql_format(
+            MySQL_GetHandle(),
+            query,
+            sizeof(query),
+            "UPDATE players SET last_login = CURRENT_TIMESTAMP() WHERE u_id IN (%i, %i)",
+            accountid,
+            characterid
+        );
+        mysql_tquery(MySQL_GetHandle(), query);
+    }
 }
 
 forward OnPasswordVerify(playerid, bool:success, string:hash[]);
@@ -93,7 +95,7 @@ public OnPasswordVerify(playerid, bool:success, string:hash[]) {
 
             Logger_Dbg(PLAYER_DEBUG_HANDLER, "player has been kicked for too many login attempts",
                 Logger_P(playerid),
-                Logger_I("uid", Player_GetAccountID(playerid))
+                Logger_I("uid", Player_GetMasterAccountID(playerid))
             );
             return;
         }
@@ -105,19 +107,18 @@ public OnPasswordVerify(playerid, bool:success, string:hash[]) {
         Logger_Dbg(PLAYER_DEBUG_HANDLER, "player failed to login",
             Logger_I("attempts", PlayerAttempts[playerid]),
             Logger_P(playerid),
-            Logger_I("uid", Player_GetAccountID(playerid))
+            Logger_I("uid", Player_GetMasterAccountID(playerid))
         );
         return;
     }
 
     Logger_Dbg(PLAYER_DEBUG_HANDLER, "player successfully logged in",
         Logger_P(playerid),
-        Logger_I("uid", Player_GetAccountID(playerid))
+        Logger_I("uid", Player_GetMasterAccountID(playerid))
     );
 
     PlayerAttempts[playerid] = 0;
-    Account_NotifySuccess(playerid);
-    CallLocalFunction("OnPlayerLogin", "i", playerid); // Used in other modules to load other data.
+    Account_ShowCharacterMenu(playerid);
 }
 
  // API

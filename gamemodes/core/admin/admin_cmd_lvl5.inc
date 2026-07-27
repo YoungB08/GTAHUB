@@ -1,5 +1,9 @@
 ACMD:[5]setadmin(playerid, params[])
 {
+    if(Admin_GetPlayerStoredLevel(playerid) < ADM_LVL_5) {
+        return SendErrorMsg(playerid, "Lenh nay chi danh cho admin that level 5.");
+    }
+
     new
         targetid,
         level;
@@ -12,11 +16,11 @@ ACMD:[5]setadmin(playerid, params[])
         return SendErrorMsg(playerid, "NGUOI CHOI KHONG HOP LE!");
     }
 
-    if(Admin_GetPlayerLevel(targetid) == 5) {
+    if(Admin_GetPlayerStoredLevel(targetid) == 5) {
         return SendErrorMsg(playerid, "Ban khong the ha cap developer!");
     }
 
-    if(Admin_GetPlayerLevel(targetid) == level) {
+    if(Admin_GetPlayerStoredLevel(targetid) == level) {
         return SendErrorMsg(playerid, "Nguoi choi nay dang o dung cap admin do.");
     }
 
@@ -26,6 +30,39 @@ ACMD:[5]setadmin(playerid, params[])
 
     Admin_SetPlayerLevel(targetid, level);
     SendMsgAllF(COLOR_MODERATION, "Cap admin cua %p(%d) da duoc dat thanh %s", targetid, targetid, Admin_GetRankName(targetid));
+    return 1;
+}
+
+ACMD:[5]makeadmin(playerid, params[])
+{
+    if(Admin_GetPlayerStoredLevel(playerid) < ADM_LVL_5) {
+        return SendErrorMsg(playerid, "Lenh nay chi danh cho admin that level 5.");
+    }
+
+    new
+        targetid,
+        level;
+
+    if(sscanf(params, "ui", targetid, level)) {
+        return SendSyntaxMsg(playerid, "/makeadmin [player] [level]");
+    }
+
+    if(!IsPlayerConnected(targetid)) {
+        return SendErrorMsg(playerid, "NGUOI CHOI KHONG HOP LE!");
+    }
+
+    if(!IS_IN_RANGE(level, 0, MAX_ADMIN_LEVELS)) {
+        return SendErrorMsgF(playerid, "Cap admin hop le la 0 den %i", MAX_ADMIN_LEVELS);
+    }
+
+    Admin_SetPlayerTempLevel(targetid, level);
+
+    if(level == 0) {
+        SendMsgAllF(COLOR_MODERATION, "Cap admin ao cua %p(%d) da duoc go bo. Cap hien tai: %s", targetid, targetid, Admin_GetRankName(targetid));
+        return 1;
+    }
+
+    SendMsgAllF(COLOR_MODERATION, "Cap admin ao cua %p(%d) da duoc dat thanh %s trong phien nay.", targetid, targetid, Admin_GetRankName(targetid));
     return 1;
 }
 

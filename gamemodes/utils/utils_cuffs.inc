@@ -9,10 +9,6 @@ There is one simple function:
 
 SetPlayerCuffed(playerid, bool:cuffed = true);
 
-TODO:
-- Prevent external scripts from attaching objects in the cuffs slot.
-	- Hook SetPlayerAttObj and return 0 if so.
-
 */
 
 // ----------------------------------------------------------------------------
@@ -22,6 +18,8 @@ TODO:
 // This is the main array that holds the attach object offsets for every skin.
 
 #include <YSI_Coding\y_hooks>
+
+static BitArray:CUFF_InternalUpdate<MAX_PLAYERS>;
 
 static stock const Float:CUFF_CuffObjectOffsets[][] = {
     {0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0}, // 0
@@ -389,6 +387,19 @@ stock Player_Cuff(playerid, bool:cuffed = true)
 	}
 }
 
+stock CUFF_SetPlayerAttachedObject(playerid, index, modelid, bone, Float:fOffsetX = 0.0, Float:fOffsetY = 0.0, Float:fOffsetZ = 0.0, Float:fRotX = 0.0, Float:fRotY = 0.0, Float:fRotZ = 0.0, Float:fScaleX = 1.0, Float:fScaleY = 1.0, Float:fScaleZ = 1.0, materialcolor1 = 0, materialcolor2 = 0)
+{
+	if(Player_IsCuffed(playerid) && GetPVarInt(playerid, "CUFF_object_index") == index && !Bit_Get(CUFF_InternalUpdate, playerid)) return 0;
+
+	return SetPlayerAttachedObject(playerid, index, modelid, bone, fOffsetX, fOffsetY, fOffsetZ, fRotX, fRotY, fRotZ, fScaleX, fScaleY, fScaleZ, materialcolor1, materialcolor2);
+}
+#if defined _ALS_SetPlayerAttachedObject
+	#undef SetPlayerAttachedObject
+#else
+	#define _ALS_SetPlayerAttachedObject
+#endif
+#define SetPlayerAttachedObject CUFF_SetPlayerAttachedObject
+
 stock CUFF_RemovePlayerAttachedObject(playerid, index)
 {
 	// Don't allow external scripts to remove the cuffs attached object (use SetPlayerCuffed!)
@@ -409,7 +420,9 @@ stock CUFF_SetPlayerSkin(playerid, skin)
 	if(Player_IsCuffed(playerid))
 	{
 		new CUFF_id = GetPVarInt(playerid, "CUFF_object_index");
+		Bit_Set(CUFF_InternalUpdate, playerid, true);
 		SetPlayerAttachedObject(playerid, CUFF_id, 19418, 6, CUFF_CuffObjectOffsets[skin][0], CUFF_CuffObjectOffsets[skin][1], CUFF_CuffObjectOffsets[skin][2], CUFF_CuffObjectOffsets[skin][3], CUFF_CuffObjectOffsets[skin][4], CUFF_CuffObjectOffsets[skin][5], CUFF_CuffObjectOffsets[skin][6], CUFF_CuffObjectOffsets[skin][7], CUFF_CuffObjectOffsets[skin][8]);
+		Bit_Set(CUFF_InternalUpdate, playerid, false);
 	}
 	return SetPlayerSkin(playerid, skin);
 }

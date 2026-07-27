@@ -71,16 +71,13 @@ static Account_Create(playerid, const password[]) {
 static Account_InsertToDatabase(playerid, const hash[]) {
     inline const OnRegister() {
         Player_SetAccountID(playerid, cache_insert_id());
-
-        static const
-                msg_title[] = "~g~Chao mung!",
-                msg_content[] = "Xin chao ~p~%p, ~w~ban da dang ky tai khoan tren server! Ban da duoc dang nhap tu dong!~n~~n~~y~Chuc ban choi vui!";
-        MessageBox_ShowF(playerid, TYPE_MSGBOX, msg_title, msg_content, 8000, playerid, SERVER_NAME);
-
+        Player_SetCharacterID(playerid, Player_GetMasterAccountID(playerid));
+        Player_SetSkin(playerid, 1);
         CallLocalFunction("OnPlayerRegister", "i", playerid);
-        TogglePlayerSpectating(playerid, false);
-        Player_SetLoginStatus(playerid, true);
-        Class_SelectionState(playerid, true);
+        Player_SetCharacterID(playerid, 0);
+
+        SendServerMsg(playerid, "Tai khoan da duoc tao. Hay chon hoac tao nhan vat.");
+        Account_ShowCharacterMenu(playerid);
     }
 
     new

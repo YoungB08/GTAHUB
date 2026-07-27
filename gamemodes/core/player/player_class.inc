@@ -310,34 +310,6 @@ hook OnPlayerRequestClass(playerid, classid) {
 		SetPlayerFacingAngle(playerid, 255.810241);
 		SetPlayerCameraLookAt(playerid, 180.892608, 1830.717895, 23.242187);
 		SetPlayerCameraPos(playerid, 180.892608 + (5 * floatsin(-255.810241, degrees)), 1830.717895 + (5 * floatcos(-255.810241, degrees)), 23.242187);
-		UI_ClassSelectionTDShow(playerid);
-		#if FREE_ROLEPLAY_MODE
-			SetPlayerColor(playerid, COLOR_WHITE);
-			Player_SetClass(playerid, TEAM_CIVILIAN);
-			UI_ClassSelectionTDUpdate(playerid, COLOR_WHITE, "Roleplay tu do", "- Chon nhan vat ban muon nhap vai.~n~- Kiem tien bang nghe hop phap va tuong tac voi nguoi choi.");
-		#else
-		if(classid <= 242) {
-			SetPlayerColor(playerid, COLOR_WHITE);
-			Player_SetClass(playerid, TEAM_CIVILIAN);
-			UI_ClassSelectionTDUpdate(playerid, COLOR_WHITE, "Dan thuong", "- Nhap vai tu do va lam viec hop phap de kiem tien.~n~- Tuong tac voi nguoi choi khac trong thanh pho.");
-		}
-		if(classid >= 243 && classid <= 251) {
-			SetPlayerColor(playerid, COLOR_BLUE);
-			Player_SetClass(playerid, TEAM_POLICE);
-			UI_ClassSelectionTDUpdate(playerid, COLOR_BLUE, "Dich vu thanh pho", "- Ho tro nguoi choi va giu trat tu theo tinh huong roleplay.~n~- Khong hien thi trong che do roleplay tu do.");
-		}
-		if(classid >= 252 && classid <= 254) {
-			SetPlayerColor(playerid, COLOR_GREEN);
-			Player_SetClass(playerid, TEAM_MEDIC);
-			UI_ClassSelectionTDUpdate(playerid, COLOR_GREEN, "Y te", "- Ho tro suc khoe cho nguoi choi trong thanh pho.");
-		}
-		if(classid >= 255 && classid <= 259) {
-			SetPlayerColor(playerid, COLOR_PURPLE);
-			Player_SetClass(playerid, TEAM_ARMY);
-			UI_ClassSelectionTDUpdate(playerid, COLOR_PURPLE, "Khong dung", "- Nhom nay dang duoc an trong che do roleplay tu do.");
-		}
-		#endif
-		Player_SetSkin(playerid, GetPlayerSkin(playerid));
 	}
 	return 1;
 }

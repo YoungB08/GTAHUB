@@ -29,17 +29,27 @@ static PlayerInteract_ShowStats(playerid, targetid)
 {
     new
         targetName[MAX_PLAYER_NAME],
+        genderName[8],
+        origin[32],
+        background[96],
         jobName[24],
-        info[384];
+        info[640];
 
-    GetPlayerName(targetid, targetName, sizeof(targetName));
+    Character_GetFullName(targetid, targetName, sizeof(targetName));
+    Character_GetGenderName(targetid, genderName, sizeof(genderName));
+    Character_GetOrigin(targetid, origin, sizeof(origin));
+    Character_GetBackground(targetid, background, sizeof(background));
     PlayerInteract_GetJobName(Player_GetJob(targetid), jobName, sizeof(jobName));
 
     format(
         info,
         sizeof(info),
-        "Ten: %s\nLevel: %d\nXP: %d/%d\nTien mat: %m\nNgan hang: %m\nTrang thai: Tu do\nNghe chinh: %s\nSo dien thoai: %d",
+        "Ten: %s\nTuoi: %d\nGioi tinh: %s\nQue quan: %s\nMo ta: %s\nLevel: %d\nXP: %d/%d\nTien mat: %m\nNgan hang: %m\nTrang thai: Tu do\nNghe chinh: %s\nSo dien thoai: %d",
         targetName,
+        Character_GetAge(targetid),
+        genderName,
+        origin,
+        background,
         GetPlayerLevel(targetid),
         GetPlayerXp(targetid),
         GetPlayerXpRequired(targetid),

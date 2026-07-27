@@ -1,8 +1,6 @@
 
 /*
     Written by s4marium
-
-				todo: - Add level up textdraw for congratulations (e.g. textdraw, sound, etc.)
  */
 
 #include <YSI_Coding\y_hooks>
@@ -36,6 +34,12 @@
 #define XP_TEXT_AMOUNT_X 305.0
 #define XP_TEXT_AMOUNT_Y 240.0
 
+#define XP_TEXT_LEVELUP_TITLE_X 320.0
+#define XP_TEXT_LEVELUP_TITLE_Y 145.0
+
+#define XP_TEXT_LEVELUP_SUB_X 320.0
+#define XP_TEXT_LEVELUP_SUB_Y 178.0
+
 // =============================================================================
 // FADE CONFIGURATION
 // =============================================================================
@@ -44,6 +48,7 @@
 #define XP_FADE_STEP 25
 #define XP_FADE_IN_DURATION 500
 #define XP_SHOW_DURATION 6000
+#define XP_LEVELUP_SHOW_DURATION 4000
 
 // =============================================================================
 // TYPES
@@ -56,7 +61,9 @@ enum E_XP_UI_DATA
 	PlayerText:levelNextText,
 	PlayerText:progressText,
 	PlayerText:gainText,
-	PlayerText:amountText
+	PlayerText:amountText,
+	PlayerText:levelUpTitleText,
+	PlayerText:levelUpSubText
 };
 
 // =============================================================================
@@ -73,6 +80,7 @@ static XpUI_TextAlpha[MAX_PLAYERS][6];
 static XpUI_FadeInTimer[MAX_PLAYERS];
 static XpUI_FadeOutTimer[MAX_PLAYERS];
 static XpUI_HideTimer[MAX_PLAYERS];
+static XpUI_LevelUpTimer[MAX_PLAYERS];
 
 // =============================================================================
 // HOOKS
@@ -80,6 +88,7 @@ static XpUI_HideTimer[MAX_PLAYERS];
 
 hook OnPlayerConnect(playerid) {
 	XpUICreated[playerid] = false;
+	XpUI_LevelUpTimer[playerid] = 0;
 	return 1;
 }
 
@@ -219,6 +228,46 @@ XpUI_Create(playerid) {
 	PlayerTextDrawSetProportional(playerid, XpUIData[playerid][amountText], true);
 	PlayerTextDrawSetSelectable(playerid, XpUIData[playerid][amountText], false);
 
+	// Level Up Title
+	XpUIData[playerid][levelUpTitleText] = CreatePlayerTextDraw(
+		playerid,
+		XP_TEXT_LEVELUP_TITLE_X,
+		XP_TEXT_LEVELUP_TITLE_Y,
+		"CHUC MUNG"
+	);
+	PlayerTextDrawFont(playerid, XpUIData[playerid][levelUpTitleText], 3);
+	PlayerTextDrawLetterSize(playerid, XpUIData[playerid][levelUpTitleText], 0.650000, 2.800000);
+	PlayerTextDrawTextSize(playerid, XpUIData[playerid][levelUpTitleText], 400.0, 30.0);
+	PlayerTextDrawSetOutline(playerid, XpUIData[playerid][levelUpTitleText], 2);
+	PlayerTextDrawSetShadow(playerid, XpUIData[playerid][levelUpTitleText], 0);
+	PlayerTextDrawAlignment(playerid, XpUIData[playerid][levelUpTitleText], 2);
+	PlayerTextDrawColor(playerid, XpUIData[playerid][levelUpTitleText], COLOR_XP_GAIN);
+	PlayerTextDrawBackgroundColor(playerid, XpUIData[playerid][levelUpTitleText], 255);
+	PlayerTextDrawBoxColor(playerid, XpUIData[playerid][levelUpTitleText], 50);
+	PlayerTextDrawUseBox(playerid, XpUIData[playerid][levelUpTitleText], false);
+	PlayerTextDrawSetProportional(playerid, XpUIData[playerid][levelUpTitleText], true);
+	PlayerTextDrawSetSelectable(playerid, XpUIData[playerid][levelUpTitleText], false);
+
+	// Level Up Subtitle
+	XpUIData[playerid][levelUpSubText] = CreatePlayerTextDraw(
+		playerid,
+		XP_TEXT_LEVELUP_SUB_X,
+		XP_TEXT_LEVELUP_SUB_Y,
+		"Level 1"
+	);
+	PlayerTextDrawFont(playerid, XpUIData[playerid][levelUpSubText], 3);
+	PlayerTextDrawLetterSize(playerid, XpUIData[playerid][levelUpSubText], 0.425000, 2.000000);
+	PlayerTextDrawTextSize(playerid, XpUIData[playerid][levelUpSubText], 400.0, 24.0);
+	PlayerTextDrawSetOutline(playerid, XpUIData[playerid][levelUpSubText], 2);
+	PlayerTextDrawSetShadow(playerid, XpUIData[playerid][levelUpSubText], 0);
+	PlayerTextDrawAlignment(playerid, XpUIData[playerid][levelUpSubText], 2);
+	PlayerTextDrawColor(playerid, XpUIData[playerid][levelUpSubText], COLOR_XP_TEXT);
+	PlayerTextDrawBackgroundColor(playerid, XpUIData[playerid][levelUpSubText], 255);
+	PlayerTextDrawBoxColor(playerid, XpUIData[playerid][levelUpSubText], 50);
+	PlayerTextDrawUseBox(playerid, XpUIData[playerid][levelUpSubText], false);
+	PlayerTextDrawSetProportional(playerid, XpUIData[playerid][levelUpSubText], true);
+	PlayerTextDrawSetSelectable(playerid, XpUIData[playerid][levelUpSubText], false);
+
 	XpUICreated[playerid] = true;
 }
 
@@ -301,6 +350,26 @@ XpUI_ShowGain(playerid, amount) {
 	XpUI_FadeInTimer[playerid] = SetTimerEx("XpUI_FadeIn", XP_FADE_INTERVAL, false, "i", playerid);
 }
 
+XpUI_ShowLevelUp(playerid, level) {
+	if(!XpUICreated[playerid]) {
+		return;
+	}
+
+	if(XpUI_LevelUpTimer[playerid]) {
+		KillTimer(XpUI_LevelUpTimer[playerid]);
+	}
+
+	new str[32];
+	format(str, sizeof(str), "Level %d", level);
+	PlayerTextDrawSetString(playerid, XpUIData[playerid][levelUpSubText], str);
+
+	PlayerTextDrawShow(playerid, XpUIData[playerid][levelUpTitleText]);
+	PlayerTextDrawShow(playerid, XpUIData[playerid][levelUpSubText]);
+	PlayerPlaySound(playerid, 17803, 0.0, 0.0, 0.0);
+
+	XpUI_LevelUpTimer[playerid] = SetTimerEx("XpUI_HideLevelUp", XP_LEVELUP_SHOW_DURATION, false, "i", playerid);
+}
+
 XpUI_Destroy(playerid) {
 	if(!XpUICreated[playerid]) {
 		return;
@@ -316,6 +385,9 @@ XpUI_Destroy(playerid) {
 	if (XpUI_HideTimer[playerid]) {
 		KillTimer(XpUI_HideTimer[playerid]);
 	}
+	if (XpUI_LevelUpTimer[playerid]) {
+		KillTimer(XpUI_LevelUpTimer[playerid]);
+	}
 
 	HidePlayerProgressBar(playerid, XpUIData[playerid][xpBar]);
 	PlayerTextDrawHide(playerid, XpUIData[playerid][levelCurrentText]);
@@ -323,6 +395,8 @@ XpUI_Destroy(playerid) {
 	PlayerTextDrawHide(playerid, XpUIData[playerid][progressText]);
 	PlayerTextDrawHide(playerid, XpUIData[playerid][gainText]);
 	PlayerTextDrawHide(playerid, XpUIData[playerid][amountText]);
+	PlayerTextDrawHide(playerid, XpUIData[playerid][levelUpTitleText]);
+	PlayerTextDrawHide(playerid, XpUIData[playerid][levelUpSubText]);
 
 	XpUICreated[playerid] = false;
 }
@@ -355,6 +429,17 @@ static PlayerText:XpUI_GetTextDraw(playerid, index) {
 
 forward XpUI_FadeIn(playerid);
 forward XpUI_FadeOut(playerid);
+forward XpUI_HideLevelUp(playerid);
+
+public XpUI_HideLevelUp(playerid) {
+	if(XpUICreated[playerid]) {
+		PlayerTextDrawHide(playerid, XpUIData[playerid][levelUpTitleText]);
+		PlayerTextDrawHide(playerid, XpUIData[playerid][levelUpSubText]);
+	}
+
+	XpUI_LevelUpTimer[playerid] = 0;
+	return 1;
+}
 
 public XpUI_FadeIn(playerid) {
 	if (!XpUICreated[playerid]) {

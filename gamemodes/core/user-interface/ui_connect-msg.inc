@@ -25,23 +25,6 @@ hook OnGameModeExit()
 }
 
 hook OnPlayerConnect(playerid) {
-    strcpy(joinString[4], joinString[3]);
-    strcpy(joinString[3], joinString[2]);
-    strcpy(joinString[2], joinString[1]);
-    strcpy(joinString[1], joinString[0]);
-
-    new
-        string[sizeof(joinString[]) * 5];
-
-    format(joinString[0], sizeof(joinString[]), "~n~~g~VAO: ~w~%p (%i)", playerid, playerid);
-
-    strcat(string, joinString[4], sizeof(string));
-    strcat(string, joinString[3], sizeof(string));
-    strcat(string, joinString[2], sizeof(string));
-    strcat(string, joinString[1], sizeof(string));
-    strcat(string, joinString[0], sizeof(string));
-
-    TextDrawSetString(LeaveJoinTD, string);
     return 1;
 }
 

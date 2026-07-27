@@ -109,12 +109,6 @@ hook OnPlayerSpawn(playerid) {
         y = Police_SpawnPoints[id][1];
         z = Police_SpawnPoints[id][2];
         ang = Police_SpawnPoints[id][3];
-
-        Weapon_DoNotSaveBegin(playerid);
-        GivePlayerWeapon(playerid, WEAPON_SILENCED, 	150);
-        GivePlayerWeapon(playerid, WEAPON_M4, 			200);
-        GivePlayerWeapon(playerid, WEAPON_NITESTICK, 	200);
-        Weapon_DoNotSaveEnd(playerid);
     }
     else if(Player_GetClass(playerid) == TEAM_ARMY) {
         id = random(sizeof(Army_SpawnPoints));
@@ -123,16 +117,6 @@ hook OnPlayerSpawn(playerid) {
         y = Army_SpawnPoints[id][1];
         z = Army_SpawnPoints[id][2];
         ang = Army_SpawnPoints[id][3];
-
-        Weapon_DoNotSaveBegin(playerid);
-        GivePlayerWeapon(playerid, WEAPON_DEAGLE, 	100);
-        GivePlayerWeapon(playerid, WEAPON_M4, 		200);
-        GivePlayerWeapon(playerid, WEAPON_SNIPER,   50);
-        GivePlayerWeapon(playerid, WEAPON_GRENADE, 	4);
-        Weapon_DoNotSaveEnd(playerid);
-
-
-        SendClientMessage(playerid, -1, "called");
     }
     SetPlayerPos(playerid, x, y, z);
     SetPlayerFacingAngle(playerid, ang);

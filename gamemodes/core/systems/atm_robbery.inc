@@ -16,13 +16,15 @@ hook OnExplosiveDetonate(playerid, Float: x, Float: y, Float: z) {
     }
 
     new
-        // TODO: ATM_GetClosest from X, Y, Z of explosion instead of player's closest atm.
-        // so player can explode ATMs from far up to MAX_PLANTED_C4.
-        atmID = ATM_GetClosest(playerid),
+        atmID = ATM_GetClosestFromPoint(x, y, z, GetPlayerVirtualWorld(playerid), GetPlayerInterior(playerid), 20.0),
         objectID = ATM_GetObjectID(atmID),
         Float: atmX,
         Float: atmY,
         Float: atmZ;
+
+    if(atmID == INVALID_ATM_ID || objectID == INVALID_ATM_ID) {
+        return 1;
+    }
 
     GetDynamicObjectPos(objectID, atmX, atmY, atmZ);
 

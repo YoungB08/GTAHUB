@@ -7,8 +7,18 @@ static
     BitArray:HasHit<MAX_PLAYERS>
 ;
 
+hook OnMySQLConnected() {
+    mysql_tquery_file(MySQL_GetHandle(), "player_hits.sql");
+    return 1;
+}
+
 hook OnPlayerConnect(playerid) {
     _InitHitmanData(playerid);
+    return 1;
+}
+
+hook OnPlayerLogin(playerid) {
+    Hitman_LoadPlayerHit(playerid);
     return 1;
 }
 
@@ -19,6 +29,8 @@ hook OnPlayerDeathEx(playerid, killerid, reason) {
             // Reward killer.
             GivePlayerMoney(killerid, HitAmount[playerid]);
 
+            Hitman_DeletePlayerHit(playerid);
+
             // Reset data.
             _InitHitmanData(playerid);
 
@@ -28,9 +40,9 @@ hook OnPlayerDeathEx(playerid, killerid, reason) {
 }
 
 hook OnPlayerDisconnect(playerid, reason){
-    // TODO: Save player hit instead.
     if (Bit_Get(HasHit, playerid))  {
-        SendMsgAllF(COLOR_ORANGE, "** HIT **: "C_WHITE"Hop dong tren "C_GREY"%p (%i) "C_WHITE"da bi huy vi player da thoat.", playerid, playerid );
+        Hitman_SavePlayerHit(playerid);
+        SendMsgAllF(COLOR_ORANGE, "** HIT **: "C_WHITE"Hop dong tren "C_GREY"%p (%i) "C_WHITE"duoc luu lai vi nguoi choi da thoat.", playerid, playerid );
     }
     return 1;
 }
@@ -42,6 +54,77 @@ static _InitHitmanData(playerid) {
     HitPlacedBy[playerid][0] = EOS;
 }
 
+static Hitman_SavePlayerHit(playerid) {
+    if(!Bit_Get(HasHit, playerid) || Player_GetAccountID(playerid) <= 0) {
+        return 0;
+    }
+
+    new
+        query[512],
+        accountID = Player_GetAccountID(playerid);
+
+    mysql_format(
+        MySQL_GetHandle(),
+        query,
+        sizeof(query),
+        "INSERT INTO player_hits (u_id, amount, reason, placed_by) VALUES (%i, %i, '%e', '%e') ON DUPLICATE KEY UPDATE amount = %i, reason = '%e', placed_by = '%e'",
+        accountID,
+        HitAmount[playerid],
+        HitReason[playerid],
+        HitPlacedBy[playerid],
+        HitAmount[playerid],
+        HitReason[playerid],
+        HitPlacedBy[playerid]
+    );
+    mysql_tquery(MySQL_GetHandle(), query);
+    return 1;
+}
+
+static Hitman_DeletePlayerHit(playerid) {
+    if(Player_GetAccountID(playerid) <= 0) {
+        return 0;
+    }
+
+    new
+        query[96];
+
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "DELETE FROM player_hits WHERE u_id = %i", Player_GetAccountID(playerid));
+    mysql_tquery(MySQL_GetHandle(), query);
+    return 1;
+}
+
+static Hitman_LoadPlayerHit(playerid) {
+    new
+        query[128],
+        accountID = Player_GetAccountID(playerid);
+
+    if(accountID <= 0) {
+        return 0;
+    }
+
+    inline const OnHitLoad() {
+        if(!IsPlayerConnected(playerid) || Player_GetAccountID(playerid) != accountID) {
+            return 1;
+        }
+
+        if(!cache_num_rows()) {
+            return 1;
+        }
+
+        cache_get_value_name_int(0, "amount", HitAmount[playerid]);
+        cache_get_value_name(0, "reason", HitReason[playerid], sizeof(HitReason[]));
+        cache_get_value_name(0, "placed_by", HitPlacedBy[playerid], sizeof(HitPlacedBy[]));
+
+        Bit_Set(HasHit, playerid, true);
+        SendServerMsgF(playerid, "Ban dang co hop dong hit tri gia "C_GREEN"%m"C_WHITE", ly do: "C_GREY"%s", HitAmount[playerid], HitReason[playerid]);
+        return 1;
+    }
+
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "SELECT amount, reason, placed_by FROM player_hits WHERE u_id = %i", accountID);
+    MySQL_TQueryInline(MySQL_GetHandle(), using inline OnHitLoad, query);
+    return 1;
+}
+
 CMD:hitlist(playerid, params[]) {
     new
         count = 0;
@@ -51,8 +134,8 @@ CMD:hitlist(playerid, params[]) {
     }
 
     new
-        tmpHitlist[64],
-        hitlistContent[256];
+        tmpHitlist[96],
+        hitlistContent[512];
 
     strcat(hitlistContent, "Nguoi choi\tTien thuong\tLy do\n", sizeof(hitlistContent));
     foreach(new i : Player) {
@@ -60,7 +143,7 @@ CMD:hitlist(playerid, params[]) {
             continue;
         }
 
-        format(tmpHitlist, sizeof(tmpHitlist), "%p\t%m\t%s", i, HitAmount[i], HitReason[i]);
+        format(tmpHitlist, sizeof(tmpHitlist), "%p\t%m\t%s\n", i, HitAmount[i], HitReason[i]);
         strcat(hitlistContent, tmpHitlist, sizeof(hitlistContent));
         count ++;
     }
@@ -128,6 +211,7 @@ CMD:placehit(playerid, params[])
     strcpy(HitPlacedBy[targetid], name, sizeof(name));
     HitAmount[targetid]  = hitamount;
     Bit_Set(HasHit, targetid, true);
+    Hitman_SavePlayerHit(targetid);
     GivePlayerMoney(playerid, -hitamount);
 
     SendMsgF(playerid, COLOR_ORANGE, "Hit: "C_WHITE"Ban da dat hit len "C_GREY"%p (%i) "C_WHITE"voi gia "C_GREEN"$%i"C_WHITE", ly do: "C_GREY"%s", targetid, targetid, hitamount, reason);

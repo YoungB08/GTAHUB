@@ -1,11 +1,6 @@
 /*
      Written by s4marium
 
-     todo:
-     - need to add dynamic trees for this that is connected tree state,
-       that can be respawned and destroy.
-     - or create an dynamic tree for both labels and model that can be edited ingame,
-       just like creating an furniture or atms (database is required for this).
  */
 
 #include <YSI_Coding\y_hooks>
@@ -27,6 +22,7 @@ enum E_ORANGE_STATE {
 // ====== GLOBAL VARIABLES ======
 new OrangePlayerState[MAX_PLAYERS][E_ORANGE_STATE];
 new bool:TreeAvailable[8];  // Global tree availability (shared by all players)
+new OrangeTreeObjects[8];
 new Text3D:OrangeTreeLabels[8];
 new TreeRespawnTime[8]; // Track respawn timer for each tree
 new TreeRespawnTimer[8]; // Timer ID for each tree
@@ -55,6 +51,35 @@ forward Orange_RespawnTree(treeIndex);
 forward Orange_UpdateTreeTimer(treeIndex);
 forward Orange_MiniGame_OnComplete(playerid, customData);
 forward Orange_MiniGame_OnFail(playerid, customData);
+
+static Orange_CreateTreeObject(treeIndex) {
+     if(treeIndex < 0 || treeIndex >= sizeof(OrangeTrees)) return 0;
+
+     if(OrangeTreeObjects[treeIndex] != INVALID_OBJECT_ID) {
+          DestroyDynamicObject(OrangeTreeObjects[treeIndex]);
+     }
+
+     OrangeTreeObjects[treeIndex] = CreateDynamicObject(
+          615,
+          OrangeTrees[treeIndex][0],
+          OrangeTrees[treeIndex][1],
+          OrangeTrees[treeIndex][2] - 1.0,
+          0.0,
+          0.0,
+          0.0
+     );
+     return 1;
+}
+
+static Orange_DestroyTreeObject(treeIndex) {
+     if(treeIndex < 0 || treeIndex >= sizeof(OrangeTrees)) return 0;
+
+     if(OrangeTreeObjects[treeIndex] != INVALID_OBJECT_ID) {
+          DestroyDynamicObject(OrangeTreeObjects[treeIndex]);
+          OrangeTreeObjects[treeIndex] = INVALID_OBJECT_ID;
+     }
+     return 1;
+}
 // ====== INITIALIZATION ======
 hook OnGameModeInit() {
      LoadOrangeJob();
@@ -64,6 +89,7 @@ hook OnGameModeInit() {
           TreeRespawnTime[i] = 0;
           TreeRespawnTimer[i] = 0;
           TreeAvailable[i] = true;  // Initialize all trees as available
+          OrangeTreeObjects[i] = INVALID_OBJECT_ID;
      }
      return 1;
 }
@@ -90,6 +116,7 @@ hook OnPlayerDisconnect(playerid, reason) {
           if(treeIndex >= 0 && treeIndex < sizeof(OrangeTrees)) {
                // Release the tree lock
                TreeAvailable[treeIndex] = true;
+               Orange_DestroyTreeObject(treeIndex);
 
                // Start respawn timer to mark tree as empty
                TreeRespawnTime[treeIndex] = (ORANGE_RESPAWN_TIME / 1000);
@@ -169,6 +196,7 @@ Orange_StartCollection(playerid, treeIndex) {
      OrangePlayerState[playerid][IsCollecting] = true;
      OrangePlayerState[playerid][CurrentTree] = treeIndex;
      TreeAvailable[treeIndex] = false;
+     Orange_DestroyTreeObject(treeIndex);
      MessageBox_Show(playerid, TYPE_INFORMATION, "~y~Nong trai cam", "Nhan ~g~SPACE~w~ hoac ~g~SHIFT~w~ de day thanh ky nang. Nhan ~y~ALT~w~ de huy phien thu hoach.", 5000);
      new labelText[128];
      format(labelText, sizeof(labelText), "[CAY CAM]\n"C_RED"DANG THU HOACH");
@@ -285,6 +313,7 @@ public Orange_ProcessComplete(playerid, amount) {
 // ====== SYSTEM INITIALIZATION ======
 LoadOrangeJob() {
      for(new i = 0; i < sizeof(OrangeTrees); i++) {
+          Orange_CreateTreeObject(i);
           OrangeTreeLabels[i] = CreateDynamic3DTextLabel(
                "[CAY CAM]\n"C_WHITE"Nhan 'N' de thu hoach",
                COLOR_YELLOW,
@@ -314,6 +343,7 @@ public Orange_RespawnTree(treeIndex) {
           KillTimer(TreeRespawnTimer[treeIndex]);
           TreeRespawnTimer[treeIndex] = 0;
      }
+     Orange_CreateTreeObject(treeIndex);
 
      UpdateDynamic3DTextLabelText(OrangeTreeLabels[treeIndex], COLOR_YELLOW, "[CAY CAM]\n"C_WHITE"Nhan 'N' de thu hoach");
 
@@ -367,6 +397,7 @@ public Orange_MiniGame_OnComplete(playerid, customData) {
      new labelText[128];
      format(labelText, sizeof(labelText), "[CAY CAM]\n"C_RED"HET CAM - Hoi lai: %ds", ORANGE_RESPAWN_TIME / 1000);
      UpdateDynamic3DTextLabelText(OrangeTreeLabels[customData], COLOR_YELLOW, labelText);
+     Orange_DestroyTreeObject(customData);
 
      new msg[128];
      format(msg, sizeof(msg), "~y~[THU HOACH]:~w~ +~y~%d Cam~w~ (~g~+$%d~w~)", randomAmount, harvestReward);
@@ -385,6 +416,7 @@ public Orange_MiniGame_OnComplete(playerid, customData) {
 
 public Orange_MiniGame_OnFail(playerid, customData) {
      TreeAvailable[customData] = true;
+     Orange_CreateTreeObject(customData);
 
      new labelText[128];
      format(labelText, sizeof(labelText), "[CAY CAM]\n"C_WHITE"Nhan 'N' de thu hoach");

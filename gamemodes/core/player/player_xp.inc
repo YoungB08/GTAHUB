@@ -1,15 +1,5 @@
 /*
     Written by s4marium
-
-   todo:
-        - Add admin command to set player XP/level (e.g. /setxp [player] [amount], /setlevel [player] [level])
-        - Add more XP gain sources (e.g. completing missions, killing NPCs, etc.)
-        - Add level up rewards (e.g. give player money, items, etc. on level up)
-        - Add XP gain multiplier for premium players (e.g. 2x XP gain for premium members)
-        - Optimize database queries by batching XP saves instead of saving on every changeeach
-        - Add XP requirements display in class selection menu to show how much XP is needed for class or job unlocks
-        - Add leaderboard to show top players by level or XP
-        - Add achievements related to XP and levels (e.g. reach level 10, gain 1000 XP, etc.)
 */
 #include <YSI_Coding\y_hooks>
 
@@ -19,6 +9,8 @@
 
 #define MAX_XP_PER_LEVEL(%0) ((%0 + 3) * 150)
 #define XP_HIDE_TIMER 6000
+#define XP_SAVE_DELAY 30000
+#define XP_LEVEL_REWARD(%0) ((%0) * 1000)
 
 // =============================================================================
 // ENUMS
@@ -57,11 +49,7 @@ hook OnMySQLConnected() {
 hook OnPlayerConnect(playerid) {
 	PlayerXpData[playerid][pXp] = 0;
 	PlayerXpData[playerid][pLevel] = 0;
-
-	if(PlayerXpUpdateTimer[playerid] != -1) {
-		KillTimer(PlayerXpUpdateTimer[playerid]);
-		PlayerXpUpdateTimer[playerid] = -1;
-	}
+	PlayerXpUpdateTimer[playerid] = -1;
 
 	return 1;
 }
@@ -80,6 +68,9 @@ hook OnPlayerDisconnect(playerid, reason) {
 	if(PlayerXpUpdateTimer[playerid] != -1) {
 		KillTimer(PlayerXpUpdateTimer[playerid]);
 		PlayerXpUpdateTimer[playerid] = -1;
+	}
+	if(PlayerXpData[playerid][pLevel] > 0) {
+		XpSystem_Save(playerid);
 	}
 	return 1;
 }
@@ -112,13 +103,48 @@ XpSystem_Load(playerid) {
 }
 
 XpSystem_Save(playerid) {
+	if(!IsPlayerConnected(playerid) || Player_GetAccountID(playerid) <= 0) {
+		return 0;
+	}
+
 	MySQL_BindInt(stmt_savePlayerXp, 0, PlayerXpData[playerid][pXp]);
 	MySQL_BindInt(stmt_savePlayerXp, 1, PlayerXpData[playerid][pLevel]);
 	MySQL_BindInt(stmt_savePlayerXp, 2, Player_GetAccountID(playerid));
 	MySQL_ExecuteThreaded(stmt_savePlayerXp);
+	return 1;
+}
+
+static XpSystem_QueueSave(playerid) {
+	if(!IsPlayerConnected(playerid) || Player_GetAccountID(playerid) <= 0) {
+		return 0;
+	}
+
+	if(PlayerXpUpdateTimer[playerid] == -1) {
+		PlayerXpUpdateTimer[playerid] = SetTimerEx("XpSystem_SaveTimer", XP_SAVE_DELAY, false, "i", playerid);
+	}
+	return 1;
+}
+
+static XpSystem_ApplyMultiplier(playerid, amount) {
+	new
+		vipLevel = VIP_GetPlayerLevel(playerid),
+		bonusPercent = min(vipLevel * 10, 50);
+
+	return amount + ((amount * bonusPercent) / 100);
 }
 
 forward XpUI_ShowGain(playerid, amount);
+forward XpUI_ShowLevelUp(playerid, level);
+forward XpSystem_SaveTimer(playerid);
+
+public XpSystem_SaveTimer(playerid) {
+	PlayerXpUpdateTimer[playerid] = -1;
+
+	if(IsPlayerConnected(playerid)) {
+		XpSystem_Save(playerid);
+	}
+	return 1;
+}
 
 // =============================================================================
 // PUBLIC API FUNCTIONS
@@ -136,6 +162,7 @@ stock bool:GivePlayerXp(playerid, amount) {
 		return false;
 	}
 
+	amount = XpSystem_ApplyMultiplier(playerid, amount);
 	PlayerXpData[playerid][pXp] += amount;
 
 	// Show XP gain notification
@@ -146,9 +173,12 @@ stock bool:GivePlayerXp(playerid, amount) {
 		PlayerXpData[playerid][pXp] -= MAX_XP_PER_LEVEL(PlayerXpData[playerid][pLevel]);
 		PlayerXpData[playerid][pLevel]++;
 
-		// Level up notification
+		new levelReward = XP_LEVEL_REWARD(PlayerXpData[playerid][pLevel]);
+		GivePlayerMoney(playerid, levelReward);
+
 		SendClientMessage(playerid, COLOR_RED, "Chuc mung!"C_WHITE" Ban da len level!");
-		PlayerPlaySound(playerid, 17803, 0.0, 0.0, 0.0);
+		SendServerMsgF(playerid, "Thuong len level: "C_GREEN"%m"C_WHITE".", levelReward);
+		XpUI_ShowLevelUp(playerid, PlayerXpData[playerid][pLevel]);
 
 		// Update score to match level
 		SetPlayerScore(playerid, PlayerXpData[playerid][pLevel]);
@@ -157,8 +187,7 @@ stock bool:GivePlayerXp(playerid, amount) {
 	// Update score
 	SetPlayerScore(playerid, PlayerXpData[playerid][pLevel]);
 
-	// Save to database
-	XpSystem_Save(playerid);
+	XpSystem_QueueSave(playerid);
 
 	return true;
 }
@@ -176,6 +205,7 @@ stock bool:RemovePlayerXp(playerid, amount) {
 	}
 
 	PlayerXpData[playerid][pXp] = Max(0, PlayerXpData[playerid][pXp] - amount);
+	XpSystem_QueueSave(playerid);
 	return true;
 }
 
@@ -217,6 +247,7 @@ stock bool:SetPlayerXp(playerid, xp) {
 		return false;
 	}
 	PlayerXpData[playerid][pXp] = xp;
+	XpSystem_QueueSave(playerid);
 	return true;
 }
 
@@ -233,6 +264,7 @@ stock bool:SetPlayerLevel(playerid, level) {
 	}
 	PlayerXpData[playerid][pLevel] = level;
 	SetPlayerScore(playerid, level);
+	XpSystem_QueueSave(playerid);
 	return true;
 }
 
@@ -277,6 +309,7 @@ stock bool:ResetPlayerXp(playerid) {
 	PlayerXpData[playerid][pXp] = 0;
 	PlayerXpData[playerid][pLevel] = 1;
 	SetPlayerScore(playerid, 1);
+	XpSystem_QueueSave(playerid);
 	return true;
 }
 
@@ -284,12 +317,99 @@ stock bool:ResetPlayerXp(playerid) {
 // TEST COMMAND
 // =============================================================================
 CMD:getlevel(playerid, params[]) {
-	GivePlayerXp(playerid, 100);
 	new message[128];
 	format(message, sizeof(message), "Level: %d | XP: %d/%d",
 		GetPlayerLevel(playerid),
 		GetPlayerXp(playerid),
 		GetPlayerXpRequired(playerid));
 	SendClientMessage(playerid, -1, message);
+	return 1;
+}
+
+CMD:xpleaderboard(playerid, params[]) {
+	#pragma unused params
+
+	inline const OnXpLeaderboardLoad() {
+		new
+			rows = cache_num_rows(),
+			name[MAX_PLAYER_NAME],
+			level,
+			xp,
+			line[96],
+			content[1024];
+
+		strcat(content, "Hang\tNguoi choi\tLevel\tXP\n", sizeof(content));
+
+		for(new i = 0; i < rows; i++) {
+			cache_get_value_name(i, "username", name, sizeof(name));
+			cache_get_value_name_int(i, "level", level);
+			cache_get_value_name_int(i, "xp", xp);
+
+			format(line, sizeof(line), "%d\t%s\t%d\t%d/%d\n", i + 1, name, level, xp, MAX_XP_PER_LEVEL(level));
+			strcat(content, line, sizeof(content));
+		}
+
+		Dialog_Show(playerid, DIALOG_STYLE_TABLIST_HEADERS, "Bang Xep Hang XP", content, "Dong", "");
+		return 1;
+	}
+
+	MySQL_TQueryInline(MySQL_GetHandle(), using inline OnXpLeaderboardLoad, "\
+		SELECT \
+			CONCAT(p.firstname, ' ', p.lastname) AS username, ps.level, ps.xp \
+		FROM \
+			player_stats AS ps \
+		INNER JOIN \
+			players AS p \
+		ON \
+			p.u_id = ps.u_id \
+		WHERE \
+			p.is_character = 1 \
+		ORDER BY \
+			ps.level DESC, ps.xp DESC \
+		LIMIT 10");
+	return 1;
+}
+
+CMD:setxp(playerid, params[]) {
+	new
+		targetid,
+		amount;
+
+	if(Admin_GetPlayerLevel(playerid) < 5) {
+		return SendErrorMsg(playerid, "Ban khong co quyen dung lenh nay.");
+	}
+
+	if(sscanf(params, "ui", targetid, amount)) {
+		return SendSyntaxMsg(playerid, "/setxp <playerid> <xp>");
+	}
+
+	if(!SetPlayerXp(targetid, amount)) {
+		return SendErrorMsg(playerid, "Nguoi choi hoac so XP khong hop le.");
+	}
+
+	SendMsgF(playerid, COLOR_MODERATION, "[ADMIN XP]: Da dat XP cua %p(%d) thanh %d.", targetid, targetid, amount);
+	SendMsgF(targetid, COLOR_MODERATION, "[ADMIN XP]: XP cua ban da duoc dat thanh %d.", amount);
+	return 1;
+}
+
+CMD:setlevel(playerid, params[]) {
+	new
+		targetid,
+		level;
+
+	if(Admin_GetPlayerLevel(playerid) < 5) {
+		return SendErrorMsg(playerid, "Ban khong co quyen dung lenh nay.");
+	}
+
+	if(sscanf(params, "ui", targetid, level)) {
+		return SendSyntaxMsg(playerid, "/setlevel <playerid> <level>");
+	}
+
+	if(!SetPlayerLevel(targetid, level)) {
+		return SendErrorMsg(playerid, "Nguoi choi hoac level khong hop le.");
+	}
+
+	SendMsgF(playerid, COLOR_MODERATION, "[ADMIN XP]: Da dat level cua %p(%d) thanh %d.", targetid, targetid, level);
+	SendMsgF(targetid, COLOR_MODERATION, "[ADMIN XP]: Level cua ban da duoc dat thanh %d.", level);
 	return 1;
 }

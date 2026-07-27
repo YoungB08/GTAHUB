@@ -41,6 +41,16 @@ static
     mansrecent
 ;
 
+hook OnPlayerConnect(playerid)
+{
+    RobberyInfo[playerid] = ROBBERY_NONE;
+    RobbingState[playerid] = STATE_ROBBERY_NONE;
+    robbing[playerid] = 0;
+    robbingdone[playerid] = 0;
+    BurglaryInfo[playerid] = 0;
+    return 1;
+}
+
 enum RHIDEOUTS {
     Float:rhX,
     Float:rhY,
@@ -281,6 +291,15 @@ stock Player_StopRobbery(playerid) {
     stop burglarytimer[playerid];
     stop BurglaryFailed[playerid];
     RobberyFailed(playerid);
+    return 1;
+}
+
+stock Player_StopRobberyIfActive(playerid) {
+    if(robbing[playerid] != 1 && robbingdone[playerid] != 1 && BurglaryInfo[playerid] == 0) {
+        return 0;
+    }
+
+    Player_StopRobbery(playerid);
     return 1;
 }
 
