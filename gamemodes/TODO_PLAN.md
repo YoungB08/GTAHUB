@@ -132,3 +132,11 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 - [ ] Milestone 4: Speedometer và phone cơ bản hoạt động.
 - [ ] Milestone 5: Menu tương tác và job XP hoạt động.
 - [ ] Milestone 6: Job nâng cao, VIP/perk và poker hoạt động.
+
+---
+
+## 📌 Các Tính Năng Nâng Cấp RP Tiếp Theo (Phần 2)
+
+Các mục tiếp theo (Mục 13 - 21) chi tiết về hệ thống Roleplay (Multi-char, Chat IC/OOC, Dynamic Inventory, Faction LSPD/EMS/Gang, Smartphone UI, Fuel System...) được quản lý nối tiếp tại:
+👉 [`DEVELOPMENT_PLAN_RP.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_RP.md)
+
