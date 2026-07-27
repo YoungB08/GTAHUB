@@ -150,7 +150,8 @@ hook OnPlayerEnterDynRaceCP(playerid, checkpointid) {
 		format(string, sizeof(string), "~n~~n~~n~~n~~w~Lam tot lam! Thuong: %m.", SWEEPER_REWARD);
 		GameTextForPlayer(playerid, string , 3000, 3);
 
-		GivePlayerMoney(playerid, SWEEPER_REWARD);
+		GivePlayerMoney(playerid, SWEEPER_REWARD + JobSkills_GetBonusMoney(playerid, JOB_ROADCLEANER, SWEEPER_REWARD));
+		JobSkills_AddXP(playerid, JOB_ROADCLEANER);
 		if(PlayerSweepCount[playerid] >= 11) {
 			PlayerSweepCount[playerid] = 0;
 			DestroyDynamicRaceCP(SweeperCheckpoint[playerid]);

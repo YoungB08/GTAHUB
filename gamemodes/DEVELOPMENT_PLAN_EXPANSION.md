@@ -25,24 +25,24 @@ Tài liệu này nối tiếp [`TODO_PLAN.md`](file:///c:/Users/LENOVO/Documents
 
 ---
 
-### 24. Hệ Thống Level Nghề & Rework Reward (Job Skill Levels & XP)
-- [ ] **Bảng lưu Level/XP Nghề**: Lưu riêng XP cho từng nghề (Trucker, Pizza, Garbage, Farmer, Mechanic).
-- [ ] **Hệ thống Rank Nghề (Level 1 -> 5)**:
-  - **Trucker**: Level cao chở được hàng giá trị hơn, thưởng tiền nhiều hơn.
-  - **Pizza / Garbage**: Tăng bonus tiền thưởng mỗi đơn hàng theo Level.
-- [ ] **Thông báo Level Up**: Hiển thị TextDraw/Message khi thăng cấp nghề.
-- **File dự kiến:** `core/player/jobs/job_skills.inc`
+### 24. Hệ Thống Level Nghề & Rework Reward (Job Skill Levels & XP) ✅
+- [x] **Bảng lưu Level/XP Nghề**: Bảng `job_skills` lưu riêng XP cho từng nghề (Trucker, Pizza, Garbage, RoadCleaner).
+- [x] **Hệ thống Rank Nghề (Level 1 -> 5)**:
+  - **Trucker**: Level cao → bonus tiền thưởng (+0% → +50%).
+  - **Pizza / Garbage / Quet Duong**: Bonus tiền tăng theo Level.
+- [x] **Thông báo Level Up**: GameText vàng + Chat message khi thăng cấp nghề.
+- **File:** `core/player/jobs/job_skills.inc`, `scriptfiles/job_skills.sql`
 
 ---
 
-### 25. Menu Tương Tác Trực Quan Giữa Người Chơi (Player Interaction Menu)
-- [ ] **Lệnh `/interact [playerid]` hoặc bấm phím tương tác khi ở gần**:
-  - Xem thông tin nhân vật / Bằng lái (`Inspect Licenses`).
+### 25. Menu Tương Tác Trực Quan Giữa Người Chơi (Player Interaction Menu) ✅
+- [x] **Lệnh `/interact [playerid]`**: Mở Dialog list các hành động tương tác (bán kính 5m).
+  - Xem thông tin nhân vật / Bằng lái (`Inspect Info`).
   - Chuyển tiền mặt trực tiếp (`Pay Money`).
   - Đưa vật phẩm túi đồ (`Give Item`).
   - Cảnh sát: Khóa tay (`Cuff`), Dẫn giải (`Escort`), Khám người (`Inspect`).
   - EMS: Sơ cứu (`Bandage`), Hồi sức (`CPR`).
-- **File dự kiến:** `core/player/player_interaction_menu.inc`
+- **File:** `core/player/player_interaction_menu.inc`
 
 ---
 

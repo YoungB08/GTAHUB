@@ -29,6 +29,10 @@ static PlayerHunger[MAX_PLAYERS];
 static PlayerThirst[MAX_PLAYERS];
 static PlayerSurvivalTimer[MAX_PLAYERS];
 
+// HUD TextDraw
+static PlayerText:ptdHunger[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
+static PlayerText:ptdThirst[MAX_PLAYERS] = {PlayerText:INVALID_TEXT_DRAW, ...};
+
 // =============================================================================
 // HOOKS
 // =============================================================================
@@ -38,6 +42,22 @@ hook OnPlayerConnect(playerid)
     PlayerHunger[playerid] = MAX_SURVIVAL_STAT;
     PlayerThirst[playerid] = MAX_SURVIVAL_STAT;
     PlayerSurvivalTimer[playerid] = 0;
+
+    // Tạo HUD TextDraw
+    ptdHunger[playerid] = CreatePlayerTextDraw(playerid, 550.0, 390.0, "Doi: 100");
+    PlayerTextDrawLetterSize(playerid, ptdHunger[playerid], 0.22, 1.0);
+    PlayerTextDrawColor(playerid, ptdHunger[playerid], 0xFFCC00FF);
+    PlayerTextDrawSetShadow(playerid, ptdHunger[playerid], 1);
+    PlayerTextDrawFont(playerid, ptdHunger[playerid], TEXT_DRAW_FONT_2);
+    PlayerTextDrawSetProportional(playerid, ptdHunger[playerid], true);
+
+    ptdThirst[playerid] = CreatePlayerTextDraw(playerid, 550.0, 402.0, "Khat: 100");
+    PlayerTextDrawLetterSize(playerid, ptdThirst[playerid], 0.22, 1.0);
+    PlayerTextDrawColor(playerid, ptdThirst[playerid], 0x00CCFFFF);
+    PlayerTextDrawSetShadow(playerid, ptdThirst[playerid], 1);
+    PlayerTextDrawFont(playerid, ptdThirst[playerid], TEXT_DRAW_FONT_2);
+    PlayerTextDrawSetProportional(playerid, ptdThirst[playerid], true);
+
     return 1;
 }
 
@@ -46,6 +66,9 @@ hook OnPlayerSpawn(playerid)
     // Phục hồi 50% khi hồi sinh nếu đang quá thấp
     if (PlayerHunger[playerid] < 50) PlayerHunger[playerid] = 50;
     if (PlayerThirst[playerid] < 50) PlayerThirst[playerid] = 50;
+    Survival_UpdateHUD(playerid);
+    PlayerTextDrawShow(playerid, ptdHunger[playerid]);
+    PlayerTextDrawShow(playerid, ptdThirst[playerid]);
     return 1;
 }
 
@@ -96,6 +119,22 @@ hook OnPlayerSecondUpdate(playerid)
 }
 
 // =============================================================================
+// HUD UPDATE
+// =============================================================================
+
+static Survival_UpdateHUD(playerid)
+{
+    if (ptdHunger[playerid] == PlayerText:INVALID_TEXT_DRAW) return;
+
+    new str[32];
+    format(str, sizeof(str), "~y~Doi: %d/100", PlayerHunger[playerid]);
+    PlayerTextDrawSetString(playerid, ptdHunger[playerid], str);
+
+    format(str, sizeof(str), "~b~Khat: %d/100", PlayerThirst[playerid]);
+    PlayerTextDrawSetString(playerid, ptdThirst[playerid], str);
+}
+
+// =============================================================================
 // API
 // =============================================================================
 
@@ -105,7 +144,8 @@ stock Survival_AddHunger(playerid, amount)
     if (PlayerHunger[playerid] > MAX_SURVIVAL_STAT) 
         PlayerHunger[playerid] = MAX_SURVIVAL_STAT;
     
-    SendMsgF(playerid, COLOR_GREEN, "* Ban da an. (Đói: %d/100)", PlayerHunger[playerid]);
+    Survival_UpdateHUD(playerid);
+    SendMsgF(playerid, COLOR_GREEN, "* Ban da an. (Doi: %d/100)", PlayerHunger[playerid]);
     return 1;
 }
 
@@ -115,7 +155,8 @@ stock Survival_AddThirst(playerid, amount)
     if (PlayerThirst[playerid] > MAX_SURVIVAL_STAT) 
         PlayerThirst[playerid] = MAX_SURVIVAL_STAT;
     
-    SendMsgF(playerid, COLOR_GREEN, "* Ban da uong. (Khát: %d/100)", PlayerThirst[playerid]);
+    Survival_UpdateHUD(playerid);
+    SendMsgF(playerid, COLOR_GREEN, "* Ban da uong. (Khat: %d/100)", PlayerThirst[playerid]);
     return 1;
 }
 

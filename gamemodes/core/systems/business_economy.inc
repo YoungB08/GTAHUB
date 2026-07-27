@@ -253,7 +253,7 @@ CMD:bizpanel(playerid, params[])
         "{FFFFFF}Ten Doanh Nghiep: {FFAA00}%s\n\
         {FFFFFF}Tien trong ket (Safe): {33AA33}$%d\n\
         {FFFFFF}Kho hang (Stock): {00AAFF}%d units\n\n\
-        1. Rut tien tu ket\n2. Nhap hang (Stock)\n3. Đổi tên cửa hàng",
+        1. Rut tien tu ket\n2. Nhap hang (Stock)\n3. Dat gia ban hang\n4. Doi ten cua hang",
         BusinessData[id][bizName], BusinessData[id][bizSafeMoney], BusinessData[id][bizStock]);
 
     inline OnBizPanel(response, listitem, string:inputtext[])
@@ -284,6 +284,53 @@ CMD:bizpanel(playerid, params[])
             GivePlayerMoney(playerid, -cost);
             BusinessData[id][bizStock] += 50;
             SendMsgF(playerid, COLOR_GREEN, "[DOANH NGHIEP] Da nhap 50 don vi hang hoa, phi $500.");
+        }
+        else if (listitem == 2) // Dat gia ban hang
+        {
+            inline OnSetPrice(res, li, string:priceStr[])
+            {
+                #pragma unused li
+                if (!res) return;
+                new newPrice = strval(priceStr);
+                if (newPrice < 1 || newPrice > 99999)
+                {
+                    SendErrorMsg(playerid, "Gia phai tu $1 den $99,999.");
+                    return;
+                }
+                BusinessData[id][bizPrice] = newPrice;
+                MySQL_BindInt(stmt_updateBiz, 0, BusinessData[id][bizOwnerUID]);
+                MySQL_BindString(stmt_updateBiz, 1, BusinessData[id][bizName]);
+                MySQL_BindInt(stmt_updateBiz, 2, newPrice);
+                MySQL_BindInt(stmt_updateBiz, 3, BusinessData[id][bizID]);
+                MySQL_ExecuteThreaded(stmt_updateBiz);
+                Biz_RefreshVisuals(id);
+                SendMsgF(playerid, COLOR_GREEN, "[DOANH NGHIEP] Da cap nhat gia ban thanh $%d.", newPrice);
+            }
+            Dialog_ShowCallback(playerid, using inline OnSetPrice, DIALOG_STYLE_INPUT, "Dat Gia Ban", "Nhap gia ban moi cho cua hang ($1 - $99,999):", "Xac Nhan", "Huy");
+            return;
+        }
+        else if (listitem == 3) // Doi ten cua hang
+        {
+            inline OnRename(res, li, string:newName[])
+            {
+                #pragma unused li
+                if (!res) return;
+                if (strlen(newName) < 3 || strlen(newName) > 63)
+                {
+                    SendErrorMsg(playerid, "Ten phai tu 3 den 63 ky tu.");
+                    return;
+                }
+                format(BusinessData[id][bizName], 64, "%s", newName);
+                MySQL_BindInt(stmt_updateBiz, 0, BusinessData[id][bizOwnerUID]);
+                MySQL_BindString(stmt_updateBiz, 1, BusinessData[id][bizName]);
+                MySQL_BindInt(stmt_updateBiz, 2, BusinessData[id][bizPrice]);
+                MySQL_BindInt(stmt_updateBiz, 3, BusinessData[id][bizID]);
+                MySQL_ExecuteThreaded(stmt_updateBiz);
+                Biz_RefreshVisuals(id);
+                SendMsgF(playerid, COLOR_GREEN, "[DOANH NGHIEP] Da doi ten cua hang thanh: %s.", BusinessData[id][bizName]);
+            }
+            Dialog_ShowCallback(playerid, using inline OnRename, DIALOG_STYLE_INPUT, "Doi Ten Cua Hang", "Nhap ten moi cho doanh nghiep:", "Xac Nhan", "Huy");
+            return;
         }
 
         // Save safe & stock

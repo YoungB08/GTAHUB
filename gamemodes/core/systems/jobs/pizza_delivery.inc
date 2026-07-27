@@ -127,10 +127,12 @@ Pizza_End(playerid) {
 
     // Reward Player
     new reward = random(2000) + 2500;
-    GivePlayerMoney(playerid, reward);
+    new bonus = JobSkills_GetBonusMoney(playerid, JOB_PIZZA, reward);
+    GivePlayerMoney(playerid, reward + bonus);
+    JobSkills_AddXP(playerid, JOB_PIZZA);
 
     // Notify Player
-    SendMsgF(playerid, COLOR_RED, "(giao pizza) "C_WHITE"Da giao pizza thanh cong va nhan "C_GREEN"%m"C_WHITE"!", reward);
+    SendMsgF(playerid, COLOR_RED, "(giao pizza) "C_WHITE"Da giao pizza thanh cong va nhan "C_GREEN"%m"C_WHITE"! (Bonus: +%d)", reward, bonus);
     return 1;
 }
 

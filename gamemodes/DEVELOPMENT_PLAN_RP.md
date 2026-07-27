@@ -61,7 +61,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **Paycheck System**: Trả lương định kỳ mỗi 60 phút (Lương Faction/Job, bonus level, tự động tính thuế). – `core/systems/paycheck_system.inc`
 - [x] **Chuyển khoản Ngân hàng (`/transfer`)**: Chuyển tiền giữa các tài khoản ngân hàng người chơi (phí 2%). – `core/cmds/cmds_bank.inc`
 - [x] **Xem số dư (`/balance`, `/bal`)**: Kiểm tra tiền mặt & ngân hàng. – `core/cmds/cmds_bank.inc`
-- [ ] **Hóa đơn & Tiền phạt IC**: Cảnh sát xuất hóa đơn phạt (tích hợp `/fine` của LSPD).
+- [x] **Hóa đơn & Tiền phạt IC**: Cảnh sát xuất hóa đơn phạt bằng lệnh `/fine [ID] [Tiền] [Lý do]`. – `core/systems/lspd_system.inc`
 
 ---
 
@@ -71,8 +71,8 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **Động cơ thủ công (`/engine`)**: Bật/Tắt máy (chỉ chủ xe hoặc người có chìa khóa), kiểm tra xăng trước khi khởi động. – `core/player/vehicle/vehicle_keys.inc`
 - [x] **Khóa/Mở cửa xe (`/lock`)**: Ngăn người không có chìa khóa vào xe. – `core/player/vehicle/vehicle_keys.inc`
 - [x] **Chia sẻ chìa khóa phụ (`/givekey`, `/takekey`)**: Giao/Thu chìa khóa phụ (tối đa 4 người). – `core/player/vehicle/vehicle_keys.inc`
-- [ ] Đăng ký biển số IC tại City Hall.
-- [ ] Hỏng hóc chi tiết (nổ lốp, hỏng động cơ, cạn ắc quy).
+- [x] Đăng ký biển số IC tại City Hall (`/platereg`, `/changeplate`). – `core/systems/cityhall_rp.inc`
+- [x] Hỏng hóc chi tiết: Hỏng động cơ khi va chạm mạnh, không thể khởi động lại. – `core/player/vehicle/vehicle_damage.inc`
 
 ---
 
@@ -82,7 +82,7 @@ Tài liệu này nối tiếp danh sách các hạng mục nền tảng (Mục 1
 - [x] **MDC – Mobile Data Computer (`/mdc`)**: Tra cứu hồ sơ nhân thân: tên, level, wanted, giấy phép. – `core/systems/lspd_system.inc`
 - [x] **Phiếu phạt IC (`/fine`)**: Cảnh sát phạt tiền người chơi có lý do, trừ tiền mặt/ngân hàng. – `core/systems/lspd_system.inc`
 - [x] **Thăng cấp LSPD (`/setrank`)**: Admin cấp rank cảnh sát (level 4+). – `core/systems/lspd_system.inc`
-- [ ] EMS/LSFD: On-duty, Cứu thương, Băng bó, CPR, Cáng bệnh nhân. ✅ `core/systems/ems_system.inc`
+- [x] EMS/LSFD: `/emsduty`, Băng bó (`/bandage` +25HP), CPR (`/cpr` 50% thành công), Hồi sinh (`/revive`). – `core/systems/ems_system.inc`
 - [x] **City Hall RP**: Đăng ký biển số xe IC (`/platereg`), Cấp GPDKD (`/bizlicense`), Xem giấy phép (`/mybiz`). – `core/systems/cityhall_rp.inc`
 
 ---

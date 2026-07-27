@@ -19,6 +19,7 @@
 #include <player_death>
 #include <player_survival>
 #include <player_hotkeys>
+#include <player_interaction_menu>
 
 #include <player_hitpoint-save>
 #include <player_weapon-save>
