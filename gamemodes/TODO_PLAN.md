@@ -135,8 +135,11 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 ---
 
-## 📌 Các Tính Năng Nâng Cấp RP Tiếp Theo (Phần 2)
+## 📌 Các Tính Năng Nâng Cấp RP Tiếp Theo
 
-Các mục tiếp theo (Mục 13 - 21) chi tiết về hệ thống Roleplay (Multi-char, Chat IC/OOC, Dynamic Inventory, Faction LSPD/EMS/Gang, Smartphone UI, Fuel System...) được quản lý nối tiếp tại:
-👉 [`DEVELOPMENT_PLAN_RP.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_RP.md)
+- **Phần 2 (Roleplay Core Systems)**: Multi-char, Chat IC/OOC, Dynamic Inventory, Faction LSPD/EMS/Gang, Smartphone UI, Fuel System...  
+  👉 [`DEVELOPMENT_PLAN_RP.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_RP.md)
+
+- **Phần 3 (Expansion & Systems Depth)**: Driving School, House Storage, Job Skill Levels, Player Interaction Menu, Fishing System, VIP Perks...  
+  👉 [`DEVELOPMENT_PLAN_EXPANSION.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_EXPANSION.md)
 

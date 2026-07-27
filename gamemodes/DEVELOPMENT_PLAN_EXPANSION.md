@@ -1,0 +1,81 @@
+# Kế Hoạch Phát Triển Gameplay (Phần 3: Nâng Cấp Mở Rộng & Hệ Thống Chi Tiết RP)
+
+Tài liệu này nối tiếp [`TODO_PLAN.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/TODO_PLAN.md) và [`DEVELOPMENT_PLAN_RP.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_RP.md), tập trung nâng cấp độ sâu cho gameplay RP, hoàn thiện các hệ thống trường thi lái xe, bất động sản, nghề nghiệp có XP, menu tương tác và minigame.
+
+---
+
+## 🎯 Danh Sách Chức Năng Mở Rộng (Mục 22 - 27)
+
+### 22. Trường Thi Lái Xe & Bài Kiểm Tra Thực Hành (Driving School System)
+- [ ] **Trường thi lái xe (Driving School HQ)**: Đặt tại San Fierro / Los Santos với NPC Giáo viên.
+- [ ] **Thi Lý Thuyết**: Bộ 5 câu hỏi trắc nghiệm Dialog về Luật Giao Thông IC (đạt ≥4/5 câu).
+- [ ] **Thi Thực Hành Checkpoint**:
+  - Cấp xe thi (`Driving Test Car`).
+  - Đi qua 8-10 Checkpoints định sẵn trong thành phố.
+  - Giới hạn tốc độ `60 km/h` trong khu dân cư (vượt quá bị trừ điểm).
+  - Va chạm / làm hỏng xe quá mức -> Trượt bài thi.
+- [ ] **Tự động cấp bằng**: Tự động cập nhật `player_licenses` (Bằng lái xe) khi hoàn thành.
+- **File dự kiến:** `core/systems/driving_school.inc`
+
+---
+
+### 23. Nâng Cấp Bất Động Sản & Tủ Đồ Nhà Riêng (Advanced Housing & Storage)
+- [ ] **Khóa/Mở cửa nhà (`/houselock`, `/house lock`)**: Chỉ chủ nhà hoặc người giữ chìa khóa mới vào được.
+- [ ] **Giao dịch Nhà IC (`/sellhouse [id] [gia]`, `/buyhouse`)**: Đặt giá bán nhà cho người chơi khác.
+- [ ] **Tủ đồ nhà riêng (House Inventory Storage)**:
+  - Cất/Lấy tiền mặt nhà riêng (`/housedeposit`, `/housewithdraw`).
+  - Cất/Lấy vật phẩm từ Túi đồ cá nhân vào Tủ đồ nhà (`/houseput [item] [so]`, `/housetake [item] [so]`).
+- **File dự kiến:** `core/systems/house_storage.inc`
+
+---
+
+### 24. Hệ Thống Level Nghề & Rework Reward (Job Skill Levels & XP)
+- [ ] **Bảng lưu Level/XP Nghề**: Lưu riêng XP cho từng nghề (Trucker, Pizza, Garbage, Farmer, Mechanic).
+- [ ] **Hệ thống Rank Nghề (Level 1 -> 5)**:
+  - **Trucker**: Level cao chở được hàng giá trị hơn, thưởng tiền nhiều hơn.
+  - **Pizza / Garbage**: Tăng bonus tiền thưởng mỗi đơn hàng theo Level.
+- [ ] **Thông báo Level Up**: Hiển thị TextDraw/Message khi thăng cấp nghề.
+- **File dự kiến:** `core/player/jobs/job_skills.inc`
+
+---
+
+### 25. Menu Tương Tác Trực Quan Giữa Người Chơi (Player Interaction Menu)
+- [ ] **Lệnh `/interact [playerid]` hoặc bấm phím tương tác khi ở gần**:
+  - Xem thông tin nhân vật / Bằng lái (`Inspect Licenses`).
+  - Chuyển tiền mặt trực tiếp (`Pay Money`).
+  - Đưa vật phẩm túi đồ (`Give Item`).
+  - Cảnh sát: Khóa tay (`Cuff`), Dẫn giải (`Escort`), Khám người (`Inspect`).
+  - EMS: Sơ cứu (`Bandage`), Hồi sức (`CPR`).
+- **File dự kiến:** `core/player/player_interaction_menu.inc`
+
+---
+
+### 26. Hệ Thống Câu Cá RP (RP Fishing Minigame)
+- [ ] **Khu vực câu cá**: Bãi biển Santa Maria Beach, Palomino Creek, Bờ sông.
+- [ ] **Cần câu & Mồi câu**: Mua tại 24/7 Store (`Rod`, `Bait`).
+- [ ] **Lệnh `/fish` & Minigame Bar**:
+  - Bắt đầu câu cá, chờ cá cắn câu.
+  - Minigame thanh căn lực nhấp nháy để kéo cá.
+- [ ] **Loại cá & Bán cá**:
+  - Cá nhỏ (Cá trích, Cá bống) -> Bán lấy tiền hoặc nướng ăn.
+  - Cá hiếm (Cá ngừ, Cá mập nhỏ) -> Giá trị cao.
+- **File dự kiến:** `core/systems/fishing_system.inc`
+
+---
+
+### 27. Hệ Thống VIP Perks & Quyền Lợi (VIP System)
+- [ ] **Cấp độ VIP (Silver, Gold, Platinum)**: Lưu thời hạn VIP trong DB `vips.sql`.
+- [ ] **Quyền lợi VIP**:
+  - Cộng `+20%` tiền lương Paycheck.
+  - Mở rộng kho túi đồ (+4 slots).
+  - Thêm slot sở hữu xe cá nhân (+1 xe).
+  - Lệnh màu tên OOC độc quyền `/vipcolor`.
+- **File dự kiến:** `core/account/account_vip_perks.inc`
+
+---
+
+## 🎯 Thứ Tự Triển Khai Tiếp Theo
+
+1. **Giai đoạn 1**: **Mục 22 (Trường thi lái xe)** & **Mục 23 (Tủ đồ nhà riêng)**.
+2. **Giai đoạn 2**: **Mục 24 (Job Skill Levels & XP)** & **Mục 25 (Player Interaction Menu)**.
+3. **Giai đoạn 3**: **Mục 26 (RP Fishing System)** & **Mục 27 (VIP System Perks)**.
