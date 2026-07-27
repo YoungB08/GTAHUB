@@ -330,10 +330,12 @@ CMD:revive(playerid, params[])
     if (!Player_IsNearPlayer(playerid, targetid, EMS_ACTION_RADIUS))
         return SendErrorMsg(playerid, "Nguoi choi qua xa! (5m)"), 1;
 
-    // Hồi sinh
-    SpawnPlayer(targetid);
-    SetPlayerHealth(targetid, 50.0);
-
+    // Hồi sinh từ trạng thái Downed
+    if (!Player_ReviveFromDowned(targetid))
+    {
+        SpawnPlayer(targetid);
+        SetPlayerHealth(targetid, 50.0);
+    }
     SendMsgF(playerid, COLOR_GREEN, "[EMS] Da hoi sinh %s thanh cong!", ReturnPlayerName(targetid));
     SendMsgF(targetid, COLOR_GREEN, "[EMS] %s da hoi sinh ban. Chuc manh khoe!", ReturnPlayerName(playerid));
     return 1;

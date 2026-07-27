@@ -15,6 +15,11 @@
 #include <player_xp>
 #include <player_inventory> // he thong tui do slot/weight RP
 
+// Roleplay Phase 4 (Batch 1)
+#include <player_death>
+#include <player_survival>
+#include <player_hotkeys>
+
 #include <player_hitpoint-save>
 #include <player_weapon-save>
 
