@@ -111,12 +111,13 @@ hook OnPlayerEnterRaceCP(playerid)
     if(IsPlayerTrucking[playerid])
     {
         if(PlayerTruckingState[playerid] == STATE_DELIVER) {
-            new randm = JobProgress_CalculateReward(playerid, JOB_PROGRESS_TRUCKER, random(5000) + 4000);
-            GivePlayerMoney(playerid, randm);
-            JobProgress_AddXP(playerid, JOB_PROGRESS_TRUCKER, max(50, randm / 75));
+            new randm = random(5000) + 4000;
+            new bonus = JobSkills_GetBonusMoney(playerid, JOB_TRUCKER, randm);
+            GivePlayerMoney(playerid, randm + bonus);
+            JobSkills_AddXP(playerid, JOB_TRUCKER);
             Trucker_End(playerid);
             SendServerMsg(playerid, "Ban da hoan thanh nhiem vu xe tai!");
-            SendServerMsgF(playerid, "Cua hang da tra cho ban %d!", randm);
+            SendServerMsgF(playerid, "Cua hang da tra cho ban %d! (Level Bonus: +%d)", randm, bonus);
             stop TruckingDeliveryTimer[playerid];
         }
         if(PlayerTruckingState[playerid] == STATE_PICKUP) {

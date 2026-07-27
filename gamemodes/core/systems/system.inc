@@ -36,3 +36,40 @@
 
 // GPS pathfinding system
 #include <gps_system>
+
+// He thong luong dinh ky RP
+#include <paycheck_system>
+
+// LSPD Duty + MDC
+#include <lspd_system>
+
+// Turf War System
+#include <turf_system>
+
+// Phone System
+#include <phone_system>
+
+// EMS / LSFD System
+#include <ems_system>
+
+// Black Market & Drug Crafting
+#include <blackmarket_system>
+
+// City Hall RP – Bien so xe IC, GPDKD
+#include <cityhall_rp>
+
+// Anti-Cheat RP
+#include <anticheat_rp>
+
+// Truong thi lai xe IC
+#include <driving_school>
+
+// Tu do nha rieng
+#include <house_storage>
+
+// RP Fishing System
+#include <fishing_system>
+
+// Roleplay Phase 4 (Batch 2)
+#include <business_economy>
+#include <faction_safe>

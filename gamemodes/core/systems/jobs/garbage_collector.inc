@@ -630,8 +630,8 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid) {
 					"(don rac) "C_WHITE"Da ban "C_ORANGE"%d "C_WHITE"bao rac va nhan "C_GREEN"%m.",
 					LoadedTrash[vehicleid], reward
 				);
-		        GivePlayerMoney(playerid, reward);
-				JobProgress_AddXP(playerid, JOB_PROGRESS_GARBAGE, max(20, reward / 80));
+		        GivePlayerMoney(playerid, reward + JobSkills_GetBonusMoney(playerid, JOB_GARBAGE, reward));
+		        JobSkills_AddXP(playerid, JOB_GARBAGE);
 
 		        FactoryData[i][FactoryCurrent] += LoadedTrash[vehicleid];
 		        LoadedTrash[vehicleid] = 0;

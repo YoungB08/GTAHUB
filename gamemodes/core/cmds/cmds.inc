@@ -2,6 +2,8 @@
 #include <cmds_arrest>
 #include <cmds_cuff>
 #include <cmds_bail>
+#include <cmds_license> // he thong giay phep
+#include <cmds_bank>    // chuyen khoan ngan hang RP
 #include <cmds_v> // vehicle
 #include <cmds_pm> // private message
 #include <cmds_gang>
@@ -12,6 +14,9 @@
 #include <cmds_breakout>
 #include <cmds_ghosthunt>
 #include <cmds_gps>
+#include <cmds_license> // he thong giay phep
+#include <cmds_bank>    // chuyen khoan ngan hang RP
+#include <cmds_admin_rp> // ticket, warn, aduty
 
 static
 	cmd_Cooldown[MAX_PLAYERS],

@@ -199,9 +199,9 @@ hook OnPlayerEnterDynRaceCP(playerid, checkpointid) {
 		format(string, sizeof(string), "~n~~n~~n~~n~~w~Lam tot lam! Thuong: %m.", reward);
 		GameTextForPlayer(playerid, string , 3000, 3);
 
-		GivePlayerMoney(playerid, reward);
-		JobProgress_AddXP(playerid, JOB_PROGRESS_ROAD_CLEANER, max(10, reward / 50));
-		if(PlayerSweepCount[playerid] >= sizeof(sweep_trash_routes[]) - 2) {
+		GivePlayerMoney(playerid, SWEEPER_REWARD + JobSkills_GetBonusMoney(playerid, JOB_ROADCLEANER, SWEEPER_REWARD));
+		JobSkills_AddXP(playerid, JOB_ROADCLEANER);
+		if(PlayerSweepCount[playerid] >= 11) {
 			PlayerSweepCount[playerid] = 0;
 			DestroyDynamicRaceCP(SweeperCheckpoint[playerid]);
 			DestroyDynamicObject(SweeperObject[playerid]);

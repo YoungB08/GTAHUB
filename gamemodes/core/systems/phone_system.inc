@@ -1,317 +1,86 @@
+/*
+    phone_system.inc
+    ----------------
+    Hệ thống Điện thoại cơ bản cho Server RP.
+
+    Tính năng:
+    - Mỗi player có số điện thoại 7 chữ số duy nhất (0900000 - 0999999)
+    - /phone     – Mở menu điện thoại (số điện thoại, cuộc gọi, SMS)
+    - /sms [so]  [tin nhan] – Gửi tin nhắn tới số điện thoại
+    - /call [so] – Gọi điện thoại (nhận realtime dialog)
+    - /911       – Gọi khẩn cấp (thông báo tới tất cả LSPD on duty)
+    - /addcontact [so] [ten] – Lưu danh bạ
+    - /myphone   – Xem số điện thoại của bản thân
+*/
+
 #include <YSI_Coding\y_hooks>
 
-#define PHONE_PAYPHONE_FEE          (25)
-#define PHONE_NUMBER_BASE           (500000)
+// =============================================================================
+// CONSTANTS
+// =============================================================================
 
-enum E_PAYPHONE_DATA {
-    E_PAYPHONE_NAME[32],
-    Float:E_PAYPHONE_X,
-    Float:E_PAYPHONE_Y,
-    Float:E_PAYPHONE_Z,
-    Float:E_PAYPHONE_A
-}
+#define PHONE_NUMBER_MIN        (9000000)
+#define PHONE_NUMBER_MAX        (9999999)
+#define MAX_SMS_LENGTH          (128)
+#define PHONE_CALL_TIMEOUT      (30)    // Giây trước khi gọi tự cúp
 
-static const PayPhoneData[][E_PAYPHONE_DATA] = {
-    {"Dien thoai Toa Thi Chinh", 1472.9500, -1742.7000, 13.5469, 180.0},
-    {"Dien thoai Ga Unity", 1743.6400, -1861.1500, 13.5700, 90.0},
-    {"Dien thoai Idlewood", 1933.2500, -1773.4200, 13.3828, 270.0}
-};
+// =============================================================================
+// DATA
+// =============================================================================
 
 static
-    PlayerPhoneNumber[MAX_PLAYERS],
-    PayPhoneArea[sizeof(PayPhoneData)],
     Statement:stmt_loadPhone,
     Statement:stmt_insertPhone,
-    Statement:stmt_insertContact,
-    Statement:stmt_loadContacts;
+    Statement:stmt_loadContacts,
+    Statement:stmt_saveContact;
 
-stock Phone_GetNumber(playerid)
-{
-    if(!IsPlayerConnected(playerid)) {
-        return 0;
-    }
-    return PlayerPhoneNumber[playerid];
+// Số điện thoại player
+static PhoneNumber[MAX_PLAYERS][12]; // "09XXXXXXX\0"
+
+// Cuộc gọi hiện tại: -1 nếu không có
+static PhoneCallTarget[MAX_PLAYERS];    // Người đang gọi
+static PhoneCallTimer[MAX_PLAYERS];     // Giây còn lại
+
+// Danh bạ runtime (tối đa 20 số)
+#define MAX_CONTACTS_PER_PLAYER (20)
+enum E_CONTACT {
+    E_CONTACT_NAME[32],
+    E_CONTACT_NUMBER[12]
 }
+static ContactList[MAX_PLAYERS][MAX_CONTACTS_PER_PLAYER][E_CONTACT];
+static ContactCount[MAX_PLAYERS];
 
-stock Phone_FindPlayerByNumber(number)
-{
-    foreach(new i : Player) {
-        if(PlayerPhoneNumber[i] == number) {
-            return i;
-        }
-    }
-    return INVALID_PLAYER_ID;
-}
-
-static Phone_SaveNumber(playerid)
-{
-    MySQL_BindInt(stmt_insertPhone, 0, Player_GetAccountID(playerid));
-    MySQL_BindInt(stmt_insertPhone, 1, PlayerPhoneNumber[playerid]);
-    MySQL_BindInt(stmt_insertPhone, 2, PlayerPhoneNumber[playerid]);
-    MySQL_ExecuteThreaded(stmt_insertPhone);
-    return 1;
-}
-
-static Phone_Load(playerid)
-{
-    inline OnPhoneLoad()
-    {
-        new phoneNumber;
-        MySQL_BindResultInt(stmt_loadPhone, 0, phoneNumber);
-
-        if(MySQL_Statement_FetchRow(stmt_loadPhone)) {
-            PlayerPhoneNumber[playerid] = phoneNumber;
-        }
-        else {
-            PlayerPhoneNumber[playerid] = PHONE_NUMBER_BASE + Player_GetAccountID(playerid);
-            Phone_SaveNumber(playerid);
-        }
-    }
-
-    MySQL_BindInt(stmt_loadPhone, 0, Player_GetAccountID(playerid));
-    MySQL_ExecuteParallel_Inline(stmt_loadPhone, using inline OnPhoneLoad);
-    return 1;
-}
-
-static Phone_SendSMS(playerid, number, const message[])
-{
-    new targetid = Phone_FindPlayerByNumber(number);
-
-    if(targetid == INVALID_PLAYER_ID) {
-        return SendErrorMsg(playerid, "So dien thoai nay hien khong online.");
-    }
-
-    SendServerMsgF(playerid, "Tin nhan den %d: %s", number, message);
-    SendServerMsgF(targetid, "Tin nhan tu %d: %s", Phone_GetNumber(playerid), message);
-    return 1;
-}
-
-stock Phone_CallNumber(playerid, number, bool:payphone = false)
-{
-    new targetid = Phone_FindPlayerByNumber(number);
-
-    if(targetid == INVALID_PLAYER_ID) {
-        return SendErrorMsg(playerid, "So dien thoai nay hien khong online.");
-    }
-
-    if(payphone) {
-        if(GetPlayerMoney(playerid) < PHONE_PAYPHONE_FEE) {
-            return SendErrorMsg(playerid, "Ban khong du tien de goi dien thoai cong cong.");
-        }
-        GivePlayerMoney(playerid, -PHONE_PAYPHONE_FEE);
-    }
-
-    new callerName[MAX_PLAYER_NAME];
-    GetPlayerName(playerid, callerName, sizeof(callerName));
-
-    SendServerMsgF(playerid, "Ban dang goi den %d.", number);
-    SendServerMsgF(targetid, "Dien thoai reo: %s dang goi cho ban. Dung /call %d de goi lai.", callerName, Phone_GetNumber(playerid));
-    return 1;
-}
-
-static Phone_ShowContacts(playerid)
-{
-    inline OnContactLoad()
-    {
-        new
-            contactName[24],
-            number,
-            list[512],
-            line[64],
-            rows;
-
-        list[0] = '\0';
-        strcat(list, "Ten\tSo dien thoai\n", sizeof(list));
-
-        MySQL_BindResult(stmt_loadContacts, 0, contactName, sizeof(contactName));
-        MySQL_BindResultInt(stmt_loadContacts, 1, number);
-
-        while(MySQL_Statement_FetchRow(stmt_loadContacts)) {
-            format(line, sizeof(line), "%s\t%d\n", contactName, number);
-            strcat(list, line, sizeof(list));
-            rows++;
-        }
-
-        if(!rows) {
-            Dialog_Show(playerid, DIALOG_STYLE_MSGBOX, "Danh ba", "Danh ba cua ban dang trong.", "Dong", "");
-        }
-        else {
-            Dialog_Show(playerid, DIALOG_STYLE_TABLIST_HEADERS, "Danh ba", list, "Dong", "");
-        }
-    }
-
-    MySQL_BindInt(stmt_loadContacts, 0, Player_GetAccountID(playerid));
-    MySQL_ExecuteParallel_Inline(stmt_loadContacts, using inline OnContactLoad);
-    return 1;
-}
-
-static Phone_ShowSMSDialog(playerid)
-{
-    inline const _response(response, listitem, string:inputtext[]) {
-        #pragma unused listitem
-
-        if(!response) {
-            return 1;
-        }
-
-        new
-            number,
-            message[96];
-
-        if(sscanf(inputtext, "is[96]", number, message)) {
-            SendErrorMsg(playerid, "Nhap: so_dien_thoai noi_dung");
-            Phone_ShowSMSDialog(playerid);
-            return 1;
-        }
-
-        Phone_SendSMS(playerid, number, message);
-        return 1;
-    }
-
-    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_INPUT, "Gui tin nhan", "Nhap: so_dien_thoai noi_dung", "Gui", "Huy");
-    return 1;
-}
-
-static Phone_ShowCallDialog(playerid, bool:payphone = false)
-{
-    inline const _response(response, listitem, string:inputtext[]) {
-        #pragma unused listitem
-
-        if(!response) {
-            return 1;
-        }
-
-        new number = strval(inputtext);
-
-        if(number <= 0) {
-            SendErrorMsg(playerid, "So dien thoai khong hop le.");
-            Phone_ShowCallDialog(playerid, payphone);
-            return 1;
-        }
-
-        Phone_CallNumber(playerid, number, payphone);
-        return 1;
-    }
-
-    new info[96];
-    format(info, sizeof(info), "Nhap so dien thoai can goi.%s", payphone ? ("\nPhi cuoc: $25") : (""));
-    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_INPUT, payphone ? ("Dien thoai cong cong") : ("Goi dien"), info, "Goi", "Huy");
-    return 1;
-}
-
-static Phone_ShowAddContactDialog(playerid)
-{
-    inline const _response(response, listitem, string:inputtext[]) {
-        #pragma unused listitem
-
-        if(!response) {
-            return 1;
-        }
-
-        new
-            contactName[24],
-            number;
-
-        if(sscanf(inputtext, "s[24]i", contactName, number)) {
-            SendErrorMsg(playerid, "Nhap: ten so_dien_thoai");
-            Phone_ShowAddContactDialog(playerid);
-            return 1;
-        }
-
-        MySQL_BindInt(stmt_insertContact, 0, Player_GetAccountID(playerid));
-        MySQL_Bind(stmt_insertContact, 1, contactName);
-        MySQL_BindInt(stmt_insertContact, 2, number);
-        MySQL_Bind(stmt_insertContact, 3, contactName);
-        MySQL_ExecuteThreaded(stmt_insertContact);
-        SendServerMsgF(playerid, "Da luu %s vao danh ba voi so %d.", contactName, number);
-        return 1;
-    }
-
-    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_INPUT, "Them danh ba", "Nhap: ten so_dien_thoai", "Luu", "Huy");
-    return 1;
-}
-
-static Phone_ShowMobileMenu(playerid)
-{
-    inline const _response(response, listitem, string:inputtext[]) {
-        #pragma unused inputtext
-
-        if(!response) {
-            return 1;
-        }
-
-        switch(listitem) {
-            case 0: {
-                new info[64];
-                format(info, sizeof(info), "So dien thoai cua ban: %d", Phone_GetNumber(playerid));
-                Dialog_Show(playerid, DIALOG_STYLE_MSGBOX, "Dien thoai", info, "Dong", "");
-            }
-            case 1: Phone_ShowSMSDialog(playerid);
-            case 2: Phone_ShowCallDialog(playerid);
-            case 3: Phone_ShowContacts(playerid);
-            case 4: Phone_ShowAddContactDialog(playerid);
-            case 5: Dialog_Show(playerid, DIALOG_STYLE_MSGBOX, "Thong bao", "Chua co thong bao moi.", "Dong", "");
-        }
-        return 1;
-    }
-
-    Dialog_ShowCallback(
-        playerid,
-        using inline _response,
-        DIALOG_STYLE_LIST,
-        "Dien thoai di dong",
-        "So cua toi\nGui tin nhan\nGoi dien\nDanh ba\nThem danh ba\nThong bao",
-        "Chon",
-        "Dong"
-    );
-    return 1;
-}
+// =============================================================================
+// HOOKS – MYSQL SETUP
+// =============================================================================
 
 hook OnMySQLConnected()
 {
-    mysql_query_file(MySQL_GetHandle(), "player_phones.sql", false);
+    static const loadQ[] = "SELECT phone_num FROM phone_numbers WHERE u_id = ?";
+    stmt_loadPhone = MySQL_PrepareStatement(MySQL_GetHandle(), loadQ);
 
-    stmt_loadPhone = MySQL_PrepareStatement(MySQL_GetHandle(), "SELECT phone_number FROM player_phones WHERE u_id = ?");
-    stmt_insertPhone = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT INTO player_phones (u_id, phone_number) VALUES (?, ?) ON DUPLICATE KEY UPDATE phone_number = ?");
-    stmt_insertContact = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT INTO player_phone_contacts (u_id, contact_name, phone_number) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE contact_name = ?");
-    stmt_loadContacts = MySQL_PrepareStatement(MySQL_GetHandle(), "SELECT contact_name, phone_number FROM player_phone_contacts WHERE u_id = ? ORDER BY contact_name ASC");
+    static const insertQ[] = "INSERT IGNORE INTO phone_numbers (u_id, phone_num) VALUES (?, ?)";
+    stmt_insertPhone = MySQL_PrepareStatement(MySQL_GetHandle(), insertQ);
+
+    static const contactsQ[] = "SELECT name, number FROM phone_contacts WHERE owner_uid = ? LIMIT 20";
+    stmt_loadContacts = MySQL_PrepareStatement(MySQL_GetHandle(), contactsQ);
+
+    static const saveContactQ[] = "INSERT INTO phone_contacts (owner_uid, name, number) VALUES (?, ?, ?)";
+    stmt_saveContact = MySQL_PrepareStatement(MySQL_GetHandle(), saveContactQ);
+
     return 1;
 }
 
-hook OnGameModeInit()
-{
-    new label[160];
-
-    for(new i; i < sizeof(PayPhoneData); i++) {
-        Interaction_BuildPointLabel(label, sizeof(label), "Dien thoai cong cong", PayPhoneData[i][E_PAYPHONE_NAME], "Can nhap so de goi", "goi dien");
-
-        CreateDynamicObject(
-            1216,
-            PayPhoneData[i][E_PAYPHONE_X],
-            PayPhoneData[i][E_PAYPHONE_Y],
-            PayPhoneData[i][E_PAYPHONE_Z] - 0.9,
-            0.0,
-            0.0,
-            PayPhoneData[i][E_PAYPHONE_A]
-        );
-
-        PayPhoneArea[i] = CreateDynamicCircle(PayPhoneData[i][E_PAYPHONE_X], PayPhoneData[i][E_PAYPHONE_Y], 2.0, 0, 0);
-        CreateDynamic3DTextLabel(
-            label,
-            COLOR_ORANGE,
-            PayPhoneData[i][E_PAYPHONE_X],
-            PayPhoneData[i][E_PAYPHONE_Y],
-            PayPhoneData[i][E_PAYPHONE_Z] + 0.7,
-            INTERACTION_LABEL_DISTANCE,
-            .streamdistance = INTERACTION_LABEL_DISTANCE
-        );
-    }
-    return 1;
-}
+// =============================================================================
+// HOOKS – PLAYER LIFECYCLE
+// =============================================================================
 
 hook OnPlayerConnect(playerid)
 {
-    PlayerPhoneNumber[playerid] = 0;
+    PhoneNumber[playerid][0] = '\0';
+    PhoneCallTarget[playerid] = -1;
+    PhoneCallTimer[playerid] = 0;
+    ContactCount[playerid] = 0;
     return 1;
 }
 
@@ -321,90 +90,311 @@ hook OnPlayerLogin(playerid)
     return 1;
 }
 
-hook OnPlayerEnterDynArea(playerid, areaid)
+hook OnPlayerRegister(playerid)
 {
-    for(new i; i < sizeof(PayPhoneData); i++) {
-        if(areaid == PayPhoneArea[i]) {
-            Interaction_ShowPrompt(playerid, INTERACTION_TYPE_PHONE, i, "~y~~h~Dien thoai cong cong", "goi dien");
-            break;
+    Phone_GenerateNew(playerid);
+    return 1;
+}
+
+hook OnPlayerSecondUpdate(playerid)
+{
+    // Đếm ngược cuộc gọi không được bắt
+    if (PhoneCallTarget[playerid] != -1)
+    {
+        PhoneCallTimer[playerid]--;
+        if (PhoneCallTimer[playerid] <= 0)
+        {
+            // Cúp máy sau timeout
+            PhoneCallTarget[playerid] = -1;
+            PhoneCallTimer[playerid] = 0;
+            SendErrorMsg(playerid, "[DIEN THOAI] Cuoc goi khong duoc tra loi.");
         }
     }
     return 1;
 }
 
-hook OnPlayerLeaveDynArea(playerid, areaid)
+// =============================================================================
+// INTERNAL – LOAD / GENERATE
+// =============================================================================
+
+static Phone_Load(playerid)
 {
-    for(new i; i < sizeof(PayPhoneData); i++) {
-        if(areaid == PayPhoneArea[i]) {
-            Interaction_ClearPrompt(playerid, INTERACTION_TYPE_PHONE, i);
-            break;
+    inline OnPhoneLoad()
+    {
+        new numStr[12];
+        MySQL_BindResultString(stmt_loadPhone, 0, numStr, 12);
+
+        if (MySQL_Statement_FetchRow(stmt_loadPhone))
+        {
+            strcopy(PhoneNumber[playerid], numStr, 12);
+        }
+        else
+        {
+            // Chưa có số – tạo mới
+            Phone_GenerateNew(playerid);
+        }
+
+        // Load danh bạ
+        Phone_LoadContacts(playerid);
+    }
+
+    MySQL_BindInt(stmt_loadPhone, 0, Player_GetAccountID(playerid));
+    MySQL_ExecuteParallel_Inline(stmt_loadPhone, using inline OnPhoneLoad);
+}
+
+static Phone_GenerateNew(playerid)
+{
+    new number = PHONE_NUMBER_MIN + random(PHONE_NUMBER_MAX - PHONE_NUMBER_MIN);
+    format(PhoneNumber[playerid], 12, "0%d", number);
+
+    MySQL_BindInt(stmt_insertPhone, 0, Player_GetAccountID(playerid));
+    MySQL_BindString(stmt_insertPhone, 1, PhoneNumber[playerid], 12);
+    MySQL_ExecuteThreaded(stmt_insertPhone);
+}
+
+static Phone_LoadContacts(playerid)
+{
+    inline OnContactLoad()
+    {
+        new name[32], number[12];
+        MySQL_BindResultString(stmt_loadContacts, 0, name, 32);
+        MySQL_BindResultString(stmt_loadContacts, 1, number, 12);
+
+        ContactCount[playerid] = 0;
+        while (MySQL_Statement_FetchRow(stmt_loadContacts) && ContactCount[playerid] < MAX_CONTACTS_PER_PLAYER)
+        {
+            strcopy(ContactList[playerid][ContactCount[playerid]][E_CONTACT_NAME], name, 32);
+            strcopy(ContactList[playerid][ContactCount[playerid]][E_CONTACT_NUMBER], number, 12);
+            ContactCount[playerid]++;
+
+            MySQL_BindResultString(stmt_loadContacts, 0, name, 32);
+            MySQL_BindResultString(stmt_loadContacts, 1, number, 12);
         }
     }
-    return 1;
+
+    MySQL_BindInt(stmt_loadContacts, 0, Player_GetAccountID(playerid));
+    MySQL_ExecuteParallel_Inline(stmt_loadContacts, using inline OnContactLoad);
 }
 
-hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+// =============================================================================
+// HELPER – Tìm player theo số điện thoại
+// =============================================================================
+
+static FindPlayerByPhone(const phoneNum[])
 {
-    if(PRESSED(KEY_NO) && Interaction_IsActive(playerid, INTERACTION_TYPE_PHONE)) {
-        Interaction_ClearPrompt(playerid, INTERACTION_TYPE_PHONE, Interaction_GetActiveID(playerid));
-        return 1;
+    foreach (new i : Player)
+    {
+        if (!Player_IsLoggedIn(i)) continue;
+        if (!strcmp(PhoneNumber[i], phoneNum, true, 12))
+            return i;
     }
-
-    if(PRESSED(KEY_YES) && Interaction_IsActive(playerid, INTERACTION_TYPE_PHONE)) {
-        Interaction_ClearPrompt(playerid, INTERACTION_TYPE_PHONE, Interaction_GetActiveID(playerid));
-        Phone_ShowCallDialog(playerid, true);
-    }
-    return 1;
+    return -1;
 }
 
-CMD:phone(playerid, params[])
+// =============================================================================
+// COMMAND – /myphone – Xem số điện thoại bản thân
+// =============================================================================
+
+CMD:myphone(playerid, params[])
 {
-    #pragma unused params
-    Phone_ShowMobileMenu(playerid);
+    if (!Player_IsLoggedIn(playerid))
+        return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
+
+    if (isnull(PhoneNumber[playerid]))
+        return SendErrorMsg(playerid, "Ban chua co so dien thoai. Lien he admin."), 1;
+
+    SendMsgF(playerid, COLOR_SAMPBLUE, "[DIEN THOAI] So cua ban: %s", PhoneNumber[playerid]);
     return 1;
 }
+
+// =============================================================================
+// COMMAND – /sms [so] [tin nhan]
+// =============================================================================
 
 CMD:sms(playerid, params[])
 {
-    new
-        number,
-        message[96];
+    if (!Player_IsLoggedIn(playerid))
+        return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
-    if(sscanf(params, "is[96]", number, message)) {
-        return SendErrorMsg(playerid, "Dung: /sms [so dien thoai] [noi dung]");
-    }
+    new phoneNum[12], message[MAX_SMS_LENGTH];
+    if (sscanf(params, "s[12]s[128]", phoneNum, message))
+        return SendErrorMsg(playerid, "Su dung: /sms [so_dien_thoai] [tin nhan]"), 1;
 
-    Phone_SendSMS(playerid, number, message);
+    new targetid = FindPlayerByPhone(phoneNum);
+    if (targetid == -1)
+        return SendErrorMsg(playerid, "So dien thoai nay hien khong online hoac khong ton tai."), 1;
+
+    SendMsgF(playerid, COLOR_GREY, "[SMS -> %s] %s", phoneNum, message);
+    SendMsgF(targetid, COLOR_YELLOW, "[SMS tu %s]: %s", PhoneNumber[playerid], message);
+
     return 1;
 }
+
+// =============================================================================
+// COMMAND – /call [so] – Gọi điện
+// =============================================================================
 
 CMD:call(playerid, params[])
 {
-    new number;
+    if (!Player_IsLoggedIn(playerid))
+        return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
-    if(sscanf(params, "i", number)) {
-        return SendErrorMsg(playerid, "Dung: /call [so dien thoai]");
+    new phoneNum[12];
+    if (sscanf(params, "s[12]", phoneNum))
+        return SendErrorMsg(playerid, "Su dung: /call [so_dien_thoai]"), 1;
+
+    if (PhoneCallTarget[playerid] != -1)
+        return SendErrorMsg(playerid, "Ban dang co cuoc goi khac. Dung /hangup truoc."), 1;
+
+    new targetid = FindPlayerByPhone(phoneNum);
+    if (targetid == -1)
+        return SendErrorMsg(playerid, "So dien thoai nay hien khong online."), 1;
+
+    if (PhoneCallTarget[targetid] != -1)
+        return SendErrorMsg(playerid, "Nguoi nay dang ban. Vui long thu lai sau."), 1;
+
+    // Thiết lập cuộc gọi
+    PhoneCallTarget[playerid] = targetid;
+    PhoneCallTimer[playerid]  = PHONE_CALL_TIMEOUT;
+
+    SendMsgF(playerid, COLOR_GREEN, "[DIEN THOAI] Dang goi toi %s...", phoneNum);
+    SendMsgF(targetid, COLOR_GREEN, "[DIEN THOAI] Co cuoc goi den tu %s. Dung /answer de nghe hoac /reject tu choi.",
+        PhoneNumber[playerid]);
+
+    // Dialog chấp nhận cho target
+    inline OnCallResponse(response, listitem, string:inputtext[])
+    {
+        #pragma unused listitem, inputtext
+        if (response)
+        {
+            // Chấp nhận
+            if (!IsPlayerConnected(playerid) || PhoneCallTarget[playerid] != targetid)
+            {
+                SendErrorMsg(targetid, "[DIEN THOAI] Cuoc goi da bi ngat.");
+                return;
+            }
+            PhoneCallTarget[targetid] = playerid;
+            PhoneCallTimer[targetid]  = 0;
+            PhoneCallTimer[playerid]  = 0;
+            SendMsgF(playerid, COLOR_GREEN, "[DIEN THOAI] Ket noi! Dang dam thoai voi %s. Dung /hangup de cat may.", phoneNum);
+            SendMsgF(targetid, COLOR_GREEN, "[DIEN THOAI] Da ket noi! Dang dam thoai voi %s. Dung /hangup de cat may.", PhoneNumber[playerid]);
+        }
+        else
+        {
+            // Từ chối
+            PhoneCallTarget[playerid] = -1;
+            PhoneCallTimer[playerid]  = 0;
+            SendMsgF(playerid, COLOR_GREY, "[DIEN THOAI] Cuoc goi tu choi.");
+            SendMsgF(targetid, COLOR_GREY, "[DIEN THOAI] Ban da tu choi cuoc goi.");
+        }
     }
 
-    Phone_CallNumber(playerid, number);
+    Dialog_ShowCallback(targetid, using inline OnCallResponse,
+        DIALOG_STYLE_MSGBOX,
+        "Cuoc Goi Den",
+        "Co cuoc goi den. Ban co muon nghe khong?",
+        "Nghe may", "Tu choi");
+
     return 1;
 }
+
+// =============================================================================
+// COMMAND – /hangup – Cúp máy
+// =============================================================================
+
+CMD:hangup(playerid, params[])
+{
+    if (!Player_IsLoggedIn(playerid))
+        return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
+
+    if (PhoneCallTarget[playerid] == -1)
+        return SendErrorMsg(playerid, "Ban khong co cuoc goi nao dang mo."), 1;
+
+    new targetid = PhoneCallTarget[playerid];
+    PhoneCallTarget[playerid] = -1;
+    PhoneCallTimer[playerid] = 0;
+
+    SendMsgF(playerid, COLOR_GREY, "[DIEN THOAI] Da cat may.");
+
+    if (IsPlayerConnected(targetid) && PhoneCallTarget[targetid] == playerid)
+    {
+        PhoneCallTarget[targetid] = -1;
+        PhoneCallTimer[targetid] = 0;
+        SendMsgF(targetid, COLOR_GREY, "[DIEN THOAI] Nguoi goi da cat may.");
+    }
+    return 1;
+}
+
+// =============================================================================
+// COMMAND – /911 – Gọi cảnh sát khẩn cấp
+// =============================================================================
+
+CMD:e911(playerid, params[])
+{
+    if (!Player_IsLoggedIn(playerid))
+        return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
+
+    new reason[64] = "Khong ro ly do";
+    if (!isnull(params)) strcopy(reason, params, 64);
+
+    new Float:px, Float:py, Float:pz;
+    GetPlayerPos(playerid, px, py, pz);
+
+    new zoneName[32];
+    GetPlayerZone(playerid, zoneName, 32);
+
+    // Gửi tới tất cả cảnh sát on duty
+    new notified = 0;
+    foreach (new i : Player)
+    {
+        if (!Player_IsLoggedIn(i)) continue;
+        if (Player_GetClass(i) != TEAM_POLICE) continue;
+        if (!LSPD_IsOnDuty(i)) continue;
+
+        SendMsgF(i, COLOR_RED,
+            "[911] Tu: %s (ID:%d) | Khu vuc: %s | Ly do: %s",
+            ReturnPlayerName(playerid), playerid, zoneName, reason);
+        SetPlayerCheckpoint(i, px, py, pz, 5.0);
+        notified++;
+    }
+
+    if (notified > 0)
+        SendMsgF(playerid, COLOR_GREEN, "[911] Da gui bao canh sat. Co %d si quan duoc thong bao.", notified);
+    else
+        SendErrorMsg(playerid, "[911] Hien khong co canh sat truc tuyem. Xin thu lai sau.");
+
+    return 1;
+}
+
+// =============================================================================
+// COMMAND – /addcontact [so] [ten] – Thêm danh bạ
+// =============================================================================
 
 CMD:addcontact(playerid, params[])
 {
-    new
-        contactName[24],
-        number;
+    if (!Player_IsLoggedIn(playerid))
+        return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
-    if(sscanf(params, "s[24]i", contactName, number)) {
-        return SendErrorMsg(playerid, "Dung: /addcontact [ten] [so dien thoai]");
-    }
+    new phoneNum[12], name[32];
+    if (sscanf(params, "s[12]s[32]", phoneNum, name))
+        return SendErrorMsg(playerid, "Su dung: /addcontact [so_dien_thoai] [ten]"), 1;
 
-    MySQL_BindInt(stmt_insertContact, 0, Player_GetAccountID(playerid));
-    MySQL_Bind(stmt_insertContact, 1, contactName);
-    MySQL_BindInt(stmt_insertContact, 2, number);
-    MySQL_Bind(stmt_insertContact, 3, contactName);
-    MySQL_ExecuteThreaded(stmt_insertContact);
-    SendServerMsgF(playerid, "Da them %s vao danh ba.", contactName);
+    if (ContactCount[playerid] >= MAX_CONTACTS_PER_PLAYER)
+        return SendErrorMsg(playerid, "Danh ba da day! Toi da " #MAX_CONTACTS_PER_PLAYER " so."), 1;
+
+    new idx = ContactCount[playerid];
+    strcopy(ContactList[playerid][idx][E_CONTACT_NAME], name, 32);
+    strcopy(ContactList[playerid][idx][E_CONTACT_NUMBER], phoneNum, 12);
+    ContactCount[playerid]++;
+
+    MySQL_BindInt(stmt_saveContact, 0, Player_GetAccountID(playerid));
+    MySQL_BindString(stmt_saveContact, 1, name, 32);
+    MySQL_BindString(stmt_saveContact, 2, phoneNum, 12);
+    MySQL_ExecuteThreaded(stmt_saveContact);
+
+    SendMsgF(playerid, COLOR_GREEN, "[DANH BA] Da luu: %s - %s", name, phoneNum);
     return 1;
 }
+
+// Alias /dialup /callme
+ALTCMD:dialup(playerid, params);

@@ -16,6 +16,9 @@ hook OnMySQLSetupTable() {
 
     mysql_tquery_file(MySQL_GetHandle(), "players_characters.sql");
     Logger_Log("setting up multi-character columns...");
+    // characters table (da nhan vat IC).
+    mysql_tquery_file(MySQL_GetHandle(), "characters.sql");
+    Logger_Log("setting up 'characters' table...");
 
     // player stats table.
     mysql_tquery_file(MySQL_GetHandle(), "player_stats.sql");
@@ -39,6 +42,15 @@ hook OnMySQLSetupTable() {
     mysql_tquery_file(MySQL_GetHandle(), "player_items.sql");
     Logger_Log("setting up 'player_items' table...");
 
+    mysql_tquery_file(MySQL_GetHandle(), "player_inventory.sql");
+    Logger_Log("setting up 'player_inventory' and 'vehicle_trunk' tables...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "player_licenses.sql");
+    Logger_Log("setting up 'player_licenses' table...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "vehicle_fuel.sql");
+    Logger_Log("setting up 'vehicle_fuel' table...");
+
     mysql_tquery_file(MySQL_GetHandle(), "player_bank.sql");
     Logger_Log("setting up 'player_bank' table...");
 
@@ -59,6 +71,13 @@ hook OnMySQLSetupTable() {
 
     mysql_tquery_file(MySQL_GetHandle(), "armys.sql");
     Logger_Log("setting up 'armys' table...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "turfs.sql");
+    Logger_Log("setting up 'turfs' table...");
+
+    mysql_tquery_file(MySQL_GetHandle(), "phone.sql");
+    Logger_Log("setting up 'phone_numbers' and 'phone_contacts' tables...");
+
 
     // --------------------------------------------------------------------------------------------
     // ADMIN

@@ -623,6 +623,71 @@ database=gtaopen</code></pre>
           </thead>
           <tbody>
             <tr>
+              <td>Multi-Character</td>
+              <td><code>account_character.inc</code></td>
+              <td>Hỗ trợ nhiều nhân vật/tài khoản. <code>/charinfo</code>, <code>/switchchar</code>.</td>
+            </tr>
+            <tr>
+              <td>Dynamic Inventory</td>
+              <td><code>player_inventory.inc</code></td>
+              <td>Túi đồ cá nhân với UI. <code>/inv</code>, <code>/drop</code>, <code>/giveitem2</code>. Tích hợp cốp xe (<code>/trunk</code>).</td>
+            </tr>
+            <tr>
+              <td>Banking RP</td>
+              <td><code>cmds_bank.inc</code>, <code>paycheck_system.inc</code></td>
+              <td>Chuyển khoản (<code>/transfer</code>), nhận lương tự động (<code>/paycheck</code>).</td>
+            </tr>
+            <tr>
+              <td>Vehicle RP</td>
+              <td><code>vehicle_*.inc</code></td>
+              <td>Hệ thống xăng (<code>/refuel</code>), hư hỏng (gọi Mechanic), khóa xe, chìa khóa.</td>
+            </tr>
+            <tr>
+              <td>Faction RP</td>
+              <td><code>lspd_system.inc</code>, <code>ems_system.inc</code>, <code>cityhall_rp.inc</code></td>
+              <td>LSPD (duty, mdc, cuff, escort), EMS (bandage, revive), City Hall (biển số, giấy phép).</td>
+            </tr>
+            <tr>
+              <td>Gang RP</td>
+              <td><code>turf_system.inc</code>, <code>blackmarket_system.inc</code></td>
+              <td>Chiếm đóng địa bàn (<code>/attackturf</code>), chợ đen (<code>/bmlocate</code>, <code>/craftdrug</code>).</td>
+            </tr>
+            <tr>
+              <td>Death & Survival</td>
+              <td><code>player_death.inc</code>, <code>player_survival.inc</code></td>
+              <td>Trạng thái Brutally Wounded. TextDraw Đói/Khát, mất máu nếu đói/khát (<code>/useitem</code>).</td>
+            </tr>
+            <tr>
+              <td>Job Skills</td>
+              <td><code>job_skills.inc</code></td>
+              <td>Hệ thống Level/XP nghề nghiệp, bonus tiền thưởng theo cấp độ (<code>/myjobrank</code>).</td>
+            </tr>
+            <tr>
+              <td>Player Interaction</td>
+              <td><code>player_interaction_menu.inc</code></td>
+              <td>Menu tương tác thông minh khi đứng gần (<code>/interact</code>).</td>
+            </tr>
+            <tr>
+              <td>Businesses</td>
+              <td><code>business_economy.inc</code></td>
+              <td>Doanh nghiệp 24/7. Mua bán, nhập hàng, đổi tên, định giá (<code>/bizpanel</code>).</td>
+            </tr>
+            <tr>
+              <td>Vehicle Insurance</td>
+              <td><code>vehicle_insurance.inc</code></td>
+              <td>Bảo hiểm xe và Impound Lot. Lấy xe ra bằng phí 5% (<code>/getcar</code>).</td>
+            </tr>
+            <tr>
+              <td>Phone System</td>
+              <td><code>phone_system.inc</code>, <code>ui_phone.inc</code></td>
+              <td>Điện thoại (<code>/sms</code>, <code>/call</code>, <code>/911</code>), danh bạ.</td>
+            </tr>
+            <tr>
+              <td>House/Faction Safe</td>
+              <td><code>house_storage.inc</code>, <code>faction_safe.inc</code></td>
+              <td>Tủ chứa đồ chung cho Gang/LSPD và tủ đồ trong nhà.</td>
+            </tr>
+            <tr>
               <td>Burglary</td>
               <td><code>burglary_system.inc</code></td>
               <td><code>/robbery</code>, bank/casino/mansion robbery, cracking 20s, delivery 300s, reward theo location, wanted level 6.</td>
@@ -903,6 +968,16 @@ database=gtaopen</code></pre>
             <tr><td><code>houses.sql</code></td><td>Houses, settings, key holders, furniture.</td></tr>
             <tr><td><code>gangs.sql</code></td><td>Gang records, members, stats.</td></tr>
             <tr><td><code>atms.sql</code></td><td>ATM locations/state, có default rows.</td></tr>
+            <tr><td><code>characters.sql</code></td><td>Multi-character system, linking accounts to characters.</td></tr>
+            <tr><td><code>player_inventory.sql</code></td><td>Dynamic inventory, slots, items, and weights.</td></tr>
+            <tr><td><code>player_licenses.sql</code></td><td>Licenses (car, gun, biz) for characters.</td></tr>
+            <tr><td><code>turfs.sql</code></td><td>Gang turf zones and states.</td></tr>
+            <tr><td><code>phones.sql</code></td><td>Player phone numbers and contacts.</td></tr>
+            <tr><td><code>businesses.sql</code></td><td>Business entities, safe money, stock, pricing.</td></tr>
+            <tr><td><code>faction_inventory.sql</code></td><td>Faction safe storage for LSPD/Gangs.</td></tr>
+            <tr><td><code>house_inventory.sql</code></td><td>House storage items.</td></tr>
+            <tr><td><code>fishing_catches.sql</code></td><td>Caught fish records for fishing job.</td></tr>
+            <tr><td><code>job_skills.sql</code></td><td>Player job levels and XP for trucker, pizza, etc.</td></tr>
           </tbody>
         </table>
 
@@ -980,9 +1055,27 @@ database=gtaopen</code></pre>
               <code>/stop</code>, <code>/strip</code>, <code>/sup</code>, <code>/surrender</code>,
               <code>/taichi</code>, <code>/tapcig</code>, <code>/testalert</code>, <code>/testnotify</code>,
               <code>/testse</code>, <code>/thankyou</code>, <code>/tosteal</code>, <code>/towerrobbery</code>,
-              <code>/trucker</code>, <code>/uncuff</code>, <code>/urinate</code>, <code>/v</code>,
-              <code>/vomit</code>, <code>/wank</code>, <code>/wash</code>, <code>/wave</code>,
-              <code>/win</code>, <code>/yes</code>
+              <code>/v</code>, <code>/vomit</code>, <code>/wank</code>, <code>/wash</code>,
+              <code>/wave</code>, <code>/win</code>, <code>/yes</code>,
+              <br><br>
+              <strong>Roleplay Commands:</strong><br>
+              <code>/me</code>, <code>/do</code>, <code>/low</code>, <code>/s</code>, <code>/shout</code>, <code>/w</code>,
+              <code>/r</code>, <code>/dep</code>, <code>/b</code>, <code>/o</code>, <code>/inv</code>, <code>/drop</code>,
+              <code>/giveitem2</code>, <code>/inspect</code>, <code>/trunk</code>, <code>/puttrunk</code>, <code>/taketrunk</code>,
+              <code>/transfer</code>, <code>/balance</code>, <code>/bal</code>, <code>/engine</code>, <code>/lock</code>,
+              <code>/givekey</code>, <code>/takekey</code>, <code>/refuel</code>, <code>/gas</code>, <code>/duty</code>,
+              <code>/mdc</code>, <code>/setrank</code>, <code>/emsduty</code>, <code>/bandage</code>, <code>/heal</code>,
+              <code>/cpr</code>, <code>/revive</code>, <code>/platereg</code>, <code>/changeplate</code>, <code>/bizlicense</code>,
+              <code>/mybiz</code>, <code>/attackturf</code>, <code>/turfinfo</code>, <code>/bmlocate</code>, <code>/craftdrug</code>,
+              <code>/sms</code>, <code>/call</code>, <code>/hangup</code>, <code>/h</code>, <code>/911</code>,
+              <code>/addcontact</code>, <code>/myphone</code>, <code>/charinfo</code>, <code>/mychar</code>, <code>/switchchar</code>,
+              <code>/deletechar</code>, <code>/fish</code>, <code>/sellfish</code>, <code>/myvip</code>, <code>/vipcolor</code>,
+              <code>/vipchat</code>, <code>/setvip</code>, <code>/acceptdeath</code>, <code>/useitem</code>, <code>/use</code>,
+              <code>/mystats</code>, <code>/myjobrank</code>, <code>/interact</code>, <code>/buybiz</code>, <code>/bizpanel</code>,
+              <code>/buy</code>, <code>/safe</code>, <code>/putsafe</code>, <code>/takesafe</code>, <code>/buyvehicle</code>,
+              <code>/repairveh</code>, <code>/getcar</code>, <code>/housedeposit</code>, <code>/housewithdraw</code>, <code>/houseinv</code>,
+              <code>/houselock</code>, <code>/paycheck</code>, <code>/salary</code>
+
             </p>
           </div>
         </details>

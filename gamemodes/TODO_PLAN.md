@@ -128,7 +128,21 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 - [x] Milestone 1: Người chơi đến entrance/ATM/business thấy label, prompt và bấm Y/N hoạt động.
 - [x] Milestone 2: Vào interior/custom map không bị rơi map.
-- [x] Milestone 3: License và driving test hoạt động.
-- [x] Milestone 4: Speedometer và phone cơ bản hoạt động.
-- [x] Milestone 5: Menu tương tác và job XP hoạt động.
-- [x] Milestone 6: Job nâng cao, VIP/perk và poker hoạt động.
+- [ ] Milestone 3: License và driving test hoạt động.
+- [ ] Milestone 4: Speedometer và phone cơ bản hoạt động.
+- [ ] Milestone 5: Menu tương tác và job XP hoạt động.
+- [ ] Milestone 6: Job nâng cao, VIP/perk và poker hoạt động.
+
+---
+
+## 📌 Các Tính Năng Nâng Cấp RP Tiếp Theo
+
+- **Phần 2 (Roleplay Core Systems)**: Multi-char, Chat IC/OOC, Dynamic Inventory, Faction LSPD/EMS/Gang, Smartphone UI, Fuel System...  
+  👉 [`DEVELOPMENT_PLAN_RP.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_RP.md)
+
+- **Phần 3 (Expansion & Systems Depth)**: Driving School, House Storage, Job Skill Levels, Player Interaction Menu, Fishing System, VIP Perks...  
+  👉 [`DEVELOPMENT_PLAN_EXPANSION.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_EXPANSION.md)
+
+- **Phần 4 (Advanced Systems & QoL)**: Vehicle Management, Death/Injury System, Faction Safes, Player-owned Business, Hunger/Thirst, Hotkeys...  
+  👉 [`DEVELOPMENT_PLAN_ADVANCED.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_ADVANCED.md)
+

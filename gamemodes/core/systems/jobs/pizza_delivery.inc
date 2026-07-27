@@ -129,12 +129,13 @@ Pizza_End(playerid) {
     stop PizzaPickupTimer[playerid];
 
     // Reward Player
-    new reward = JobProgress_CalculateReward(playerid, JOB_PROGRESS_DELIVERY, random(2000) + 2500);
-    GivePlayerMoney(playerid, reward);
-    JobProgress_AddXP(playerid, JOB_PROGRESS_DELIVERY, max(35, reward / 80));
+    new reward = random(2000) + 2500;
+    new bonus = JobSkills_GetBonusMoney(playerid, JOB_PIZZA, reward);
+    GivePlayerMoney(playerid, reward + bonus);
+    JobSkills_AddXP(playerid, JOB_PIZZA);
 
     // Notify Player
-    SendMsgF(playerid, COLOR_RED, "(giao pizza) "C_WHITE"Da giao pizza thanh cong va nhan "C_GREEN"%m"C_WHITE"!", reward);
+    SendMsgF(playerid, COLOR_RED, "(giao pizza) "C_WHITE"Da giao pizza thanh cong va nhan "C_GREEN"%m"C_WHITE"! (Bonus: +%d)", reward, bonus);
     return 1;
 }
 
