@@ -143,3 +143,6 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 - **Phần 3 (Expansion & Systems Depth)**: Driving School, House Storage, Job Skill Levels, Player Interaction Menu, Fishing System, VIP Perks...  
   👉 [`DEVELOPMENT_PLAN_EXPANSION.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_EXPANSION.md)
 
+- **Phần 4 (Advanced Systems & QoL)**: Vehicle Management, Death/Injury System, Faction Safes, Player-owned Business, Hunger/Thirst, Hotkeys...  
+  👉 [`DEVELOPMENT_PLAN_ADVANCED.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_ADVANCED.md)
+
