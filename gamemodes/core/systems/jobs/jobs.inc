@@ -1,4 +1,4 @@
-#include <job_skills> // XP / Level system — phai include truoc cac job khac
+#include <job_skills> // XP / Level system - phai include truoc cac job khac
 #include <trucker>
 
 #include <pizza_delivery>

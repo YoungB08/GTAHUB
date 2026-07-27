@@ -11,6 +11,10 @@ enum {
     LICENSE_TOTAL
 }
 
+#define LICENSE_CAR             LICENSE_DRIVING
+#define LICENSE_PLANE           LICENSE_PILOT
+#define LICENSE_GUN             LICENSE_WEAPON
+
 static
     bool:PlayerLicense[MAX_PLAYERS][LICENSE_TOTAL],
     Statement:stmt_loadLicenses,
@@ -116,6 +120,11 @@ stock bool:License_PlayerHas(playerid, licenseid)
     return PlayerLicense[playerid][licenseid];
 }
 
+stock bool:Player_HasLicense(playerid, licenseid)
+{
+    return License_PlayerHas(playerid, licenseid);
+}
+
 stock License_Give(playerid, licenseid, bool:save = true)
 {
     if(!IsPlayerConnected(playerid) || !License_IsValid(licenseid)) {
@@ -130,6 +139,11 @@ stock License_Give(playerid, licenseid, bool:save = true)
         MySQL_ExecuteThreaded(stmt_insertLicense);
     }
     return 1;
+}
+
+stock Player_GiveLicense(playerid, licenseid, bool:save = true)
+{
+    return License_Give(playerid, licenseid, save);
 }
 
 stock License_Remove(playerid, licenseid)

@@ -100,8 +100,8 @@ static UpdateDealershipUI(playerid)
 #define BTN_CLOSE       3
 #define BTN_PURCHASE    4
 
-forward OnPlayerClickDealershipTextdraw(playerid, type);
-public OnPlayerClickDealershipTextdraw(playerid, type)
+forward VehicleDealership_OnPlayerClickDealershipTextdraw(playerid, type);
+public VehicleDealership_OnPlayerClickDealershipTextdraw(playerid, type)
 {
     if (type == BTN_CLOSE)
     {

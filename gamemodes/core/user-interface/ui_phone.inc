@@ -49,9 +49,12 @@ enum E_PHONE_UI {
 
 static PhoneUI[MAX_PLAYERS][E_PHONE_UI];
 static bool:PhoneUIVisible[MAX_PLAYERS];
+static PhoneUIDisplayNumber[MAX_PLAYERS][12];
 
 // Trạng thái cuộc gọi hiển thị
-enum E_PHONE_CALL_STATE { PHONE_IDLE, PHONE_RINGING, PHONE_ON_CALL }
+#define PHONE_IDLE      (0)
+#define PHONE_RINGING   (1)
+#define PHONE_ON_CALL   (2)
 static PhoneCallState[MAX_PLAYERS];
 static PhoneCallSeconds[MAX_PLAYERS]; // Giây đã nói chuyện
 
@@ -62,6 +65,7 @@ static PhoneCallSeconds[MAX_PLAYERS]; // Giây đã nói chuyện
 hook OnPlayerConnect(playerid)
 {
     PhoneUIVisible[playerid] = false;
+    PhoneUIDisplayNumber[playerid][0] = '\0';
     PhoneCallState[playerid] = PHONE_IDLE;
     PhoneCallSeconds[playerid] = 0;
     return 1;
@@ -94,12 +98,12 @@ static Phone_UI_Create(playerid)
     // Nền (box)
     PhoneUI[playerid][phoneBackground] = CreatePlayerTextDraw(playerid,
         PHONE_UI_BG_X, PHONE_UI_BG_Y, "_");
-    PlayerTextDrawFont(playerid, PhoneUI[playerid][phoneBackground], TEXT_DRAW_FONT_PREVIEW_MODEL);
+    PlayerTextDrawFont(playerid, PhoneUI[playerid][phoneBackground], TEXT_DRAW_FONT_1);
     PlayerTextDrawTextSize(playerid, PhoneUI[playerid][phoneBackground],
         PHONE_UI_BG_X + PHONE_UI_BG_W, PHONE_UI_BG_Y + PHONE_UI_BG_H);
     PlayerTextDrawColor(playerid, PhoneUI[playerid][phoneBackground], COLOR_WHITE);
     PlayerTextDrawBoxColor(playerid, PhoneUI[playerid][phoneBackground], PHONE_UI_BG_COLOR);
-    PlayerTextDrawUseBox(playerid, PhoneUI[playerid][phoneBackground], 1);
+    PlayerTextDrawUseBox(playerid, PhoneUI[playerid][phoneBackground], true);
 
     // Số điện thoại
     PhoneUI[playerid][phoneNumber] = CreatePlayerTextDraw(playerid,
@@ -123,11 +127,11 @@ static Phone_UI_Create(playerid)
 static Phone_UI_Destroy(playerid)
 {
     if (PhoneUI[playerid][phoneBackground] != PlayerText:INVALID_TEXT_DRAW)
-        DestroyPlayerTextDraw(playerid, PhoneUI[playerid][phoneBackground]);
+        PlayerTextDrawDestroy(playerid, PhoneUI[playerid][phoneBackground]);
     if (PhoneUI[playerid][phoneNumber] != PlayerText:INVALID_TEXT_DRAW)
-        DestroyPlayerTextDraw(playerid, PhoneUI[playerid][phoneNumber]);
+        PlayerTextDrawDestroy(playerid, PhoneUI[playerid][phoneNumber]);
     if (PhoneUI[playerid][phoneCallStatus] != PlayerText:INVALID_TEXT_DRAW)
-        DestroyPlayerTextDraw(playerid, PhoneUI[playerid][phoneCallStatus]);
+        PlayerTextDrawDestroy(playerid, PhoneUI[playerid][phoneCallStatus]);
 }
 
 // =============================================================================
@@ -165,12 +169,12 @@ stock Phone_UI_Hide(playerid)
 
 stock Phone_UI_Update(playerid)
 {
-    if (!PhoneUIVisible[playerid]) return;
+    if (!PhoneUIVisible[playerid]) return 0;
 
     // Cập nhật số điện thoại
     new numDisplay[20];
-    if (!isnull(PhoneNumber[playerid]))
-        format(numDisplay, sizeof(numDisplay), "~b~%s", PhoneNumber[playerid]);
+    if (!isnull(PhoneUIDisplayNumber[playerid]))
+        format(numDisplay, sizeof(numDisplay), "~b~%s", PhoneUIDisplayNumber[playerid]);
     else
         format(numDisplay, sizeof(numDisplay), "~w~No SIM");
 
@@ -190,6 +194,7 @@ stock Phone_UI_Update(playerid)
         }
     }
     PlayerTextDrawSetString(playerid, PhoneUI[playerid][phoneCallStatus], callStr);
+    return 1;
 }
 
 // =============================================================================
@@ -219,6 +224,7 @@ stock Phone_UI_SetRinging(playerid)
     PhoneCallState[playerid]   = PHONE_RINGING;
     PhoneCallSeconds[playerid] = 0;
     Phone_UI_Update(playerid);
+    return 1;
 }
 
 stock Phone_UI_SetOnCall(playerid)
@@ -226,6 +232,7 @@ stock Phone_UI_SetOnCall(playerid)
     PhoneCallState[playerid]   = PHONE_ON_CALL;
     PhoneCallSeconds[playerid] = 0;
     Phone_UI_Update(playerid);
+    return 1;
 }
 
 stock Phone_UI_SetIdle(playerid)
@@ -233,4 +240,12 @@ stock Phone_UI_SetIdle(playerid)
     PhoneCallState[playerid]   = PHONE_IDLE;
     PhoneCallSeconds[playerid] = 0;
     Phone_UI_Update(playerid);
+    return 1;
+}
+
+stock Phone_UI_SetNumber(playerid, const number[])
+{
+    strcopy(PhoneUIDisplayNumber[playerid], number, sizeof(PhoneUIDisplayNumber[]));
+    Phone_UI_Update(playerid);
+    return 1;
 }

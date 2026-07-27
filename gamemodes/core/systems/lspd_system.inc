@@ -179,19 +179,28 @@ static LSPD_RemoveEquipment(playerid)
 // PUBLIC API
 // =============================================================================
 
-stock bool:LSPD_IsOnDuty(playerid)
+stock LSPD_IsOnDuty(playerid)
+{
     return LSPDOnDuty[playerid];
+}
 
 stock LSPD_GetRank(playerid)
-    return LSPDRank[playerid];
-
-stock LSPD_GetRankName(rank)
 {
-    static const names[][] = {
-        "Cadet", "Officer", "Corporal", "Sergeant", "Lieutenant", "Captain"
-    };
-    if (rank < 0 || rank > 5) return "Khong Xac Dinh";
-    return names[rank];
+    return LSPDRank[playerid];
+}
+
+stock LSPD_GetRankName(rank, output[], len)
+{
+    switch (rank) {
+        case 0: format(output, len, "Cadet");
+        case 1: format(output, len, "Officer");
+        case 2: format(output, len, "Corporal");
+        case 3: format(output, len, "Sergeant");
+        case 4: format(output, len, "Lieutenant");
+        case 5: format(output, len, "Captain");
+        default: format(output, len, "Khong Xac Dinh");
+    }
+    return 1;
 }
 
 // =============================================================================
@@ -215,9 +224,11 @@ CMD:duty(playerid, params[])
         SetPlayerSkin(playerid, skin);
         LSPD_GiveEquipment(playerid);
 
+        new rankName[24];
+        LSPD_GetRankName(LSPDRank[playerid], rankName, sizeof(rankName));
         SendMsgF(playerid, COLOR_BLUE,
             "[LSPD] Ban da len ca duty (Rank: %s). Trang bi da cap phat.",
-            LSPD_GetRankName(LSPDRank[playerid]));
+            rankName);
 
         // Thông báo kênh bộ đàm
         foreach (new i : Player)
@@ -282,18 +293,18 @@ CMD:mdc(playerid, params[])
 
     new content[512];
     format(content, sizeof(content),
-        "=== HO SO NHAN THAN ===\n\n"
-        "Ten:       %s (ID: %d)\n"
-        "Level:     %d\n"
-        "Job ID:    %d\n\n"
-        "=== THONG TIN AN NINH ===\n"
-        "Wanted:    %d sao\n"
-        "Kills:     %d | Deaths: %d\n\n"
-        "=== GIAY PHEP ===\n"
-        "Bang lai xe:     %s\n"
-        "Bang lai xe tai: %s\n"
-        "Bang lai may bay:%s\n"
-        "Giay phep sung:  %s",
+        "=== HO SO NHAN THAN ===\n\n\
+Ten:       %s (ID: %d)\n\
+Level:     %d\n\
+Job ID:    %d\n\n\
+=== THONG TIN AN NINH ===\n\
+Wanted:    %d sao\n\
+Kills:     %d | Deaths: %d\n\n\
+=== GIAY PHEP ===\n\
+Bang lai xe:     %s\n\
+Bang lai xe tai: %s\n\
+Bang lai may bay:%s\n\
+Giay phep sung:  %s",
         targetName, targetid,
         level,
         jobID,
@@ -316,7 +327,7 @@ CMD:mdc(playerid, params[])
 // COMMAND – /fine [playerid] [so_tien] [ly_do] – Phạt tiền IC
 // =============================================================================
 
-CMD:fine(playerid, params[])
+CMD:lspdfine(playerid, params[])
 {
     if (!Player_IsLoggedIn(playerid))
         return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
@@ -328,7 +339,7 @@ CMD:fine(playerid, params[])
     new reason[64];
 
     if (sscanf(params, "uis[64]", targetid, amount, reason))
-        return SendErrorMsg(playerid, "Su dung: /fine [playerid] [so_tien] [ly do]"), 1;
+        return SendErrorMsg(playerid, "Su dung: /lspdfine [playerid] [so_tien] [ly do]"), 1;
 
     if (!IsPlayerConnected(targetid))
         return SendErrorMsg(playerid, "Nguoi choi khong ton tai hoac da thoat."), 1;
@@ -357,6 +368,8 @@ CMD:fine(playerid, params[])
     return 1;
 }
 
+ALTCMD:ticket(lspdfine);
+
 // Alias /setrankLSPD (admin only)
 ACMD:[4]setrank(playerid, params[])
 {
@@ -372,9 +385,12 @@ ACMD:[4]setrank(playerid, params[])
 
     LSPDRank[targetid] = rank;
 
+    new rankName[24];
+    LSPD_GetRankName(rank, rankName, sizeof(rankName));
+
     SendMsgF(playerid, COLOR_GREEN, "Da thang cap %s len rank %s.",
-        ReturnPlayerName(targetid), LSPD_GetRankName(rank));
+        ReturnPlayerName(targetid), rankName);
     SendMsgF(targetid, COLOR_GREEN, "Ban da duoc thang cap len rank %s.",
-        LSPD_GetRankName(rank));
+        rankName);
     return 1;
 }

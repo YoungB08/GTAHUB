@@ -179,11 +179,17 @@ Player_GetGangID(playerid) {
     return PlayerInGangID[playerid];
 }
 
+Gang_GetPlayerGang(playerid) {
+    return Player_GetGangID(playerid);
+}
+
 // GANG
 Gang_GetName(gangid, name[], len = sizeof(name)) {
 
+    name[0] = EOS;
+
     if(gangid == INVALID_GANG_ID) {
-        return;
+        return 0;
     }
 
     new
@@ -191,11 +197,29 @@ Gang_GetName(gangid, name[], len = sizeof(name)) {
 
     foreach(idx : GangIndex) {
         if(gangid == GangID[idx]) {
-            break;
+            strcpy(name, GangName[idx], len);
+            return 1;
         }
     }
 
-    strcpy(name, GangName[idx], len);
+    return 0;
+}
+
+Gang_GetColor(gangid) {
+    if(gangid == INVALID_GANG_ID) {
+        return 0x80808060;
+    }
+
+    new
+        idx = INVALID_GANG_ID;
+
+    foreach(idx : GangIndex) {
+        if(gangid == GangID[idx]) {
+            return GangColour[idx];
+        }
+    }
+
+    return 0x80808060;
 }
 
 // returns

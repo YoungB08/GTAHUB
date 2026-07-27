@@ -200,7 +200,7 @@ CMD:turfinfo(playerid, params[])
 
     new ownerName[32];
     if (TurfData[turfIdx][E_TURF_GANG_ID] == -1)
-        ownerName = "Trung Lap";
+        strcopy(ownerName, "Trung Lap", sizeof(ownerName));
     else
         Gang_GetName(TurfData[turfIdx][E_TURF_GANG_ID], ownerName, 32);
 
@@ -208,15 +208,15 @@ CMD:turfinfo(playerid, params[])
     if (TurfData[turfIdx][E_TURF_IS_UNDER_ATTACK])
         format(attackStatus, sizeof(attackStatus), "DANG BI TAN CONG (%ds con lai)", TurfData[turfIdx][E_TURF_ATTACK_TIMER]);
     else
-        attackStatus = "Binh thuong";
+        strcopy(attackStatus, "Binh thuong", sizeof(attackStatus));
 
     new content[256];
     format(content, sizeof(content),
-        "=== DIA BAN ===\n\n"
-        "Ten:         %s\n"
-        "So huu:      %s\n"
-        "Trang thai:  %s\n"
-        "Thue thu:    $%d / 30 phut",
+        "=== DIA BAN ===\n\n\
+Ten:         %s\n\
+So huu:      %s\n\
+Trang thai:  %s\n\
+Thue thu:    $%d / 30 phut",
         TurfData[turfIdx][E_TURF_NAME],
         ownerName,
         attackStatus,

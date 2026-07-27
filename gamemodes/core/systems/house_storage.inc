@@ -33,6 +33,9 @@ static
     Statement:stmt_loadHouseInv,
     Statement:stmt_clearHouseInv,
     Statement:stmt_insertHouseInv;
+#pragma unused stmt_clearHouseInv
+#pragma unused stmt_insertHouseInv
+#pragma unused stmt_loadHouseMoney
 
 // =============================================================================
 // HOOKS
@@ -205,8 +208,9 @@ static House_GetInsideHouse(playerid)
     return -1;
 }
 
-static bool:House_IsOwner(playerid, houseid)
+static House_IsOwner(playerid, houseid)
 {
+    #pragma unused playerid
     #pragma unused houseid
     // Tích hợp với module house hiện có (mọi player đều có quyền với nhà của mình)
     return true;

@@ -548,18 +548,18 @@ stock GameFeed_ClearPlayerCashText(const playerid)
 // Creates and displays the cash text draw on the player screen
 stock GameFeed_CreateCashTextDraw(const playerid, const amount, const displayTime)
 {
-    new amountText[36];
+    new cashText[36];
 
     if (amount >= 0)
     {
-        format(amountText, sizeof(amountText), "+$%i", amount);
+        format(cashText, sizeof(cashText), "+$%i", amount);
     }
     else
     {
-        format(amountText, sizeof(amountText), "-$%i", -amount);
+        format(cashText, sizeof(cashText), "-$%i", -amount);
     }
 
-    gameFEED_cashTextTD[playerid] = CreatePlayerTextDraw(playerid, 608.0, 100.0, amountText);
+    gameFEED_cashTextTD[playerid] = CreatePlayerTextDraw(playerid, 608.0, 100.0, cashText);
     PlayerTextDrawLetterSize(playerid, gameFEED_cashTextTD[playerid], 0.450, 1.999);
     PlayerTextDrawAlignment(playerid, gameFEED_cashTextTD[playerid], TEXT_DRAW_ALIGN_RIGHT);
     PlayerTextDrawColour(playerid, gameFEED_cashTextTD[playerid], (amount >= 0) ? CASH_TEXT_INCREASE_COLOR : CASH_TEXT_DECREASE_COLOR);

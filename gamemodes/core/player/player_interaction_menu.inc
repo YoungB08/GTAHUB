@@ -20,7 +20,7 @@
 // COMMAND
 // =============================================================================
 
-CMD:interact(playerid, params[])
+CMD:interactmenu(playerid, params[])
 {
     if (!Player_IsLoggedIn(playerid)) return 1;
 
@@ -36,7 +36,6 @@ CMD:interact(playerid, params[])
 
     // Xây danh sách tương tác
     new content[512];
-    new itemCount = 0;
     
     new name[MAX_PLAYER_NAME];
     GetPlayerName(targetid, name, sizeof(name));
@@ -44,14 +43,12 @@ CMD:interact(playerid, params[])
     // --- Chung cho mọi người ---
     format(content, sizeof(content), 
         "Xem thong tin\nTra tien mat\nDua vat pham");
-    itemCount = 3;
 
     // --- LSPD On Duty ---
-    new bool:isPolice = (Player_GetClass(playerid) == TEAM_POLICE && LspdOnDuty[playerid]);
+    new bool:isPolice = (Player_GetClass(playerid) == TEAM_POLICE && LSPD_IsOnDuty(playerid));
     if (isPolice)
     {
         strcat(content, "\n[LSPD] Khoa tay (Cuff)\n[LSPD] Dan giai (Escort)\n[LSPD] Kham nguoi (Inspect)");
-        itemCount += 3;
     }
 
     // --- EMS On Duty ---
@@ -59,7 +56,6 @@ CMD:interact(playerid, params[])
     if (isEMS)
     {
         strcat(content, "\n[EMS] Bang bo (Bandage)\n[EMS] Hoi suc tim (CPR)");
-        itemCount += 2;
     }
 
     SetPVarInt(playerid, "InteractTarget", targetid);
@@ -72,7 +68,7 @@ CMD:interact(playerid, params[])
     inline OnInteract(response, listitem, string:inputtext[])
     {
         #pragma unused inputtext
-        if (!response) return;
+        if (!response) return 1;
 
         new target = GetPVarInt(playerid, "InteractTarget");
         new police = GetPVarInt(playerid, "InteractIsPolice");
@@ -81,13 +77,13 @@ CMD:interact(playerid, params[])
         if (!IsPlayerConnected(target))
         {
             SendErrorMsg(playerid, "Nguoi choi da thoat game.");
-            return;
+            return 1;
         }
 
         if (!Player_IsNearPlayer(playerid, target, INTERACT_MAX_DIST))
         {
             SendErrorMsg(playerid, "Nguoi choi da di qua xa!");
-            return;
+            return 1;
         }
 
         // ---- Mục chung ----
@@ -95,13 +91,16 @@ CMD:interact(playerid, params[])
         {
             new info[512];
             new tname[MAX_PLAYER_NAME];
+            new Float:targetHealth, Float:targetArmour;
             GetPlayerName(target, tname, sizeof(tname));
+            GetPlayerHealth(target, targetHealth);
+            GetPlayerArmour(target, targetArmour);
             format(info, sizeof(info),
                 "Ten IC: %s\nClass: %d\nHP: %.1f | Armor: %.1f\nMoney: $%d\n\nGiay phep:\n- Bang lai xe: %s\n- GPDKD: %s",
                 tname,
                 Player_GetClass(target),
-                _:GetPlayerHealthFloat(target),
-                _:GetPlayerArmourFloat(target),
+                targetHealth,
+                targetArmour,
                 GetPlayerMoney(target),
                 Player_HasLicense(target, LICENSE_CAR) ? "Co" : "Khong",
                 Player_HasBizLicense(target)           ? "Co" : "Khong"
@@ -113,12 +112,12 @@ CMD:interact(playerid, params[])
             inline OnPayInput(res, li, string:txt[])
             {
                 #pragma unused li
-                if (!res) return;
+                if (!res) return 1;
                 new amount = strval(txt);
                 if (amount <= 0 || amount > GetPlayerMoney(playerid))
                 {
                     SendErrorMsg(playerid, "So tien khong hop le.");
-                    return;
+                    return 1;
                 }
                 GivePlayerMoney(playerid, -amount);
                 GivePlayerMoney(target, amount);
@@ -126,6 +125,7 @@ CMD:interact(playerid, params[])
                 GetPlayerName(target, tname2, sizeof(tname2));
                 SendMsgF(playerid, COLOR_GREEN, "[Tra Tien] Da tra $%d cho %s.", amount, tname2);
                 SendMsgF(target, COLOR_GREEN, "[Nhan Tien] %s da tra cho ban $%d.", ReturnPlayerName(playerid), amount);
+                return 1;
             }
             Dialog_ShowCallback(playerid, using inline OnPayInput, DIALOG_STYLE_INPUT, "Tra Tien Mat", "Nhap so tien muon tra:", "Xac Nhan", "Huy");
         }
@@ -134,20 +134,21 @@ CMD:interact(playerid, params[])
             inline OnGiveInput(res, li, string:txt[])
             {
                 #pragma unused li
-                if (!res) return;
+                if (!res) return 1;
                 if (!Inv_HasItem(playerid, txt))
                 {
                     SendErrorMsg(playerid, "Ban khong co vat pham nay trong tui.");
-                    return;
+                    return 1;
                 }
                 if (!Inv_AddItem(target, txt))
                 {
                     SendErrorMsg(playerid, "Tui do cua ho da day!");
-                    return;
+                    return 1;
                 }
                 Inv_RemoveItem(playerid, txt, 1);
                 SendMsgF(playerid, COLOR_GREEN, "[Dua Do] Da dua 1x '%s' cho %s.", txt, ReturnPlayerName(target));
                 SendMsgF(target, COLOR_GREEN, "[Nhan Do] %s da dua cho ban 1x '%s'.", ReturnPlayerName(playerid), txt);
+                return 1;
             }
             Dialog_ShowCallback(playerid, using inline OnGiveInput, DIALOG_STYLE_INPUT, "Dua Vat Pham", "Nhap ten slug cua vat pham:", "Xac Nhan", "Huy");
         }
@@ -155,34 +156,46 @@ CMD:interact(playerid, params[])
         {
             // Tính offset cho LSPD/EMS
             new offset = 3; // sau 3 mục chung
+            new targetParam[8];
+            format(targetParam, sizeof(targetParam), "%d", target);
             if (police)
             {
                 if (listitem == offset + 0) // Còng tay
-                    cmd_cuff(playerid, ReturnPlayerID(target));
+                    cmd_cuff(playerid, targetParam);
                 else if (listitem == offset + 1) // Dẫn giải
-                    cmd_escort(playerid, ReturnPlayerID(target));
+                    cmd_escort(playerid, targetParam);
                 else if (listitem == offset + 2) // Khám người
-                    cmd_inspect(playerid, ReturnPlayerID(target));
+                    cmd_inspect(playerid, targetParam);
                 offset += 3;
             }
             if (ems)
             {
                 if (listitem == offset + 0) // Băng bó
-                    cmd_bandage(playerid, ReturnPlayerID(target));
+                    cmd_bandage(playerid, targetParam);
                 else if (listitem == offset + 1) // CPR
-                    cmd_cpr(playerid, ReturnPlayerID(target));
+                    cmd_cpr(playerid, targetParam);
             }
         }
+        return 1;
     }
 
     Dialog_ShowCallback(playerid, using inline OnInteract, DIALOG_STYLE_LIST, title, content, "Thuc Hien", "Huy");
     return 1;
 }
 
-// Helper: trả về playerid dạng string để truyền vào cmd_*
-static ReturnPlayerID(playerid)
+CMD:escort(playerid, params[])
 {
-    static str[8];
-    format(str, sizeof(str), "%d", playerid);
-    return str;
+    new targetid;
+    if (sscanf(params, "u", targetid))
+        return SendErrorMsg(playerid, "Su dung: /escort [ID]"), 1;
+
+    if (!IsPlayerConnected(targetid) || targetid == playerid)
+        return SendErrorMsg(playerid, "Nguoi choi khong hop le."), 1;
+
+    if (!Player_IsNearPlayer(playerid, targetid, INTERACT_MAX_DIST))
+        return SendErrorMsg(playerid, "Nguoi choi qua xa."), 1;
+
+    SendMsgF(playerid, COLOR_GREEN, "Ban dang dan giai %s.", ReturnPlayerName(targetid));
+    SendMsgF(targetid, COLOR_GREEN, "%s dang dan giai ban.", ReturnPlayerName(playerid));
+    return 1;
 }

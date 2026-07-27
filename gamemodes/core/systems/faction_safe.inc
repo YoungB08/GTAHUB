@@ -103,7 +103,7 @@ CMD:safe(playerid, params[])
         return SendErrorMsg(playerid, "Ban khong dung gan Két sắt / Locker cua to chuc ban."), 1;
 
     // Giả lập check rank (Chưa có hệ thống rank hoàn chỉnh cho mọi faction, tạm dùng PD Rank)
-    if (Player_GetClass(playerid) == TEAM_POLICE && LspdRank[playerid] < MIN_RANK_SAFE)
+    if (Player_GetClass(playerid) == TEAM_POLICE && LSPD_GetRank(playerid) < MIN_RANK_SAFE)
         return SendErrorMsg(playerid, "Ban can Rank 2 tro len de mo Locker LSPD."), 1;
 
     inline OnSafeLoaded()
@@ -160,8 +160,8 @@ CMD:putsafe(playerid, params[])
 
     // Lưu vào Safe
     MySQL_BindInt(stmt_insertFacInv, 0, facId);
-    MySQL_BindString(stmt_insertFacInv, 1, params); // item slug
-    MySQL_BindString(stmt_insertFacInv, 2, label);  // item label
+    MySQL_BindString(stmt_insertFacInv, 1, params, 32); // item slug
+    MySQL_BindString(stmt_insertFacInv, 2, label, sizeof(label));  // item label
     MySQL_BindInt(stmt_insertFacInv, 3, 1);         // qty = 1 (Tạm thời chỉ hỗ trợ cất 1 món mỗi lần)
     MySQL_ExecuteThreaded(stmt_insertFacInv);
 
@@ -187,7 +187,7 @@ CMD:takesafe(playerid, params[])
             {
                 // Xóa 1 dòng khỏi DB
                 MySQL_BindInt(stmt_deleteFacInv, 0, facId);
-                MySQL_BindString(stmt_deleteFacInv, 1, params);
+                MySQL_BindString(stmt_deleteFacInv, 1, params, 32);
                 MySQL_ExecuteThreaded(stmt_deleteFacInv);
 
                 SendMsgF(playerid, COLOR_GREEN, "[FACTION SAFE] Ban da rut 1x %s tu kho chung.", params);
@@ -206,7 +206,7 @@ CMD:takesafe(playerid, params[])
     // Tái sử dụng stmt_loadFacInv (phải đổi query một chút hoặc chạy trực tiếp inline tquery cho nhanh)
     new query[256];
     mysql_format(MySQL_GetHandle(), query, sizeof(query), "SELECT id FROM faction_inventory WHERE faction_id=%d AND item_name='%e' LIMIT 1", facId, params);
-    mysql_tquery_inline(MySQL_GetHandle(), query, using inline OnCheckItem, "");
+    MySQL_TQueryInline(MySQL_GetHandle(), using inline OnCheckItem, query);
 
     return 1;
 }

@@ -101,6 +101,20 @@
 #include <streamer>
 #include <logger>
 #include <mysql_prepared>
+
+stock MySQL_BindString(Statement:statement, param, const value[], len = sizeof(value))
+{
+	#pragma unused len
+	MySQL_Bind(statement, param, value);
+	return 1;
+}
+
+stock MySQL_BindResultString(Statement:statement, field, const value[], len = sizeof(value))
+{
+	MySQL_BindResult(statement, field, value, len);
+	return 1;
+}
+
 #include <map-zones>
 //#include <formatex>
 

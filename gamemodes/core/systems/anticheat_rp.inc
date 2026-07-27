@@ -96,7 +96,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerSpawn(playerid)
 {
-    ACEnabled[playerid] = Player_IsLoggedIn(playerid);
+    ACEnabled[playerid] = (Player_IsLoggedIn(playerid) != 0);
     GetPlayerPos(playerid, ACLastPosX[playerid], ACLastPosY[playerid], ACLastPosZ[playerid]);
     GetPlayerHealth(playerid, ACLastHP[playerid]);
     ACLastMoney[playerid] = GetPlayerMoney(playerid);
@@ -167,8 +167,8 @@ static ptask _ACCheckTimer[AC_CHECK_INTERVAL](playerid)
         new Float:dist = Distance(ACLastPosX[playerid], ACLastPosY[playerid], ACLastPosZ[playerid], cx, cy, cz);
         if (dist > AC_TELEPORT_MAX_DIST)
         {
-            new state = GetPlayerState(playerid);
-            if (state != PLAYER_STATE_WASTED && state != PLAYER_STATE_SPECTATING)
+            new playerState = GetPlayerState(playerid);
+            if (playerState != PLAYER_STATE_WASTED && playerState != PLAYER_STATE_SPECTATING)
                 AC_FlagViolation(playerid, "Teleport", dist);
         }
 
@@ -264,7 +264,7 @@ static AC_FlagViolation(playerid, const type[], Float:value)
     foreach (new i : Player)
     {
         if (Admin_GetPlayerLevel(i) < 1) continue;
-        SendClientMessageF(i, COLOR_RED,
+        SendMsgF(i, COLOR_RED,
             "[AC] Vi pham: %s (ID:%d) - %s (Value:%.1f) [%d/%d]",
             name, playerid, type, value,
             ACViolations[playerid], AC_KICK_THRESHOLD);

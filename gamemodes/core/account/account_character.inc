@@ -173,8 +173,8 @@ hook OnPlayerAutoSave(playerid)
 static Char_ResetData(playerid)
 {
     PlayerChar[playerid][E_CHAR_ID]       = 0;
-    PlayerChar[playerid][E_CHAR_FIRSTNAME]= "";
-    PlayerChar[playerid][E_CHAR_LASTNAME] = "";
+    PlayerChar[playerid][E_CHAR_FIRSTNAME][0] = '\0';
+    PlayerChar[playerid][E_CHAR_LASTNAME][0]  = '\0';
     PlayerChar[playerid][E_CHAR_AGE]      = 20;
     PlayerChar[playerid][E_CHAR_GENDER]   = 0;
     PlayerChar[playerid][E_CHAR_SKIN]     = 0;
@@ -378,10 +378,10 @@ static Char_ShowCreateDialog(playerid)
         using inline OnEnterName,
         DIALOG_STYLE_INPUT,
         "Tao Nhan Vat Moi – Ten IC",
-        "Nhap ten nhan vat theo dinh dang:\n"
-        "{FFAA00}Firstname Lastname{FFFFFF}\n\n"
-        "Vi du: {33AA33}Nguyen Van{FFFFFF} hoac {33AA33}John Smith\n\n"
-        "{AFAFAF}Luu y: Ten nhan vat la duy nhat tren server.",
+        "Nhap ten nhan vat theo dinh dang:\n\
+{FFAA00}Firstname Lastname{FFFFFF}\n\n\
+Vi du: {33AA33}Nguyen Van{FFFFFF} hoac {33AA33}John Smith\n\n\
+{AFAFAF}Luu y: Ten nhan vat la duy nhat tren server.",
         "Tiep tuc",
         "Quay lai"
     );
@@ -414,10 +414,10 @@ static Char_ShowAgeGenderDialog(playerid, const firstname[], const lastname[])
 {
     new content[256];
     format(content, sizeof(content),
-        "Nhan vat: {33AA33}%s %s{FFFFFF}\n\n"
-        "Chon gioi tinh:\n"
-        "Nam\t(Co the chon skin Nam)\n"
-        "Nu\t(Co the chon skin Nu)\n",
+        "Nhan vat: {33AA33}%s %s{FFFFFF}\n\n\
+Chon gioi tinh:\n\
+Nam\t(Co the chon skin Nam)\n\
+Nu\t(Co the chon skin Nu)\n",
         firstname, lastname
     );
 
@@ -680,14 +680,14 @@ CMD:charinfo(playerid, params[])
 
     new content[512];
     format(content, sizeof(content),
-        "=== HO SO NHAN VAT IC ===\n\n"
-        "Ten IC:     %s %s\n"
-        "Tuoi:       %d\n"
-        "Gioi tinh:  %s\n"
-        "Job:        %d\n"
-        "Class:      %d\n"
-        "XP:         %d\n\n"
-        "Tien mat:   $%d",
+        "=== HO SO NHAN VAT IC ===\n\n\
+Ten IC:     %s %s\n\
+Tuoi:       %d\n\
+Gioi tinh:  %s\n\
+Job:        %d\n\
+Class:      %d\n\
+XP:         %d\n\n\
+Tien mat:   $%d",
         PlayerChar[playerid][E_CHAR_FIRSTNAME],
         PlayerChar[playerid][E_CHAR_LASTNAME],
         PlayerChar[playerid][E_CHAR_AGE],
@@ -703,8 +703,9 @@ CMD:charinfo(playerid, params[])
     return 1;
 }
 
-// Alias /id
-ALTCMD:mychar(playerid, params);
+// Aliases
+ALTCMD:mychar(charinfo);
+ALTCMD:id(charinfo);
 
 // =============================================================================
 // COMMAND – /switchchar – Đổi nhân vật (từ selection dialog)
@@ -740,7 +741,7 @@ CMD:deletechar(playerid, params[])
     inline OnConfirmDelete(response, listitem, string:inputtext[])
     {
         #pragma unused listitem, inputtext
-        if (!response) return;
+        if (!response) return 1;
 
         new charID = PlayerChar[playerid][E_CHAR_ID];
 
@@ -760,8 +761,8 @@ CMD:deletechar(playerid, params[])
     Dialog_ShowCallback(playerid, using inline OnConfirmDelete,
         DIALOG_STYLE_MSGBOX,
         "Xac Nhan Xoa Nhan Vat",
-        "Ban co chac muon XOA VINH VIEN nhan vat nay?\n"
-        "{E85454}Hanh dong nay KHONG THE hoan tac!",
+        "Ban co chac muon XOA VINH VIEN nhan vat nay?\n\
+{E85454}Hanh dong nay KHONG THE hoan tac!",
         "Xac nhan xoa", "Huy");
     return 1;
 }

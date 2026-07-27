@@ -36,26 +36,16 @@
 hook OnVehicleDeath(vehicleid, killerid)
 {
     // Tìm trong PersonalVehicle Iterator xem xe này có phải xe cá nhân không
-    new ownerUID = -1;
-    new vehDBId  = -1;
+    new ownerUID = Vehicle_GetOwnerUID(vehicleid);
+    new vehDBId  = Vehicle_GetDatabaseID(vehicleid);
     new model    = GetVehicleModel(vehicleid);
 
-    foreach (new i : PersonalVehicle)
-    {
-        if (VehicleHandler[i] == vehicleid)
-        {
-            ownerUID = VehicleOwnerID[i];
-            vehDBId  = VehicleUID[i];
-            break;
-        }
-    }
-
-    if (ownerUID == -1 || vehDBId <= 0) return 1; // Không phải xe cá nhân
+    if (ownerUID <= 0 || vehDBId <= 0) return 1;
 
     // Đánh dấu Impounded trong DB
     new query[200];
     mysql_format(MySQL_GetHandle(), query, sizeof(query),
-        "UPDATE player_vehicles SET impounded=1 WHERE id=%d AND u_id=%d",
+        "UPDATE player_vehicles SET impounded=1 WHERE vehicle_id=%d AND u_id=%d",
         vehDBId, ownerUID);
     mysql_tquery(MySQL_GetHandle(), query, "", "");
 
@@ -102,21 +92,21 @@ CMD:getcar(playerid, params[])
 
     inline OnCheckImpound()
     {
-        new vehId = -1, model = -1;
-        MySQL_BindResultInt(MySQL_GetLastStatement(), 0, vehId);
-        MySQL_BindResultInt(MySQL_GetLastStatement(), 1, model);
-
-        if (!MySQL_Statement_FetchRow(MySQL_GetLastStatement()))
+        if (!cache_num_rows())
         {
             SendErrorMsg(playerid, "Ban khong co xe nao dang bi giu tai Bai Giu Xe.");
-            return;
+            return 1;
         }
+
+        new vehId = -1, model = -1;
+        cache_get_value_name_int(0, "vehicle_id", vehId);
+        cache_get_value_name_int(0, "model_id", model);
 
         new fee = Impound_GetFee(model);
         if (GetPlayerMoney(playerid) < fee)
         {
             SendErrorMsgF(playerid, "Ban khong du $%d de trang trai phi bao hiem.", fee);
-            return;
+            return 1;
         }
 
         GivePlayerMoney(playerid, -fee);
@@ -124,7 +114,7 @@ CMD:getcar(playerid, params[])
         // Xóa flag impounded và cập nhật vị trí về Impound Lot
         new updateQuery[256];
         mysql_format(MySQL_GetHandle(), updateQuery, sizeof(updateQuery),
-            "UPDATE player_vehicles SET impounded=0, x=%f, y=%f, z=%f, rot=%f WHERE id=%d",
+            "UPDATE player_vehicles SET impounded=0, x=%f, y=%f, z=%f, rot=%f WHERE vehicle_id=%d",
             IMPOUND_SPAWN_X, IMPOUND_SPAWN_Y, IMPOUND_SPAWN_Z, IMPOUND_SPAWN_A, vehId);
         mysql_tquery(MySQL_GetHandle(), updateQuery, "", "");
 
@@ -133,12 +123,13 @@ CMD:getcar(playerid, params[])
         SetVehicleHealth(newVeh, 1000.0);
 
         SendMsgF(playerid, COLOR_GREEN, "[BAO HIEM] Da tra phi $%d. Xe cua ban o Bai Giu Xe (%.1f, %.1f).", fee, IMPOUND_SPAWN_X, IMPOUND_SPAWN_Y);
+        return 1;
     }
 
     new selectQuery[256];
     mysql_format(MySQL_GetHandle(), selectQuery, sizeof(selectQuery),
-        "SELECT id, model_id FROM player_vehicles WHERE u_id=%d AND impounded=1 LIMIT 1", uid);
-    mysql_tquery_inline(MySQL_GetHandle(), selectQuery, using inline OnCheckImpound, "");
+        "SELECT vehicle_id, model_id FROM player_vehicles WHERE u_id=%d AND impounded=1 LIMIT 1", uid);
+    MySQL_TQueryInline(MySQL_GetHandle(), using inline OnCheckImpound, selectQuery);
 
     return 1;
 }
