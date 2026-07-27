@@ -1,6 +1,8 @@
 #include <vehicle_impl>
 #include <vehicle_fuel> // he thong nhien lieu
 #include <vehicle_keys> // he thong chia khoa / khoa cua / dong co
+#include <vehicle_dealership> // Muc 28: Dealership
+#include <vehicle_damage> // Muc 28: Damage System
 
 
 #if SETUP_TABLE

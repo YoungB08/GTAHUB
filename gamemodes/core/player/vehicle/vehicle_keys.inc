@@ -143,6 +143,10 @@ CMD:engine(playerid, params[])
     if (Vehicle_GetFuel(vehicleid) <= 0.0)
         return SendErrorMsg(playerid, "Xe het xang khong the khoi dong! Hay do xang truoc."), 1;
 
+    // Kiểm tra hỏng hóc động cơ
+    if (Vehicle_IsEngineBroken(vehicleid))
+        return SendErrorMsg(playerid, "Dong co xe da bi hong nang (Chet may). Ban can goi Tho Sua Xe!"), 1;
+
     new engines, lights, alarm, doors, bonnet, boot, objective;
     GetVehicleParamsEx(vehicleid, engines, lights, alarm, doors, bonnet, boot, objective);
 
