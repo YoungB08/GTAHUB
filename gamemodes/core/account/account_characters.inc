@@ -59,6 +59,48 @@ static bool:Character_IsNamePartValid(const name[])
     return true;
 }
 
+static bool:Character_ParseNameInput(const input[], username[], usernameLen, firstName[], firstLen, lastName[], lastLen)
+{
+    new
+        len = strlen(input),
+        underscore = strfind(input, "_");
+
+    if(!(2 <= len < usernameLen)) {
+        return false;
+    }
+
+    if(underscore == -1) {
+        if(!Character_IsNamePartValid(input)) {
+            return false;
+        }
+
+        strcpy(username, input, usernameLen);
+        strcpy(firstName, input, firstLen);
+        lastName[0] = '\0';
+        return true;
+    }
+
+    if(underscore == 0 || underscore == len - 1 || strfind(input, "_", false, underscore + 1) != -1) {
+        return false;
+    }
+
+    new
+        firstPart[24],
+        lastPart[24];
+
+    strmid(firstPart, input, 0, underscore, sizeof(firstPart));
+    strmid(lastPart, input, underscore + 1, len, sizeof(lastPart));
+
+    if(!Character_IsNamePartValid(firstPart) || !Character_IsNamePartValid(lastPart)) {
+        return false;
+    }
+
+    strcpy(username, input, usernameLen);
+    strcpy(firstName, firstPart, firstLen);
+    strcpy(lastName, lastPart, lastLen);
+    return true;
+}
+
 static bool:Character_IsValidSkin(skinid)
 {
     return (0 <= skinid <= 311 && skinid != 74);
@@ -75,7 +117,52 @@ static Character_GetGenderLabel(gender, output[], len)
 
 static Character_BuildUsername(const firstName[], const lastName[], output[], len)
 {
-    format(output, len, "%s_%s", firstName, lastName);
+    if(isnull(lastName)) {
+        strcpy(output, firstName, len);
+    }
+    else {
+        format(output, len, "%s_%s", firstName, lastName);
+    }
+    return 1;
+}
+
+static Character_BuildDisplayName(const username[], const firstName[], const lastName[], output[], len)
+{
+    if(isnull(firstName)) {
+        strcpy(output, username, len);
+    }
+    else if(isnull(lastName)) {
+        strcpy(output, firstName, len);
+    }
+    else {
+        format(output, len, "%s %s", firstName, lastName);
+    }
+    return 1;
+}
+
+static Character_EnsureStorage(characterid, skinid)
+{
+    new query[160];
+
+    mysql_format(
+        MySQL_GetHandle(),
+        query,
+        sizeof(query),
+        "INSERT IGNORE INTO player_stats (u_id, skin, class_id, level) VALUES (%i, %i, %i, 1)",
+        characterid,
+        skinid,
+        TEAM_CIVILIAN
+    );
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "INSERT IGNORE INTO player_items (u_id) VALUES (%i)", characterid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "INSERT IGNORE INTO player_shots_stats (uid) VALUES (%i)", characterid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "INSERT IGNORE INTO player_bank (u_id, money) VALUES (%i, 0)", characterid);
+    mysql_tquery(MySQL_GetHandle(), query);
     return 1;
 }
 
@@ -129,15 +216,10 @@ static Character_StartSession(playerid, characterid, const username[], const fir
     Player_SetLoginStatus(playerid, true);
 
     new displayName[MAX_PLAYER_NAME + 8];
-
-    if(isnull(firstName) && isnull(lastName)) {
-        strcpy(displayName, username, sizeof(displayName));
-    }
-    else {
-        format(displayName, sizeof(displayName), "%s %s", firstName, lastName);
-    }
+    Character_BuildDisplayName(username, firstName, lastName, displayName, sizeof(displayName));
 
     SendServerMsgF(playerid, "Da vao nhan vat %s.", displayName);
+    Character_EnsureStorage(characterid, skinid);
     CallLocalFunction("OnPlayerLogin", "i", playerid);
     return 1;
 }
@@ -254,43 +336,19 @@ static Character_Insert(playerid, skinid)
 
             Player_SetCharacterID(playerid, characterid);
             Player_SetSkin(playerid, skinid);
-
-            new setupQuery[768];
-            mysql_format(
-                MySQL_GetHandle(),
-                setupQuery,
-                sizeof(setupQuery),
-                "\
-                    INSERT IGNORE INTO player_stats (u_id, skin, class_id, level) VALUES (%i, %i, %i, 1); \
-                    INSERT IGNORE INTO player_items (u_id) VALUES (%i); \
-                    INSERT IGNORE INTO player_shots_stats (uid) VALUES (%i); \
-                    INSERT IGNORE INTO player_bank (u_id, money) VALUES (%i, 0);",
+            CallLocalFunction("OnPlayerRegister", "i", playerid);
+            Character_StartSession(
+                playerid,
                 characterid,
-                skinid,
-                TEAM_CIVILIAN,
-                characterid,
-                characterid,
-                characterid
+                username,
+                firstName,
+                lastName,
+                CharacterCreateAge[playerid],
+                CharacterCreateGender[playerid],
+                origin,
+                background,
+                skinid
             );
-
-            inline const OnCharacterSetup()
-            {
-                CallLocalFunction("OnPlayerRegister", "i", playerid);
-                Character_StartSession(
-                    playerid,
-                    characterid,
-                    username,
-                    firstName,
-                    lastName,
-                    CharacterCreateAge[playerid],
-                    CharacterCreateGender[playerid],
-                    origin,
-                    background,
-                    skinid
-                );
-                return 1;
-            }
-            MySQL_TQueryInline(MySQL_GetHandle(), using inline OnCharacterSetup, setupQuery);
             return 1;
         }
 
@@ -512,40 +570,6 @@ static Character_ShowAgeDialog(playerid)
     return 1;
 }
 
-static Character_ShowLastNameDialog(playerid)
-{
-    inline const _response(response, listitem, string:inputtext[])
-    {
-        #pragma unused listitem
-
-        if(!response) {
-            Account_ShowCharacterMenu(playerid);
-            return 1;
-        }
-
-        if(!Character_IsNamePartValid(inputtext)) {
-            SendErrorMsg(playerid, "Ten phai co 2-12 chu cai, khong dung so hoac dau cach.");
-            Character_ShowLastNameDialog(playerid);
-            return 1;
-        }
-
-        strcpy(CharacterCreateLast[playerid], inputtext, sizeof(CharacterCreateLast[]));
-        Character_ShowAgeDialog(playerid);
-        return 1;
-    }
-
-    Dialog_ShowCallback(
-        playerid,
-        using inline _response,
-        DIALOG_STYLE_INPUT,
-        "Tao nhan vat - Ten",
-        "Nhap ten nhan vat.\nVi du: Nguyen Van Nam -> nhap Nam.",
-        "Tiep",
-        "Huy"
-    );
-    return 1;
-}
-
 static Character_ShowFirstNameDialog(playerid)
 {
     inline const _response(response, listitem, string:inputtext[])
@@ -557,15 +581,25 @@ static Character_ShowFirstNameDialog(playerid)
             return 1;
         }
 
-        if(!Character_IsNamePartValid(inputtext)) {
-            SendErrorMsg(playerid, "Ho phai co 2-12 chu cai, khong dung so hoac dau cach.");
+        Character_ResetCreate(playerid);
+
+        new username[MAX_PLAYER_NAME];
+
+        if(!Character_ParseNameInput(
+            inputtext,
+            username,
+            sizeof(username),
+            CharacterCreateFirst[playerid],
+            sizeof(CharacterCreateFirst[]),
+            CharacterCreateLast[playerid],
+            sizeof(CharacterCreateLast[])
+        )) {
+            SendErrorMsg(playerid, "Ten phai dung format Ho_Ten hoac Ten, chi dung chu cai khong dau.");
             Character_ShowFirstNameDialog(playerid);
             return 1;
         }
 
-        Character_ResetCreate(playerid);
-        strcpy(CharacterCreateFirst[playerid], inputtext, sizeof(CharacterCreateFirst[]));
-        Character_ShowLastNameDialog(playerid);
+        Character_ShowAgeDialog(playerid);
         return 1;
     }
 
@@ -573,8 +607,8 @@ static Character_ShowFirstNameDialog(playerid)
         playerid,
         using inline _response,
         DIALOG_STYLE_INPUT,
-        "Tao nhan vat - Ho",
-        "Nhap ho nhan vat.\nChi dung chu cai khong dau.",
+        "Tao nhan vat - Ten",
+        "Nhap ten nhan vat theo format Ho_Ten hoac Ten.\nVi du: Nguyen_Nam hoac Nam.",
         "Tiep",
         "Huy"
     );
@@ -603,6 +637,7 @@ stock Account_ShowCharacterMenu(playerid)
             firstName[24],
             lastName[24],
             origin[32],
+            displayName[MAX_PLAYER_NAME + 8],
             genderName[8],
             line[144],
             list[768];
@@ -624,15 +659,15 @@ stock Account_ShowCharacterMenu(playerid)
             cache_get_value_name_int(i, "level", level);
 
             Character_GetGenderLabel(gender, genderName, sizeof(genderName));
+            Character_BuildDisplayName(username, firstName, lastName, displayName, sizeof(displayName));
             CharacterMenuID[playerid][CharacterMenuCount[playerid]] = characterid;
             CharacterMenuCount[playerid] ++;
 
             format(
                 line,
                 sizeof(line),
-                "%s %s\t%s, %d tuoi, %s, skin %d, level %d\n",
-                firstName,
-                lastName,
+                "%s\t%s, %d tuoi, %s, skin %d, level %d\n",
+                displayName,
                 genderName,
                 age,
                 origin,
@@ -724,12 +759,13 @@ stock Character_GetID(playerid)
 
 stock Character_GetFullName(playerid, output[], len)
 {
-    if(isnull(CharacterFirstName[playerid]) && isnull(CharacterLastName[playerid])) {
-        GetPlayerName(playerid, output, len);
-        return 1;
-    }
-
-    format(output, len, "%s %s", CharacterFirstName[playerid], CharacterLastName[playerid]);
+    Character_BuildDisplayName(
+        CharacterUsername[playerid],
+        CharacterFirstName[playerid],
+        CharacterLastName[playerid],
+        output,
+        len
+    );
     return 1;
 }
 
