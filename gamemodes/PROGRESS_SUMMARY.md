@@ -27,6 +27,9 @@
 | **23** | **Tủ Đồ Nhà Riêng** | Cất/Lấy tiền mặt nhà riêng (`/housedeposit`, `/housewithdraw`), Xem tủ đồ nhà (`/houseinv`), Bảng `house_inventory`. | `core/systems/house_storage.inc` |
 | **26** | **RP Fishing System** | 3 bãi câu cá, lệnh `/fish` (timer 6s cá cắn), 3 loại cá (Cá Trích, Cá Ngừ, Cá Mập Nhỏ), bán cá lấy tiền mặt (`/sellfish`). | `core/systems/fishing_system.inc` |
 | **27** | **VIP Perks System** | Bonus Paycheck theo cấp VIP (+10% / +20% / +30%), Dashboard `/myvip`, Màu tên OOC độc quyền `/vipcolor`, Chat VIP `/vipchat`, Admin cấp VIP `/setvip`. | `core/account/account_vip_perks.inc` |
+| **28A**| **Death & Survival System** | Downed state (5 min), `/acceptdeath` (-10% tiền), Hunger/Thirst tụt theo phút, `/useitem` ăn uống, báo động khi đói khát. | `core/player/player_death.inc`<br>`core/player/player_survival.inc` |
+| **28B**| **Business & Faction Safes**| Player-owned 24/7 (`/buybiz`, `/bizpanel`, `/buy` trừ tồn kho), Tủ đồ LSPD/Gang (`/safe`, `/putsafe`, `/takesafe`). | `core/systems/business_economy.inc`<br>`core/systems/faction_safe.inc` |
+| **29** | **Vehicle Damage & QoL** | Hỏng động cơ khi va chạm > 150 HP hoặc xe < 350 HP, Mua xe tại Showroom thực tế, Phím tắt N (Túi đồ), H (Khóa xe). | `core/player/vehicle/vehicle_damage.inc`<br>`core/player/vehicle/vehicle_dealership.inc`<br>`core/player/player_hotkeys.inc` |
 
 ---
 
@@ -34,3 +37,5 @@
 - [`TODO_PLAN.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/TODO_PLAN.md) - Kế hoạch nền tảng ban đầu.
 - [`DEVELOPMENT_PLAN_RP.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_RP.md) - Kế hoạch tính năng RP cốt lõi (Phần 2).
 - [`DEVELOPMENT_PLAN_EXPANSION.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_EXPANSION.md) - Kế hoạch mở rộng gameplay (Phần 3).
+- [`DEVELOPMENT_PLAN_ADVANCED.md`](file:///c:/Users/LENOVO/Documents/GitHub/GTAHUB/gamemodes/DEVELOPMENT_PLAN_ADVANCED.md) - Kế hoạch tính năng Nâng cao (Phần 4).
+
