@@ -53,6 +53,10 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 						);
 					}
 
+					if(!JobProgress_PlayerMeets(playerid, JOB_PROGRESS_ROAD_CLEANER, 1, LICENSE_DRIVING)) {
+						return true;
+					}
+
 					SendClientMessage(
 						playerid,
 						COLOR_ORANGE,
@@ -146,11 +150,13 @@ hook OnPlayerDisconnect(playerid, reason) {
 hook OnPlayerEnterDynRaceCP(playerid, checkpointid) {
 	if(checkpointid == SweeperCheckpoint[playerid] && PlayerStartedSweeping[playerid]) {
 		new
-			string[64];
-		format(string, sizeof(string), "~n~~n~~n~~n~~w~Lam tot lam! Thuong: %m.", SWEEPER_REWARD);
+			string[64],
+			reward = JobProgress_CalculateReward(playerid, JOB_PROGRESS_ROAD_CLEANER, SWEEPER_REWARD);
+		format(string, sizeof(string), "~n~~n~~n~~n~~w~Lam tot lam! Thuong: %m.", reward);
 		GameTextForPlayer(playerid, string , 3000, 3);
 
-		GivePlayerMoney(playerid, SWEEPER_REWARD);
+		GivePlayerMoney(playerid, reward);
+		JobProgress_AddXP(playerid, JOB_PROGRESS_ROAD_CLEANER, max(10, reward / 50));
 		if(PlayerSweepCount[playerid] >= 11) {
 			PlayerSweepCount[playerid] = 0;
 			DestroyDynamicRaceCP(SweeperCheckpoint[playerid]);

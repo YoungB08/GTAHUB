@@ -13,6 +13,8 @@ enum {
     JOB_PROGRESS_FISHER,
     JOB_PROGRESS_WAREHOUSE,
     JOB_PROGRESS_POKER,
+    JOB_PROGRESS_TAXI,
+    JOB_PROGRESS_MECHANIC,
     JOB_PROGRESS_TOTAL
 }
 
@@ -111,6 +113,8 @@ stock JobProgress_GetName(jobid, output[], len)
         case JOB_PROGRESS_FISHER: format(output, len, "Fisher");
         case JOB_PROGRESS_WAREHOUSE: format(output, len, "Warehouse");
         case JOB_PROGRESS_POKER: format(output, len, "Poker");
+        case JOB_PROGRESS_TAXI: format(output, len, "Taxi");
+        case JOB_PROGRESS_MECHANIC: format(output, len, "Mechanic");
         default: format(output, len, "Khong xac dinh");
     }
     return 1;

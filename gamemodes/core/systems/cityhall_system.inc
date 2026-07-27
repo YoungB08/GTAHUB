@@ -31,6 +31,11 @@ void:Cityhall_ChangeSkill(playerid) {
             return;
         }
 
+        if(!License_PlayerHas(playerid, LICENSE_JOB)) {
+            SendErrorMsg(playerid, "Ban can giay phep nghe dac biet de doi ky nang tai City Hall.");
+            return;
+        }
+
         Player_ShowJobMenu(playerid);
         GivePlayerMoney(playerid, -CHANGE_SKILL_PRICE);
     }

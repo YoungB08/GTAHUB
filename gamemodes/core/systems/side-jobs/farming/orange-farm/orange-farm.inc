@@ -13,11 +13,11 @@
 // ====== ORANGE FARM CONSTANTS ======
 #define ORANGE_FARM_DEBUG true
 #define ORANGE_COLLECTION_TIME 1000
-#define ORANGE_PROCESSING_TIME 5000
-#define ORANGE_RESPAWN_TIME 15000
+#define ORANGE_PROCESSING_TIME 8000
+#define ORANGE_RESPAWN_TIME 30000
 #define ORANGE_TO_JUICE_RATIO 5
 #define ORANGE_SALE_PRICE_JUICE 100
-#define ORANGE_COLLECTION_REWARD_MONEY 300
+#define ORANGE_COLLECTION_REWARD_MONEY 200
 // ====== ORANGE FARM ENUMS ======
 enum E_ORANGE_STATE {
      bool:IsCollecting,
@@ -152,6 +152,10 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
 
 // ====== COLLECTION FUNCTIONS ======
 Orange_StartCollection(playerid, treeIndex) {
+     if(!JobProgress_PlayerMeets(playerid, JOB_PROGRESS_ORANGE_FARM, 1, LICENSE_NONE)) {
+          return;
+     }
+
      if(Player_GetFruitPicker(playerid) <= 0) {
           Alert_Send(playerid, "~r~ERROR:~w~ You need a fruit picker to harvest!", 3000);
           return;
@@ -262,8 +266,8 @@ Orange_ShowProcessDialog(playerid) {
 
 public Orange_ProcessComplete(playerid, amount) {
      Player_GiveOrangeJuice(playerid, amount);
-     new reward = amount * ORANGE_SALE_PRICE_JUICE;
-     GivePlayerXp(playerid, reward);
+     new reward = JobProgress_CalculateReward(playerid, JOB_PROGRESS_ORANGE_FARM, amount * ORANGE_SALE_PRICE_JUICE);
+     JobProgress_AddXP(playerid, JOB_PROGRESS_ORANGE_FARM, max(25, reward / 60));
      GivePlayerMoney(playerid, reward);
 
      TogglePlayerControllable(playerid, true);
@@ -353,8 +357,10 @@ Orange_GetNearestTree(playerid) {
 // ====== MINI-GAME CALLBACKS ======
 public Orange_MiniGame_OnComplete(playerid, customData) {
      new randomAmount = random(5) + 2; // 2-6 oranges
+     new harvestReward = JobProgress_CalculateReward(playerid, JOB_PROGRESS_ORANGE_FARM, ORANGE_COLLECTION_REWARD_MONEY);
      Player_GiveOranges(playerid, randomAmount);
-     GivePlayerMoney(playerid, ORANGE_COLLECTION_REWARD_MONEY);
+     GivePlayerMoney(playerid, harvestReward);
+     JobProgress_AddXP(playerid, JOB_PROGRESS_ORANGE_FARM, max(10, harvestReward / 50));
 
      RemovePlayerAttachedObject(playerid, 9);
 
@@ -363,7 +369,7 @@ public Orange_MiniGame_OnComplete(playerid, customData) {
      UpdateDynamic3DTextLabelText(OrangeTreeLabels[customData], COLOR_YELLOW, labelText);
 
      new msg[128];
-     format(msg, sizeof(msg), "~y~[HARVEST]:~w~ +~y~%d Oranges~w~ (~g~+$%d~w~)", randomAmount, ORANGE_COLLECTION_REWARD_MONEY);
+     format(msg, sizeof(msg), "~y~[HARVEST]:~w~ +~y~%d Oranges~w~ (~g~+$%d~w~)", randomAmount, harvestReward);
      Notify_Send(playerid, msg, 3000);
 
      SetTimerEx("Orange_RespawnTree", ORANGE_RESPAWN_TIME, false, "i", customData);

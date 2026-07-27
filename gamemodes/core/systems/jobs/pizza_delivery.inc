@@ -70,6 +70,9 @@ CMD:pdelivery(playerid) {
     if(Player_GetClass(playerid) != TEAM_CIVILIAN) {
         return SendErrorMsg(playerid, "Chi dan thuong moi co the giao pizza.");
     }
+    if(!JobProgress_PlayerMeets(playerid, JOB_PROGRESS_DELIVERY, 1, LICENSE_DRIVING)) {
+        return 1;
+    }
     Pizza_Pickup(playerid);
     return 1;
 }
@@ -126,8 +129,9 @@ Pizza_End(playerid) {
     stop PizzaPickupTimer[playerid];
 
     // Reward Player
-    new reward = random(2000) + 2500;
+    new reward = JobProgress_CalculateReward(playerid, JOB_PROGRESS_DELIVERY, random(2000) + 2500);
     GivePlayerMoney(playerid, reward);
+    JobProgress_AddXP(playerid, JOB_PROGRESS_DELIVERY, max(35, reward / 80));
 
     // Notify Player
     SendMsgF(playerid, COLOR_RED, "(giao pizza) "C_WHITE"Da giao pizza thanh cong va nhan "C_GREEN"%m"C_WHITE"!", reward);

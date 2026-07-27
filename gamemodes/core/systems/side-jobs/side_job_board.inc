@@ -19,9 +19,11 @@ enum E_SIDE_JOB_DATA {
 
 static const SideJobData[][E_SIDE_JOB_DATA] = {
     {"Delivery", JOB_PROGRESS_DELIVERY, 1, LICENSE_DRIVING, 3200, 448, 2115.5190, -1788.4954, 13.5547, 0.0},
+    {"Taxi", JOB_PROGRESS_TAXI, 1, LICENSE_DRIVING, 3600, 420, 1486.7281, -1737.4581, 13.2268, 89.0},
     {"Warehouse", JOB_PROGRESS_WAREHOUSE, 1, LICENSE_NONE, 2800, 0, 0.0, 0.0, 0.0, 0.0},
     {"Miner", JOB_PROGRESS_MINER, 2, LICENSE_JOB, 5200, 0, 0.0, 0.0, 0.0, 0.0},
     {"Fisher", JOB_PROGRESS_FISHER, 2, LICENSE_JOB, 4800, 0, 0.0, 0.0, 0.0, 0.0},
+    {"Mechanic", JOB_PROGRESS_MECHANIC, 2, LICENSE_TRUCK, 4600, 525, 1648.6710, -1836.0947, 13.3828, 0.0},
     {"Pilot", JOB_PROGRESS_PILOT, 3, LICENSE_PILOT, 7500, 593, 1964.6954, -2493.8677, 13.5469, 90.0}
 };
 
@@ -35,6 +37,18 @@ static const Float:SideJobWarehouseRoute[][3] = {
     {1476.4772, -1756.2811, 13.5469},
     {1468.2174, -1764.1883, 13.5469},
     {1486.9517, -1767.2218, 13.5469}
+};
+
+static const Float:SideJobTaxiRoute[][3] = {
+    {1535.8329, -1673.7499, 13.3828},
+    {1821.5656, -1682.2516, 13.3828},
+    {590.8960, -1231.8680, 17.7482}
+};
+
+static const Float:SideJobMechanicRoute[][3] = {
+    {1652.3129, -1836.1707, 13.3828},
+    {1810.2656, -1901.4414, 13.3828},
+    {1936.5782, -1777.1932, 13.3828}
 };
 
 static const Float:SideJobMinerRoute[][3] = {
@@ -74,9 +88,11 @@ static SideJob_GetRouteSize(sidejobid)
 {
     switch(SideJobData[sidejobid][E_SIDE_JOB_PROGRESS_ID]) {
         case JOB_PROGRESS_DELIVERY: return sizeof(SideJobDeliveryRoute);
+        case JOB_PROGRESS_TAXI: return sizeof(SideJobTaxiRoute);
         case JOB_PROGRESS_WAREHOUSE: return sizeof(SideJobWarehouseRoute);
         case JOB_PROGRESS_MINER: return sizeof(SideJobMinerRoute);
         case JOB_PROGRESS_FISHER: return sizeof(SideJobFisherRoute);
+        case JOB_PROGRESS_MECHANIC: return sizeof(SideJobMechanicRoute);
         case JOB_PROGRESS_PILOT: return sizeof(SideJobPilotRoute);
     }
     return 0;
@@ -99,6 +115,13 @@ static SideJob_GetRoutePoint(sidejobid, step, &Float:x, &Float:y, &Float:z)
             z = SideJobWarehouseRoute[step][2];
             return 1;
         }
+        case JOB_PROGRESS_TAXI: {
+            if(step >= sizeof(SideJobTaxiRoute)) return 0;
+            x = SideJobTaxiRoute[step][0];
+            y = SideJobTaxiRoute[step][1];
+            z = SideJobTaxiRoute[step][2];
+            return 1;
+        }
         case JOB_PROGRESS_MINER: {
             if(step >= sizeof(SideJobMinerRoute)) return 0;
             x = SideJobMinerRoute[step][0];
@@ -111,6 +134,13 @@ static SideJob_GetRoutePoint(sidejobid, step, &Float:x, &Float:y, &Float:z)
             x = SideJobFisherRoute[step][0];
             y = SideJobFisherRoute[step][1];
             z = SideJobFisherRoute[step][2];
+            return 1;
+        }
+        case JOB_PROGRESS_MECHANIC: {
+            if(step >= sizeof(SideJobMechanicRoute)) return 0;
+            x = SideJobMechanicRoute[step][0];
+            y = SideJobMechanicRoute[step][1];
+            z = SideJobMechanicRoute[step][2];
             return 1;
         }
         case JOB_PROGRESS_PILOT: {
@@ -234,7 +264,7 @@ static SideJob_ShowBoard(playerid)
         return 1;
     }
 
-    new list[512], line[96], licenseName[32];
+    new list[768], line[96], licenseName[32];
     list[0] = '\0';
     strcat(list, "Viec\tYeu cau\tThuong\n", sizeof(list));
 

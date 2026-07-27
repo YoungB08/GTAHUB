@@ -45,6 +45,9 @@ CMD:trucker(playerid) {
     if(Player_GetClass(playerid) != TEAM_CIVILIAN) {
         return SendErrorMsg(playerid, "Chi dan thuong moi co the lai xe tai.");
     }
+    if(!JobProgress_PlayerMeets(playerid, JOB_PROGRESS_TRUCKER, 1, LICENSE_TRUCK)) {
+        return 1;
+    }
     Trucker_Pickup(playerid);
     return 1;
 }
@@ -108,8 +111,9 @@ hook OnPlayerEnterRaceCP(playerid)
     if(IsPlayerTrucking[playerid])
     {
         if(PlayerTruckingState[playerid] == STATE_DELIVER) {
-            new randm = random(5000) + 4000;
+            new randm = JobProgress_CalculateReward(playerid, JOB_PROGRESS_TRUCKER, random(5000) + 4000);
             GivePlayerMoney(playerid, randm);
+            JobProgress_AddXP(playerid, JOB_PROGRESS_TRUCKER, max(50, randm / 75));
             Trucker_End(playerid);
             SendServerMsg(playerid, "Ban da hoan thanh nhiem vu xe tai!");
             SendServerMsgF(playerid, "Cua hang da tra cho ban %d!", randm);

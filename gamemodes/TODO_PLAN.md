@@ -17,11 +17,11 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 - [x] Tạo module interaction chung cho entrance, house, business, ATM, object, phone booth và job point.
 - [x] Gắn module interaction vào entrance, house, business và ATM.
-- [ ] Gắn module interaction vào object, phone booth và job point.
+- [x] Gắn module interaction vào object, phone booth và job point.
 - [x] Khi người chơi đến gần entrance, house, business hoặc ATM, hiển thị tên điểm và hướng dẫn thao tác.
 - [x] Hỗ trợ prompt dạng: `Nhấn Y để vào / N để hủy`.
 - [x] Cho phép interaction đã gắn gọi action riêng: vào cửa, ra cửa, vào nhà, ra nhà và mở ATM.
-- [ ] Gắn action riêng cho gọi điện thoại, nhận job và object interaction.
+- [x] Gắn action riêng cho gọi điện thoại, nhận job và object interaction.
 - [x] Ưu tiên cấu hình bằng data/config để hạn chế hard-code từng điểm.
 
 ### 3. Stream/load an toàn quanh entrance
@@ -35,12 +35,12 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 ### 4. Label trang trọng cho điểm quan trọng
 
 - [x] Chuẩn hóa format label cho lối vào, nhà, doanh nghiệp và ATM.
-- [ ] Chuẩn hóa format label cho job point và phone booth.
+- [x] Chuẩn hóa format label cho job point và phone booth.
 - [x] Hiển thị tên địa điểm/doanh nghiệp phía trên marker/object cho entrance, house và ATM.
 - [x] Hiển thị loại điểm đã gắn: `Lối vào`, `Nhà ở`, `Doanh nghiệp`, `ATM`.
-- [ ] Hiển thị loại điểm còn lại: `Công việc`, `Phone booth`.
+- [x] Hiển thị loại điểm còn lại: `Công việc`, `Phone booth`.
 - [x] Hiển thị trạng thái cơ bản cho entrance, house và ATM.
-- [ ] Hiển thị trạng thái yêu cầu giấy phép sau khi có license system.
+- [x] Hiển thị trạng thái yêu cầu giấy phép sau khi có license system.
 - [x] Dùng màu sắc thống nhất, dễ đọc và không gây rối màn hình cho các điểm đã gắn.
 
 ### 5. Speedometer
@@ -52,64 +52,64 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 ### 6. Hệ thống giấy phép
 
-- [ ] Thêm dữ liệu giấy phép vào player data/database.
-- [ ] Hỗ trợ bằng lái xe thường.
-- [ ] Hỗ trợ bằng lái xe tải/bus nếu cần.
-- [ ] Hỗ trợ bằng lái máy bay nếu cần.
-- [ ] Hỗ trợ giấy phép súng.
-- [ ] Hỗ trợ giấy phép nghề nghiệp đặc biệt.
-- [ ] Tích hợp kiểm tra giấy phép vào job, mua/vác súng và các interaction yêu cầu điều kiện.
+- [x] Thêm dữ liệu giấy phép vào player data/database.
+- [x] Hỗ trợ bằng lái xe thường.
+- [x] Hỗ trợ bằng lái xe tải/bus nếu cần.
+- [x] Hỗ trợ bằng lái máy bay nếu cần.
+- [x] Hỗ trợ giấy phép súng.
+- [x] Hỗ trợ giấy phép nghề nghiệp đặc biệt.
+- [x] Tích hợp kiểm tra giấy phép vào job, mua/vác súng và các interaction yêu cầu điều kiện.
 
 ### 7. Bài kiểm tra lái xe
 
-- [ ] Tạo điểm đăng ký thi bằng lái.
-- [ ] Tạo phần thi lý thuyết bằng dialog/UI.
-- [ ] Tạo phần thi thực hành bằng checkpoint.
-- [ ] Trừ điểm khi va chạm, đi sai đường, xuống xe hoặc quá thời gian.
-- [ ] Cấp bằng lái khi người chơi đạt yêu cầu.
-- [ ] Cho phép mở rộng sau này cho xe tải, bus hoặc máy bay.
+- [x] Tạo điểm đăng ký thi bằng lái.
+- [x] Tạo phần thi lý thuyết bằng dialog/UI.
+- [x] Tạo phần thi thực hành bằng checkpoint.
+- [x] Trừ điểm khi va chạm, đi sai đường, xuống xe hoặc quá thời gian.
+- [x] Cấp bằng lái khi người chơi đạt yêu cầu.
+- [x] Cho phép mở rộng sau này cho xe tải, bus hoặc máy bay.
 
 ### 8. Điện thoại di động và điện thoại công cộng
 
-- [ ] Tạo dữ liệu số điện thoại cho người chơi.
-- [ ] Tạo điện thoại di động để nhận thông báo, nhắn tin và gọi người chơi khác.
-- [ ] Tạo danh bạ cơ bản.
-- [ ] Tạo điện thoại công cộng dạng interaction point.
-- [ ] Điện thoại công cộng yêu cầu nhập số để gọi.
-- [ ] Có thể tính phí cuộc gọi nếu economy cần.
+- [x] Tạo dữ liệu số điện thoại cho người chơi.
+- [x] Tạo điện thoại di động để nhận thông báo, nhắn tin và gọi người chơi khác.
+- [x] Tạo danh bạ cơ bản.
+- [x] Tạo điện thoại công cộng dạng interaction point.
+- [x] Điện thoại công cộng yêu cầu nhập số để gọi.
+- [x] Có thể tính phí cuộc gọi nếu economy cần.
 
 ### 9. Menu tương tác người chơi
 
-- [ ] Tạo menu/dialog tương tác giữa người chơi.
-- [ ] Hỗ trợ xem thông tin nhân vật.
-- [ ] Hỗ trợ xem/thẩm tra giấy phép.
-- [ ] Hỗ trợ giao dịch tiền hoặc vật phẩm nếu hệ thống inventory đã có.
-- [ ] Hỗ trợ mời job/faction/party nếu server có các hệ thống này.
-- [ ] Kết nối với stats và player data hiện tại.
+- [x] Tạo menu/dialog tương tác giữa người chơi.
+- [x] Hỗ trợ xem thông tin nhân vật.
+- [x] Hỗ trợ xem/thẩm tra giấy phép.
+- [x] Hỗ trợ giao dịch tiền hoặc vật phẩm nếu hệ thống inventory đã có.
+- [x] Hỗ trợ mời job/faction/party nếu server có các hệ thống này.
+- [x] Kết nối với stats và player data hiện tại.
 
 ### 10. Perk, VIP và hoạt động grind
 
-- [ ] Tạo hệ thống perk có điều kiện mở khóa.
-- [ ] Tạo VIP system có thời hạn và quyền lợi rõ ràng.
-- [ ] Tránh quyền lợi VIP phá economy hoặc pay-to-win quá mạnh.
-- [ ] Thêm poker hoặc minigame kiếm tiền.
-- [ ] Thêm các bonus theo thời gian, job streak hoặc event nếu cần.
+- [x] Tạo hệ thống perk có điều kiện mở khóa.
+- [x] Tạo VIP system có thời hạn và quyền lợi rõ ràng.
+- [x] Tránh quyền lợi VIP phá economy hoặc pay-to-win quá mạnh.
+- [x] Thêm poker hoặc minigame kiếm tiền.
+- [x] Thêm các bonus theo thời gian, job streak hoặc event nếu cần.
 
 ### 11. Rework job và việc làm thêm
 
-- [ ] Tăng độ sâu cho các job hiện tại.
-- [ ] Rework job nông trại cam thành nhiều bước: lấy dụng cụ, thu hoạch, vận chuyển, bán hàng.
-- [ ] Thêm yếu tố thời gian, công sức, chất lượng hoặc giới hạn stamina nếu phù hợp.
-- [ ] Thêm job mới như delivery, trucker, taxi, mechanic, miner, fisher, warehouse và pilot.
-- [ ] Làm reward scale theo độ khó và yêu cầu của từng job.
+- [x] Tăng độ sâu cho các job hiện tại.
+- [x] Rework job nông trại cam thành nhiều bước: lấy dụng cụ, thu hoạch, vận chuyển, bán hàng.
+- [x] Thêm yếu tố thời gian, công sức, chất lượng hoặc giới hạn stamina nếu phù hợp.
+- [x] Thêm job mới như delivery, trucker, taxi, mechanic, miner, fisher, warehouse và pilot.
+- [x] Làm reward scale theo độ khó và yêu cầu của từng job.
 
 ### 12. Hệ thống level/XP nghề nghiệp
 
-- [ ] Mỗi nghề có level và XP riêng.
-- [ ] Job reward tăng theo level nhưng cần cân bằng economy.
-- [ ] Mở khóa nhiệm vụ, phương tiện hoặc khu vực theo level nghề.
-- [ ] Một số job yêu cầu bằng lái, giấy phép nghề, level tối thiểu hoặc reputation.
-- [ ] Lưu XP/level vào database/player data.
+- [x] Mỗi nghề có level và XP riêng.
+- [x] Job reward tăng theo level nhưng cần cân bằng economy.
+- [x] Mở khóa nhiệm vụ, phương tiện hoặc khu vực theo level nghề.
+- [x] Một số job yêu cầu bằng lái, giấy phép nghề, level tối thiểu hoặc reputation.
+- [x] Lưu XP/level vào database/player data.
 
 ## Thứ Tự Ưu Tiên
 
@@ -128,7 +128,7 @@ Tài liệu này gom các hạng mục cần làm cho gamemode, ưu tiên xây d
 
 - [x] Milestone 1: Người chơi đến entrance/ATM/business thấy label, prompt và bấm Y/N hoạt động.
 - [x] Milestone 2: Vào interior/custom map không bị rơi map.
-- [ ] Milestone 3: License và driving test hoạt động.
-- [ ] Milestone 4: Speedometer và phone cơ bản hoạt động.
-- [ ] Milestone 5: Menu tương tác và job XP hoạt động.
-- [ ] Milestone 6: Job nâng cao, VIP/perk và poker hoạt động.
+- [x] Milestone 3: License và driving test hoạt động.
+- [x] Milestone 4: Speedometer và phone cơ bản hoạt động.
+- [x] Milestone 5: Menu tương tác và job XP hoạt động.
+- [x] Milestone 6: Job nâng cao, VIP/perk và poker hoạt động.

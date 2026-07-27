@@ -186,6 +186,10 @@ static ShowRifleMenu(playerid) {
 }
 
 Store_ShowAmmunationMenu(playerid) {
+    if(!License_PlayerHas(playerid, LICENSE_WEAPON)) {
+        return SendErrorMsg(playerid, "Ban can giay phep sung de mua vu khi tai Ammu-Nation.");
+    }
+
     inline _response(response, listitem, string:inputtext[]) {
         #pragma unused inputtext
 

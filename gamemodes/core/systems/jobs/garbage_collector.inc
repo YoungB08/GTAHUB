@@ -622,7 +622,7 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid) {
 		    if(checkpointid == FactoryData[i][FactoryCP]) {
 		        new
 					vehicleid = GetPlayerVehicleID(playerid),
-					reward = LoadedTrash[vehicleid] * TRASH_BAG_VALUE;
+					reward = JobProgress_CalculateReward(playerid, JOB_PROGRESS_GARBAGE, LoadedTrash[vehicleid] * TRASH_BAG_VALUE);
 
 				SendMsgF(
 					playerid,
@@ -631,6 +631,7 @@ public OnPlayerEnterDynamicCP(playerid, checkpointid) {
 					LoadedTrash[vehicleid], reward
 				);
 		        GivePlayerMoney(playerid, reward);
+				JobProgress_AddXP(playerid, JOB_PROGRESS_GARBAGE, max(20, reward / 80));
 
 		        FactoryData[i][FactoryCurrent] += LoadedTrash[vehicleid];
 		        LoadedTrash[vehicleid] = 0;
@@ -687,6 +688,10 @@ CMD:pickup(playerid, params[])
 
 	if(GetVehicleModel(vehicleid) != 408) {
 		return SendClientMessage(playerid, 0xE74C3CFF, "LOI: {FFFFFF}Xe gan nhat cua ban phai la Trashmaster.");
+	}
+
+	if(!JobProgress_PlayerMeets(playerid, JOB_PROGRESS_GARBAGE, 1, LICENSE_TRUCK)) {
+		return 1;
 	}
 
 	if(PlayerHasTrash[playerid]) {
