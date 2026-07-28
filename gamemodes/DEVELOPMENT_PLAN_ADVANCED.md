@@ -42,17 +42,16 @@ Tài liệu này vạch ra các hệ thống nâng cao (Advanced Systems) và c�
   - Nhấn `H` (KEY_CTRL_BACK): Khóa / Mở khóa xe nhanh.
   - Nhấn `N` (KEY_NO): Mở túi đồ (Inventory).
   - Nhấn `Y` tại cửa: Vào / Ra nhà *(hệ thống interaction sẵn có)*.
-- [ ] **Cảnh sát - Phím Còi Hú**: Phím tắt bật/tắt đèn ưu tiên nhanh cho LSPD/EMS. *(Pending)*
+- [x] **Cảnh sát - Phím Còi Hú**: Nhấn `2` (KEY_SUBMISSION) khi đang lái xe với vai trò LSPD/EMS để bật/tắt còi hú + đèn ưu tiên (`SetVehicleParamsEx` alarm channel).
 - **File:** `core/player/player_hotkeys.inc`
 
 ---
 
 ## 📅 Lộ Trình Triển Khai (Roadmap)
-Sau khi dọn dẹp các tính năng cuối cùng của Giai đoạn 3 (Job Skills & Interaction Menu), server sẽ chuyển sang thực hiện Giai đoạn 4 với thứ tự ưu tiên:
-1. **Death & Injury System** (Hoàn thiện quy trình Roleplay y tế).
-2. **Hunger & Thirst** (Tăng giá trị cho vật phẩm Food/Water trong túi đồ).
-3. **Player-Owned Businesses** (Đẩy mạnh kinh tế nội bộ).
-4. **Advanced Vehicle & Faction Safes** (Độ sâu quản lý tổ chức & phương tiện).
+
+Toàn bộ 6 mục (28–33) của Giai đoạn 4 nay đã hoàn thiện đầy đủ, bao gồm 3 hạng mục còn tồn đọng
+đã hoàn thành trong đợt cập nhật này: Định giá theo mặt hàng (#31), HUD Đói/Khát trực quan (#32),
+và Phím Còi Hú LSPD/EMS (#33).
 
 ### Cập nhật tiến độ (đợt hoàn thiện các mục còn tồn đọng)
 1. ✅ **Business Pricing (#31)** — Chủ tiệm 24/7 nay có thể tự đặt giá bán riêng cho từng mặt hàng
@@ -63,4 +62,12 @@ Sau khi dọn dẹp các tính năng cuối cùng của Giai đoạn 3 (Job Skil
 2. ✅ **Hunger & Thirst HUD (#32)** — `Survival_UpdateHUD()` (đã tồn tại từ trước) nay được gọi thêm
    mỗi 60 giây trong `OnPlayerSecondUpdate`, không chỉ khi ăn/uống — đảm bảo thanh Đói/Khát trên HUD
    luôn phản ánh đúng giá trị hiện tại kể cả khi chỉ số tự giảm dần theo thời gian.
-3. ⏳ **LSPD/EMS Siren Hotkey (#33)** — đang triển khai tiếp theo.
+3. ✅ **LSPD/EMS Siren Hotkey (#33)** — Xác nhận logic còi hú (phím `2`/`KEY_SUBMISSION`, giới hạn
+   `PLAYER_STATE_DRIVER` + `TEAM_POLICE`/`TEAM_MEDIC`) đã có sẵn trong `player_hotkeys.inc` và hoạt
+   động đúng qua `SetVehicleParamsEx`/`GetVehicleParamsEx` (kênh `alarm`). Không cần sửa code.
+
+### Hướng phát triển tiếp theo (Giai đoạn 5 – đề xuất)
+1. **Ammunation tích hợp Inventory**: Hiện `/buy` tại tiệm súng (`BIZ_TYPE_AMMUNATION`) mới chỉ thông báo "chưa tích hợp" — cần nối với hệ thống vũ khí/giấy phép súng.
+2. **Business UI trực quan hơn**: Thay `DIALOG_STYLE_LIST` bằng TextDraw/Dialog nâng cao cho `/bizpanel` để hiển thị đồng thời tất cả giá mặt hàng thay vì phải chọn từng lần.
+3. **Cân bằng kinh tế**: Rà soát lại chi phí nhập hàng ($500/50 unit) so với biên lợi nhuận từ giá bán tự do, tránh chủ tiệm đặt giá phi thực tế phá vỡ nền kinh tế server.
+4. **Mở rộng Siren**: Thêm hiệu ứng âm thanh còi hú thực tế (hiện tại chỉ bật cờ `alarm`, phụ thuộc model xe có còi/`addSiren` khi spawn).
