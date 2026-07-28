@@ -27,9 +27,9 @@ Tài liệu này vạch ra các hệ thống nâng cao (Advanced Systems) và c�
 ### 31. Doanh Nghiệp Do Người Chơi Sở Hữu (Player-Owned Businesses) ✅
 - [x] **Mua bán doanh nghiệp**: Người chơi có GPDKD có thể mua tiệm 24/7 vô chủ (`/buybiz`).
 - [x] **Quản lý kho hàng (Stock Management)**: Chủ tiệm nhập hàng qua `/bizpanel`, hàng giảm khi khách mua. Hỗ trợ lệnh `/buy` cho khách.
-- [ ] **Định giá (Pricing)**: Chủ tiệm tự quyết định giá bán. *(Pending — giá hiện tại cố định)*
+- [x] **Định giá (Pricing)**: Chủ tiệm tự đặt giá bán cho từng mặt hàng riêng lẻ (Burger/Nước/Bộ Sơ Cứu/Cần Câu) qua `/bizpanel -> "Đặt giá từng mặt hàng"`, lưu vào DB (`item_price_0..3`) và áp dụng ngay cho `/buy`.
 - [x] **Thu lợi nhuận**: Tiền khách mua chảy vào Business Safe, chủ rút bằng `/bizpanel -> Rút tiền`.
-- **File:** `core/systems/business_economy.inc`
+- **File:** `core/systems/business_economy.inc`, `scriptfiles/businesses.sql`
 
 ### 32. Hệ Thống Đói Khát & Thể Trạng (Hunger & Thirst) ✅
 - [ ] **Chỉ số sinh tồn (HUD TextDraw)**: Hiện tại dùng lệnh `/mystats` thay HUD. *(Pending — TextDraw trực quan)*
@@ -53,3 +53,12 @@ Sau khi dọn dẹp các tính năng cuối cùng của Giai đoạn 3 (Job Skil
 2. **Hunger & Thirst** (Tăng giá trị cho vật phẩm Food/Water trong túi đồ).
 3. **Player-Owned Businesses** (Đẩy mạnh kinh tế nội bộ).
 4. **Advanced Vehicle & Faction Safes** (Độ sâu quản lý tổ chức & phương tiện).
+
+### Cập nhật tiến độ (đợt hoàn thiện các mục còn tồn đọng)
+1. ✅ **Business Pricing (#31)** — Chủ tiệm 24/7 nay có thể tự đặt giá bán riêng cho từng mặt hàng
+   (Burger/Nước/Bộ Sơ Cứu/Cần Câu) qua `/bizpanel`, giá được lưu DB và áp dụng ngay khi khách `/buy`.
+   Đồng thời phát hiện & vá lỗi tiền đề: các slug `burger/pizza/nuoc/beer/fish_small/rod` chưa từng
+   được đăng ký trong `ItemDefs[]` (`player_inventory.inc`), khiến việc mua/dùng các vật phẩm này
+   thất bại âm thầm — đã bổ sung đầy đủ.
+2. ⏳ **Hunger & Thirst HUD (#32)** — đang triển khai tiếp theo.
+3. ⏳ **LSPD/EMS Siren Hotkey (#33)** — đang triển khai tiếp theo.

@@ -34,7 +34,7 @@
 // ITEM DEFINITIONS (Registry trung tâm)
 // =============================================================================
 
-#define MAX_ITEM_TYPES  (24)
+#define MAX_ITEM_TYPES  (30)
 
 enum E_ITEM_DEF {
     E_ITEM_SLUG[32],       // Key định danh (slug)
@@ -72,7 +72,15 @@ static const ItemDefs[MAX_ITEM_TYPES][E_ITEM_DEF] = {
     { "oranges",      "Qua Cam",            0.2,  false, 20 },
     { "bottles",      "Chai Thuy Tinh",     0.5,  false, 10 },
     { "orange_juice", "Nuoc Cam",           0.5,  false, 10 },
-    { "fruit_picker", "Rac Hai Qua",        0.5,  false, 1  }
+    { "fruit_picker", "Rac Hai Qua",        0.5,  false, 1  },
+    // Đồ ăn/thức uống bán tại cửa hàng 24/7 (business_economy.inc, player_survival.inc)
+    { "burger",       "Hamburger",          0.5,  false, 10 },
+    { "pizza",        "Pizza",              0.6,  false, 10 },
+    { "nuoc",         "Chai Nuoc Suoi",     0.5,  false, 10 },
+    { "beer",         "Bia",                0.5,  false, 10 },
+    // Câu cá (fishing_system.inc)
+    { "fish_small",   "Ca Trich (Nho)",     0.3,  false, 20 },
+    { "rod",          "Can Cau Ca",         1.0,  false, 1  }
 };
 
 // =============================================================================
