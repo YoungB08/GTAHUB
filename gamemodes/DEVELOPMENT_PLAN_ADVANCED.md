@@ -32,9 +32,9 @@ Tài liệu này vạch ra các hệ thống nâng cao (Advanced Systems) và c�
 - **File:** `core/systems/business_economy.inc`, `scriptfiles/businesses.sql`
 
 ### 32. Hệ Thống Đói Khát & Thể Trạng (Hunger & Thirst) ✅
-- [ ] **Chỉ số sinh tồn (HUD TextDraw)**: Hiện tại dùng lệnh `/mystats` thay HUD. *(Pending — TextDraw trực quan)*
+- [x] **Chỉ số sinh tồn (HUD TextDraw)**: Thanh Đói/Khát hiển thị trực quan trên HUD (PlayerTextDraw), cập nhật mỗi phút song song với `/mystats`, không chỉ khi ăn/uống.
 - [x] **Giảm theo thời gian**: Đói trừ 2/phút, Khát trừ 3/phút. Khi về 0 → mất 2 HP/phút.
-- [x] **Tiêu thụ vật phẩm**: `/useitem [burger/pizza/nuoc/beer/fish_small]` (hoặc `/use`) hồi phục chỉ số tương ứng.
+- [x] **Tiêu thụ vật phẩm**: `/useitem [burger/pizza/nuoc/beer/fish_small]` (hoặc `/use`) hồi phục chỉ số tương ứng. Các slug vật phẩm đã được đăng ký đầy đủ trong `ItemDefs[]` (`player_inventory.inc`).
 - **File:** `core/player/player_survival.inc`
 
 ### 33. Cải Thiện Trải Nghiệm & Phím Tắt (QoL Hotkeys) ✅
@@ -60,5 +60,7 @@ Sau khi dọn dẹp các tính năng cuối cùng của Giai đoạn 3 (Job Skil
    Đồng thời phát hiện & vá lỗi tiền đề: các slug `burger/pizza/nuoc/beer/fish_small/rod` chưa từng
    được đăng ký trong `ItemDefs[]` (`player_inventory.inc`), khiến việc mua/dùng các vật phẩm này
    thất bại âm thầm — đã bổ sung đầy đủ.
-2. ⏳ **Hunger & Thirst HUD (#32)** — đang triển khai tiếp theo.
+2. ✅ **Hunger & Thirst HUD (#32)** — `Survival_UpdateHUD()` (đã tồn tại từ trước) nay được gọi thêm
+   mỗi 60 giây trong `OnPlayerSecondUpdate`, không chỉ khi ăn/uống — đảm bảo thanh Đói/Khát trên HUD
+   luôn phản ánh đúng giá trị hiện tại kể cả khi chỉ số tự giảm dần theo thời gian.
 3. ⏳ **LSPD/EMS Siren Hotkey (#33)** — đang triển khai tiếp theo.

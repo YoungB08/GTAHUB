@@ -126,10 +126,13 @@ hook OnPlayerSecondUpdate(playerid)
             if (hp > 5.0) // Không tự chết đói hoàn toàn, chỉ xuống máu thấp
             {
                 SetPlayerHealth(playerid, hp - SURVIVAL_DAMAGE_RATE);
-                SendMsgF(playerid, COLOR_RED, "* Ban dang bi kiet suc do %s!", 
+                SendMsgF(playerid, COLOR_RED, "* Ban dang bi kiet suc do %s!",
                     (PlayerHunger[playerid] == 0) ? "DOI BUNG" : "KHAT NUOC");
             }
         }
+
+        // Cập nhật HUD TextDraw để phản ánh đúng chỉ số hiện tại
+        Survival_UpdateHUD(playerid);
     }
     return 1;
 }
