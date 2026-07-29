@@ -12,14 +12,14 @@
         },
         "style.css": {
             "encrypted": true,
-            "modified": 13429797373,
-            "size": 1252
+            "modified": 13429815634,
+            "size": 1380
         }
     },
     "pak": {
-        "hash": "d1ca31b831c2fffa2d5f561dbb0e5243aafa1be65724029d74ddc25e36f1792a",
+        "hash": "a7f2b401000ecdf37a62f8ee9cc047839fb9604d171033802ff16f1aa7215d8c",
         "path": "login.pak",
-        "size": 13956
+        "size": 14084
     },
     "version": 2
 }

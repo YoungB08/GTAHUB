@@ -10,6 +10,71 @@ body {
     background: rgba(11, 15, 25, 0.96);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(16px);
+}
+
+/* Hide Default Browser Spinners for Number Inputs */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    appearance: none;
+    margin: 0;
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+    appearance: textfield;
+}
+
+/* Custom Input Field Styling */
+input,
+textarea,
+select {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    caret-color: #ef4444 !important;
+}
+
+input[type="text"],
+input[type="number"],
+textarea {
+    background-color: rgba(2, 6, 23, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transition: all 0.2s ease-in-out;
+}
+
+input[type="text"]:focus,
+input[type="number"]:focus,
+textarea:focus {
+    border-color: #ef4444;
+    box-shadow: 0 0 12px rgba(239, 68, 68, 0.25);
+    background-color: rgba(2, 6, 23, 0.95);
+    outline: none;
+}
+
+input[type="text"]::placeholder,
+input[type="number"]::placeholder,
+textarea::placeholder {
+    color: #64748b;
+}
+
+/* Gender Toggle Button Styles */
+.gender-btn {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.gender-btn.active {
+    background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%);
+    border-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 4px 15px rgba(220, 38, 38, 0.35);
+}
+
+.gender-btn:not(.active):hover {
+    background-color: rgba(30, 41, 59, 0.8);
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #f1f5f9;
 }
 
 .action-btn {
@@ -47,3 +112,4 @@ body {
 ::-webkit-scrollbar-thumb:hover {
     background: rgba(239, 68, 68, 0.8);
 }
+

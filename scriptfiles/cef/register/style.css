@@ -11,3 +11,10 @@ body {
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
 }
+
+/* Enable text cursor and selection on input fields */
+input, textarea, select {
+    user-select: text !important;
+    -webkit-user-select: text !important;
+    caret-color: #ef4444 !important;
+}

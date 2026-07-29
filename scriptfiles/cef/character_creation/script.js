@@ -111,20 +111,20 @@ function setGender(gender) {
 
     if (gender === "male") {
         if (genderMaleBtn) {
-            genderMaleBtn.className = "py-2.5 px-2 rounded-xl bg-red-600 border border-red-500 text-white font-bold text-xs flex items-center justify-center gap-1 transition-all";
+            genderMaleBtn.classList.add("active");
         }
         if (genderFemaleBtn) {
-            genderFemaleBtn.className = "py-2.5 px-2 rounded-xl bg-slate-950/80 border border-white/10 text-slate-400 font-bold text-xs flex items-center justify-center gap-1 hover:bg-slate-800 transition-all";
+            genderFemaleBtn.classList.remove("active");
         }
         if (!SKIN_DATA.male.includes(selectedSkinId)) {
             selectedSkinId = SKIN_DATA.male[0];
         }
     } else {
         if (genderFemaleBtn) {
-            genderFemaleBtn.className = "py-2.5 px-2 rounded-xl bg-red-600 border border-red-500 text-white font-bold text-xs flex items-center justify-center gap-1 transition-all";
+            genderFemaleBtn.classList.add("active");
         }
         if (genderMaleBtn) {
-            genderMaleBtn.className = "py-2.5 px-2 rounded-xl bg-slate-950/80 border border-white/10 text-slate-400 font-bold text-xs flex items-center justify-center gap-1 hover:bg-slate-800 transition-all";
+            genderMaleBtn.classList.remove("active");
         }
         if (!SKIN_DATA.female.includes(selectedSkinId)) {
             selectedSkinId = SKIN_DATA.female[0];

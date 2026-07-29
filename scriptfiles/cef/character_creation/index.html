@@ -43,8 +43,23 @@
                         <div>
                             <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">Giới Tính</label>
                             <div class="grid grid-cols-2 gap-2">
-                                <button type="button" id="gender-male-btn" class="py-2.5 px-2 rounded-xl bg-red-600 border border-red-500 text-white font-bold text-xs flex items-center justify-center gap-1 transition-all">👨 Nam</button>
-                                <button type="button" id="gender-female-btn" class="py-2.5 px-2 rounded-xl bg-slate-950/80 border border-white/10 text-slate-400 font-bold text-xs flex items-center justify-center gap-1 hover:bg-slate-800 transition-all">👩 Nữ</button>
+                                <button type="button" id="gender-male-btn" class="gender-btn active py-2.5 px-2 rounded-xl border font-bold text-xs flex items-center justify-center gap-1.5 transition-all">
+                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <circle cx="10" cy="14" r="5"></circle>
+                                        <path d="M19 5L13.5 10.5"></path>
+                                        <path d="M19 5h-5"></path>
+                                        <path d="M19 5v5"></path>
+                                    </svg>
+                                    <span>Nam</span>
+                                </button>
+                                <button type="button" id="gender-female-btn" class="gender-btn py-2.5 px-2 rounded-xl border border-white/10 text-slate-400 font-bold text-xs flex items-center justify-center gap-1.5 hover:bg-slate-800 transition-all">
+                                    <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24">
+                                        <circle cx="12" cy="9" r="5"></circle>
+                                        <path d="M12 14v7"></path>
+                                        <path d="M9 18h6"></path>
+                                    </svg>
+                                    <span>Nữ</span>
+                                </button>
                             </div>
                         </div>
                     </div>

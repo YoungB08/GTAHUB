@@ -88,6 +88,7 @@ hook OnGameModeInit()
 stock CEF_ShowLoginPage(playerid)
 {
     CEF_CloseAllBrowsers(playerid);
+    CEF_DisableGameUI(playerid);
     // controls_chat = false để tránh treo/đứng máy khi gõ input trên một số GPU/SA-MP client
     CEF_CreateBrowser(playerid, CEF_BROWSER_LOGIN, CEF_URL_LOGIN, true, false);
 

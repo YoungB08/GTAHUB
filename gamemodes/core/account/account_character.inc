@@ -271,7 +271,10 @@ static Char_LoadList(playerid)
         Char_ShowSelectionDialog(playerid);
     }
 
-    MySQL_BindInt(stmt_loadChars, 0, Player_GetAccountID(playerid));
+    new accountID = Player_GetMasterAccountID(playerid);
+    if (accountID <= 0) accountID = Player_GetAccountID(playerid);
+
+    MySQL_BindInt(stmt_loadChars, 0, accountID);
     MySQL_BindInt(stmt_loadChars, 1, MAX_CHARS_PER_ACCOUNT);
     MySQL_ExecuteParallel_Inline(stmt_loadChars, using inline OnCharListLoad);
 }
@@ -514,24 +517,27 @@ static Char_ShowSkinDialog(playerid, const firstname[], const lastname[], age, g
         "Chon skin", "Quay lai");
 }
 
-// =============================================================================
-// INTERNAL – Insert Character to DB
-// =============================================================================
+static s_PendingFirst[MAX_PLAYERS][CHAR_FIRSTNAME_LEN];
+static s_PendingLast[MAX_PLAYERS][CHAR_LASTNAME_LEN];
+static s_PendingAge[MAX_PLAYERS];
+static s_PendingGender[MAX_PLAYERS];
+static s_PendingSkin[MAX_PLAYERS];
 
-stock Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID)
+forward OnCharInserted(playerid);
+public OnCharInserted(playerid)
 {
-    inline OnCharInserted()
-    {
-        new charID = cache_insert_id();
+    new charID = cache_insert_id();
 
-        // Thêm vào CharList runtime
-        new idx = CharListCount[playerid];
+    // Thêm vào CharList runtime
+    new idx = CharListCount[playerid];
+    if (idx < MAX_CHARS_PER_ACCOUNT)
+    {
         CharList[playerid][idx][E_CHAR_ID]     = charID;
-        strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], firstname, 32);
-        strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  lastname,  32);
-        CharList[playerid][idx][E_CHAR_AGE]    = age;
-        CharList[playerid][idx][E_CHAR_GENDER] = gender;
-        CharList[playerid][idx][E_CHAR_SKIN]   = skinID;
+        strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], s_PendingFirst[playerid], CHAR_FIRSTNAME_LEN);
+        strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  s_PendingLast[playerid],  CHAR_LASTNAME_LEN);
+        CharList[playerid][idx][E_CHAR_AGE]    = s_PendingAge[playerid];
+        CharList[playerid][idx][E_CHAR_GENDER] = s_PendingGender[playerid];
+        CharList[playerid][idx][E_CHAR_SKIN]   = s_PendingSkin[playerid];
         CharList[playerid][idx][E_CHAR_MONEY]  = 5000;
         CharList[playerid][idx][E_CHAR_X]      = CHAR_DEFAULT_SPAWN_X;
         CharList[playerid][idx][E_CHAR_Y]      = CHAR_DEFAULT_SPAWN_Y;
@@ -539,17 +545,30 @@ stock Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender
         CharList[playerid][idx][E_CHAR_A]      = CHAR_DEFAULT_SPAWN_A;
         CharListCount[playerid]++;
 
-        SendMsgF(playerid, COLOR_GREEN, "[NHAN VAT] Da tao nhan vat %s %s thanh cong!", firstname, lastname);
+        SendMsgF(playerid, COLOR_GREEN, "[NHAN VAT] Da tao nhan vat %s %s thanh cong!", s_PendingFirst[playerid], s_PendingLast[playerid]);
         Char_Activate(playerid, idx);
     }
+    return 1;
+}
 
-    MySQL_BindInt(stmt_insertChar, 0, Player_GetAccountID(playerid));
-    MySQL_BindString(stmt_insertChar, 1, firstname, 32);
-    MySQL_BindString(stmt_insertChar, 2, lastname,  32);
-    MySQL_BindInt(stmt_insertChar, 3, age);
-    MySQL_BindInt(stmt_insertChar, 4, gender);
-    MySQL_BindInt(stmt_insertChar, 5, skinID);
-    MySQL_ExecuteThreaded_Inline(stmt_insertChar, using inline OnCharInserted);
+stock Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID)
+{
+    strcopy(s_PendingFirst[playerid], firstname, CHAR_FIRSTNAME_LEN);
+    strcopy(s_PendingLast[playerid], lastname, CHAR_LASTNAME_LEN);
+    s_PendingAge[playerid] = age;
+    s_PendingGender[playerid] = gender;
+    s_PendingSkin[playerid] = skinID;
+
+    new accountID = Player_GetMasterAccountID(playerid);
+    if (accountID <= 0) accountID = Player_GetAccountID(playerid);
+
+    MySQL_BindInt(stmt_insertChar, 0, accountID);
+    MySQL_BindString(stmt_insertChar, 1, s_PendingFirst[playerid], CHAR_FIRSTNAME_LEN);
+    MySQL_BindString(stmt_insertChar, 2, s_PendingLast[playerid],  CHAR_LASTNAME_LEN);
+    MySQL_BindInt(stmt_insertChar, 3, s_PendingAge[playerid]);
+    MySQL_BindInt(stmt_insertChar, 4, s_PendingGender[playerid]);
+    MySQL_BindInt(stmt_insertChar, 5, s_PendingSkin[playerid]);
+    MySQL_ExecuteThreaded(stmt_insertChar, "OnCharInserted", "i", playerid);
 }
 
 // =============================================================================
@@ -591,6 +610,9 @@ stock Char_Activate(playerid, listIdx)
         PlayerChar[playerid][E_CHAR_Z], PlayerChar[playerid][E_CHAR_A],
         0, 0, 0, 0, 0, 0);
     SpawnPlayer(playerid);
+
+    // Mở lại Chat & HUD khi đã vào game
+    CEF_EnableGameUI(playerid);
 
     SendMsgF(playerid, COLOR_GREEN,
         "[NHAN VAT] Chao mung %s %s! Chuc ban choi vui!",
@@ -747,8 +769,11 @@ CMD:deletechar(playerid, params[])
 
         new charID = PlayerChar[playerid][E_CHAR_ID];
 
+        new accountID = Player_GetMasterAccountID(playerid);
+        if (accountID <= 0) accountID = Player_GetAccountID(playerid);
+
         MySQL_BindInt(stmt_deleteChar, 0, charID);
-        MySQL_BindInt(stmt_deleteChar, 1, Player_GetAccountID(playerid));
+        MySQL_BindInt(stmt_deleteChar, 1, accountID);
         MySQL_ExecuteThreaded(stmt_deleteChar);
 
         SendMsgF(playerid, COLOR_RED, "[NHAN VAT] Da xoa nhan vat %s %s.",

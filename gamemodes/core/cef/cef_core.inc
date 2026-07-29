@@ -38,6 +38,22 @@ enum {
 static bool:gPlayerCEFReady[MAX_PLAYERS];
 static gPlayerPendingUI[MAX_PLAYERS];
 
+// --- Helpers: Tắt/Bật Chat & HUD khi ở trong CEF ---
+stock CEF_DisableGameUI(playerid)
+{
+    CEF_ToggleChatInput(playerid, false);
+    CEF_ClearChat(playerid);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, false);
+    return 1;
+}
+
+stock CEF_EnableGameUI(playerid)
+{
+    CEF_ToggleChatInput(playerid, true);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, true);
+    return 1;
+}
+
 // --- Hook OnGameModeInit: Đăng ký tất cả resources ---
 hook OnGameModeInit()
 {
@@ -56,6 +72,7 @@ hook OnPlayerConnect(playerid)
 {
     gPlayerCEFReady[playerid] = false;
     gPlayerPendingUI[playerid] = CEF_PENDING_NONE;
+    CEF_DisableGameUI(playerid);
     return 1;
 }
 

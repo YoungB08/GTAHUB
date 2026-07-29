@@ -61,6 +61,7 @@ hook OnGameModeInit()
 stock CEF_ShowCharacterSelection(playerid)
 {
     CEF_CloseAllBrowsers(playerid);
+    CEF_DisableGameUI(playerid);
     CEF_CreateBrowser(playerid, CEF_BROWSER_CHAR_SELECT, CEF_URL_CHAR_SELECT, true, false);
     TogglePlayerSpectating(playerid, true);
 
@@ -300,6 +301,7 @@ public OnCEF_ToCharacterSelectionPage(playerid, browserid)
 stock CEF_ShowCharacterCreation(playerid)
 {
     CEF_CloseAllBrowsers(playerid);
+    CEF_DisableGameUI(playerid);
     CEF_CreateBrowser(playerid, CEF_BROWSER_CHAR_CREATE, CEF_URL_CHAR_CREATE, true, false);
     TogglePlayerSpectating(playerid, true);
     return 1;
@@ -309,7 +311,7 @@ stock CEF_ShowCharacterCreation(playerid)
 static CEF_CalcAge(const dob[])
 {
     new year = 0, month = 0, day = 0;
-    sscanf(dob, "p<->iip<->iip<->i", year, month, day);
+    sscanf(dob, "p<->iii", year, month, day);
 
     new currentYear = 2025;
     new age = currentYear - year;

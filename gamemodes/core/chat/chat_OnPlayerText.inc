@@ -10,8 +10,7 @@ public OnPlayerText(playerid, text[])
         return 0;
     }
 
-    if(!Player_IsLoggedIn(playerid)) {
-        SendErrorMsg(playerid, "Ban can dang nhap truoc khi chat.");
+    if(!Player_IsLoggedIn(playerid) || !Char_IsActive(playerid)) {
         return 0;
     }
 

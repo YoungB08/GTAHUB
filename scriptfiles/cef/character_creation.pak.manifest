@@ -2,24 +2,24 @@
     "files": {
         "index.html": {
             "encrypted": true,
-            "modified": 13429797373,
-            "size": 9454
+            "modified": 13429815596,
+            "size": 11379
         },
         "script.js": {
             "encrypted": true,
-            "modified": 13429797373,
-            "size": 14059
+            "modified": 13429815602,
+            "size": 11879
         },
         "style.css": {
             "encrypted": true,
-            "modified": 13429797373,
-            "size": 1252
+            "modified": 13429815628,
+            "size": 2735
         }
     },
     "pak": {
-        "hash": "f77aa5c9c63bb809c4ac38e1336d859f1bc5eb78d1137f693a26cebdd8903c39",
+        "hash": "5cd274ad6a96ef9d2079659bb48febf458b06cf28766b9396ac6a63e3d570039",
         "path": "character_creation.pak",
-        "size": 25204
+        "size": 26436
     },
     "version": 2
 }
