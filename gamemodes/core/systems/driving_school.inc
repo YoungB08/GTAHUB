@@ -28,19 +28,25 @@
 #define MAX_TEST_CHECKPOINTS     (10)       // 10 Checkpoints thực hành
 #define TEST_SPEED_LIMIT         (60.0)     // km/h
 
-// Vị trí Trường Thi Lái Xe (Red County - Dillimore Town Center)
-#define DS_NPC_X                 (1368.5)
-#define DS_NPC_Y                 (-1279.0)
-#define DS_NPC_Z                 (13.5)
-#define DS_NPC_ANGLE             (90.0)
+// Vị trí Trung Tâm Đăng Ký Thi Bằng Lái (City Hall - Los Santos)
+#define DS_NPC_X                 (1172.5)
+#define DS_NPC_Y                 (-1323.8)
+#define DS_NPC_Z                 (14.0)
+#define DS_NPC_ANGLE             (270.0)
 
-// Vị trí spawn xe thi thực hành (Red County Dillimore)
+// Vị trí Sân Thi Thực Hành (Red County - Dillimore Track)
+#define DS_PRACTICAL_X           (1368.5)
+#define DS_PRACTICAL_Y           (-1279.0)
+#define DS_PRACTICAL_Z           (13.5)
+#define DS_PRACTICAL_A           (90.0)
+
+// Vị trí spawn xe thi thực hành tại Red County
 #define DS_VEH_SPAWN_X           (1355.0)
 #define DS_VEH_SPAWN_Y           (-1280.0)
 #define DS_VEH_SPAWN_Z           (13.5)
 #define DS_VEH_SPAWN_A           (90.0)
 
-// 10 Checkpoints bài thi thực hành (Tuyến đường ngoằn ngoèo Red County / Dillimore)
+// 10 Checkpoints bài thi thực hành tại Red County / Dillimore
 static const Float:DSCheckpoints[MAX_TEST_CHECKPOINTS][3] = {
     {1300.0, -1280.0, 13.5},
     {1200.0, -1280.0, 13.5},
@@ -51,7 +57,7 @@ static const Float:DSCheckpoints[MAX_TEST_CHECKPOINTS][3] = {
     {1450.0, -1100.0, 24.0},
     {1450.0, -1250.0, 14.5},
     {1380.0, -1280.0, 13.5},
-    {1355.0, -1280.0, 13.5}  // Về đích tại Trung tâm Red County
+    {1355.0, -1280.0, 13.5}  // Về đích tại Red County
 };
 
 // =============================================================================
@@ -321,27 +327,33 @@ static DS_StartPracticalTest(playerid)
     SpeedViolationCount[playerid] = 0;
     CurrentCPIndex[playerid]      = 0;
 
-    // Spawn xe thi (Premier 426)
+    // Dịch chuyển người chơi từ City Hall đến Sân Thi Red County
+    SetPlayerPos(playerid, DS_PRACTICAL_X, DS_PRACTICAL_Y, DS_PRACTICAL_Z);
+    SetPlayerFacingAngle(playerid, DS_PRACTICAL_A);
+    SetPlayerVirtualWorld(playerid, 0);
+    SetPlayerInterior(playerid, 0);
+
+    // Spawn xe thi tại Sân Thi Red County (Premier 426)
     TestVehicleID[playerid] = CreateVehicle(426,
         DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z, DS_VEH_SPAWN_A,
         3, 3, 300);
 
     PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
 
-    // Đặt Checkpoint đầu tiên
+    // Đặt Checkpoint đầu tiên tại Red County
     SetPlayerRaceCheckpoint(playerid, 0,
         DSCheckpoints[0][0], DSCheckpoints[0][1], DSCheckpoints[0][2],
         DSCheckpoints[1][0], DSCheckpoints[1][1], DSCheckpoints[1][2],
         5.0);
 
     SendMsgF(playerid, COLOR_GREEN,
-        "[THUC HANH] Hay lai xe qua 10 Checkpoints. KHONG DUOC vuot qua 60 km/h!");
+        "[THUC HANH] Ban da duoc dua den SAN THI RED COUNTY! Hay lai xe qua 10 Checkpoints. KHONG DUOC vuot qua 60 km/h!");
     return 1;
 }
 
 static DS_PassExam(playerid)
 {
-    // Clean up
+    // Clean up và trả về City Hall
     DS_CleanupTest(playerid);
 
     // Cấp bằng lái xe
@@ -372,6 +384,12 @@ static DS_CleanupTest(playerid)
         DestroyVehicle(TestVehicleID[playerid]);
         TestVehicleID[playerid] = INVALID_VEHICLE_ID;
     }
+
+    // Trả người chơi về lại sảnh City Hall
+    SetPlayerPos(playerid, DS_NPC_X, DS_NPC_Y, DS_NPC_Z);
+    SetPlayerFacingAngle(playerid, DS_NPC_ANGLE);
+    SetPlayerVirtualWorld(playerid, 0);
+    SetPlayerInterior(playerid, 0);
     return 1;
 }
 
