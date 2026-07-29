@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="vi">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -271,7 +272,7 @@
       font-weight: 700;
     }
 
-    details > div {
+    details>div {
       padding: 0 0.9rem 0.9rem;
       border-top: 1px solid var(--line);
     }
@@ -314,6 +315,7 @@
     }
   </style>
 </head>
+
 <body>
   <div class="layout">
     <aside class="sidebar" aria-label="Mục lục">
@@ -397,7 +399,8 @@ database=gtaopen</code></pre>
 
         <h3>Run</h3>
         <pre><code>./omp-server</code></pre>
-        <p>Server mặc định chạy port <code>7777</code>, max players <code>50</code>, script chính là <code>main</code>.</p>
+        <p>Server mặc định chạy port <code>7777</code>, max players <code>50</code>, script chính là <code>main</code>.
+        </p>
       </section>
 
       <section id="repo-map">
@@ -428,7 +431,8 @@ database=gtaopen</code></pre>
             </tr>
             <tr>
               <td><code>legacy</code></td>
-              <td>Include cũ hoặc vendor helpers như <code>EVF</code>, <code>progress2</code>, <code>formatex</code>, <code>actor_robbery</code>, <code>vSync</code>.</td>
+              <td>Include cũ hoặc vendor helpers như <code>EVF</code>, <code>progress2</code>, <code>formatex</code>,
+                <code>actor_robbery</code>, <code>vSync</code>.</td>
             </tr>
             <tr>
               <td><code>components</code></td>
@@ -454,18 +458,24 @@ database=gtaopen</code></pre>
         <h2>Runtime flow</h2>
         <ol>
           <li><code>main.pwn</code> include constants, thư viện, init, utils và toàn bộ core modules.</li>
-          <li><code>OnGameModeInit</code> set hostname, gamemode text, language, world time/weather, tắt stunt bonus, bật ped anims.</li>
+          <li><code>OnGameModeInit</code> set hostname, gamemode text, language, world time/weather, tắt stunt bonus,
+            bật ped anims.</li>
           <li><code>init.inc</code> đọc <code>mysql.ini</code>, connect MySQL, bật <code>AUTO_RECONNECT</code>.</li>
-          <li>Nếu <code>SETUP_TABLE</code> là <code>true</code>, hệ thống gọi setup table trước khi chạy logic sau connect.</li>
-          <li>Server load entrances, ATMs, static vehicles, messages, mapping, dealership, moneybag và các gameplay systems.</li>
-          <li>Khi player vào server, account flow check ban, login/register, load stats/items/bank/weapons/house/vehicle/admin/VIP.</li>
-          <li>Per-player tick và server tick xử lý autosave, UI, cooldown, wanted colors, GPS, side jobs và gameplay timers.</li>
+          <li>Nếu <code>SETUP_TABLE</code> là <code>true</code>, hệ thống gọi setup table trước khi chạy logic sau
+            connect.</li>
+          <li>Server load entrances, ATMs, static vehicles, messages, mapping, dealership, moneybag và các gameplay
+            systems.</li>
+          <li>Khi player vào server, account flow check ban, login/register, load
+            stats/items/bank/weapons/house/vehicle/admin/VIP.</li>
+          <li>Per-player tick và server tick xử lý autosave, UI, cooldown, wanted colors, GPS, side jobs và gameplay
+            timers.</li>
         </ol>
       </section>
 
       <section id="include-tree">
         <h2>Include tree chính</h2>
-        <p>Thứ tự include trong <code>main.pwn</code> là quan trọng vì nhiều module hook callback và dùng macro/helper từ module trước.</p>
+        <p>Thứ tự include trong <code>main.pwn</code> là quan trọng vì nhiều module hook callback và dùng macro/helper
+          từ module trước.</p>
         <pre><code>gamemodes/main.pwn
   core/constants.inc
   open.mp + third-party includes
@@ -486,7 +496,8 @@ database=gtaopen</code></pre>
   core/gangs/gangs.inc</code></pre>
 
         <div class="success">
-          <strong>Đã rà include:</strong> repo có 183 core <code>.inc/.pwn</code> files, trong đó 174 file đang được load bởi cây include hiện tại.
+          <strong>Đã rà include:</strong> repo có 183 core <code>.inc/.pwn</code> files, trong đó 174 file đang được
+          load bởi cây include hiện tại.
         </div>
       </section>
 
@@ -553,7 +564,8 @@ database=gtaopen</code></pre>
           <tbody>
             <tr>
               <td>Account</td>
-              <td>Register/login bằng bcrypt, max 5 lần sai password, check ban, update last login, load account data.</td>
+              <td>Register/login bằng bcrypt, max 5 lần sai password, check ban, update last login, load account data.
+              </td>
             </tr>
             <tr>
               <td>Stats</td>
@@ -569,7 +581,8 @@ database=gtaopen</code></pre>
             </tr>
             <tr>
               <td>Items</td>
-              <td>C4, crack, weed, picklock, wallet, rope, condom, scissors, oranges, bottles, orange juice, fruit picker.</td>
+              <td>C4, crack, weed, picklock, wallet, rope, condom, scissors, oranges, bottles, orange juice, fruit
+                picker.</td>
             </tr>
             <tr>
               <td>Jail</td>
@@ -630,7 +643,8 @@ database=gtaopen</code></pre>
             <tr>
               <td>Dynamic Inventory</td>
               <td><code>player_inventory.inc</code></td>
-              <td>Túi đồ cá nhân với UI. <code>/inv</code>, <code>/drop</code>, <code>/giveitem2</code>. Tích hợp cốp xe (<code>/trunk</code>).</td>
+              <td>Túi đồ cá nhân với UI. <code>/inv</code>, <code>/drop</code>, <code>/giveitem2</code>. Tích hợp cốp xe
+                (<code>/trunk</code>).</td>
             </tr>
             <tr>
               <td>Banking RP</td>
@@ -650,7 +664,8 @@ database=gtaopen</code></pre>
             <tr>
               <td>Gang RP</td>
               <td><code>turf_system.inc</code>, <code>blackmarket_system.inc</code></td>
-              <td>Chiếm đóng địa bàn (<code>/attackturf</code>), chợ đen (<code>/bmlocate</code>, <code>/craftdrug</code>).</td>
+              <td>Chiếm đóng địa bàn (<code>/attackturf</code>), chợ đen (<code>/bmlocate</code>,
+                <code>/craftdrug</code>).</td>
             </tr>
             <tr>
               <td>Death & Survival</td>
@@ -690,7 +705,8 @@ database=gtaopen</code></pre>
             <tr>
               <td>Burglary</td>
               <td><code>burglary_system.inc</code></td>
-              <td><code>/robbery</code>, bank/casino/mansion robbery, cracking 20s, delivery 300s, reward theo location, wanted level 6.</td>
+              <td><code>/robbery</code>, bank/casino/mansion robbery, cracking 20s, delivery 300s, reward theo location,
+                wanted level 6.</td>
             </tr>
             <tr>
               <td>Tower Robbery</td>
@@ -775,12 +791,14 @@ database=gtaopen</code></pre>
             <tr>
               <td>Ghost Hunting</td>
               <td><code>ghosthunting_system.inc</code></td>
-              <td><code>/starthunt</code>, <code>/leavehunt</code>, chạy 20:00-06:00 server time, camera detection, reward cash + XP.</td>
+              <td><code>/starthunt</code>, <code>/leavehunt</code>, chạy 20:00-06:00 server time, camera detection,
+                reward cash + XP.</td>
             </tr>
             <tr>
               <td>GPS</td>
               <td><code>gps_system.inc</code></td>
-              <td><code>/gps</code>, <code>/cleargps</code>, route plugin, dynamic checkpoint, arrow objects, distance UI.</td>
+              <td><code>/gps</code>, <code>/cleargps</code>, route plugin, dynamic checkpoint, arrow objects, distance
+                UI.</td>
             </tr>
           </tbody>
         </table>
@@ -799,12 +817,14 @@ database=gtaopen</code></pre>
           <tbody>
             <tr>
               <td>Drug Dealer</td>
-              <td><code>/sellcrack</code>, <code>/buycrack</code>, <code>/plantweed</code>, <code>/harvestweed</code>, <code>/sellweed</code>, <code>/buyweed</code></td>
+              <td><code>/sellcrack</code>, <code>/buycrack</code>, <code>/plantweed</code>, <code>/harvestweed</code>,
+                <code>/sellweed</code>, <code>/buyweed</code></td>
               <td>Bán/mua crack, trồng/thu hoạch/bán weed.</td>
             </tr>
             <tr>
               <td>Weapon Dealer</td>
-              <td><code>/sellgun</code>, <code>/acceptgun</code>, <code>/sellarmour</code>, <code>/acceptarmour</code></td>
+              <td><code>/sellgun</code>, <code>/acceptgun</code>, <code>/sellarmour</code>, <code>/acceptarmour</code>
+              </td>
               <td>Bán súng và armour giữa players.</td>
             </tr>
             <tr>
@@ -890,7 +910,8 @@ database=gtaopen</code></pre>
       <section id="admin">
         <h2>Admin</h2>
         <p>
-          Admin system load account, ban, command modules, spectate, fly, RCON helpers và remove-account. Admin level tối đa là 5.
+          Admin system load account, ban, command modules, spectate, fly, RCON helpers và remove-account. Admin level
+          tối đa là 5.
         </p>
         <table>
           <thead>
@@ -902,7 +923,9 @@ database=gtaopen</code></pre>
           <tbody>
             <tr>
               <td>1</td>
-              <td><code>/acmds</code>, <code>/afix</code>, <code>/akill</code>, <code>/bulletstats</code>, <code>/freeze</code>, <code>/get</code>, <code>/goto</code>, <code>/kick</code>, <code>/relog</code>, <code>/respawn</code>, <code>/setwanted</code>, <code>/spec</code>, <code>/specoff</code></td>
+              <td><code>/acmds</code>, <code>/afix</code>, <code>/akill</code>, <code>/bulletstats</code>,
+                <code>/freeze</code>, <code>/get</code>, <code>/goto</code>, <code>/kick</code>, <code>/relog</code>,
+                <code>/respawn</code>, <code>/setwanted</code>, <code>/spec</code>, <code>/specoff</code></td>
             </tr>
             <tr>
               <td>2</td>
@@ -910,15 +933,21 @@ database=gtaopen</code></pre>
             </tr>
             <tr>
               <td>3</td>
-              <td><code>/aveh</code>, <code>/dav</code>, <code>/disarm</code>, <code>/getallciv</code>, <code>/giveweaps</code>, <code>/revokearmy</code>, <code>/rscars</code>, <code>/setarmour</code>, <code>/setarmy</code>, <code>/sethealth</code>, <code>/setname</code>, <code>/unban</code>, <code>/veh</code></td>
+              <td><code>/aveh</code>, <code>/dav</code>, <code>/disarm</code>, <code>/getallciv</code>,
+                <code>/giveweaps</code>, <code>/revokearmy</code>, <code>/rscars</code>, <code>/setarmour</code>,
+                <code>/setarmy</code>, <code>/sethealth</code>, <code>/setname</code>, <code>/unban</code>,
+                <code>/veh</code></td>
             </tr>
             <tr>
               <td>4</td>
-              <td><code>/fine</code>, <code>/getmoney</code>, <code>/giveitem</code>, <code>/givemoney</code>, <code>/hcreate</code>, <code>/hdelete</code>, <code>/motd</code>, <code>/setvip</code></td>
+              <td><code>/fine</code>, <code>/getmoney</code>, <code>/giveitem</code>, <code>/givemoney</code>,
+                <code>/hcreate</code>, <code>/hdelete</code>, <code>/motd</code>, <code>/setvip</code></td>
             </tr>
             <tr>
               <td>5</td>
-              <td><code>/createatm</code>, <code>/createentrance</code>, <code>/deleteacc</code>, <code>/deleteatm</code>, <code>/editatm</code>, <code>/fly</code>, <code>/gotoco</code>, <code>/mypos</code>, <code>/setadmin</code>, <code>/settime</code>, <code>/skick</code></td>
+              <td><code>/createatm</code>, <code>/createentrance</code>, <code>/deleteacc</code>,
+                <code>/deleteatm</code>, <code>/editatm</code>, <code>/fly</code>, <code>/gotoco</code>,
+                <code>/mypos</code>, <code>/setadmin</code>, <code>/settime</code>, <code>/skick</code></td>
             </tr>
           </tbody>
         </table>
@@ -926,7 +955,8 @@ database=gtaopen</code></pre>
 
       <section id="security">
         <h2>Anti-cheat</h2>
-        <p>Anti-cheat đang chạy qua <code>core/anti-cheat/anti-cheat.inc</code>. Các module standalone <code>.pwn</code> ở cùng folder không tự chạy nếu không được include.</p>
+        <p>Anti-cheat đang chạy qua <code>core/anti-cheat/anti-cheat.inc</code>. Các module standalone <code>.pwn</code>
+          ở cùng folder không tự chạy nếu không được include.</p>
         <ul class="pill-list">
           <li>money</li>
           <li>thermal vision</li>
@@ -954,30 +984,103 @@ database=gtaopen</code></pre>
             </tr>
           </thead>
           <tbody>
-            <tr><td><code>players.sql</code></td><td>Account base: id, username, password, register date, last login.</td></tr>
-            <tr><td><code>player_stats.sql</code></td><td>Stats gameplay: health, armour, kills, deaths, job, class, wanted, bounty, money, score, skin, XP, level.</td></tr>
-            <tr><td><code>player_bank.sql</code></td><td>Bank balance.</td></tr>
-            <tr><td><code>player_items.sql</code></td><td>Inventory items.</td></tr>
-            <tr><td><code>player_shots.sql</code></td><td>Body-part shot stats.</td></tr>
-            <tr><td><code>weapons.sql</code></td><td>Saved weapons/ammo.</td></tr>
-            <tr><td><code>vips.sql</code></td><td>VIP level và expiry.</td></tr>
-            <tr><td><code>jail.sql</code></td><td>Jail time, bail required, bail balance.</td></tr>
-            <tr><td><code>armys.sql</code></td><td>Army whitelist/state.</td></tr>
-            <tr><td><code>admins.sql</code></td><td>Admin accounts và levels.</td></tr>
-            <tr><td><code>bans.sql</code></td><td>Ban records by name/IP/GCPI.</td></tr>
-            <tr><td><code>houses.sql</code></td><td>Houses, settings, key holders, furniture.</td></tr>
-            <tr><td><code>gangs.sql</code></td><td>Gang records, members, stats.</td></tr>
-            <tr><td><code>atms.sql</code></td><td>ATM locations/state, có default rows.</td></tr>
-            <tr><td><code>characters.sql</code></td><td>Multi-character system, linking accounts to characters.</td></tr>
-            <tr><td><code>player_inventory.sql</code></td><td>Dynamic inventory, slots, items, and weights.</td></tr>
-            <tr><td><code>player_licenses.sql</code></td><td>Licenses (car, gun, biz) for characters.</td></tr>
-            <tr><td><code>turfs.sql</code></td><td>Gang turf zones and states.</td></tr>
-            <tr><td><code>phones.sql</code></td><td>Player phone numbers and contacts.</td></tr>
-            <tr><td><code>businesses.sql</code></td><td>Business entities, safe money, stock, pricing.</td></tr>
-            <tr><td><code>faction_inventory.sql</code></td><td>Faction safe storage for LSPD/Gangs.</td></tr>
-            <tr><td><code>house_inventory.sql</code></td><td>House storage items.</td></tr>
-            <tr><td><code>fishing_catches.sql</code></td><td>Caught fish records for fishing job.</td></tr>
-            <tr><td><code>job_skills.sql</code></td><td>Player job levels and XP for trucker, pizza, etc.</td></tr>
+            <tr>
+              <td><code>players.sql</code></td>
+              <td>Account base: id, username, password, register date, last login.</td>
+            </tr>
+            <tr>
+              <td><code>player_stats.sql</code></td>
+              <td>Stats gameplay: health, armour, kills, deaths, job, class, wanted, bounty, money, score, skin, XP,
+                level.</td>
+            </tr>
+            <tr>
+              <td><code>player_bank.sql</code></td>
+              <td>Bank balance.</td>
+            </tr>
+            <tr>
+              <td><code>player_items.sql</code></td>
+              <td>Inventory items.</td>
+            </tr>
+            <tr>
+              <td><code>player_shots.sql</code></td>
+              <td>Body-part shot stats.</td>
+            </tr>
+            <tr>
+              <td><code>weapons.sql</code></td>
+              <td>Saved weapons/ammo.</td>
+            </tr>
+            <tr>
+              <td><code>vips.sql</code></td>
+              <td>VIP level và expiry.</td>
+            </tr>
+            <tr>
+              <td><code>jail.sql</code></td>
+              <td>Jail time, bail required, bail balance.</td>
+            </tr>
+            <tr>
+              <td><code>armys.sql</code></td>
+              <td>Army whitelist/state.</td>
+            </tr>
+            <tr>
+              <td><code>admins.sql</code></td>
+              <td>Admin accounts và levels.</td>
+            </tr>
+            <tr>
+              <td><code>bans.sql</code></td>
+              <td>Ban records by name/IP/GCPI.</td>
+            </tr>
+            <tr>
+              <td><code>houses.sql</code></td>
+              <td>Houses, settings, key holders, furniture.</td>
+            </tr>
+            <tr>
+              <td><code>gangs.sql</code></td>
+              <td>Gang records, members, stats.</td>
+            </tr>
+            <tr>
+              <td><code>atms.sql</code></td>
+              <td>ATM locations/state, có default rows.</td>
+            </tr>
+            <tr>
+              <td><code>characters.sql</code></td>
+              <td>Multi-character system, linking accounts to characters.</td>
+            </tr>
+            <tr>
+              <td><code>player_inventory.sql</code></td>
+              <td>Dynamic inventory, slots, items, and weights.</td>
+            </tr>
+            <tr>
+              <td><code>player_licenses.sql</code></td>
+              <td>Licenses (car, gun, biz) for characters.</td>
+            </tr>
+            <tr>
+              <td><code>turfs.sql</code></td>
+              <td>Gang turf zones and states.</td>
+            </tr>
+            <tr>
+              <td><code>phones.sql</code></td>
+              <td>Player phone numbers and contacts.</td>
+            </tr>
+            <tr>
+              <td><code>businesses.sql</code></td>
+              <td>Business entities, safe money, stock, pricing.</td>
+            </tr>
+            <tr>
+              <td><code>faction_inventory.sql</code></td>
+              <td>Faction safe storage for LSPD/Gangs.</td>
+            </tr>
+            <tr>
+              <td><code>house_inventory.sql</code></td>
+              <td>House storage items.</td>
+            </tr>
+            <tr>
+              <td><code>fishing_catches.sql</code></td>
+              <td>Caught fish records for fishing job.</td>
+            </tr>
+            <tr>
+              <td><code>job_skills.sql</code></td>
+              <td>Player job levels and XP for trucker, pizza, etc.</td>
+            </tr>
           </tbody>
         </table>
 
@@ -998,7 +1101,8 @@ database=gtaopen</code></pre>
 
       <section id="commands">
         <h2>Commands</h2>
-        <p>Gamemode hiện có khoảng 210 loaded player commands/aliases và 49 admin commands. Danh sách dưới đây là command đang được include.</p>
+        <p>Gamemode hiện có khoảng 210 loaded player commands/aliases và 49 admin commands. Danh sách dưới đây là
+          command đang được include.</p>
 
         <details>
           <summary>Player commands và aliases</summary>
@@ -1059,21 +1163,34 @@ database=gtaopen</code></pre>
               <code>/wave</code>, <code>/win</code>, <code>/yes</code>,
               <br><br>
               <strong>Roleplay Commands:</strong><br>
-              <code>/me</code>, <code>/do</code>, <code>/low</code>, <code>/s</code>, <code>/shout</code>, <code>/w</code>,
-              <code>/r</code>, <code>/dep</code>, <code>/b</code>, <code>/o</code>, <code>/inv</code>, <code>/drop</code>,
-              <code>/giveitem2</code>, <code>/inspect</code>, <code>/trunk</code>, <code>/puttrunk</code>, <code>/taketrunk</code>,
-              <code>/transfer</code>, <code>/balance</code>, <code>/bal</code>, <code>/engine</code>, <code>/lock</code>,
+              <code>/me</code>, <code>/do</code>, <code>/low</code>, <code>/s</code>, <code>/shout</code>,
+              <code>/w</code>,
+              <code>/r</code>, <code>/dep</code>, <code>/b</code>, <code>/o</code>, <code>/inv</code>,
+              <code>/drop</code>,
+              <code>/giveitem2</code>, <code>/inspect</code>, <code>/trunk</code>, <code>/puttrunk</code>,
+              <code>/taketrunk</code>,
+              <code>/transfer</code>, <code>/balance</code>, <code>/bal</code>, <code>/engine</code>,
+              <code>/lock</code>,
               <code>/givekey</code>, <code>/takekey</code>, <code>/refuel</code>, <code>/gas</code>, <code>/duty</code>,
-              <code>/mdc</code>, <code>/setrank</code>, <code>/emsduty</code>, <code>/bandage</code>, <code>/heal</code>,
-              <code>/cpr</code>, <code>/revive</code>, <code>/platereg</code>, <code>/changeplate</code>, <code>/bizlicense</code>,
-              <code>/mybiz</code>, <code>/attackturf</code>, <code>/turfinfo</code>, <code>/bmlocate</code>, <code>/craftdrug</code>,
+              <code>/mdc</code>, <code>/setrank</code>, <code>/emsduty</code>, <code>/bandage</code>,
+              <code>/heal</code>,
+              <code>/cpr</code>, <code>/revive</code>, <code>/platereg</code>, <code>/changeplate</code>,
+              <code>/bizlicense</code>,
+              <code>/mybiz</code>, <code>/attackturf</code>, <code>/turfinfo</code>, <code>/bmlocate</code>,
+              <code>/craftdrug</code>,
               <code>/sms</code>, <code>/call</code>, <code>/hangup</code>, <code>/h</code>, <code>/911</code>,
-              <code>/addcontact</code>, <code>/myphone</code>, <code>/charinfo</code>, <code>/mychar</code>, <code>/switchchar</code>,
-              <code>/deletechar</code>, <code>/fish</code>, <code>/sellfish</code>, <code>/myvip</code>, <code>/vipcolor</code>,
-              <code>/vipchat</code>, <code>/setvip</code>, <code>/acceptdeath</code>, <code>/useitem</code>, <code>/use</code>,
-              <code>/mystats</code>, <code>/myjobrank</code>, <code>/interact</code>, <code>/buybiz</code>, <code>/bizpanel</code>,
-              <code>/buy</code>, <code>/safe</code>, <code>/putsafe</code>, <code>/takesafe</code>, <code>/buyvehicle</code>,
-              <code>/repairveh</code>, <code>/getcar</code>, <code>/housedeposit</code>, <code>/housewithdraw</code>, <code>/houseinv</code>,
+              <code>/addcontact</code>, <code>/myphone</code>, <code>/charinfo</code>, <code>/mychar</code>,
+              <code>/switchchar</code>,
+              <code>/deletechar</code>, <code>/fish</code>, <code>/sellfish</code>, <code>/myvip</code>,
+              <code>/vipcolor</code>,
+              <code>/vipchat</code>, <code>/setvip</code>, <code>/acceptdeath</code>, <code>/useitem</code>,
+              <code>/use</code>,
+              <code>/mystats</code>, <code>/myjobrank</code>, <code>/interact</code>, <code>/buybiz</code>,
+              <code>/bizpanel</code>,
+              <code>/buy</code>, <code>/safe</code>, <code>/putsafe</code>, <code>/takesafe</code>,
+              <code>/buyvehicle</code>,
+              <code>/repairveh</code>, <code>/getcar</code>, <code>/housedeposit</code>, <code>/housewithdraw</code>,
+              <code>/houseinv</code>,
               <code>/houselock</code>, <code>/paycheck</code>, <code>/salary</code>
 
             </p>
@@ -1105,7 +1222,8 @@ database=gtaopen</code></pre>
       <section id="not-loaded">
         <h2>Files có trong repo nhưng không chạy</h2>
         <div class="warning">
-          Các file dưới đây tồn tại trong <code>gamemodes/core</code> nhưng không nằm trong cây include từ <code>main.pwn</code>. Sửa chúng sẽ không đổi behavior runtime nếu không include lại.
+          Các file dưới đây tồn tại trong <code>gamemodes/core</code> nhưng không nằm trong cây include từ
+          <code>main.pwn</code>. Sửa chúng sẽ không đổi behavior runtime nếu không include lại.
         </div>
         <table>
           <thead>
@@ -1115,20 +1233,48 @@ database=gtaopen</code></pre>
             </tr>
           </thead>
           <tbody>
-            <tr><td><code>core/anti-cheat/autocbug.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
-            <tr><td><code>core/anti-cheat/car_particle_spam.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
-            <tr><td><code>core/anti-cheat/pickup_spam.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
-            <tr><td><code>core/anti-cheat/proaim.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
-            <tr><td><code>core/anti-cheat/rapidfire.pwn</code></td><td>Standalone anti-cheat, không load.</td></tr>
-            <tr><td><code>core/player/job/job_weapon-dealer(xomox).inc</code></td><td>XomoX weapon inventory commands nằm ở đây nhưng không chạy.</td></tr>
-            <tr><td><code>core/player/job/job_weapon-dealer-table(xomox).inc</code></td><td>Table <code>weapon_Inventory_player</code> không được tạo bởi runtime hiện tại.</td></tr>
-            <tr><td><code>core/systems/mini-games/mini-games.inc</code></td><td>Aggregator không được include trực tiếp.</td></tr>
-            <tr><td><code>core/systems/side-jobs/farming/farming_minigame(moved).inc</code></td><td>File moved/old, không chạy.</td></tr>
+            <tr>
+              <td><code>core/anti-cheat/autocbug.pwn</code></td>
+              <td>Standalone anti-cheat, không load.</td>
+            </tr>
+            <tr>
+              <td><code>core/anti-cheat/car_particle_spam.pwn</code></td>
+              <td>Standalone anti-cheat, không load.</td>
+            </tr>
+            <tr>
+              <td><code>core/anti-cheat/pickup_spam.pwn</code></td>
+              <td>Standalone anti-cheat, không load.</td>
+            </tr>
+            <tr>
+              <td><code>core/anti-cheat/proaim.pwn</code></td>
+              <td>Standalone anti-cheat, không load.</td>
+            </tr>
+            <tr>
+              <td><code>core/anti-cheat/rapidfire.pwn</code></td>
+              <td>Standalone anti-cheat, không load.</td>
+            </tr>
+            <tr>
+              <td><code>core/player/job/job_weapon-dealer(xomox).inc</code></td>
+              <td>XomoX weapon inventory commands nằm ở đây nhưng không chạy.</td>
+            </tr>
+            <tr>
+              <td><code>core/player/job/job_weapon-dealer-table(xomox).inc</code></td>
+              <td>Table <code>weapon_Inventory_player</code> không được tạo bởi runtime hiện tại.</td>
+            </tr>
+            <tr>
+              <td><code>core/systems/mini-games/mini-games.inc</code></td>
+              <td>Aggregator không được include trực tiếp.</td>
+            </tr>
+            <tr>
+              <td><code>core/systems/side-jobs/farming/farming_minigame(moved).inc</code></td>
+              <td>File moved/old, không chạy.</td>
+            </tr>
           </tbody>
         </table>
         <div class="danger">
           <strong>Mismatch hiện tại:</strong> help có nhắc <code>/weapons</code>, <code>/weaponinventory</code>,
-          <code>/wi</code>, <code>/ws</code>, <code>/weapinv</code>, <code>/nosell</code>, nhưng các command này thuộc XomoX
+          <code>/wi</code>, <code>/ws</code>, <code>/weapinv</code>, <code>/nosell</code>, nhưng các command này thuộc
+          XomoX
           weapon dealer file không được include.
         </div>
       </section>
@@ -1142,7 +1288,8 @@ database=gtaopen</code></pre>
           <li>Include file mới trong <code>core/systems/system.inc</code> hoặc aggregator tương ứng.</li>
           <li>Nếu cần DB, thêm setup table module hoặc SQL file, rồi hook vào <code>tables.inc</code> nếu phù hợp.</li>
           <li>Hook callback bằng pattern đang dùng trong repo, tránh tạo global trùng tên.</li>
-          <li>Thêm command qua <code>CMD:</code>, alias qua <code>ALTCMD:</code>, admin command qua <code>ACMD:</code>.</li>
+          <li>Thêm command qua <code>CMD:</code>, alias qua <code>ALTCMD:</code>, admin command qua <code>ACMD:</code>.
+          </li>
           <li>Build lại bằng <code>sampctl build</code> và chạy server với crashdetect.</li>
         </ol>
 
@@ -1193,12 +1340,16 @@ database=gtaopen</code></pre>
       <section id="gotchas">
         <h2>Gotchas</h2>
         <ul>
-          <li><code>SETUP_TABLE</code> đang là <code>true</code>. README khuyên chạy setup xong thì đổi về <code>false</code> và recompile.</li>
-          <li>Không phải file nào trong <code>core</code> cũng chạy. Luôn đi từ include tree thay vì đoán theo tên file.</li>
+          <li><code>SETUP_TABLE</code> đang là <code>true</code>. README khuyên chạy setup xong thì đổi về
+            <code>false</code> và recompile.</li>
+          <li>Không phải file nào trong <code>core</code> cũng chạy. Luôn đi từ include tree thay vì đoán theo tên file.
+          </li>
           <li><code>gps_system.inc</code> đang chạy và phụ thuộc GPS plugin.</li>
-          <li>Static vehicles nằm trong <code>scriptfiles/vehicles/ls.txt</code>, không hardcode toàn bộ trong Pawn.</li>
+          <li>Static vehicles nằm trong <code>scriptfiles/vehicles/ls.txt</code>, không hardcode toàn bộ trong Pawn.
+          </li>
           <li>Command help có thể lệch với command thật, cụ thể là XomoX weapon inventory commands.</li>
-          <li>Admin command list trong UI/help không nhất thiết bao phủ mọi <code>ACMD</code>; nên grep code khi audit quyền.</li>
+          <li>Admin command list trong UI/help không nhất thiết bao phủ mọi <code>ACMD</code>; nên grep code khi audit
+            quyền.</li>
           <li>Lotto hiện hardcode số trúng là <code>10</code>, không random như intent nhìn qua tên biến.</li>
           <li>Army heal label và giá trong code có thể lệch: label nói 500 nhưng logic kiểm tra/trừ 250.</li>
         </ul>
@@ -1206,4 +1357,5 @@ database=gtaopen</code></pre>
     </main>
   </div>
 </body>
+
 </html>
