@@ -97,6 +97,21 @@ public CEF_UpdateStatusHUD(playerid)
         ammoStr
     );
 
+    // Gửi event qua tham số trực tiếp & chuỗi JSON
+    CEF_EmitEvent(playerid, CEF_BROWSER_STATUS_HUD, "GTAHUB:UpdateStatusData",
+        CEF_INT(floatround(hp)),
+        CEF_INT(floatround(arm)),
+        CEF_INT(Survival_GetHunger(playerid)),
+        CEF_INT(Survival_GetThirst(playerid)),
+        CEF_INT(GetPlayerMoney(playerid)),
+        CEF_INT(playerid),
+        CEF_INT(GetPlayerPing(playerid)),
+        CEF_INT(onlineCount),
+        CEF_INT(GetPlayerWantedLevel(playerid)),
+        CEF_INT(weaponId),
+        CEF_STR(ammoStr)
+    );
+
     CEF_EmitEvent(playerid, CEF_BROWSER_STATUS_HUD, "GTAHUB:UpdateStatus", CEF_STR(json));
     return 1;
 }
@@ -111,12 +126,15 @@ hook OnPlayerSecondUpdate(playerid)
     return 1;
 }
 
+static bool:gPlayerHUDFocused[MAX_PLAYERS];
+
 // --- Event callback: Bật/Tắt con trỏ chuột khi mở/đóng cài đặt HUD ---
 public OnCEF_SetHUDFocus(playerid, browserid, focusState)
 {
     #pragma unused browserid
     if (!IsPlayerConnected(playerid)) return 0;
-    CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, bool:focusState);
+    gPlayerHUDFocused[playerid] = bool:focusState;
+    CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
     return 1;
 }
 
@@ -126,6 +144,8 @@ CMD:hud(playerid, params[])
     if (!IsPlayerConnected(playerid) || !Char_IsActive(playerid))
         return 0;
 
+    gPlayerHUDFocused[playerid] = !gPlayerHUDFocused[playerid];
+    CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
     CEF_EmitEvent(playerid, CEF_BROWSER_STATUS_HUD, "GTAHUB:ToggleHUDPanel");
     return 1;
 }

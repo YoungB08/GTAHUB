@@ -14,18 +14,18 @@ let hudSettings = {
 
 let statusValues = {
     health: 100,
-    armor: 75,
+    armor: 0,
     hunger: 100,
-    thirst: 50,
+    thirst: 100,
     stamina: 100,
-    cash: 21571,
-    coin: 1622,
-    id: 99,
-    ping: 35,
-    online: 420,
+    cash: 0,
+    coin: 0,
+    id: 0,
+    ping: 0,
+    online: 0,
     wanted: 0,           // Mặc định wanted = 0 (Ẩn)
-    weaponId: 34,
-    weaponAmmo: "29/194"
+    weaponId: 0,
+    weaponAmmo: "-"
 };
 
 const hudContainer = document.getElementById("status-hud-container");
@@ -366,71 +366,61 @@ window.toggleWantedBadge = toggleWantedBadge;
 window.updateStatusValues = updateStatusValues;
 
 // LẮNG NGHE SỰ KIỆN TỪ CEF (SA:MP / RAGEMP)
-if (window.cef) {
-    cef.on("GTAHUB:UpdateStatus", (data) => {
-        if (typeof data === "object") {
-            updateStatusValues(data);
-        } else if (typeof data === "string") {
-            try { updateStatusValues(JSON.parse(data)); } catch(e){}
-        }
-    });
+function bindCEFEvents() {
+    if (typeof cef !== "undefined" && cef && typeof cef.on === "function") {
+        cef.on("GTAHUB:UpdateStatus", (data) => {
+            if (typeof data === "object") {
+                updateStatusValues(data);
+            } else if (typeof data === "string") {
+                try { updateStatusValues(JSON.parse(data)); } catch(e){}
+            }
+        });
 
-    cef.on("GTAHUB:SetWanted", (level) => {
-        setWantedLevel(level);
-    });
+        cef.on("GTAHUB:UpdateStatusData", (hp, arm, hunger, thirst, cash, id, ping, online, wanted, weaponId, ammoStr) => {
+            updateStatusValues({
+                health: hp,
+                armor: arm,
+                hunger: hunger,
+                thirst: thirst,
+                stamina: 100,
+                cash: cash,
+                coin: 0,
+                id: id,
+                ping: ping,
+                online: online,
+                wanted: wanted,
+                weaponId: weaponId,
+                weaponAmmo: ammoStr
+            });
+        });
 
-    cef.on("GTAHUB:ToggleWanted", (visible) => {
-        toggleWantedBadge(visible);
-    });
+        cef.on("GTAHUB:SetWanted", (level) => {
+            setWantedLevel(level);
+        });
 
-    cef.on("GTAHUB:SetWeapon", (weaponId, weaponAmmo) => {
-        updateStatusValues({ weaponId, weaponAmmo });
-    });
+        cef.on("GTAHUB:ToggleWanted", (visible) => {
+            toggleWantedBadge(visible);
+        });
 
-    cef.on("GTAHUB:ToggleHUDPanel", () => {
-        togglePanel();
-    });
-}
+        cef.on("GTAHUB:SetWeapon", (weaponId, weaponAmmo) => {
+            updateStatusValues({ weaponId, weaponAmmo });
+        });
 
-document.addEventListener("keydown", (e) => {
-    if (e.key === "F7" || e.code === "F7") {
-        togglePanel();
+        cef.on("GTAHUB:ToggleHUDPanel", () => {
+            togglePanel();
+        });
+    } else {
+        setTimeout(bindCEFEvents, 100);
     }
-});
+}
+bindCEFEvents();
 
 function emitCEF(eventName, ...args) {
-    if (window.cef) {
+    if (typeof cef !== "undefined" && cef && typeof cef.emit === "function") {
         cef.emit(eventName, ...args);
     } else if (window.mp) {
         mp.trigger(eventName, ...args);
     } else {
         console.log(`[Test Mode] Emit Event: ${eventName}`, args);
     }
-}
-
-// Mock Test Offline trên Trình Duyệt
-if (!window.cef && !window.mp) {
-    setInterval(() => {
-        const mockHealth = Math.floor(Math.random() * 40) + 60;
-        const mockArmor = Math.floor(Math.random() * 100);
-        const mockHunger = Math.floor(Math.random() * 50) + 50;
-        const mockThirst = Math.floor(Math.random() * 50) + 50;
-        const mockStamina = Math.floor(Math.random() * 30) + 70;
-        const mockCash = Math.floor(Math.random() * 50000);
-        const mockCoin = Math.floor(Math.random() * 2000);
-        const mockWeaponId = [0, 24, 29, 30, 31, 34, 35][Math.floor(Math.random() * 7)];
-        const mockAmmo = mockWeaponId === 0 ? "-" : `${Math.floor(Math.random() * 30)}/${Math.floor(Math.random() * 300)}`;
-
-        updateStatusValues({
-            health: mockHealth,
-            armor: mockArmor,
-            hunger: mockHunger,
-            thirst: mockThirst,
-            stamina: mockStamina,
-            cash: mockCash,
-            coin: mockCoin,
-            weaponId: mockWeaponId,
-            weaponAmmo: mockAmmo
-        });
-    }, 4000);
 }
