@@ -95,6 +95,7 @@ hook OnPlayerConnect(playerid)
 {
     gPlayerCEFReady[playerid] = false;
     gPlayerPendingUI[playerid] = CEF_PENDING_NONE;
+    CEF_HUD_OnConnect(playerid);
     CEF_DisableGameUI(playerid);
     return 1;
 }
@@ -117,6 +118,7 @@ hook OnPlayerDisconnect(playerid, reason)
     #pragma unused reason
     gPlayerCEFReady[playerid] = false;
     gPlayerPendingUI[playerid] = CEF_PENDING_NONE;
+    CEF_HUD_OnDisconnect(playerid);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_REGISTER);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_ACTIVE);

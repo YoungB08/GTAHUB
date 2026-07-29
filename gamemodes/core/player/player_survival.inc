@@ -67,8 +67,9 @@ hook OnPlayerSpawn(playerid)
     if (PlayerHunger[playerid] < 50) PlayerHunger[playerid] = 50;
     if (PlayerThirst[playerid] < 50) PlayerThirst[playerid] = 50;
     Survival_UpdateHUD(playerid);
-    PlayerTextDrawShow(playerid, ptdHunger[playerid]);
-    PlayerTextDrawShow(playerid, ptdThirst[playerid]);
+    // Ẩn TextDraw đói khát cũ (vì đã dùng CEF Status HUD mới)
+    // PlayerTextDrawShow(playerid, ptdHunger[playerid]);
+    // PlayerTextDrawShow(playerid, ptdThirst[playerid]);
     return 1;
 }
 

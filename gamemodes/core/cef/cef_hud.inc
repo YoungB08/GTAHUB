@@ -16,31 +16,45 @@ forward Survival_GetThirst(playerid);
 
 forward OnCEF_SetHUDFocus(playerid, browserid, focusState);
 
+static bool:gPlayerHUDCreated[MAX_PLAYERS];
+static bool:gPlayerHUDFocused[MAX_PLAYERS];
+
+stock CEF_HUD_OnConnect(playerid)
+{
+    gPlayerHUDCreated[playerid] = false;
+    gPlayerHUDFocused[playerid] = false;
+    return 1;
+}
+
+stock CEF_HUD_OnDisconnect(playerid)
+{
+    gPlayerHUDCreated[playerid] = false;
+    gPlayerHUDFocused[playerid] = false;
+    return 1;
+}
+
 // --- Mở Status HUD overlay ---
 stock CEF_ShowStatusHUD(playerid)
 {
     if (!IsPlayerConnected(playerid)) return 0;
 
-    // Đóng browser cũ nếu có
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_STATUS_HUD);
+    if (!gPlayerHUDCreated[playerid])
+    {
+        // Ẩn riêng từng thành phần HUD zin của GTA SA (Máu, Giáp, Tiền, Vũ khí, Đạn, Truy nã, Nhịp thở)
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_HEALTH, false);
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ARMOUR, false);
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_MONEY, false);
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WEAPON, false);
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_AMMO, false);
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WANTED_STARS, false);
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_BREATH, false);
+        CEF_ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
 
-    // Ẩn riêng từng thành phần HUD zin của GTA SA (Máu, Giáp, Tiền, Vũ khí, Đạn, Truy nã, Nhịp thở)
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_HEALTH, false);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ARMOUR, false);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_MONEY, false);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WEAPON, false);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_AMMO, false);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WANTED_STARS, false);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_BREATH, false);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
+        // Tạo browser overlay (focused = false, controls_chat = false để chatbox SA-MP luôn hoạt động)
+        CEF_CreateBrowser(playerid, CEF_BROWSER_STATUS_HUD, CEF_URL_STATUS_HUD, false, false);
+        gPlayerHUDCreated[playerid] = true;
+    }
 
-    // Mở phím F7 (VK_F7 = 118)
-    CEF_EnableKey(playerid, 118, true);
-
-    // Tạo browser overlay (focused = false, controls_chat = false để chatbox SA-MP luôn hoạt động)
-    CEF_CreateBrowser(playerid, CEF_BROWSER_STATUS_HUD, CEF_URL_STATUS_HUD, false, false);
-
-    // Cập nhật chỉ số sau 500ms khi CEF browser sẵn sàng
     SetTimerEx("CEF_UpdateStatusHUDDelayed", 500, false, "i", playerid);
     return 1;
 }
@@ -49,7 +63,12 @@ stock CEF_ShowStatusHUD(playerid)
 stock CEF_HideStatusHUD(playerid)
 {
     if (!IsPlayerConnected(playerid)) return 0;
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_STATUS_HUD);
+    if (gPlayerHUDCreated[playerid])
+    {
+        CEF_DestroyBrowser(playerid, CEF_BROWSER_STATUS_HUD);
+        gPlayerHUDCreated[playerid] = false;
+        gPlayerHUDFocused[playerid] = false;
+    }
     return 1;
 }
 
@@ -62,7 +81,7 @@ public CEF_UpdateStatusHUDDelayed(playerid)
 // --- Cập nhật thông tin HUD lên CEF ---
 public CEF_UpdateStatusHUD(playerid)
 {
-    if (!IsPlayerConnected(playerid) || !Char_IsActive(playerid))
+    if (!IsPlayerConnected(playerid) || !Char_IsActive(playerid) || !gPlayerHUDCreated[playerid])
         return 0;
 
     new Float:hp = 100.0, Float:arm = 0.0;
@@ -125,20 +144,18 @@ public CEF_UpdateStatusHUD(playerid)
 // Hook cập nhật thông tin HUD mỗi 1 giây
 hook OnPlayerSecondUpdate(playerid)
 {
-    if (Char_IsActive(playerid))
+    if (Char_IsActive(playerid) && gPlayerHUDCreated[playerid])
     {
         CEF_UpdateStatusHUD(playerid);
     }
     return 1;
 }
 
-static bool:gPlayerHUDFocused[MAX_PLAYERS];
-
 // --- Event callback: Bật/Tắt con trỏ chuột khi mở/đóng cài đặt HUD ---
 public OnCEF_SetHUDFocus(playerid, browserid, focusState)
 {
     #pragma unused browserid
-    if (!IsPlayerConnected(playerid)) return 0;
+    if (!IsPlayerConnected(playerid) || !gPlayerHUDCreated[playerid]) return 0;
     gPlayerHUDFocused[playerid] = bool:focusState;
     CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
     return 1;
@@ -152,6 +169,11 @@ CMD:hud(playerid, params[])
 
     if (!Char_IsActive(playerid))
         return SendErrorMsg(playerid, "Ban phai chon nhan vat vao game de dung lenh /hud."), 1;
+
+    if (!gPlayerHUDCreated[playerid])
+    {
+        CEF_ShowStatusHUD(playerid);
+    }
 
     gPlayerHUDFocused[playerid] = !gPlayerHUDFocused[playerid];
     CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
