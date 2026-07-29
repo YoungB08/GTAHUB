@@ -674,6 +674,26 @@ stock Char_GetID(playerid)
 stock bool:Char_IsActive(playerid)
     return PlayerChar[playerid][E_CHAR_ACTIVE];
 
+stock Char_SetActiveData(playerid, charId, const firstname[], const lastname[], skinId, money, kills, deaths, jobId, classId, xp, Float:px, Float:py, Float:pz, Float:pa)
+{
+    PlayerChar[playerid][E_CHAR_ID]        = charId;
+    strcopy(PlayerChar[playerid][E_CHAR_FIRSTNAME], firstname, 32);
+    strcopy(PlayerChar[playerid][E_CHAR_LASTNAME],  lastname,  32);
+    PlayerChar[playerid][E_CHAR_SKIN]      = skinId;
+    PlayerChar[playerid][E_CHAR_MONEY]     = money;
+    PlayerChar[playerid][E_CHAR_KILLS]     = kills;
+    PlayerChar[playerid][E_CHAR_DEATHS]    = deaths;
+    PlayerChar[playerid][E_CHAR_JOB]       = jobId;
+    PlayerChar[playerid][E_CHAR_CLASS]     = classId;
+    PlayerChar[playerid][E_CHAR_XP]        = xp;
+    PlayerChar[playerid][E_CHAR_X]         = px;
+    PlayerChar[playerid][E_CHAR_Y]         = py;
+    PlayerChar[playerid][E_CHAR_Z]         = pz;
+    PlayerChar[playerid][E_CHAR_A]         = pa;
+    PlayerChar[playerid][E_CHAR_ACTIVE]    = true;
+    return 1;
+}
+
 stock Char_GetFirstname(playerid, buf[], len = sizeof(buf))
     strcopy(buf, PlayerChar[playerid][E_CHAR_FIRSTNAME], len);
 

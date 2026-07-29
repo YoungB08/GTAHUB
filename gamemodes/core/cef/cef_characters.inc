@@ -208,6 +208,9 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
         cache_get_value_name_float(0, "pos_z", pz);
         cache_get_value_name_float(0, "pos_a", pa);
 
+        // Lưu dữ liệu để active nhân vật
+        Char_SetActiveData(playerid, charId, firstname, lastname, skinId, money, kills, deaths, jobId, classId, xp, px, py, pz, pa);
+
         // Đóng CEF browser & mở lại Game UI (Chat & HUD)
         CEF_CloseAllBrowsers(playerid);
         TogglePlayerSpectating(playerid, false);

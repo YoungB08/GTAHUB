@@ -147,8 +147,11 @@ public OnCEF_SetHUDFocus(playerid, browserid, focusState)
 // --- Lệnh mở/đóng Cài đặt Status HUD ---
 CMD:hud(playerid, params[])
 {
-    if (!IsPlayerConnected(playerid) || !Char_IsActive(playerid))
-        return 0;
+    if (!IsPlayerConnected(playerid))
+        return 1;
+
+    if (!Char_IsActive(playerid))
+        return SendErrorMsg(playerid, "Ban phai chon nhan vat vao game de dung lenh /hud."), 1;
 
     gPlayerHUDFocused[playerid] = !gPlayerHUDFocused[playerid];
     CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
