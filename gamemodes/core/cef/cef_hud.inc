@@ -156,7 +156,7 @@ public OnCEF_SetHUDFocus(playerid, browserid, focusState)
 {
     #pragma unused browserid
     if (!IsPlayerConnected(playerid) || !gPlayerHUDCreated[playerid]) return 0;
-    gPlayerHUDFocused[playerid] = bool:focusState;
+    gPlayerHUDFocused[playerid] = (focusState != 0);
     CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
     return 1;
 }
@@ -175,6 +175,8 @@ CMD:hud(playerid, params[])
         CEF_ShowStatusHUD(playerid);
     }
 
+    gPlayerHUDFocused[playerid] = !gPlayerHUDFocused[playerid];
+    CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
     CEF_EmitEvent(playerid, CEF_BROWSER_STATUS_HUD, "GTAHUB:ToggleHUDPanel");
     return 1;
 }

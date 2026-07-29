@@ -237,7 +237,7 @@ function applySettings() {
 function togglePanel() {
     if (customizerPanel.classList.contains("hidden")) {
         customizerPanel.classList.remove("hidden");
-        emitCEF("GTAHUB:SetHUDFocus", true);
+        emitCEF("GTAHUB:SetHUDFocus", 1);
     } else {
         hidePanel();
     }
@@ -246,7 +246,7 @@ function togglePanel() {
 function hidePanel() {
     customizerPanel.classList.add("hidden");
     if (hudSettings.isEditMode) toggleEditMode();
-    emitCEF("GTAHUB:SetHUDFocus", false);
+    emitCEF("GTAHUB:SetHUDFocus", 0);
 }
 
 function toggleEditMode() {
