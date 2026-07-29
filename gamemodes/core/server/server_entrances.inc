@@ -46,6 +46,7 @@ static
     PlayerInteriorExitID[MAX_PLAYERS],
     PlayerBlockedEntranceID[MAX_PLAYERS],
     PlayerBlockedEntranceUntil[MAX_PLAYERS],
+    gPlayerEntranceCooldown[MAX_PLAYERS],
     PlayerAdminEntranceListID[MAX_PLAYERS][MAX_ENTRANCES],
     PlayerAdminEntranceListCount[MAX_PLAYERS];
 
@@ -810,28 +811,20 @@ stock Entrance_ClearReuseBlock(playerid)
     return 1;
 }
 
-stock Entrance_BlockReuse(playerid, idx, duration = ENTRANCE_REUSE_BLOCK_MS)
+stock Entrance_BlockReuse(playerid, idx, duration = 3000)
 {
-    if(!Iter_Contains(entranceID, idx)) {
-        return 0;
-    }
-
-    PlayerBlockedEntranceID[playerid] = idx;
-    PlayerBlockedEntranceUntil[playerid] = GetTickCount() + duration;
+    #pragma unused idx
+    gPlayerEntranceCooldown[playerid] = GetTickCount() + duration;
     return 1;
 }
 
 stock bool:Entrance_IsReuseBlocked(playerid, idx)
 {
-    if(PlayerBlockedEntranceID[playerid] != idx) {
-        return false;
+    #pragma unused idx
+    if(GetTickCount() < gPlayerEntranceCooldown[playerid]) {
+        return true;
     }
-
-    if(GetTickCount() >= PlayerBlockedEntranceUntil[playerid]) {
-        Entrance_ClearReuseBlock(playerid);
-        return false;
-    }
-    return true;
+    return false;
 }
 
 stock bool:Entrance_IsInteriorExitForPlayer(playerid, idx) {
@@ -914,15 +907,11 @@ stock Entrance_Use(playerid, idx) {
         return 0;
     }
 
-    if(!Entrance_IsPlayerAllowed(playerid)) {
-        return SendErrorMsg(playerid, "Vui long cho vai giay roi thu lai.");
+    if(GetTickCount() < gPlayerEntranceCooldown[playerid]) {
+        return SendErrorMsg(playerid, "Vui long cho 3 giay de tiep tuc ra/vao.");
     }
 
     if(IsPlayerInAnyVehicle(playerid)) {
-        return 1;
-    }
-
-    if(Entrance_IsReuseBlocked(playerid, idx)) {
         return 1;
     }
 
@@ -933,6 +922,8 @@ stock Entrance_Use(playerid, idx) {
     ) {
         return 1;
     }
+
+    gPlayerEntranceCooldown[playerid] = GetTickCount() + 3000;
 
     new
         Float:x,
@@ -945,8 +936,8 @@ stock Entrance_Use(playerid, idx) {
 
     Entrance_GetTargetPoint(idx, x, y, z, a);
     Interaction_ClearPrompt(playerid);
-    Interaction_LockPrompts(playerid, teleportDelay + GetPlayerPing(playerid) + 1000);
-    Entrance_BlockReuse(playerid, targetid, teleportDelay + GetPlayerPing(playerid) + ENTRANCE_REUSE_BLOCK_MS);
+    Interaction_LockPrompts(playerid, 3000);
+    Entrance_BlockReuse(playerid, targetid, 3000);
     Interaction_LoadSafeTeleport(
         playerid,
         x,
@@ -1075,10 +1066,6 @@ hook OnPlayerLeaveDynArea(playerid, areaid) {
             idx = arr[1];
 
         if(areaid == EnExArea[idx]) {
-            if(PlayerBlockedEntranceID[playerid] == idx) {
-                Entrance_ClearReuseBlock(playerid);
-            }
-
             Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ENTRANCE, idx);
         }
     }
@@ -1092,6 +1079,9 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
     }
 
     if(PRESSED(KEY_YES) && Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE)) {
+        if(GetTickCount() < gPlayerEntranceCooldown[playerid]) {
+            return SendErrorMsg(playerid, "Vui long cho 3 giay de tiep tuc ra/vao.");
+        }
         return Entrance_Use(playerid, Interaction_GetActiveID(playerid));
     }
     return 1;
