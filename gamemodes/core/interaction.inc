@@ -142,14 +142,13 @@ stock Interaction_LoadSafeTeleport(playerid, Float:x, Float:y, Float:z, Float:a,
 
     SetPlayerInterior(playerid, interiorid);
     SetPlayerVirtualWorld(playerid, worldid);
-    Streamer_UpdateEx(playerid, x, y, z, worldid, interiorid, -1, unfreezeDelay, 0);
     SetPlayerPos(playerid, x, y, z);
     SetPlayerFacingAngle(playerid, a);
+    Streamer_UpdateEx(playerid, x, y, z, worldid, interiorid, -1, 0, 0);
     SetCameraBehindPlayer(playerid);
 
     if(freezePlayer) {
         SetTimerEx("Interaction_UnfreezePlayer", unfreezeDelay, false, "ii", playerid, token);
-        SetTimerEx("Interaction_UnfreezePlayer", unfreezeDelay + 1500, false, "ii", playerid, token);
     }
     return 1;
 }

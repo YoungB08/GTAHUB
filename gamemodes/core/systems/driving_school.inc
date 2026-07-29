@@ -28,30 +28,30 @@
 #define MAX_TEST_CHECKPOINTS     (10)       // 10 Checkpoints thực hành
 #define TEST_SPEED_LIMIT         (60.0)     // km/h
 
-// Vị trí Trường Thi Lái Xe (Los Santos - gần bến xe / City Hall)
-#define DS_NPC_X                 (1172.5)
-#define DS_NPC_Y                 (-1323.8)
-#define DS_NPC_Z                 (14.0)
-#define DS_NPC_ANGLE             (270.0)
+// Vị trí Trường Thi Lái Xe (Red County - Dillimore Town Center)
+#define DS_NPC_X                 (1368.5)
+#define DS_NPC_Y                 (-1279.0)
+#define DS_NPC_Z                 (13.5)
+#define DS_NPC_ANGLE             (90.0)
 
-// Vị trí spawn xe thi thực hành
-#define DS_VEH_SPAWN_X           (1168.0)
-#define DS_VEH_SPAWN_Y           (-1330.0)
-#define DS_VEH_SPAWN_Z           (13.6)
-#define DS_VEH_SPAWN_A           (270.0)
+// Vị trí spawn xe thi thực hành (Red County Dillimore)
+#define DS_VEH_SPAWN_X           (1355.0)
+#define DS_VEH_SPAWN_Y           (-1280.0)
+#define DS_VEH_SPAWN_Z           (13.5)
+#define DS_VEH_SPAWN_A           (90.0)
 
-// 10 Checkpoints bài thi thực hành (Vòng quanh Los Santos)
+// 10 Checkpoints bài thi thực hành (Tuyến đường ngoằn ngoèo Red County / Dillimore)
 static const Float:DSCheckpoints[MAX_TEST_CHECKPOINTS][3] = {
-    {1120.0, -1330.0, 13.5},
-    {1020.0, -1330.0, 13.5},
-    {1020.0, -1450.0, 13.5},
-    {1150.0, -1450.0, 14.0},
-    {1300.0, -1450.0, 13.5},
-    {1300.0, -1330.0, 13.5},
-    {1450.0, -1330.0, 13.5},
-    {1450.0, -1480.0, 14.5},
-    {1250.0, -1480.0, 14.0},
-    {1168.0, -1330.0, 13.6}  // Về đích
+    {1300.0, -1280.0, 13.5},
+    {1200.0, -1280.0, 13.5},
+    {1050.0, -1200.0, 16.0},
+    {1050.0, -1000.0, 31.0},
+    {1250.0, -950.0, 42.0},
+    {1450.0, -950.0, 37.0},
+    {1450.0, -1100.0, 24.0},
+    {1450.0, -1250.0, 14.5},
+    {1380.0, -1280.0, 13.5},
+    {1355.0, -1280.0, 13.5}  // Về đích tại Trung tâm Red County
 };
 
 // =============================================================================
@@ -232,6 +232,12 @@ static DS_PromptStartExam(playerid)
         if (!response) return 1;
 
         GivePlayerMoney(playerid, -DRIVING_SCHOOL_FEE);
+
+        // Dịch chuyển đến Trung tâm Thi Lái Xe Red County
+        SetPlayerPos(playerid, DS_NPC_X, DS_NPC_Y, DS_NPC_Z);
+        SetPlayerFacingAngle(playerid, DS_NPC_ANGLE);
+        SetPlayerVirtualWorld(playerid, 0);
+        SetPlayerInterior(playerid, 0);
 
         // Bắt đầu phần thi Lý thuyết
         PlayerTestState[playerid]      = TEST_THEORY;
