@@ -59,14 +59,24 @@ body {
     z-index: 1;
 }
 
+.hud-circle-svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    pointer-events: none;
+    display: none;
+    z-index: 5;
+}
+
 .hud-circle-bg, .hud-circle-val {
     fill: none;
     stroke-width: 4;
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
-    display: none;
 }
-.hud-circle-bg { stroke: rgba(255, 255, 255, 0.1); }
+.hud-circle-bg { stroke: rgba(255, 255, 255, 0.15); }
 .hud-circle-val { transition: stroke-dashoffset 0.4s ease; }
 
 .style-wave {
@@ -82,7 +92,7 @@ body {
     border: 1px solid rgba(255,255,255,0.08);
 }
 .style-circle .hud-fill { display: none; }
-.style-circle .hud-circle-bg, .style-circle .hud-circle-val { display: block; }
+.style-circle .hud-circle-svg { display: block; }
 
 .style-diamond {
     border-radius: 10px;
