@@ -75,6 +75,7 @@
 				"gamemodes/core/server",
 				"gamemodes/core/server/dealership",
 				"gamemodes/core/account",
+				"gamemodes/core/cef",
 				"gamemodes/core/player",
 				"gamemodes/core/player/job",
 				"gamemodes/core/player/jobs",

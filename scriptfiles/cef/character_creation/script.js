@@ -28,8 +28,11 @@ let selectedSkinId = 0;
 
 // Các phần tử DOM
 const charNameInput = document.getElementById("char-name");
-const charDobInput = document.getElementById("char-dob");
-const charGenderInput = document.getElementById("char-gender");
+const dobDayInput = document.getElementById("dob-day");
+const dobMonthInput = document.getElementById("dob-month");
+const dobYearInput = document.getElementById("dob-year");
+const genderMaleBtn = document.getElementById("gender-male-btn");
+const genderFemaleBtn = document.getElementById("gender-female-btn");
 const charDescInput = document.getElementById("char-desc");
 const selectSkinBtn = document.getElementById("select-skin-btn");
 const selectedSkinLabel = document.getElementById("selected-skin-label");
@@ -41,6 +44,7 @@ const skinModal = document.getElementById("skin-modal");
 const skinSearch = document.getElementById("skin-search");
 const skinGrid = document.getElementById("skin-grid");
 const closeModalBtn = document.getElementById("close-modal-btn");
+const confirmSkinBtn = document.getElementById("confirm-skin-btn");
 
 const statusMsg = document.getElementById("status-msg");
 const createBtn = document.getElementById("create-btn");
@@ -50,14 +54,15 @@ const cancelBtn = document.getElementById("cancel-btn");
 init();
 
 function init() {
-    // Sự kiện thay đổi giới tính
-    if (charGenderInput) {
-        charGenderInput.addEventListener("change", (e) => {
-            setGender(e.target.value);
-        });
+    // Sự kiện chọn giới tính bằng Nút bấm
+    if (genderMaleBtn) {
+        genderMaleBtn.addEventListener("click", () => setGender("male"));
+    }
+    if (genderFemaleBtn) {
+        genderFemaleBtn.addEventListener("click", () => setGender("female"));
     }
 
-    // Sự kiện mở/đóng Modal chọn skin
+    // Mở/Đóng Modal chọn skin
     if (selectSkinBtn) {
         selectSkinBtn.addEventListener("click", openModal);
     }
@@ -100,113 +105,89 @@ function init() {
     updatePreview();
 }
 
-// Cập nhật trạng thái giới tính
+// Thay đổi giới tính Nam / Nữ
 function setGender(gender) {
     selectedGender = gender;
-    // Đặt skin mặc định cho giới tính tương ứng
-    selectedSkinId = (gender === "male") ? 0 : 9;
+
+    if (gender === "male") {
+        if (genderMaleBtn) {
+            genderMaleBtn.className = "py-2.5 px-2 rounded-xl bg-red-600 border border-red-500 text-white font-bold text-xs flex items-center justify-center gap-1 transition-all";
+        }
+        if (genderFemaleBtn) {
+            genderFemaleBtn.className = "py-2.5 px-2 rounded-xl bg-slate-950/80 border border-white/10 text-slate-400 font-bold text-xs flex items-center justify-center gap-1 hover:bg-slate-800 transition-all";
+        }
+        if (!SKIN_DATA.male.includes(selectedSkinId)) {
+            selectedSkinId = SKIN_DATA.male[0];
+        }
+    } else {
+        if (genderFemaleBtn) {
+            genderFemaleBtn.className = "py-2.5 px-2 rounded-xl bg-red-600 border border-red-500 text-white font-bold text-xs flex items-center justify-center gap-1 transition-all";
+        }
+        if (genderMaleBtn) {
+            genderMaleBtn.className = "py-2.5 px-2 rounded-xl bg-slate-950/80 border border-white/10 text-slate-400 font-bold text-xs flex items-center justify-center gap-1 hover:bg-slate-800 transition-all";
+        }
+        if (!SKIN_DATA.female.includes(selectedSkinId)) {
+            selectedSkinId = SKIN_DATA.female[0];
+        }
+    }
+
     updatePreview();
 }
 
-// Cập nhật hình ảnh xem trước & nhãn hiển thị
+// Cập nhật khung xem trước Skin
 function updatePreview() {
-    const skinUrl = `http://gtahub.kntech.co/skins/${selectedSkinId}.png`;
-    if (previewImage) {
-        previewImage.src = skinUrl;
-    }
-    if (previewSkinId) {
-        previewSkinId.innerText = `SKIN #${selectedSkinId}`;
-    }
-    if (selectedSkinLabel) {
-        selectedSkinLabel.innerText = `Đang chọn Skin: #${selectedSkinId}`;
-    }
+    if (previewImage) previewImage.src = `http://gtahub.kntech.co/skins/${selectedSkinId}.png`;
+    if (previewSkinId) previewSkinId.innerText = `SKIN #${selectedSkinId}`;
+    if (selectedSkinLabel) selectedSkinLabel.innerText = `Đang chọn Skin: #${selectedSkinId}`;
 }
 
 // Mở Modal chọn Skin
 function openModal() {
-    if (skinSearch) skinSearch.value = "";
-    renderSkinGrid("");
-    
-    if (skinModal) {
-        skinModal.classList.remove("opacity-0", "pointer-events-none");
-        skinModal.classList.add("opacity-100", "pointer-events-auto");
-        const box = skinModal.querySelector(".transform");
-        if (box) {
-            box.classList.remove("scale-95");
-            box.classList.add("scale-100");
-        }
-    }
+    if (!skinModal) return;
+    renderSkinGrid();
+    skinModal.classList.remove("opacity-0", "pointer-events-none");
+    skinModal.firstElementChild.classList.remove("scale-95");
+    skinModal.firstElementChild.classList.add("scale-100");
 }
 
 // Đóng Modal chọn Skin
 function closeModal() {
-    if (skinModal) {
-        skinModal.classList.add("opacity-0", "pointer-events-none");
-        skinModal.classList.remove("opacity-100", "pointer-events-auto");
-        const box = skinModal.querySelector(".transform");
-        if (box) {
-            box.classList.add("scale-95");
-            box.classList.remove("scale-100");
-        }
-    }
+    if (!skinModal) return;
+    skinModal.classList.add("opacity-0", "pointer-events-none");
+    skinModal.firstElementChild.classList.remove("scale-100");
+    skinModal.firstElementChild.classList.add("scale-95");
 }
 
-// Render lưới skin
-function renderSkinGrid(searchTerm = "") {
+// Render kho skin trong Modal theo Giới tính đang chọn
+function renderSkinGrid(searchQuery = "") {
     if (!skinGrid) return;
     skinGrid.innerHTML = "";
 
-    const skins = SKIN_DATA[selectedGender] || [];
-    
-    // Lọc theo từ khóa tìm kiếm (nếu có)
-    const filteredSkins = skins.filter(id => {
-        if (!searchTerm) return true;
-        return id.toString().includes(searchTerm);
+    const availableSkins = SKIN_DATA[selectedGender] || [];
+    const filteredSkins = availableSkins.filter(id => {
+        if (!searchQuery) return true;
+        return id.toString().includes(searchQuery);
     });
 
     if (filteredSkins.length === 0) {
-        skinGrid.innerHTML = `<div class="col-span-6 text-center text-xs text-slate-500 py-8">Không tìm thấy skin nào phù hợp</div>`;
+        skinGrid.innerHTML = `<div class="col-span-6 text-center text-xs text-slate-500 py-8">Không tìm thấy skin phù hợp</div>`;
         return;
     }
 
-    filteredSkins.forEach(id => {
-        const isSelected = (id === selectedSkinId);
+    filteredSkins.forEach(skinId => {
+        const isSelected = (skinId === selectedSkinId);
         const card = document.createElement("div");
-        card.className = `bg-slate-900/50 border rounded-2xl p-2.5 flex flex-col items-center cursor-pointer transition-all duration-200 hover:scale-105 ${
-            isSelected 
-            ? "border-red-500 bg-red-950/20 shadow-[0_0_15px_rgba(239,68,68,0.2)]" 
-            : "border-white/5 hover:border-red-500/40 hover:bg-slate-900/80"
+        card.className = `p-2 bg-slate-950/80 border rounded-2xl flex flex-col items-center justify-between cursor-pointer transition-all hover:scale-105 ${
+            isSelected ? "border-red-500 bg-red-950/40" : "border-white/5 hover:border-white/20"
         }`;
-        
+
         card.innerHTML = `
-            <img src="http://gtahub.kntech.co/skins/${id}.png" alt="Skin ${id}" class="w-16 h-20 object-contain mb-1.5 drop-shadow-md" loading="lazy">
-            <span class="text-[10px] font-mono font-bold ${isSelected ? 'text-red-400' : 'text-slate-400'}">ID: ${id}</span>
+            <img src="http://gtahub.kntech.co/skins/${skinId}.png" alt="Skin ${skinId}" class="h-24 object-contain mb-1">
+            <span class="text-[10px] font-mono font-bold ${isSelected ? 'text-red-400' : 'text-slate-400'}">#${skinId}</span>
         `;
 
-        // Click để chọn skin
         card.addEventListener("click", () => {
-            // Loại bỏ highlight ở các thẻ cũ
-            const oldSelected = skinGrid.querySelector(".border-red-500");
-            if (oldSelected) {
-                oldSelected.classList.remove("border-red-500", "bg-red-950/20", "shadow-[0_0_15px_rgba(239,68,68,0.2)]");
-                oldSelected.classList.add("border-white/5", "hover:border-red-500/40");
-                const span = oldSelected.querySelector("span");
-                if (span) span.className = "text-[10px] font-mono font-bold text-slate-400";
-            }
-            
-            // Highlight thẻ mới
-            card.classList.remove("border-white/5", "hover:border-red-500/40");
-            card.classList.add("border-red-500", "bg-red-950/20", "shadow-[0_0_15px_rgba(239,68,68,0.2)]");
-            const span = card.querySelector("span");
-            if (span) span.className = "text-[10px] font-mono font-bold text-red-400";
-
-            selectedSkinId = id;
-            updatePreview();
-        });
-
-        // Double click để chọn skin & đóng modal
-        card.addEventListener("dblclick", () => {
-            selectedSkinId = id;
+            selectedSkinId = skinId;
             updatePreview();
             closeModal();
         });
@@ -218,10 +199,12 @@ function renderSkinGrid(searchTerm = "") {
 // Kiểm tra và gửi thông tin nhân vật
 function submitCharacter() {
     const name = charNameInput ? charNameInput.value.trim() : "";
-    const dobString = charDobInput ? charDobInput.value : "";
+    const day = dobDayInput ? dobDayInput.value.trim() : "";
+    const month = dobMonthInput ? dobMonthInput.value.trim() : "";
+    const year = dobYearInput ? dobYearInput.value.trim() : "";
     const desc = charDescInput ? charDescInput.value.trim() : "";
 
-    // 1. Kiểm tra Tên nhân vật (Định dạng Roleplay: Firstname_Lastname, chỉ chứa chữ cái tiếng Anh)
+    // 1. Kiểm tra Tên nhân vật (Định dạng Roleplay: Firstname_Lastname)
     const nameRegex = /^[A-Z][a-zA-Z]+_[A-Z][a-zA-Z]+$/;
     if (!name) {
         showStatus("Vui lòng nhập họ và tên nhân vật!", "error");
@@ -229,27 +212,27 @@ function submitCharacter() {
         return;
     }
     if (!nameRegex.test(name)) {
-        showStatus("Tên sai định dạng Roleplay! Ví dụ đúng: Michal_Bullbaranek (viết hoa chữ cái đầu và có dấu gạch dưới '_')", "error");
+        showStatus("Tên sai định dạng Roleplay! Ví dụ đúng: John_Smith (viết hoa chữ cái đầu và có dấu '_')", "error");
         if (charNameInput) charNameInput.focus();
         return;
     }
 
     // 2. Kiểm tra Ngày sinh & Tuổi (18 tuổi trở lên)
-    if (!dobString) {
-        showStatus("Vui lòng nhập ngày tháng năm sinh!", "error");
-        if (charDobInput) charDobInput.focus();
+    if (!day || !month || !year) {
+        showStatus("Vui lòng nhập đầy đủ Ngày, Tháng, Năm sinh!", "error");
         return;
     }
-    const dob = new Date(dobString);
-    const today = new Date();
-    let age = today.getFullYear() - dob.getFullYear();
-    const monthDiff = today.getMonth() - dob.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
-        age--;
+
+    const d = parseInt(day), m = parseInt(month), y = parseInt(year);
+    if (isNaN(d) || d < 1 || d > 31 || isNaN(m) || m < 1 || m > 12 || isNaN(y) || y < 1950 || y > 2007) {
+        showStatus("Ngày tháng năm sinh không hợp lệ! Năm sinh phải từ 1950 đến 2007.", "error");
+        return;
     }
+
+    const dobString = `${y}-${m.toString().padStart(2, '0')}-${d.toString().padStart(2, '0')}`;
+    const age = 2025 - y;
     if (age < 18 || age > 80) {
         showStatus("Tuổi nhân vật phải từ 18 đến 80 tuổi để tham gia thành phố!", "error");
-        if (charDobInput) charDobInput.focus();
         return;
     }
 
@@ -271,18 +254,6 @@ function submitCharacter() {
 
     // Gửi sự kiện lên CEF server
     emitCEF("GTAHUB:CreateCharacter", name, dobString, selectedGender, selectedSkinId, desc);
-
-    // Môi trường Test Mode
-    if (!window.cef) {
-        console.log(`[Test Mode] Gửi tạo nhân vật: Tên=${name}, Ngày sinh=${dobString}, Giới tính=${selectedGender}, Skin=${selectedSkinId}, Mô tả=${desc}`);
-        setTimeout(() => {
-            if (name === "Michal_Bullbaranek") {
-                handleCreateResponse(false, "Tên nhân vật này đã được sử dụng!");
-            } else {
-                handleCreateResponse(true, "Tạo nhân vật thành công! Đang chuyển vào game...");
-            }
-        }, 1500);
-    }
 }
 
 // Trạng thái nút Tạo
@@ -300,27 +271,33 @@ function setLoadingState(isLoading) {
 }
 
 // Hiển thị thông báo trạng thái
-function showStatus(text, type) {
+function showStatus(msg, type = "info") {
     if (!statusMsg) return;
-    statusMsg.innerText = text;
-    statusMsg.className = "text-[11px] font-semibold text-center py-2.5 px-3 rounded-xl mb-4 transition-all duration-300 block";
-
-    statusMsg.classList.remove(
-        "bg-red-500/10", "border", "border-red-500/20", "text-red-400",
-        "bg-emerald-500/10", "border-emerald-500/20", "text-emerald-400",
-        "bg-slate-500/10", "border-slate-500/20", "text-slate-400"
-    );
+    statusMsg.innerText = msg;
+    statusMsg.classList.remove("hidden", "bg-red-500/20", "text-red-300", "border-red-500/30", "bg-emerald-500/20", "text-emerald-300", "border-emerald-500/30", "bg-blue-500/20", "text-blue-300", "border-blue-500/30");
 
     if (type === "error") {
-        statusMsg.classList.add("bg-red-500/10", "border", "border-red-500/20", "text-red-400");
+        statusMsg.classList.add("bg-red-500/20", "text-red-300", "border", "border-red-500/30");
     } else if (type === "success") {
-        statusMsg.classList.add("bg-emerald-500/10", "border", "border-emerald-500/20", "text-emerald-400");
+        statusMsg.classList.add("bg-emerald-500/20", "text-emerald-300", "border", "border-emerald-500/30");
     } else {
-        statusMsg.classList.add("bg-slate-500/10", "border", "border-slate-500/20", "text-slate-400");
+        statusMsg.classList.add("bg-blue-500/20", "text-blue-300", "border", "border-blue-500/30");
     }
 }
 
-// Phát tín hiệu CEF
+// Lắng nghe phản hồi tạo nhân vật từ Server Pawn
+if (window.cef) {
+    cef.on("GTAHUB:CreateCharacterResponse", (success, message) => {
+        setLoadingState(false);
+        if (success) {
+            showStatus(message || "Tạo nhân vật thành công! Đang chuyển...", "success");
+        } else {
+            showStatus(message || "Tạo nhân vật thất bại!", "error");
+        }
+    });
+}
+
+// Phát sự kiện CEF
 function emitCEF(eventName, ...args) {
     if (window.cef) {
         cef.emit(eventName, ...args);
@@ -332,29 +309,4 @@ function emitCEF(eventName, ...args) {
 // Đóng UI
 function closeCEF() {
     emitCEF("GTAHUB:CloseUI");
-    if (!window.cef) {
-        console.log("[Test Mode] Đã đóng UI thành công");
-    }
-}
-
-// Hàm phản hồi từ Server
-window.handleCreateResponse = function(success, message) {
-    setLoadingState(false);
-    if (success) {
-        showStatus(message || "Khởi tạo nhân vật thành công!", "success");
-        if (createBtn) createBtn.innerText = "Thành Công!";
-        setTimeout(() => {
-            emitCEF("GTAHUB:ToCharacterSelectionPage");
-            window.location.href = "../character_selection/index.html";
-        }, 1500);
-    } else {
-        showStatus(message || "Tạo nhân vật thất bại. Vui lòng kiểm tra lại!", "error");
-    }
-};
-
-// Lắng nghe phản hồi từ SA:MP CEF
-if (window.cef) {
-    cef.on("GTAHUB:CreateCharacterResponse", (success, message) => {
-        window.handleCreateResponse(success, message);
-    });
 }

@@ -1,28 +1,7 @@
 // CEF Character Selection Logic cho GTAHUB
 
-// Dữ liệu nhân vật mẫu (Seed data)
-let characters = [
-    {
-        name: "Michal_Bullbaranek",
-        level: 12,
-        cash: 100000,
-        bank: 2500000,
-        phone: "555-0192",
-        skin: 299,
-        faction: "Taxi",
-        vehicles: ["Obey 9F", "Bravado Buffalo"]
-    },
-    {
-        name: "Alex_Mercer",
-        level: 3,
-        cash: 12500,
-        bank: 45000,
-        phone: "555-8821",
-        skin: 26,
-        faction: "Chưa có",
-        vehicles: ["Pegassi Faggio"]
-    }
-];
+// Dữ liệu nhân vật thực tế (Tải động từ Server Pawn qua CEF)
+let characters = [];
 
 let selectedIndex = 0;
 
@@ -300,6 +279,23 @@ function emitCEF(eventName, ...args) {
     } else {
         console.log(`[Test Mode] Phát sự kiện: ${eventName}`, args);
     }
+}
+
+// Đăng ký nhận danh sách nhân vật thực tế từ Server Pawn
+if (window.cef) {
+    cef.on("GTAHUB:CharacterList", (data) => {
+        try {
+            const list = (typeof data === "string") ? JSON.parse(data) : data;
+            if (Array.isArray(list)) {
+                characters = list;
+                selectedIndex = 0;
+                renderCharList();
+                updatePreview();
+            }
+        } catch (e) {
+            console.error("Lỗi parse CharacterList:", e);
+        }
+    });
 }
 
 // Đóng UI

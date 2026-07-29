@@ -1,0 +1,25 @@
+{
+    "files": {
+        "index.html": {
+            "encrypted": true,
+            "modified": 13429797373,
+            "size": 7281
+        },
+        "script.js": {
+            "encrypted": true,
+            "modified": 13429799466,
+            "size": 7551
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13429797373,
+            "size": 437
+        }
+    },
+    "pak": {
+        "hash": "11942edb0d6537ee90fefa53893ba6ca975c4f434f71912d8967608c201faeb8",
+        "path": "register.pak",
+        "size": 15716
+    },
+    "version": 2
+}

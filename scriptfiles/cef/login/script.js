@@ -112,6 +112,17 @@ if (window.cef) {
     cef.on("GTAHUB:LoginResponse", (success, message) => {
         window.handleLoginResponse(success, message);
     });
+    cef.on("GTAHUB:SetUsername", (name) => {
+        if (usernameInput) {
+            usernameInput.value = name;
+            usernameInput.readOnly = true;
+        }
+        if (passwordInput) {
+            setTimeout(() => {
+                passwordInput.focus();
+            }, 100);
+        }
+    });
     cef.on("GTAHUB:ToLoginPage", () => {
         // Hỗ trợ backend bắt chuyển hướng từ client
         window.location.href = "index.html";

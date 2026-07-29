@@ -138,6 +138,17 @@ if (window.cef) {
     cef.on("GTAHUB:RegisterResponse", (success, message) => {
         window.handleRegisterResponse(success, message);
     });
+    cef.on("GTAHUB:SetUsername", (name) => {
+        if (regUsernameInput) {
+            regUsernameInput.value = name;
+            regUsernameInput.readOnly = true;
+        }
+        if (regEmailInput) {
+            setTimeout(() => {
+                regEmailInput.focus();
+            }, 100);
+        }
+    });
     cef.on("GTAHUB:ToRegisterPage", () => {
         window.location.href = "index.html";
     });

@@ -79,6 +79,7 @@
 // Libraries
 #include <a_mysql>
 #include <samp_bcrypt>
+#include <cef>
 
 // YSI
 #include <YSI_Core\y_utils>
@@ -137,6 +138,10 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 #include <interaction>
 #include <anti-cheat> // w.i.p
 #include <server>
+
+// CEF Core System
+#include <cef_core>
+
 #include <account>
 #include <player>
 #include <houses>
@@ -145,6 +150,11 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 #include <chat> // chat & messaging
 #include <cmds>
 #include <mapping>
+
+// CEF Logic Modules
+#include <cef_login>
+#include <cef_register>
+#include <cef_characters>
 
 #include <gangs>
 

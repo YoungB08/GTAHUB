@@ -8,9 +8,7 @@ enum {
     CHARACTER_GENDER_FEMALE
 }
 
-static
-    CharacterMenuCount[MAX_PLAYERS],
-    CharacterMenuID[MAX_PLAYERS][MAX_ACCOUNT_CHARACTERS],
+new
     CharacterID[MAX_PLAYERS],
     CharacterAge[MAX_PLAYERS],
     CharacterGender[MAX_PLAYERS],
@@ -166,7 +164,7 @@ static Character_EnsureStorage(characterid, skinid)
     return 1;
 }
 
-static bool:Character_IsOnline(characterid, exceptid = INVALID_PLAYER_ID)
+stock bool:Character_IsOnline(characterid, exceptid = INVALID_PLAYER_ID)
 {
     foreach(new i : Player) {
         if(i == exceptid) {
@@ -224,7 +222,7 @@ static Character_StartSession(playerid, characterid, const username[], const fir
     return 1;
 }
 
-static Character_LoadAndStart(playerid, characterid)
+stock Character_LoadAndStart(playerid, characterid)
 {
     new query[512];
 
@@ -615,131 +613,21 @@ static Character_ShowFirstNameDialog(playerid)
     return 1;
 }
 
+// Account_ShowCharacterMenu - Chuyển sang CEF character selection
+// Logic hiển thị nhân vật được xử lý trong cef_characters.inc
 stock Account_ShowCharacterMenu(playerid)
 {
     if(Player_GetMasterAccountID(playerid) <= 0) {
         Kick(playerid);
         return 0;
     }
-
-    new query[512];
-
-    inline const OnCharacterListLoad()
-    {
-        new
-            rows = cache_num_rows(),
-            characterid,
-            age,
-            gender,
-            skinid,
-            level,
-            username[MAX_PLAYER_NAME],
-            firstName[24],
-            lastName[24],
-            origin[32],
-            displayName[MAX_PLAYER_NAME + 8],
-            genderName[8],
-            line[144],
-            list[768];
-
-        CharacterMenuCount[playerid] = 1;
-        CharacterMenuID[playerid][0] = Player_GetMasterAccountID(playerid);
-        strcat(list, "Nhan vat\tThong tin\n", sizeof(list));
-        strcat(list, "Nhan vat mac dinh\tDu lieu tai khoan cu\n", sizeof(list));
-
-        for(new i; i < rows && CharacterMenuCount[playerid] < MAX_ACCOUNT_CHARACTERS; i++) {
-            cache_get_value_name_int(i, "u_id", characterid);
-            cache_get_value_name(i, "username", username, sizeof(username));
-            cache_get_value_name(i, "firstname", firstName, sizeof(firstName));
-            cache_get_value_name(i, "lastname", lastName, sizeof(lastName));
-            cache_get_value_name(i, "origin", origin, sizeof(origin));
-            cache_get_value_name_int(i, "age", age);
-            cache_get_value_name_int(i, "gender", gender);
-            cache_get_value_name_int(i, "skin", skinid);
-            cache_get_value_name_int(i, "level", level);
-
-            Character_GetGenderLabel(gender, genderName, sizeof(genderName));
-            Character_BuildDisplayName(username, firstName, lastName, displayName, sizeof(displayName));
-            CharacterMenuID[playerid][CharacterMenuCount[playerid]] = characterid;
-            CharacterMenuCount[playerid] ++;
-
-            format(
-                line,
-                sizeof(line),
-                "%s\t%s, %d tuoi, %s, skin %d, level %d\n",
-                displayName,
-                genderName,
-                age,
-                origin,
-                skinid,
-                level
-            );
-            strcat(list, line, sizeof(list));
-        }
-
-        if(CharacterMenuCount[playerid] < MAX_ACCOUNT_CHARACTERS) {
-            strcat(list, "Tao nhan vat moi\tTao slot nhan vat moi bang dialog\n", sizeof(list));
-        }
-
-        inline const _response(response, listitem, string:inputtext[])
-        {
-            #pragma unused inputtext
-
-            if(!response) {
-                Kick(playerid);
-                return 1;
-            }
-
-            if(listitem < CharacterMenuCount[playerid]) {
-                Character_LoadAndStart(playerid, CharacterMenuID[playerid][listitem]);
-                return 1;
-            }
-
-            if(CharacterMenuCount[playerid] >= MAX_ACCOUNT_CHARACTERS) {
-                SendErrorMsg(playerid, "Tai khoan nay da dat gioi han nhan vat.");
-                Account_ShowCharacterMenu(playerid);
-                return 1;
-            }
-
-            Character_ShowFirstNameDialog(playerid);
-            return 1;
-        }
-
-        Dialog_ShowCallback(
-            playerid,
-            using inline _response,
-            DIALOG_STYLE_TABLIST_HEADERS,
-            "Chon nhan vat",
-            list,
-            "Chon",
-            "Thoat"
-        );
-        return 1;
-    }
-
-    mysql_format(
-        MySQL_GetHandle(),
-        query,
-        sizeof(query),
-        "\
-            SELECT \
-                p.u_id, p.username, p.firstname, p.lastname, p.age, p.gender, p.origin, \
-                COALESCE(ps.skin, 1) AS skin, COALESCE(ps.level, 1) AS level \
-            FROM players AS p \
-            LEFT JOIN player_stats AS ps ON ps.u_id = p.u_id \
-            WHERE p.account_id = %i AND p.is_character = 1 \
-            ORDER BY p.u_id ASC \
-            LIMIT %i",
-        Player_GetMasterAccountID(playerid),
-        MAX_ACCOUNT_CHARACTERS - 1
-    );
-    MySQL_TQueryInline(MySQL_GetHandle(), using inline OnCharacterListLoad, query);
+    // Dùng CEF thay dialog
+    CEF_ShowCharacterSelection(playerid);
     return 1;
 }
 
 hook OnPlayerConnect(playerid)
 {
-    CharacterMenuCount[playerid] = 0;
     CharacterID[playerid] = 0;
     CharacterAge[playerid] = 0;
     CharacterGender[playerid] = CHARACTER_GENDER_MALE;

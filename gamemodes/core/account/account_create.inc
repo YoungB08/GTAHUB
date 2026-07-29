@@ -8,60 +8,84 @@ hook OnMySQLConnected() {
     return 1;
 }
 
-// Prompts the player the register dialog.
-// return n/a
+// Prompts the player the register dialog -> Thay bằng CEF browser (với Dialog Fallback)
 stock Account_PromptRegister(playerid) {
+    if (CEF_IsPlayerCEFReady(playerid) || CEF_PlayerHasPlugin(playerid))
+    {
+        print("[CEF] Account_PromptRegister: Player has CEF plugin & is ready. Showing CEF Register page.");
+        CEF_ShowRegisterPage(playerid);
+    }
+    else
+    {
+        print("[CEF] Account_PromptRegister: Player plugin not ready yet on connect. Marking pending REGISTER.");
+        CEF_SetPendingUI(playerid, CEF_PENDING_REGISTER);
+        CEF_ShowRegisterPage(playerid);
+        SetTimerEx("CEF_CheckRegisterFallbackTimer", 3000, false, "i", playerid);
+    }
+}
+
+forward CEF_CheckRegisterFallbackTimer(playerid);
+public CEF_CheckRegisterFallbackTimer(playerid)
+{
+    if (!IsPlayerConnected(playerid))
+        return 0;
+
+    if (CEF_GetPendingUI(playerid) == CEF_PENDING_REGISTER)
+    {
+        CEF_SetPendingUI(playerid, CEF_PENDING_NONE);
+        if (!CEF_PlayerHasPlugin(playerid))
+        {
+            printf("[CEF] Fallback check: Player %d does NOT have CEF plugin installed. Falling back to SA-MP Dialog register.", playerid);
+            Account_PromptRegister_DialogFallback(playerid);
+        }
+        else
+        {
+            printf("[CEF] Fallback check: Player %d has CEF plugin. Showing CEF Register page.", playerid);
+            CEF_ShowRegisterPage(playerid);
+        }
+    }
+    return 1;
+}
+
+stock Account_PromptRegister_DialogFallback(playerid)
+{
     inline const _response(pid, dialogid, response, listitem, string:inputtext[]) {
         #pragma unused pid, dialogid, listitem
         if (!response) {
             Kick(playerid);
             return;
         }
-        Account_Create(playerid, inputtext);
+        if (!(3 <= strlen(inputtext) <= 20) || IsNumeric(inputtext)) {
+            SendErrorMsg(playerid, "Mat khau phai tu 3-20 ky tu va co chu cai.");
+            Account_PromptRegister_DialogFallback(playerid);
+            return;
+        }
+        bcrypt_hash(playerid, "OnPasswordHash", inputtext, BCRYPT_COST);
     }
 
-    new
-        string[256];
-
-    static
-        const RegisterMessage[] = "\
-        "C_LGREEN"TAO TAI KHOAN\
+    new string[256];
+    static const RegisterMessage[] = "\
+        "C_LGREEN"TAO TAI KHOAN (DIALOG)\
         \n\n"C_WHITE"Xin chao "C_GOLD"%p"C_WHITE", chao mung den voi "C_SAMPBLUE"%s"C_WHITE"!\
         \n\n"C_GREY"Ban dang tao tai khoan moi tren server.\
-        \n"C_GREY"Hay chon mat khau an toan cho tai khoan.\
+        \n"C_ORANGE"Luu y: Game cua ban dang chay che do Dialog (Chua cai dat CEF Plugin).\
         \n\n"C_GREEN"Nhap mat khau ban muon dung ben duoi.\
-        \n"C_ORANGE"Luu y: Hay giu mat khau cua ban that an toan!\
     ";
 
     format(string, sizeof(string), RegisterMessage, playerid, SERVER_NAME);
-
-    Dialog_ShowCallback(playerid,
-        using inline _response, // handler
-        DIALOG_STYLE_PASSWORD,  // style
-        SERVER_NAME,            // title
-        string,                 // content
-        "Dang ky",              // button left
-        "Thoat");               // button right
+    Dialog_ShowCallback(playerid, using inline _response, DIALOG_STYLE_PASSWORD, SERVER_NAME, string, "Dang ky", "Thoat");
 }
 
-// only used internally, it checks for validations before calling OnPasswordHash callback.
-// it checks for pass length, must be more than 3 but less than 20.
-// password can't be all just numbers.
-// return n/a
-static Account_Create(playerid, const password[]) {
-
+// Internal: kiểm tra và tạo tài khoản (gọi từ cef_register.inc qua)
+stock Account_Create_Internal(playerid, const password[]) {
     if (!(3 <= strlen(password) <= 20)) {
-        SendErrorMsg(playerid, "Do dai mat khau khong hop le. Mat khau phai tu 3-20 ky tu.");
-        Account_PromptRegister(playerid);
-        return;
+        return 0;
     }
     if (IsNumeric(password)) {
-        SendErrorMsg(playerid, "Mat khau khong hop le. Mat khau phai co chu cai.");
-        Account_PromptRegister(playerid);
-        return;
+        return 0;
     }
-
     bcrypt_hash(playerid, "OnPasswordHash", password, BCRYPT_COST);
+    return 1;
 }
 
 // only used internally, when all checks passed this function will be called.
@@ -77,7 +101,7 @@ static Account_InsertToDatabase(playerid, const hash[]) {
         Player_SetCharacterID(playerid, 0);
 
         SendServerMsg(playerid, "Tai khoan da duoc tao. Hay chon hoac tao nhan vat.");
-        Account_ShowCharacterMenu(playerid);
+        Account_ShowCharacterMenu_CEF(playerid);
     }
 
     new

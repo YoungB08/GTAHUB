@@ -518,7 +518,7 @@ static Char_ShowSkinDialog(playerid, const firstname[], const lastname[], age, g
 // INTERNAL – Insert Character to DB
 // =============================================================================
 
-static Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID)
+stock Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID)
 {
     inline OnCharInserted()
     {
@@ -556,7 +556,7 @@ static Char_InsertToDB(playerid, const firstname[], const lastname[], age, gende
 // INTERNAL – Activate Character (áp dụng stats vào player)
 // =============================================================================
 
-static Char_Activate(playerid, listIdx)
+stock Char_Activate(playerid, listIdx)
 {
     // Copy từ CharList -> PlayerChar
     PlayerChar[playerid][E_CHAR_ID]        = CharList[playerid][listIdx][E_CHAR_ID];
