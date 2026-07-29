@@ -518,26 +518,27 @@ static Char_ShowSkinDialog(playerid, const firstname[], const lastname[], age, g
 
 static Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID)
 {
+    new idx = CharListCount[playerid];
+    strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], firstname, 32);
+    strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  lastname,  32);
+    CharList[playerid][idx][E_CHAR_AGE]    = age;
+    CharList[playerid][idx][E_CHAR_GENDER] = gender;
+    CharList[playerid][idx][E_CHAR_SKIN]   = skinID;
+    CharList[playerid][idx][E_CHAR_MONEY]  = 5000;
+    CharList[playerid][idx][E_CHAR_X]      = CHAR_DEFAULT_SPAWN_X;
+    CharList[playerid][idx][E_CHAR_Y]      = CHAR_DEFAULT_SPAWN_Y;
+    CharList[playerid][idx][E_CHAR_Z]      = CHAR_DEFAULT_SPAWN_Z;
+    CharList[playerid][idx][E_CHAR_A]      = CHAR_DEFAULT_SPAWN_A;
+
     inline OnCharInserted()
     {
         new charID = cache_insert_id();
 
-        // Thêm vào CharList runtime
-        new idx = CharListCount[playerid];
-        CharList[playerid][idx][E_CHAR_ID]     = charID;
-        strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], firstname, 32);
-        strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  lastname,  32);
-        CharList[playerid][idx][E_CHAR_AGE]    = age;
-        CharList[playerid][idx][E_CHAR_GENDER] = gender;
-        CharList[playerid][idx][E_CHAR_SKIN]   = skinID;
-        CharList[playerid][idx][E_CHAR_MONEY]  = 5000;
-        CharList[playerid][idx][E_CHAR_X]      = CHAR_DEFAULT_SPAWN_X;
-        CharList[playerid][idx][E_CHAR_Y]      = CHAR_DEFAULT_SPAWN_Y;
-        CharList[playerid][idx][E_CHAR_Z]      = CHAR_DEFAULT_SPAWN_Z;
-        CharList[playerid][idx][E_CHAR_A]      = CHAR_DEFAULT_SPAWN_A;
+        // Cập nhật ID sau khi insert thành công
+        CharList[playerid][idx][E_CHAR_ID] = charID;
         CharListCount[playerid]++;
 
-        SendMsgF(playerid, COLOR_GREEN, "[NHAN VAT] Da tao nhan vat %s %s thanh cong!", firstname, lastname);
+        SendMsgF(playerid, COLOR_GREEN, "[NHAN VAT] Da tao nhan vat %s %s thanh cong!", CharList[playerid][idx][E_CHAR_FIRSTNAME], CharList[playerid][idx][E_CHAR_LASTNAME]);
         Char_Activate(playerid, idx);
     }
 

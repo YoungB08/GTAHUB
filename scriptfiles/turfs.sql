@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS turfs
 (
     turf_id     int(11)         NOT NULL AUTO_INCREMENT,
@@ -24,3 +25,6 @@ INSERT IGNORE INTO turfs (turf_id, name, x, y, z, radius, gang_id) VALUES
 (8,  'El Corona',        1970.0, -2112.0, 13.5, 90.0,  NULL),
 (9,  'Little Mexico',    1703.0, -2082.0, 13.5, 80.0,  NULL),
 (10, 'Chamberlain Hills', 2118.0,-1835.0, 13.4, 85.0,  NULL);
+=======
+﻿-- SQL Schema file for turfs.sql
+>>>>>>> Stashed changes

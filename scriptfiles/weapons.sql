@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_weapons
 (
     u_id int(11) NOT NULL AUTO_INCREMENT,
@@ -14,3 +15,6 @@ CREATE TABLE IF NOT EXISTS player_weapons
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for weapons.sql
+>>>>>>> Stashed changes

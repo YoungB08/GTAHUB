@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS bans (
     username VARCHAR(24),
     ip VARCHAR(17),
@@ -8,3 +9,6 @@ CREATE TABLE IF NOT EXISTS bans (
     unban_date datetime,
     UNIQUE KEY username (username)
 );
+=======
+﻿-- SQL Schema file for bans.sql
+>>>>>>> Stashed changes

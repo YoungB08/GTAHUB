@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS armys (
     u_id int(11) NOT NULL,
     PRIMARY KEY
@@ -11,3 +12,6 @@ CREATE TABLE IF NOT EXISTS armys (
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for armys.sql
+>>>>>>> Stashed changes

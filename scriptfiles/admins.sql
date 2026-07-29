@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS admins (
     u_id INT(11) NOT NULL,
     admin_level TINYINT(2) NOT NULL DEFAULT 0,
@@ -12,3 +13,6 @@ CREATE TABLE IF NOT EXISTS admins (
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for admins.sql
+>>>>>>> Stashed changes

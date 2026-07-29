@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 SET @gtahub_schema = DATABASE();
 
 SET @gtahub_sql = IF(
@@ -71,3 +72,6 @@ SET @gtahub_sql = IF(
 PREPARE gtahub_stmt FROM @gtahub_sql;
 EXECUTE gtahub_stmt;
 DEALLOCATE PREPARE gtahub_stmt;
+=======
+﻿-- SQL Schema file for players_characters.sql
+>>>>>>> Stashed changes

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS characters
 (
     char_id         int(11)         NOT NULL AUTO_INCREMENT,
@@ -37,3 +38,6 @@ CREATE TABLE IF NOT EXISTS characters
     FOREIGN KEY (u_id) REFERENCES players(u_id) ON DELETE CASCADE,
     UNIQUE KEY unique_fullname (firstname, lastname)
 );
+=======
+﻿-- SQL Schema file for characters.sql
+>>>>>>> Stashed changes

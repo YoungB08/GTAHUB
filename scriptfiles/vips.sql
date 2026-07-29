@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS vips (
     u_id INT(11) AUTO_INCREMENT,
     vip_level TINYINT(2) NOT NULL DEFAULT 0,
@@ -13,3 +14,6 @@ CREATE TABLE IF NOT EXISTS vips (
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for vips.sql
+>>>>>>> Stashed changes

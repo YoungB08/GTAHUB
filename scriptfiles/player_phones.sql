@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_phones (
     u_id INT NOT NULL,
     phone_number INT NOT NULL UNIQUE,
@@ -13,3 +14,6 @@ CREATE TABLE IF NOT EXISTS player_phone_contacts (
     PRIMARY KEY (u_id, phone_number),
     FOREIGN KEY (u_id) REFERENCES players(u_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+=======
+﻿-- SQL Schema file for player_phones.sql
+>>>>>>> Stashed changes

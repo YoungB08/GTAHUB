@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 CREATE TABLE IF NOT EXISTS player_shots_stats (
     uid int(11) NOT NULL,
@@ -20,3 +21,6 @@ CREATE TABLE IF NOT EXISTS player_shots_stats (
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for player_shots.sql
+>>>>>>> Stashed changes

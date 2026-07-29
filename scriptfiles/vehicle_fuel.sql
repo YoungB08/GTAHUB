@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS vehicle_fuel
 (
     vehicle_id  int(11)         NOT NULL,
@@ -8,3 +9,6 @@ CREATE TABLE IF NOT EXISTS vehicle_fuel
     ON DELETE CASCADE
     ON UPDATE NO ACTION
 );
+=======
+﻿-- SQL Schema file for vehicle_fuel.sql
+>>>>>>> Stashed changes

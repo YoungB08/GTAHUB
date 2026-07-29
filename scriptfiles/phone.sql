@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS phone_numbers
 (
     u_id        int(11)     NOT NULL,
@@ -17,3 +18,6 @@ CREATE TABLE IF NOT EXISTS phone_contacts
     PRIMARY KEY (id),
     FOREIGN KEY (owner_uid) REFERENCES players(u_id) ON DELETE CASCADE
 );
+=======
+﻿-- SQL Schema file for phone.sql
+>>>>>>> Stashed changes

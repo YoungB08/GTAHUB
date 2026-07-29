@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS entrances (
     entrance_id int(11) NOT NULL AUTO_INCREMENT,
     name varchar(30) NOT NULL DEFAULT 'LOI VAO',
@@ -20,3 +21,6 @@ CREATE TABLE IF NOT EXISTS entrances (
     updated_at datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP(),
     PRIMARY KEY (entrance_id)
 );
+=======
+﻿-- SQL Schema file for entrances.sql
+>>>>>>> Stashed changes

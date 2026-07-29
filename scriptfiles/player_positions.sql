@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_positions (
     u_id int(11) NOT NULL,
     x float NOT NULL DEFAULT '0.0',
@@ -13,3 +14,6 @@ CREATE TABLE IF NOT EXISTS player_positions (
         ON DELETE CASCADE
         ON UPDATE NO ACTION
 );
+=======
+﻿-- SQL Schema file for player_positions.sql
+>>>>>>> Stashed changes

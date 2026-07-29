@@ -57,7 +57,7 @@ enum E_BIZ_DATA
     bizItemPrice3,
 
     // Runtime
-    Text3D:bizLabel,
+    bizLabel,
     bizPickup
 };
 
@@ -207,8 +207,8 @@ static Biz_LoadAll()
 
 static Biz_RefreshVisuals(index)
 {
-    if (IsValidDynamic3DTextLabel(BusinessData[index][bizLabel]))
-        DestroyDynamic3DTextLabel(BusinessData[index][bizLabel]);
+    if (IsValidDynamic3DTextLabel(Text3D:BusinessData[index][bizLabel]))
+        DestroyDynamic3DTextLabel(Text3D:BusinessData[index][bizLabel]);
         
     if (IsValidDynamicPickup(BusinessData[index][bizPickup]))
         DestroyDynamicPickup(BusinessData[index][bizPickup]);
@@ -225,7 +225,7 @@ static Biz_RefreshVisuals(index)
             BusinessData[index][bizName], BusinessData[index][bizStock]);
     }
 
-    BusinessData[index][bizLabel] = CreateDynamic3DTextLabel(label, 0x00FF00FF, 
+    BusinessData[index][bizLabel] = _:CreateDynamic3DTextLabel(label, 0x00FF00FF, 
         BusinessData[index][bizX], BusinessData[index][bizY], BusinessData[index][bizZ] + 0.5, 
         15.0, INVALID_PLAYER_ID, INVALID_VEHICLE_ID, 0, BusinessData[index][bizVW], BusinessData[index][bizInt]);
         

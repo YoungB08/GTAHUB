@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_inventory
 (
     inv_id      int(11)         NOT NULL AUTO_INCREMENT,
@@ -24,3 +25,6 @@ CREATE TABLE IF NOT EXISTS vehicle_trunk
     PRIMARY KEY (trunk_id),
     INDEX idx_vehicleid (vehicle_id)
 );
+=======
+﻿-- SQL Schema file for player_inventory.sql
+>>>>>>> Stashed changes

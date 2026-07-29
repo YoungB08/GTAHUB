@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS players
 (
     u_id int(11) NOT NULL AUTO_INCREMENT,
@@ -18,3 +19,6 @@ CREATE TABLE IF NOT EXISTS players
     UNIQUE KEY
         username (username)
 );
+=======
+﻿-- SQL Schema file for players.sql
+>>>>>>> Stashed changes

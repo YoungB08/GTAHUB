@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_items (
     u_id int(11) NOT NULL,
     c4 tinyint(4) NOT NULL DEFAULT 0,
@@ -23,3 +24,6 @@ CREATE TABLE IF NOT EXISTS player_items (
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for player_items.sql
+>>>>>>> Stashed changes

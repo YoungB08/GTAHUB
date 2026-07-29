@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_job_progress (
     u_id INT NOT NULL,
     job_id SMALLINT NOT NULL,
@@ -6,3 +7,6 @@ CREATE TABLE IF NOT EXISTS player_job_progress (
     PRIMARY KEY (u_id, job_id),
     FOREIGN KEY (u_id) REFERENCES players(u_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+=======
+﻿-- SQL Schema file for player_job_progress.sql
+>>>>>>> Stashed changes

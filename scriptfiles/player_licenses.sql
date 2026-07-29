@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_licenses (
     u_id INT NOT NULL,
     license_id TINYINT NOT NULL,
@@ -5,3 +6,6 @@ CREATE TABLE IF NOT EXISTS player_licenses (
     PRIMARY KEY (u_id, license_id),
     FOREIGN KEY (u_id) REFERENCES players(u_id) ON DELETE CASCADE ON UPDATE CASCADE
 );
+=======
+﻿-- SQL Schema file for player_licenses.sql
+>>>>>>> Stashed changes

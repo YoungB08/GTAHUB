@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS player_hits (
     u_id int(11) NOT NULL,
     amount int(11) NOT NULL DEFAULT '0',
@@ -15,3 +16,6 @@ CREATE TABLE IF NOT EXISTS player_hits (
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for player_hits.sql
+>>>>>>> Stashed changes

@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 CREATE TABLE IF NOT EXISTS jailed (
     u_id int(11) NOT NULL AUTO_INCREMENT,
     bail_required tinyint(4) NOT NULL DEFAULT '0',
@@ -12,3 +13,6 @@ CREATE TABLE IF NOT EXISTS jailed (
     ON UPDATE
         NO ACTION
 );
+=======
+﻿-- SQL Schema file for jail.sql
+>>>>>>> Stashed changes

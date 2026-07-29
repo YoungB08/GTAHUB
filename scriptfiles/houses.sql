@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
     CREATE TABLE IF NOT EXISTS player_houses (
         house_id SMALLINT NOT NULL DEFAULT 0,
         u_id INT(11) NULL DEFAULT NULL,
@@ -86,3 +87,6 @@
         ON UPDATE
             NO ACTION
     );
+=======
+﻿-- SQL Schema file for houses.sql
+>>>>>>> Stashed changes
