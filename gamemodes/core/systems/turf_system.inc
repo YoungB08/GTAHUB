@@ -62,6 +62,8 @@ static TurfTaxTimer;
 
 hook OnMySQLConnected()
 {
+    mysql_query_file(MySQL_GetHandle(), "turfs.sql", false);
+
     static const loadQ[] = "\
     SELECT \
         turf_id, name, x, y, z, radius, gang_id \

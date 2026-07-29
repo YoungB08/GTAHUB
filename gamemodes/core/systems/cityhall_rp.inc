@@ -53,12 +53,10 @@ static bool:PlayerHasBizLicense[MAX_PLAYERS];
 hook OnMySQLConnected()
 {
     // Thêm cột plate vào player_vehicles nếu chưa có
-    mysql_tquery(MySQL_GetHandle(),
-        "ALTER TABLE player_vehicles ADD COLUMN IF NOT EXISTS plate VARCHAR(8) DEFAULT '' COMMENT 'Bien so xe IC'",
-        "", "");
+    mysql_query_file(MySQL_GetHandle(), "player_vehicles_plate.sql", false);
 
     // Thêm bảng biz_licenses nếu chưa có
-    mysql_tquery(MySQL_GetHandle(),
+    mysql_query(MySQL_GetHandle(),
         "CREATE TABLE IF NOT EXISTS biz_licenses (\
             id int(11) NOT NULL AUTO_INCREMENT,\
             u_id int(11) NOT NULL,\
@@ -66,7 +64,7 @@ hook OnMySQLConnected()
             registered_at datetime DEFAULT CURRENT_TIMESTAMP,\
             PRIMARY KEY (id),\
             FOREIGN KEY (u_id) REFERENCES players(u_id) ON DELETE CASCADE\
-        )", "", "");
+        )");
 
     static const savePlateQ[] = "UPDATE player_vehicles SET plate=? WHERE vehicle_id=?";
     stmt_savePlate = MySQL_PrepareStatement(MySQL_GetHandle(), savePlateQ);

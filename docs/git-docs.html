@@ -1,0 +1,30 @@
+        const cards = document.querySelectorAll('.card');
+
+        cards.forEach(card => {
+            const groups = card.querySelectorAll('.cmd-group');
+            let hasVisibleGroup = false;
+
+            groups.forEach(group => {
+                const text = group.innerText.toLowerCase();
+                if (text.includes(input)) {
+                    group.style.display = 'block';
+                    hasVisibleGroup = true;
+                } else {
+                    group.style.display = 'none';
+                }
+            });
+
+            if (hasVisibleGroup || card.querySelector('h2').innerText.toLowerCase().includes(input)) {
+                card.style.display = 'flex';
+                if (!hasVisibleGroup) {
+                    groups.forEach(g => g.style.display = 'block');
+                }
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

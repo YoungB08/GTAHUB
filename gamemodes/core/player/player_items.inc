@@ -37,7 +37,9 @@ hook OnPlayerConnect(playerid) {
     return 1;
 }
 
-hook OnGameModeInit() {
+hook OnMySQLConnected() {
+    mysql_query_file(MySQL_GetHandle(), "player_items.sql", false);
+
     g_stmt_insert_player_items = MySQL_PrepareStatement(MySQL_GetHandle(), "INSERT IGNORE INTO player_items (u_id) VALUES (?)");
 
     static const load_query[] = "\
@@ -270,11 +272,16 @@ static void:_SaveItem(playerid, const itemName[], value) {
         "UPDATE player_items SET ? = ? + ? WHERE u_id = ?"
     );
 
+    if(stmt_saveItem == INVALID_STATEMENT) {
+        return;
+    }
+
     MySQL_Bind(stmt_saveItem, 0, itemName, true);
     MySQL_Bind(stmt_saveItem, 1, itemName, true);
     MySQL_BindInt(stmt_saveItem, 2, value);
     MySQL_BindInt(stmt_saveItem, 3, Player_GetAccountID(playerid));
     MySQL_ExecuteThreaded(stmt_saveItem);
+    MySQL_StatementClose(stmt_saveItem);
 }
 
 // Save complete inventory to database

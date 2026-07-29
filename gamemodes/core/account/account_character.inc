@@ -89,6 +89,8 @@ static
 
 hook OnMySQLConnected()
 {
+    mysql_query_file(MySQL_GetHandle(), "characters.sql", false);
+
     static const loadQ[] = "\
     SELECT \
         char_id, firstname, lastname, age, gender, skin_id, \

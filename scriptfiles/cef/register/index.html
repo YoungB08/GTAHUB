@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng Ký - GTAHUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .bg-animation {
+            background: linear-gradient(135deg, #070913 0%, #14050a 50%, #05080f 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .login-glow-box {
+            box-shadow: 0 0 80px rgba(239, 68, 68, 0.15), 
+                        inset 0 0 20px rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden bg-animation">
+    
+    <!-- Các đốm sáng mờ ảo phía sau -->
+    <div class="absolute w-[500px] h-[500px] bg-red-600/10 rounded-full blur-3xl -top-20 -left-20 pointer-events-none"></div>
+    <div class="absolute w-[500px] h-[500px] bg-rose-900/10 rounded-full blur-3xl -bottom-20 -right-20 pointer-events-none"></div>
+
+    <!-- Khung đăng ký SPA cao cấp -->
+    <div class="glass-panel w-[420px] p-10 rounded-[32px] relative border border-white/10 login-glow-box z-10 transition-all duration-300">
+        
+        <!-- Logo chung ở đầu -->
+        <div class="text-center mb-7">
+            <img src="http://gtahub.kntech.co/gtahub.png" alt="GTAHUB Logo" class="w-64 h-16 mx-auto mb-3 object-contain filter drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]">
+            <h1 id="panel-title" class="text-xs font-black text-slate-400 tracking-[0.25em] uppercase">ĐĂNG KÝ <span class="text-red-500">TÀI KHOẢN</span></h1>
+        </div>
+
+        <!-- Vùng hiển thị thông báo trạng thái -->
+        <div id="status-msg" class="text-[11px] font-semibold text-center hidden py-2.5 px-3 rounded-xl mb-4 transition-all duration-300"></div>
+
+        <!-- ================= VIEW: ĐĂNG KÝ ================= -->
+        <div id="register-view" class="space-y-4">
+            <p class="text-[11px] text-slate-400 text-center -mt-2 font-medium">Đăng ký tài khoản GTAHUB mới</p>
+            
+            <!-- Tài khoản đăng ký -->
+            <div>
+                <label class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block mb-1">Tên Tài Khoản</label>
+                <div class="relative">
+                    <input type="text" id="register-username" placeholder="Tên tài khoản (viết liền)..." class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-500/80 focus:shadow-[0_0_15px_rgba(239,68,68,0.25)] focus:bg-slate-950/80 transition-all duration-200">
+                    <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                </div>
+            </div>
+
+            <!-- Email đăng ký (Gmail) -->
+            <div>
+                <label class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block mb-1">Địa Chỉ Gmail</label>
+                <div class="relative">
+                    <input type="email" id="register-email" placeholder="example@gmail.com" class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-500/80 focus:shadow-[0_0_15px_rgba(239,68,68,0.25)] focus:bg-slate-950/80 transition-all duration-200">
+                    <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                </div>
+            </div>
+
+            <!-- Mật khẩu -->
+            <div>
+                <label class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block mb-1">Mật Khẩu</label>
+                <div class="relative">
+                    <input type="password" id="register-password" placeholder="Tối thiểu 6 ký tự..." class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-500/80 focus:shadow-[0_0_15px_rgba(239,68,68,0.25)] focus:bg-slate-950/80 transition-all duration-200">
+                    <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                </div>
+            </div>
+
+            <!-- Xác nhận mật khẩu -->
+            <div>
+                <label class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block mb-1">Xác Nhận Mật Khẩu</label>
+                <div class="relative">
+                    <input type="password" id="register-confirm-password" placeholder="Nhập lại mật khẩu..." class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-10 pr-4 py-2.5 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-500/80 focus:shadow-[0_0_15px_rgba(239,68,68,0.25)] focus:bg-slate-950/80 transition-all duration-200">
+                    <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+                </div>
+            </div>
+
+            <button id="register-btn" class="w-full py-3 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 hover:scale-[1.01] active:scale-[0.99] text-white font-bold text-xs rounded-xl shadow-[0_4px_20px_rgba(239,68,68,0.3)] transition-all uppercase tracking-wider mt-1">
+                Hoàn Tất Đăng Ký
+            </button>
+
+            <div class="text-center text-xs text-slate-400 border-t border-white/5 pt-4 mt-4">
+                Đã có tài khoản? <a href="../login/index.html" id="back-to-login-btn" class="text-red-400 font-bold hover:text-red-300 transition-colors hover:underline">Quay lại Đăng nhập</a>
+            </div>
+        </div>
+
+    </div>
+        
+    <script src="script.js"></script>
+</body>
+</html>
