@@ -30,6 +30,11 @@
 | **28A**| **Death & Survival System** | Downed state (5 min), `/acceptdeath` (-10% tiền), Hunger/Thirst tụt theo phút, `/useitem` ăn uống, báo động khi đói khát. | `core/player/player_death.inc`<br>`core/player/player_survival.inc` |
 | **28B**| **Business & Faction Safes**| Player-owned 24/7 (`/buybiz`, `/bizpanel`, `/buy` trừ tồn kho), Tủ đồ LSPD/Gang (`/safe`, `/putsafe`, `/takesafe`). | `core/systems/business_economy.inc`<br>`core/systems/faction_safe.inc` |
 | **29** | **Vehicle Damage & QoL** | Hỏng động cơ khi va chạm > 150 HP hoặc xe < 350 HP, Mua xe tại Showroom thực tế, Phím tắt N (Túi đồ), H (Khóa xe). | `core/player/vehicle/vehicle_damage.inc`<br>`core/player/vehicle/vehicle_dealership.inc`<br>`core/player/player_hotkeys.inc` |
+| **30** | **CEF Authentication** | Trình duyệt CEF Đăng nhập (`CEF_BROWSER_LOGIN`) và Đăng ký (`CEF_BROWSER_REGISTER`), giao diện HSL Dark Mode, tự nhận username, validate server. | `core/cef/cef_login.inc`<br>`core/cef/cef_register.inc`<br>`scriptfiles/cef/login/` |
+| **31** | **CEF Multi-Character** | Giao diện CEF Chọn nhân vật (`CEF_BROWSER_CHAR_SELECT`) & Tạo nhân vật mới (`CEF_BROWSER_CHAR_CREATE`), danh sách Character Cards 3D, chọn Skin/Tuổi/Giới tính. | `core/cef/cef_characters.inc`<br>`scriptfiles/cef/character_selection/` |
+| **32** | **CEF Status HUD Overlay** | Status HUD 2D Overlay hiển thị Máu, Giáp, Đói, Khát, Thể lực, Tiền mặt, Coin, ID, Ping, Online Count, Sao truy nã, Icon Vũ khí & Đạn thực tế. | `core/cef/cef_hud.inc`<br>`scriptfiles/cef/status_hud/` |
+| **33** | **CEF HUD Customizer & Admin** | Tùy chỉnh vị trí kéo thả HUD, kiểu wave, scale, màu nền; Lệnh `/hud` mở Bảng Cài Đặt; Các lệnh Admin chỉnh stats (`/sethunger`, `/setthirst`, `/setmoney`, `/setwanted`, `/sethp`, `/setarmor`). | `core/cef/cef_hud.inc`<br>`core/admin/admin_cmd_lvl3.inc` |
+| **34** | **CEF Core & Chat Integration** | Tự động quản lý CEF Resource & State, ẩn riêng lẻ 7 thành phần HUD gốc GTA SA, bảo toàn khung Chatbox SA-MP và xử lý triệt để crash memory `cef.asi`. | `core/cef/cef_core.inc`<br>`core/cef/cef.inc` |
 
 ---
 
