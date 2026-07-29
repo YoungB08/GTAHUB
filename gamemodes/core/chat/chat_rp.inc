@@ -55,7 +55,7 @@ static gGlobalOOCCooldown[MAX_PLAYERS];
 // =============================================================================
 
 // Gửi tin nhắn cho tất cả người chơi trong phạm vi 3D
-static SendLocalMessage(senderid, color, const msg[], Float:distance)
+stock SendLocalMessage(senderid, color, const msg[], Float:distance)
 {
     new Float:x, Float:y, Float:z;
     GetPlayerPos(senderid, x, y, z);
@@ -68,30 +68,6 @@ static SendLocalMessage(senderid, color, const msg[], Float:distance)
         if (!IsPlayerInRangeOfPoint(i, distance, x, y, z)) continue;
         SendClientMessage(i, color, msg);
     }
-}
-
-// =============================================================================
-// CHAT THƯỜNG – LOCAL IC (override OnPlayerText để giới hạn bán kính)
-// =============================================================================
-
-// Hook OnPlayerText: Chuyển global chat thành local IC chat
-// Ghi chú: chat_OnPlayerText.inc vẫn load trước; ta hook bằng y_hooks để override
-hook OnPlayerText(playerid, text[])
-{
-    // Chỉ xử lý khi đã đăng nhập
-    if (!Player_IsLoggedIn(playerid)) return 1;
-
-    // Đã có police radio ! và admin chat # xử lý bởi chat_OnPlayerText.inc
-    // Ta xử lý phần còn lại ở đây thay vì gửi toàn server
-    new playerName[MAX_PLAYER_NAME];
-    GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
-
-    new msg[192];
-    format(msg, sizeof(msg), "[%d] %s: %s", playerid, playerName, text);
-
-    SendLocalMessage(playerid, COLOR_RP_LOCAL_CHAT, msg, LOCAL_CHAT_DISTANCE);
-
-    return 0; // Chặn việc gửi toàn server
 }
 
 // =============================================================================
