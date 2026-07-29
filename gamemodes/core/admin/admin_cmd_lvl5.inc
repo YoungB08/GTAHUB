@@ -1,19 +1,5 @@
 CMD:gtahub(playerid, params[])
 {
-    new bootstrapKey[32];
-
-    ini_open("config.ini");
-    ini_getString("gtahub_admin_key", bootstrapKey);
-    ini_close();
-
-    if(isnull(bootstrapKey)) {
-        return SendErrorMsg(playerid, "Chua cau hinh gtahub_admin_key trong scriptfiles/config.ini.");
-    }
-
-    if(params[0] == '\1' || isnull(params) || strcmp(params, bootstrapKey, false)) {
-        return SendSyntaxMsg(playerid, "/gtahub [ma_khoa]");
-    }
-
     if(Player_GetMasterAccountID(playerid) <= 0) {
         return SendErrorMsg(playerid, "Ban can dang nhap truoc khi dung lenh nay.");
     }

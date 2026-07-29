@@ -7,8 +7,8 @@
         },
         "script.js": {
             "encrypted": true,
-            "modified": 13429824611,
-            "size": 15629
+            "modified": 13429826839,
+            "size": 15622
         },
         "style.css": {
             "encrypted": true,
@@ -17,7 +17,7 @@
         }
     },
     "pak": {
-        "hash": "ccfabb36660dab513bb3b5e44b3a210c35cbf9fb9fc688e22004351a634ca3c8",
+        "hash": "f804ffb6e2d2fe6ab2dd71e85d0d93a4202cacb9d94edc2d780d62c057c309e7",
         "path": "status_hud.pak",
         "size": 39188
     },

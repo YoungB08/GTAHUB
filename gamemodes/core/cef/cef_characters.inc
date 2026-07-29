@@ -167,21 +167,18 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
     if (isnull(charName))
         return 1;
 
-    // Phân tích firstname & lastname từ charName (hỗ trợ cả _ và space)
+    // Phân tích firstname & lastname từ charName (hỗ trợ cả _ và space) an toàn qua sscanf
     new firstname[32], lastname[32];
-    new sepPos = strfind(charName, "_");
-    if (sepPos == -1)
-        sepPos = strfind(charName, " ");
+    firstname[0] = '\0';
+    lastname[0] = '\0';
 
-    if (sepPos != -1)
+    if (sscanf(charName, "p<_>s[32]s[32]", firstname, lastname))
     {
-        strmid(firstname, charName, 0, sepPos, sizeof(firstname));
-        strmid(lastname, charName, sepPos + 1, strlen(charName), sizeof(lastname));
-    }
-    else
-    {
-        strcpy(firstname, charName, sizeof(firstname));
-        lastname[0] = '\0';
+        if (sscanf(charName, "p< >s[32]s[32]", firstname, lastname))
+        {
+            format(firstname, sizeof(firstname), "%s", charName);
+            lastname[0] = '\0';
+        }
     }
 
     inline const OnCharSelectFind()
