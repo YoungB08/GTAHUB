@@ -1,0 +1,25 @@
+{
+    "files": {
+        "index.html": {
+            "encrypted": true,
+            "modified": 13429822955,
+            "size": 19507
+        },
+        "script.js": {
+            "encrypted": true,
+            "modified": 13429822955,
+            "size": 15700
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13429822955,
+            "size": 3549
+        }
+    },
+    "pak": {
+        "hash": "43ffa4cad54ab6304f30afd3f429a1eae19b9dc9f43f61ab150a5ac047b8a541",
+        "path": "status_hud.pak",
+        "size": 39204
+    },
+    "version": 2
+}

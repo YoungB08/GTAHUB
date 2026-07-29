@@ -16,7 +16,7 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerSpawn(playerid) {
-    PlayerTextDrawShow(playerid, FPSPingPacket[playerid]);
+    // Ẩn TextDraw FPS/Ping cũ theo yêu cầu người dùng
     return 1;
 }
 

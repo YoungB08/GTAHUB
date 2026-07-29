@@ -68,7 +68,7 @@ stock CEF_EnableGameUI(playerid)
     return 1;
 }
 
-// --- Hook OnGameModeInit: Đăng ký tất cả resources ---
+// --- Hook OnGameModeInit: Đăng ký tất cả resources & events ---
 hook OnGameModeInit()
 {
     CEF_AddResource("login");
@@ -77,6 +77,8 @@ hook OnGameModeInit()
     CEF_AddResource("character_selection");
     CEF_AddResource("character_creation");
     CEF_AddResource("status_hud");
+
+    CEF_RegisterEvent("GTAHUB:SetHUDFocus", "OnCEF_SetHUDFocus", Argument_Integer);
 
     print("[CEF] Resources registered: login, register, active, character_selection, character_creation, status_hud");
     return 1;

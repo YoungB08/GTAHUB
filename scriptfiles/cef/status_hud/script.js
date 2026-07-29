@@ -237,6 +237,7 @@ function applySettings() {
 function togglePanel() {
     if (customizerPanel.classList.contains("hidden")) {
         customizerPanel.classList.remove("hidden");
+        emitCEF("GTAHUB:SetHUDFocus", true);
     } else {
         hidePanel();
     }
@@ -245,6 +246,7 @@ function togglePanel() {
 function hidePanel() {
     customizerPanel.classList.add("hidden");
     if (hudSettings.isEditMode) toggleEditMode();
+    emitCEF("GTAHUB:SetHUDFocus", false);
 }
 
 function toggleEditMode() {
@@ -384,7 +386,17 @@ if (window.cef) {
     cef.on("GTAHUB:SetWeapon", (weaponId, weaponAmmo) => {
         updateStatusValues({ weaponId, weaponAmmo });
     });
+
+    cef.on("GTAHUB:ToggleHUDPanel", () => {
+        togglePanel();
+    });
 }
+
+document.addEventListener("keydown", (e) => {
+    if (e.key === "F7" || e.code === "F7") {
+        togglePanel();
+    }
+});
 
 function emitCEF(eventName, ...args) {
     if (window.cef) {

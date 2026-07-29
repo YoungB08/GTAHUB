@@ -14,6 +14,8 @@ forward CEF_UpdateStatusHUDDelayed(playerid);
 forward Survival_GetHunger(playerid);
 forward Survival_GetThirst(playerid);
 
+forward OnCEF_SetHUDFocus(playerid, browserid, focusState);
+
 // --- Mở Status HUD overlay ---
 stock CEF_ShowStatusHUD(playerid)
 {
@@ -26,8 +28,11 @@ stock CEF_ShowStatusHUD(playerid)
     CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, false);
     CEF_ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
 
-    // Tạo browser overlay (focused = false, controls_chat = true)
-    CEF_CreateBrowser(playerid, CEF_BROWSER_STATUS_HUD, CEF_URL_STATUS_HUD, false, true);
+    // Mở phím F7 (VK_F7 = 118)
+    CEF_EnableKey(playerid, 118, true);
+
+    // Tạo browser overlay (focused = false, controls_chat = false để chatbox SA-MP luôn hoạt động)
+    CEF_CreateBrowser(playerid, CEF_BROWSER_STATUS_HUD, CEF_URL_STATUS_HUD, false, false);
 
     // Cập nhật chỉ số sau 500ms khi CEF browser sẵn sàng
     SetTimerEx("CEF_UpdateStatusHUDDelayed", 500, false, "i", playerid);
@@ -103,5 +108,24 @@ hook OnPlayerSecondUpdate(playerid)
     {
         CEF_UpdateStatusHUD(playerid);
     }
+    return 1;
+}
+
+// --- Event callback: Bật/Tắt con trỏ chuột khi mở/đóng cài đặt HUD ---
+public OnCEF_SetHUDFocus(playerid, browserid, focusState)
+{
+    #pragma unused browserid
+    if (!IsPlayerConnected(playerid)) return 0;
+    CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, bool:focusState);
+    return 1;
+}
+
+// --- Lệnh mở/đóng Cài đặt Status HUD ---
+CMD:hud(playerid, params[])
+{
+    if (!IsPlayerConnected(playerid) || !Char_IsActive(playerid))
+        return 0;
+
+    CEF_EmitEvent(playerid, CEF_BROWSER_STATUS_HUD, "GTAHUB:ToggleHUDPanel");
     return 1;
 }

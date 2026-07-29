@@ -36,8 +36,7 @@ hook OnGameModeInit() {
 }
 
 hook OnPlayerSpawn(playerid) {
-    TextDrawShowForPlayer(playerid, TimeTD);
-    TextDrawShowForPlayer(playerid, DayTD);
+    // Ẩn TextDraw thời gian cũ theo yêu cầu người dùng
     return 1;
 }
 
