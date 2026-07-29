@@ -15,10 +15,12 @@ static
     Statement:stmt_SaveShots,
     Statement:stmt_InsertShots;
 
-hook OnGameModeInit() {
+hook OnMySQLConnected() {
 
     new
         MySQL:handle = MySQL_GetHandle();
+
+    mysql_query_file(handle, "player_shots.sql", false);
 
     static const insertQuery[] = "INSERT IGNORE INTO player_shots_stats (uid) VALUES (?)";
     stmt_InsertShots = MySQL_PrepareStatement(handle, insertQuery);

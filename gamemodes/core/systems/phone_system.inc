@@ -56,6 +56,8 @@ static ContactCount[MAX_PLAYERS];
 
 hook OnMySQLConnected()
 {
+    mysql_query_file(MySQL_GetHandle(), "phone.sql", false);
+
     static const loadQ[] = "SELECT phone_num FROM phone_numbers WHERE u_id = ?";
     stmt_loadPhone = MySQL_PrepareStatement(MySQL_GetHandle(), loadQ);
 

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tạo Nhân Vật - GTAHUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden bg-slate-950">
+    
+    <!-- Giao diện chính -->
+    <div class="w-[900px] h-[600px] flex gap-6 relative z-10">
+        
+        <!-- Khung nhập thông tin bên trái -->
+        <div class="glass-panel w-[480px] rounded-3xl p-8 flex flex-col justify-between h-full border border-white/10 shadow-[0_0_50px_rgba(239,68,68,0.15)]">
+            <div>
+                <!-- Tiêu đề -->
+                <div class="border-b border-white/10 pb-4 mb-6">
+                    <h1 class="text-xl font-black text-white tracking-wider uppercase">Khởi Tạo Nhân Vật</h1>
+                    <p class="text-[11px] text-slate-400">Thiết lập thông tin lý lịch & chọn ngoại hình</p>
+                </div>
+
+                <!-- Form nhập liệu -->
+                <div class="space-y-4">
+                    <!-- Trường Họ Tên -->
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">Tên Nhân Vật (Định dạng Roleplay)</label>
+                        <input type="text" id="char-name" placeholder="Ví dụ: Michal_Bullbaranek" class="w-full bg-slate-900/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition-colors">
+                    </div>
+
+                    <!-- Ngày sinh & Giới tính -->
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">Ngày Sinh</label>
+                            <input type="date" id="char-dob" class="w-full bg-slate-900/60 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-white focus:outline-none focus:border-red-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">Giới Tính</label>
+                            <select id="char-gender" class="w-full bg-slate-900/60 border border-white/10 rounded-xl px-3 py-2.5 text-xs text-slate-300 focus:outline-none focus:border-red-500 transition-colors">
+                                <option value="male">Nam (Male)</option>
+                                <option value="female">Nữ (Female)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Lựa chọn Skin -->
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">Trang Phục Nhân Vật</label>
+                        <button id="select-skin-btn" class="w-full bg-slate-900/60 hover:bg-slate-800/80 border border-white/10 hover:border-red-500/50 rounded-xl px-4 py-3 text-xs text-white flex items-center justify-between transition-all">
+                            <span class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-red-500 animate-pulse"></span>
+                                <span id="selected-skin-label">Đang chọn Skin: #0</span>
+                            </span>
+                            <span class="text-[10px] font-bold uppercase text-red-400 hover:text-red-300">Thay Đổi ➜</span>
+                        </button>
+                    </div>
+
+                    <!-- Mô tả Nhân Vật -->
+                    <div>
+                        <label class="text-[10px] font-bold text-slate-300 uppercase tracking-wider block mb-1.5">Mô Tả Nhân Vật (Ngoại hình / Tiểu sử)</label>
+                        <textarea id="char-desc" rows="3" placeholder="Nhập mô tả chi tiết về nhân vật của bạn..." class="w-full bg-slate-900/60 border border-white/10 rounded-xl px-4 py-3 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition-colors resize-none"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Nút hành động & Trạng thái -->
+            <div>
+                <!-- Vùng thông báo lỗi/thành công -->
+                <div id="status-msg" class="text-[11px] font-semibold text-center hidden py-2.5 px-3 rounded-xl mb-4 transition-all duration-300"></div>
+
+                <div class="flex gap-3">
+                    <button id="cancel-btn" class="w-1/3 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 font-bold text-xs rounded-xl transition-colors uppercase tracking-wider">Hủy Bỏ</button>
+                    <button id="create-btn" class="w-2/3 py-3 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-bold text-xs rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all uppercase tracking-wider">Hoàn Tất Tạo</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Khung Xem Trước (Preview) bên phải -->
+        <div class="glass-panel w-[380px] rounded-3xl p-6 flex flex-col items-center justify-between h-full border border-white/10 shadow-[0_0_50px_rgba(239,68,68,0.15)] relative overflow-hidden">
+            <!-- Header Preview -->
+            <div class="text-center w-full border-b border-white/10 pb-3">
+                <span class="text-[9px] text-red-400 font-black tracking-widest uppercase block mb-0.5">Mô Hình</span>
+                <h2 class="text-xs font-bold text-white uppercase tracking-wider">Xem Trước Ngoại Hình</h2>
+            </div>
+
+            <!-- Ảnh hiển thị trang phục lớn -->
+            <div class="flex-1 flex items-center justify-center py-6 w-full relative">
+                <div class="absolute w-48 h-48 bg-red-600/10 rounded-full blur-3xl -z-10"></div>
+                <img id="preview-image" src="http://gtahub.kntech.co/skins/0.png" alt="Skin Preview" class="h-[360px] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] transition-all duration-300">
+            </div>
+
+            <!-- Footer Preview -->
+            <div class="w-full bg-slate-950/60 border border-white/5 rounded-xl py-3 px-4 text-center">
+                <span class="text-[10px] text-slate-400 block mb-0.5">ID Trang Phục</span>
+                <span id="preview-skin-id" class="text-sm font-mono font-bold text-red-500">SKIN #0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Popup Chọn Skin (Ẩn mặc định) -->
+    <div id="skin-modal" class="fixed inset-0 bg-black/80 backdrop-blur-md flex items-center justify-center z-50 opacity-0 pointer-events-none transition-all duration-300">
+        <div class="glass-panel w-[820px] h-[520px] rounded-[32px] p-6 flex flex-col justify-between border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.9)] transform scale-95 transition-all duration-300">
+            <!-- Header Modal -->
+            <div class="flex items-center justify-between border-b border-white/10 pb-4 mb-4">
+                <div>
+                    <h3 class="text-base font-black text-white tracking-wide uppercase">Kho Trang Phục</h3>
+                    <p class="text-[10px] text-slate-400">Chọn skin phù hợp với nhân vật của bạn</p>
+                </div>
+                <!-- Tìm kiếm skin -->
+                <div class="relative w-64">
+                    <input type="text" id="skin-search" placeholder="Nhập ID skin cần tìm..." class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-8 pr-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none focus:border-red-500 transition-colors">
+                    <svg class="w-3.5 h-3.5 text-slate-500 absolute left-2.5 top-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                </div>
+            </div>
+
+            <!-- Danh sách Grid Skin (Cuộn dọc) -->
+            <div id="skin-grid" class="flex-1 overflow-y-auto grid grid-cols-6 gap-3 pr-2 mb-4 scrollbar">
+                <!-- Dữ liệu skin được JS render vào đây -->
+            </div>
+
+            <!-- Footer Modal -->
+            <div class="border-t border-white/10 pt-4 flex items-center justify-between text-xs text-slate-400">
+                <span>Nhấp đúp chuột hoặc chọn rồi ấn để chọn skin</span>
+                <button id="close-modal-btn" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white font-bold text-xs rounded-xl transition-all uppercase tracking-wider">Đóng Lại</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

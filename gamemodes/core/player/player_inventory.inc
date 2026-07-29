@@ -111,6 +111,8 @@ static
 
 hook OnMySQLConnected()
 {
+    mysql_query_file(MySQL_GetHandle(), "player_inventory.sql", false);
+
     static const loadQ[] = "\
     SELECT item_name, item_label, quantity, weight, is_illegal \
     FROM player_inventory WHERE u_id = ?";

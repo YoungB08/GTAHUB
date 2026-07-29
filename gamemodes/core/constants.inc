@@ -20,7 +20,7 @@
 
 // MySQL Prepared Statement
 #define MYSQL_PREPARE_DEBUG 	(false)
-#define MAX_STATEMENTS 100
+#define MAX_STATEMENTS 256
 
 // SA-MP Logger
 #define PLAYER_DEBUG_HANDLER    "player"

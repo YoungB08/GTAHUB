@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác Thực Gmail - GTAHUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .bg-animation {
+            background: linear-gradient(135deg, #070913 0%, #14050a 50%, #05080f 100%);
+            background-size: 400% 400%;
+            animation: gradientBG 20s ease infinite;
+        }
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .login-glow-box {
+            box-shadow: 0 0 80px rgba(239, 68, 68, 0.15), 
+                        inset 0 0 20px rgba(255, 255, 255, 0.02);
+        }
+    </style>
+</head>
+<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden bg-animation">
+    
+    <!-- Các đốm sáng mờ ảo phía sau -->
+    <div class="absolute w-[500px] h-[500px] bg-red-600/10 rounded-full blur-3xl -top-20 -left-20 pointer-events-none"></div>
+    <div class="absolute w-[500px] h-[500px] bg-rose-900/10 rounded-full blur-3xl -bottom-20 -right-20 pointer-events-none"></div>
+
+    <!-- Khung xác thực OTP cao cấp -->
+    <div class="glass-panel w-[420px] p-10 rounded-[32px] relative border border-white/10 login-glow-box z-10 transition-all duration-300">
+        
+        <!-- Logo chung ở đầu -->
+        <div class="text-center mb-7">
+            <img src="http://gtahub.kntech.co/gtahub.png" alt="GTAHUB Logo" class="w-64 h-16 mx-auto mb-3 object-contain filter drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]">
+            <h1 id="panel-title" class="text-xs font-black text-slate-400 tracking-[0.25em] uppercase">XÁC THỰC <span class="text-red-500">EMAIL</span></h1>
+        </div>
+
+        <!-- Vùng hiển thị thông báo trạng thái dùng chung -->
+        <div id="status-msg" class="text-[11px] font-semibold text-center hidden py-2.5 px-3 rounded-xl mb-4 transition-all duration-300"></div>
+
+        <!-- ================= VIEW: XÁC THỰC EMAIL (OTP) ================= -->
+        <div id="verify-view" class="space-y-4">
+            <p class="text-[11px] text-slate-400 text-center -mt-2 font-medium">Nhập mã xác thực Gmail</p>
+            
+            <div class="bg-slate-900/40 border border-white/5 rounded-2xl p-4 text-center">
+                <p class="text-[11px] text-slate-300 leading-relaxed">Chúng tôi đã gửi một mã xác thực OTP 6 chữ số đến Gmail của bạn. Vui lòng kiểm tra hộp thư đến (hoặc thư rác) và nhập mã:</p>
+            </div>
+
+            <!-- Ô nhập OTP 6 số thiết kế cực đẹp -->
+            <div>
+                <label class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block mb-2 text-center">Mã Xác Thực (OTP)</label>
+                <input type="text" id="verify-code" placeholder="123456" maxlength="6" class="w-full bg-slate-950 border border-white/10 rounded-xl py-3.5 text-center text-lg font-mono font-black tracking-[0.6em] text-red-500 focus:outline-none focus:border-red-500/80 focus:shadow-[0_0_15px_rgba(239,68,68,0.3)] transition-all">
+            </div>
+
+            <button id="verify-btn" class="w-full py-3 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 hover:scale-[1.01] active:scale-[0.99] text-white font-bold text-xs rounded-xl shadow-[0_4px_20px_rgba(239,68,68,0.3)] transition-all uppercase tracking-wider">
+                Xác Thực Tài Khoản
+            </button>
+
+            <div class="flex items-center justify-between text-[11px] pt-1">
+                <button id="resend-code-btn" class="text-slate-400 hover:text-slate-200 transition-colors hover:underline">Gửi lại mã OTP</button>
+                <button id="cancel-verify-btn" class="text-red-400 hover:text-red-300 transition-colors hover:underline font-bold">Hủy bỏ</button>
+            </div>
+        </div>
+
+    </div>
+        
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chọn Nhân Vật - GTAHUB</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden bg-slate-950">
+    
+    <!-- Giao diện chính -->
+    <div class="w-[950px] h-[600px] flex gap-6 relative z-10">
+        <!-- Khung bên trái: Danh sách nhân vật -->
+        <div class="glass-panel w-[400px] rounded-3xl p-6 flex flex-col justify-between h-full border border-white/10 shadow-[0_0_50px_rgba(239,68,68,0.15)]">
+            <div>
+                <div class="mb-5 border-b border-white/10 pb-3">
+                    <h1 class="text-xl font-black text-white tracking-wider uppercase">Chọn Nhân Vật</h1>
+                    <p class="text-xs text-slate-400">Chọn nhân vật để tham gia thành phố</p>
+                </div>
+
+                <!-- Danh sách thẻ nhân vật (Được render động từ JS) -->
+                <div id="char-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1">
+                    <!-- Được render tự động -->
+                </div>
+            </div>
+
+            <!-- Nút vào game -->
+            <button id="enter-city-btn" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 text-white font-bold text-xs rounded-xl shadow-[0_0_20px_rgba(239,68,68,0.3)] hover:shadow-[0_0_25px_rgba(239,68,68,0.5)] transition-all uppercase tracking-wider flex items-center justify-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+                Vào Thành Phố
+            </button>
+        </div>
+
+        <!-- Khung bên phải: Xem trước chi tiết nhân vật -->
+        <div class="glass-panel w-[526px] rounded-3xl p-6 flex flex-col justify-between h-full border border-white/10 shadow-[0_0_50px_rgba(239,68,68,0.15)] relative overflow-hidden">
+            <!-- Header Preview -->
+            <div class="border-b border-white/10 pb-3 w-full">
+                <h2 id="preview-name" class="text-lg font-black text-white uppercase tracking-wider text-center">Tên Nhân Vật</h2>
+                <p id="preview-faction" class="text-[10px] text-red-400 text-center font-bold uppercase mt-0.5">Tổ chức: Taxi</p>
+            </div>
+
+            <!-- Body Preview: ảnh skin ở bên trái, thông số ở bên phải -->
+            <div class="flex-1 flex gap-6 items-center justify-between py-4 w-full">
+                <!-- Hình ảnh skin -->
+                <div class="w-1/2 flex items-center justify-center relative h-full">
+                    <div class="absolute w-36 h-36 bg-red-600/10 rounded-full blur-3xl -z-10"></div>
+                    <img id="preview-image" src="http://gtahub.kntech.co/skins/0.png" alt="Skin Preview" class="h-[320px] object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.8)] transition-all duration-300">
+                </div>
+
+                <!-- Thống kê thông số -->
+                <div class="w-1/2 space-y-3 bg-slate-900/40 border border-white/5 rounded-2xl p-4 text-xs">
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span class="text-slate-400">Cấp Độ</span>
+                        <span id="stat-level" class="font-bold text-white font-mono">12</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span class="text-slate-400">Tiền Mặt</span>
+                        <span id="stat-cash" class="font-bold text-emerald-400 font-mono">$100,000</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span class="text-slate-400">Ngân Hàng</span>
+                        <span id="stat-bank" class="font-bold text-cyan-400 font-mono">$2,500,000</span>
+                    </div>
+                    <div class="flex justify-between items-center border-b border-white/5 pb-2">
+                        <span class="text-slate-400">Số Điện Thoại</span>
+                        <span id="stat-phone" class="font-bold text-slate-200 font-mono">555-0192</span>
+                    </div>
+                    <div>
+                        <span class="text-slate-400 block mb-1">Phương Tiện Sở Hữu:</span>
+                        <div id="stat-vehicles" class="text-[10px] text-slate-300 font-bold max-h-[70px] overflow-y-auto pr-1">
+                            <!-- Danh sách xe -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Preview -->
+            <div class="w-full bg-slate-950/60 border border-white/5 rounded-xl py-3 px-4 text-center">
+                <span class="text-[10px] text-slate-400 block mb-0.5">Trang Phục Hiện Tại</span>
+                <span id="preview-skin-id" class="text-sm font-mono font-bold text-red-500">SKIN #299</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Container cho Popup động (Popup System) -->
+    <div id="popup-container"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
