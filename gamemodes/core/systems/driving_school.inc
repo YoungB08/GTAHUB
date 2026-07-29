@@ -72,6 +72,7 @@ static TheoryCurrentQ[MAX_PLAYERS];
 static SpeedViolationCount[MAX_PLAYERS];
 static CurrentCPIndex[MAX_PLAYERS];
 static TestVehicleID[MAX_PLAYERS];
+static SelectedLicenseType[MAX_PLAYERS];
 
 // =============================================================================
 // QUESTIONS REGISTRY
@@ -146,7 +147,7 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
     {
         if (IsPlayerInRangeOfPoint(playerid, 4.0, DS_NPC_X, DS_NPC_Y, DS_NPC_Z))
         {
-            DS_PromptStartExam(playerid);
+            CallLocalFunction("cmd_takeexam", "is", playerid, "\1");
         }
     }
     return 1;
@@ -221,49 +222,49 @@ hook OnPlayerSecondUpdate(playerid)
 // EXAM FLOW
 // =============================================================================
 
-static DS_PromptStartExam(playerid)
+static DS_PromptStartExam(playerid, licenseType, fee, const licenseName[])
 {
-    if (Player_HasLicense(playerid, LICENSE_CAR))
-        return SendErrorMsg(playerid, "Ban da co Bằng Lái Xe roi! Khong can thi lai."), 1;
+    if (Player_HasLicense(playerid, licenseType))
+        return SendErrorMsgF(playerid, "Ban da co %s roi! Khong can thi lai.", licenseName), 1;
 
     if (PlayerTestState[playerid] != TEST_NONE)
         return SendErrorMsg(playerid, "Ban dang trong bai thi roi."), 1;
 
-    if (GetPlayerMoney(playerid) < DRIVING_SCHOOL_FEE)
-        return SendErrorMsgF(playerid, "Can $%d de dang ky thi bang lai xe.", DRIVING_SCHOOL_FEE), 1;
+    if (GetPlayerMoney(playerid) < fee)
+        return SendErrorMsgF(playerid, "Can $%d de dang ky thi %s.", fee, licenseName), 1;
+
+    SelectedLicenseType[playerid] = licenseType;
 
     inline OnConfirm(response, listitem, string:inputtext[])
     {
         #pragma unused listitem, inputtext
         if (!response) return 1;
 
-        GivePlayerMoney(playerid, -DRIVING_SCHOOL_FEE);
+        GivePlayerMoney(playerid, -fee);
 
-        // Dịch chuyển đến Trung tâm Thi Lái Xe Red County
-        SetPlayerPos(playerid, DS_NPC_X, DS_NPC_Y, DS_NPC_Z);
-        SetPlayerFacingAngle(playerid, DS_NPC_ANGLE);
-        SetPlayerVirtualWorld(playerid, 0);
-        SetPlayerInterior(playerid, 0);
-
-        // Bắt đầu phần thi Lý thuyết
+        // Bắt đầu phần thi Lý thuyết tại City Hall
         PlayerTestState[playerid]      = TEST_THEORY;
         TheoryCorrectAnswers[playerid] = 0;
         TheoryCurrentQ[playerid]       = 0;
 
         SendMsgF(playerid, COLOR_GREEN,
-            "[THI LAI XE] Da dong phi $%d. Bat dau phan thi LY THUYET (5 cau hoi).", DRIVING_SCHOOL_FEE);
+            "[THI LAI XE] Da dong phi $%d. Bat dau phan thi LY THUYET %s tai City Hall (5 cau hoi).", fee, licenseName);
 
         DS_ShowTheoryQuestion(playerid, 0);
         return 1;
     }
 
+    new msg[256];
+    format(msg, sizeof(msg),
+        "Ban co muon dang ky thi %s?\n\n\
+- Phi thi: {33AA33}$%d{FFFFFF}\n\
+- Bai thi bao gom: 5 cau Ly Thuyet + 10 Checkpoint Thuc Hanh Red County\n\
+- Gioi han toc do thuc hanh: {FFAA00}60 km/h{FFFFFF}", licenseName, fee);
+
     Dialog_ShowCallback(playerid, using inline OnConfirm,
         DIALOG_STYLE_MSGBOX,
         "Dang Ky Thi Bang Lai Xe IC",
-        "Ban co muon dang ky thi Bang Lai Xe?\n\n\
-- Phi thi: {33AA33}$500{FFFFFF}\n\
-- Bai thi bao gom: 5 cau Ly Thuyet + 10 Checkpoint Thuc Hanh\n\
-- Gioi han toc do thuc hanh: {FFAA00}60 km/h{FFFFFF}",
+        msg,
         "Thi ngay", "Huy");
     return 1;
 }
@@ -303,7 +304,7 @@ static DS_ShowTheoryQuestion(playerid, qIdx)
             if (TheoryCorrectAnswers[playerid] >= PASS_THEORY_MIN)
             {
                 SendMsgF(playerid, COLOR_GREEN,
-                    "[LY THUYET] DA DAT! (%d/%d cau dung). Chuyen sang PHAN THI THUC HANH!",
+                    "[LY THUYET] DA DAT! (%d/%d cau dung). Chuyen sang PHAN THI THUC HANH AT RED COUNTY!",
                     TheoryCorrectAnswers[playerid], MAX_THEORY_QUESTIONS);
 
                 DS_StartPracticalTest(playerid);
@@ -333,8 +334,10 @@ static DS_StartPracticalTest(playerid)
     SetPlayerVirtualWorld(playerid, 0);
     SetPlayerInterior(playerid, 0);
 
-    // Spawn xe thi tại Sân Thi Red County (Premier 426)
-    TestVehicleID[playerid] = CreateVehicle(426,
+    // Chọn xe thi tương ứng: Xe Ô tô (Premier 426) hoặc Xe Tải (Flatbed 455)
+    new vehModel = (SelectedLicenseType[playerid] == LICENSE_TRUCK) ? 455 : 426;
+
+    TestVehicleID[playerid] = CreateVehicle(vehModel,
         DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z, DS_VEH_SPAWN_A,
         3, 3, 300);
 
@@ -346,18 +349,28 @@ static DS_StartPracticalTest(playerid)
         DSCheckpoints[1][0], DSCheckpoints[1][1], DSCheckpoints[1][2],
         5.0);
 
-    SendMsgF(playerid, COLOR_GREEN,
-        "[THUC HANH] Ban da duoc dua den SAN THI RED COUNTY! Hay lai xe qua 10 Checkpoints. KHONG DUOC vuot qua 60 km/h!");
+    if (SelectedLicenseType[playerid] == LICENSE_TRUCK)
+    {
+        SendMsgF(playerid, COLOR_GREEN,
+            "[THUC HANH RED COUNTY] Dang thi BANG LAI XE TAI (TRUCK)! Hay lai xe Flatbed qua 10 Checkpoints. Toc do < 60 km/h!");
+    }
+    else
+    {
+        SendMsgF(playerid, COLOR_GREEN,
+            "[THUC HANH RED COUNTY] Dang thi BANG LAI XE O TO (CAR)! Hay lai xe Premier qua 10 Checkpoints. Toc do < 60 km/h!");
+    }
     return 1;
 }
 
 static DS_PassExam(playerid)
 {
+    new licenseType = SelectedLicenseType[playerid];
+
     // Clean up và trả về City Hall
     DS_CleanupTest(playerid);
 
-    // Cấp bằng lái xe
-    Player_GiveLicense(playerid, LICENSE_CAR);
+    // Cấp bằng lái xe tương ứng
+    Player_GiveLicense(playerid, licenseType);
 
     SendMsgF(playerid, COLOR_GREEN,
         "====================================================\n\
@@ -403,8 +416,35 @@ CMD:takeexam(playerid, params[])
         return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
     if (!IsPlayerInRangeOfPoint(playerid, 30.0, DS_NPC_X, DS_NPC_Y, DS_NPC_Z))
-        return SendErrorMsg(playerid, "Ban phai den Truong Thi Lai Xe IC o Los Santos."), 1;
+        return SendErrorMsg(playerid, "Ban phai den Trung Tam Dang Ky Thi Bang Lai (City Hall) de dang ky."), 1;
 
-    DS_PromptStartExam(playerid);
+    if (PlayerTestState[playerid] != TEST_NONE)
+        return SendErrorMsg(playerid, "Ban dang trong bai thi roi."), 1;
+
+    inline OnLicenseSelect(pid, dialogid, response, listitem, string:inputtext[])
+    {
+        #pragma unused pid, dialogid, inputtext
+        if (!response) return 1;
+
+        switch (listitem)
+        {
+            case 0: // Bang Lai Xe O To (Car) - $500
+            {
+                DS_PromptStartExam(playerid, LICENSE_CAR, 500, "Bang Lai Xe O To (Car)");
+            }
+            case 1: // Bang Lai Xe Tai / Bus (Truck) - $1,000
+            {
+                DS_PromptStartExam(playerid, LICENSE_TRUCK, 1000, "Bang Lai Xe Tai (Truck / Bus)");
+            }
+        }
+        return 1;
+    }
+
+    Dialog_ShowCallback(playerid, using inline OnLicenseSelect,
+        DIALOG_STYLE_LIST,
+        "=== CHON LOAI BANG LAI XE THI ===",
+        "1. Bang Lai Xe O To (Car) - $500\n\
+2. Bang Lai Xe Tai / Bus (Truck) - $1,000",
+        "Chon", "Huy");
     return 1;
 }
