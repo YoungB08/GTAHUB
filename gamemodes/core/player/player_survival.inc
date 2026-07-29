@@ -176,6 +176,34 @@ stock Survival_AddThirst(playerid, amount)
     return 1;
 }
 
+stock Survival_GetHunger(playerid)
+{
+    return PlayerHunger[playerid];
+}
+
+stock Survival_GetThirst(playerid)
+{
+    return PlayerThirst[playerid];
+}
+
+stock Survival_SetHunger(playerid, amount)
+{
+    if (amount < 0) amount = 0;
+    if (amount > MAX_SURVIVAL_STAT) amount = MAX_SURVIVAL_STAT;
+    PlayerHunger[playerid] = amount;
+    Survival_UpdateHUD(playerid);
+    return 1;
+}
+
+stock Survival_SetThirst(playerid, amount)
+{
+    if (amount < 0) amount = 0;
+    if (amount > MAX_SURVIVAL_STAT) amount = MAX_SURVIVAL_STAT;
+    PlayerThirst[playerid] = amount;
+    Survival_UpdateHUD(playerid);
+    return 1;
+}
+
 // =============================================================================
 // COMMAND – /useitem [tên vật phẩm]
 // =============================================================================

@@ -140,5 +140,78 @@ ACMD:[3]setarmour(playerid, params[])
     SendMsgF(targetid, COLOR_MODERATION, "[ADMIN]: Giap cua ban da duoc dat thanh %f", amount);
 
     SetPlayerArmour(targetid, amount);
+    CEF_UpdateStatusHUD(targetid);
+    return 1;
+}
+
+ALTCMD:sethp(sethealth);
+ALTCMD:setarmor(setarmour);
+
+ACMD:[3]sethunger(playerid, params[])
+{
+    new targetid, amount;
+
+    if(sscanf(params, "ui", targetid, amount)) {
+        return SendSyntaxMsg(playerid, "/sethunger (ten/id) (doi 0-100)");
+    }
+
+    if(!IsPlayerConnected(targetid)) {
+        return SendErrorMsg(playerid, "Nguoi choi khong online.");
+    }
+
+    if(amount < 0 || amount > 100) {
+        return SendErrorMsg(playerid, "Chi so doi bung phai tu 0 den 100.");
+    }
+
+    Survival_SetHunger(targetid, amount);
+    CEF_UpdateStatusHUD(targetid);
+
+    SendMsgF(playerid, COLOR_MODERATION, "[ADMIN]: Chi so doi bung cua %p (%d) da duoc dat thanh %d/100", targetid, targetid, amount);
+    SendMsgF(targetid, COLOR_MODERATION, "[ADMIN]: Chi so doi bung cua ban da duoc admin dat thanh %d/100", amount);
+    return 1;
+}
+
+ACMD:[3]setthirst(playerid, params[])
+{
+    new targetid, amount;
+
+    if(sscanf(params, "ui", targetid, amount)) {
+        return SendSyntaxMsg(playerid, "/setthirst (ten/id) (khat 0-100)");
+    }
+
+    if(!IsPlayerConnected(targetid)) {
+        return SendErrorMsg(playerid, "Nguoi choi khong online.");
+    }
+
+    if(amount < 0 || amount > 100) {
+        return SendErrorMsg(playerid, "Chi so khat nuoc phai tu 0 den 100.");
+    }
+
+    Survival_SetThirst(targetid, amount);
+    CEF_UpdateStatusHUD(targetid);
+
+    SendMsgF(playerid, COLOR_MODERATION, "[ADMIN]: Chi so khat nuoc cua %p (%d) da duoc dat thanh %d/100", targetid, targetid, amount);
+    SendMsgF(targetid, COLOR_MODERATION, "[ADMIN]: Chi so khat nuoc cua ban da duoc admin dat thanh %d/100", amount);
+    return 1;
+}
+
+ACMD:[3]setmoney(playerid, params[])
+{
+    new targetid, amount;
+
+    if(sscanf(params, "ui", targetid, amount)) {
+        return SendSyntaxMsg(playerid, "/setmoney (ten/id) (so tien)");
+    }
+
+    if(!IsPlayerConnected(targetid)) {
+        return SendErrorMsg(playerid, "Nguoi choi khong online.");
+    }
+
+    ResetPlayerMoney(targetid);
+    GivePlayerMoney(targetid, amount);
+    CEF_UpdateStatusHUD(targetid);
+
+    SendMsgF(playerid, COLOR_MODERATION, "[ADMIN]: Tien cua %p (%d) da duoc dat thanh %m", targetid, targetid, amount);
+    SendMsgF(targetid, COLOR_MODERATION, "[ADMIN]: So tien cua ban da duoc admin dat thanh %m", amount);
     return 1;
 }

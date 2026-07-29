@@ -8,6 +8,7 @@
 
 // --- Forwards ---
 forward bool:CEF_IsPlayerCEFReady(playerid);
+forward bool:Char_IsActive(playerid);
 forward CEF_ShowLoginPage(playerid);
 forward CEF_ShowRegisterPage(playerid);
 forward CEF_ShowCharacterSelection(playerid);
@@ -18,6 +19,7 @@ forward CEF_ShowCharacterSelection(playerid);
 #define CEF_BROWSER_ACTIVE          (2)
 #define CEF_BROWSER_CHAR_SELECT     (3)
 #define CEF_BROWSER_CHAR_CREATE     (4)
+#define CEF_BROWSER_STATUS_HUD      (5)
 
 // --- Resource URL Macros ---
 #define CEF_URL_LOGIN               "http://cef/login/index.html"
@@ -25,6 +27,10 @@ forward CEF_ShowCharacterSelection(playerid);
 #define CEF_URL_ACTIVE              "http://cef/active/index.html"
 #define CEF_URL_CHAR_SELECT         "http://cef/character_selection/index.html"
 #define CEF_URL_CHAR_CREATE         "http://cef/character_creation/index.html"
+#define CEF_URL_STATUS_HUD          "http://cef/status_hud/index.html"
+
+// --- Include CEF Modules ---
+#include <cef_hud>
 
 // --- Pending UI States ---
 enum {
@@ -44,13 +50,21 @@ stock CEF_DisableGameUI(playerid)
     CEF_ToggleChatInput(playerid, false);
     CEF_ClearChat(playerid);
     CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, false);
+    CEF_HideStatusHUD(playerid);
     return 1;
 }
 
 stock CEF_EnableGameUI(playerid)
 {
     CEF_ToggleChatInput(playerid, true);
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, true);
+
+    // Ẩn tất cả HUD mặc định (Health, Armour, Money, Weapon, Ammo, Wanted stars, Breath)
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, false);
+    // Giữ lại Minimap / Radar
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
+
+    // Mở Status HUD CEF Overlay
+    CEF_ShowStatusHUD(playerid);
     return 1;
 }
 
@@ -62,8 +76,9 @@ hook OnGameModeInit()
     CEF_AddResource("active");
     CEF_AddResource("character_selection");
     CEF_AddResource("character_creation");
+    CEF_AddResource("status_hud");
 
-    print("[CEF] Resources registered: login, register, active, character_selection, character_creation");
+    print("[CEF] Resources registered: login, register, active, character_selection, character_creation, status_hud");
     return 1;
 }
 
@@ -73,6 +88,18 @@ hook OnPlayerConnect(playerid)
     gPlayerCEFReady[playerid] = false;
     gPlayerPendingUI[playerid] = CEF_PENDING_NONE;
     CEF_DisableGameUI(playerid);
+    return 1;
+}
+
+// --- Hook OnPlayerSpawn: Mở lại Chat & HUD khi đã spawn vào game ---
+hook OnPlayerSpawn(playerid)
+{
+    if (Char_IsActive(playerid))
+    {
+        CEF_CloseAllBrowsers(playerid);
+        TogglePlayerSpectating(playerid, false);
+        CEF_EnableGameUI(playerid);
+    }
     return 1;
 }
 
@@ -155,4 +182,5 @@ stock CEF_CloseAllBrowsers(playerid)
     CEF_DestroyBrowser(playerid, CEF_BROWSER_ACTIVE);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_SELECT);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_CREATE);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_STATUS_HUD);
 }

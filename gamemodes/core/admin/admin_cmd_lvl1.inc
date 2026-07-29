@@ -112,6 +112,7 @@ ACMD:[1]setwanted(playerid, params[])
 		return SendErrorMsg(playerid, "Khong the dat truy na cho luc luong chuc nang.");
 	}
 	SetPlayerWantedLevel(targetid, level);
+	CEF_UpdateStatusHUD(targetid);
 	SendMsgF(playerid, COLOR_MODERATION, "[ADMIN]: Muc truy na cua %p (%d) da duoc dat thanh %d", targetid, targetid, level);
 	SendMsgF(targetid, COLOR_MODERATION, "[ADMIN]: Muc truy na cua ban da duoc admin dat thanh %d", level);
 	return 1;

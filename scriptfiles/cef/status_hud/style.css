@@ -1,0 +1,120 @@
+/* CSS Status HUD - GTAHUB */
+body {
+    font-family: 'Outfit', sans-serif;
+    background: transparent !important;
+}
+
+.glass-panel {
+    background: rgba(9, 13, 24, 0.92);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+}
+
+.hud-bg-dark {
+    background: rgba(11, 15, 25, 0.88);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+}
+
+.hud-bg-red {
+    background: rgba(30, 8, 12, 0.85);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 60, 80, 0.3);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(230, 0, 35, 0.15);
+}
+
+.hud-bg-none {
+    background: transparent !important;
+    backdrop-filter: none !important;
+    border-color: transparent !important;
+    box-shadow: none !important;
+}
+
+.hud-box {
+    width: 48px;
+    height: 48px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+}
+
+.hud-icon {
+    width: 20px;
+    height: 20px;
+    z-index: 10;
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+}
+
+.hud-fill {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    transition: height 0.4s ease;
+    z-index: 1;
+}
+
+.hud-circle-bg, .hud-circle-val {
+    fill: none;
+    stroke-width: 4;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+    display: none;
+}
+.hud-circle-bg { stroke: rgba(255, 255, 255, 0.1); }
+.hud-circle-val { transition: stroke-dashoffset 0.4s ease; }
+
+.style-wave {
+    border-radius: 14px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.style-wave .hud-icon { color: #ffffff; }
+
+.style-circle {
+    border-radius: 999px;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.style-circle .hud-fill { display: none; }
+.style-circle .hud-circle-bg, .style-circle .hud-circle-val { display: block; }
+
+.style-diamond {
+    border-radius: 10px;
+    transform: rotate(45deg);
+    background: rgba(15, 23, 42, 0.85);
+    border: 1.5px solid rgba(255,255,255,0.15);
+}
+.style-diamond .hud-icon { transform: rotate(-45deg); }
+
+.style-squircle {
+    border-radius: 16px;
+    background: rgba(20, 25, 40, 0.7);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.color-health .hud-fill { background: linear-gradient(180deg, #ff2e4d 0%, #a80018 100%); }
+.color-health.style-circle .hud-circle-val { stroke: #ff2e4d; }
+.color-health .hud-icon { color: #ff3b56; }
+
+.color-armor .hud-fill { background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%); }
+.color-armor.style-circle .hud-circle-val { stroke: #3b82f6; }
+.color-armor .hud-icon { color: #60a5fa; }
+
+.color-hunger .hud-fill { background: linear-gradient(180deg, #f59e0b 0%, #b45309 100%); }
+.color-hunger.style-circle .hud-circle-val { stroke: #f59e0b; }
+.color-hunger .hud-icon { color: #fbbf24; }
+
+.color-thirst .hud-fill { background: linear-gradient(180deg, #06b6d4 0%, #0e7490 100%); }
+.color-thirst.style-circle .hud-circle-val { stroke: #06b6d4; }
+.color-thirst .hud-icon { color: #22d3ee; }
+
+.color-stamina .hud-fill { background: linear-gradient(180deg, #8b5cf6 0%, #6d28d9 100%); }
+.color-stamina.style-circle .hud-circle-val { stroke: #8b5cf6; }
+.color-stamina .hud-icon { color: #a78bfa; }

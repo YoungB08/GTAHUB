@@ -208,9 +208,10 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
         cache_get_value_name_float(0, "pos_z", pz);
         cache_get_value_name_float(0, "pos_a", pa);
 
-        // Đóng CEF browser
+        // Đóng CEF browser & mở lại Game UI (Chat & HUD)
         CEF_CloseAllBrowsers(playerid);
         TogglePlayerSpectating(playerid, false);
+        CEF_EnableGameUI(playerid);
 
         // Đổi tên SA-MP thành Firstname_Lastname
         new sampName[MAX_PLAYER_NAME];
