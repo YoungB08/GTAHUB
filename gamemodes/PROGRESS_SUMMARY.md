@@ -9,6 +9,18 @@
 
 | Mục | Tên Hệ Thống | Chi Tiết Chức Năng | File Code |
 |:---:|:---|:---|:---|
+| **01** | **Audit & Base Config** | Kiểm tra cấu trúc dữ liệu, tích hợp Streamer Plugin, chuẩn hóa cơ sở dữ liệu MySQL và cấu hình hệ thống dùng chung. | `main.pwn`<br>`core/init/init.inc` |
+| **02** | **Interaction Engine** | Module tương tác Y/N cho Entrance, House, Business, ATM, Phone Booth, Job Point; hiển thị thông báo và đếm thời gian khi đến gần. | `core/interaction/interaction_engine.inc` |
+| **03** | **Stream & Load Safety** | Khóa người chơi (Freeze/Unfreeze) ngắn hạn khi Teleport qua Interior/Custom map để nạp Object/Map an toàn, tránh rơi khỏi map. | `core/systems/entrance_system.inc` |
+| **04** | **3D TextLabel System** | Chuẩn hóa 3D TextLabel cho Lối vào, Nhà ở, Doanh nghiệp, ATM, Điểm nhận việc với màu sắc phân loại riêng và trạng thái rõ ràng. | `core/interaction/interaction_label.inc` |
+| **05** | **TextDraw Speedometer** | Hiển thị tốc độ (km/h), lượng nhiên liệu (Fuel), máu xe và trạng thái động cơ/đèn khi lái phương tiện; tự động ẩn khi xuống xe. | `core/user-interface/ui_speedometer.inc` |
+| **06** | **License System** | Quản lý hệ thống giấy phép: Bằng lái xe hơi (`LICENSE_CAR`), Giấy phép lái xe tải (`LICENSE_TRUCK`), Giấy phép sử dụng súng (`LICENSE_GUN`). | `core/account/account_license.inc` |
+| **07** | **Cửa Hàng Tự Động ATM** | Đặt máy ATM khắp Los Santos, gửi/rút tiền mặt (`/withdraw`, `/deposit`), kiểm tra số dư và sao kê tài khoản ngân hàng. | `core/systems/atm_system.inc` |
+| **08** | **Hệ Thống Nghề 1: Trucker** | Nghề Lái xe chở hàng, nhận đơn hàng tại Kho, lái xe Container giao hàng đến các điểm kinh doanh 24/7 và nhận tiền thưởng IC. | `core/systems/jobs/trucker.inc` |
+| **09** | **Hệ Thống Nghề 2: Pizza** | Nghề Giao Pizza, lấy xe Faggio tại tiệm Pizza, giao bánh đến các địa điểm yêu cầu và nhận tiền boa từ khách hàng. | `core/systems/jobs/pizza_delivery.inc` |
+| **10** | **Hệ Thống Nghề 3: Garbage** | Nghề Thu gom rác, lái xe hót rác dọn dẹp các thùng rác xung quanh thành phố, đổ rác tại bãi tập kết nhận lương. | `core/systems/jobs/garbage_collector.inc` |
+| **11** | **Hệ Thống Nghề 4: Weapon Dealer** | Nghề Chế tạo & Chế biến Vũ khí, thu thập vật liệu kim loại, chế tạo đạn dược và bán lại cho người chơi/Gangsters. | `core/systems/jobs/job_weapon-dealer.inc` |
+| **12** | **Dynamic House & Biz Core** | Quản lý nhà riêng & Doanh nghiệp động (`/createhouse`, `/createbiz`, `/editbiz`), khóa cửa, chuyển quyền sở hữu và đóng thuế. | `core/houses/houses.inc`<br>`core/systems/business_economy.inc` |
 | **13** | **Multi-Character System** | Quản lý 2 nhân vật IC/tài khoản, Dialog tạo/chọn nhân vật, Validate tên IC, Auto-save vị trí 3 phút, `/charinfo`, `/switchchar`, `/deletechar`. | `core/account/account_character.inc`<br>`scriptfiles/characters.sql` |
 | **14** | **Kênh Chat IC/OOC** | Local IC chat (bán kính 20m), `/me`, `/do`, `/low`, `/s`, `/r` (Faction Radio), `/dep` (Liên bộ), `/b` (Local OOC), `/o` (Global OOC). | `core/chat/chat_rp.inc` |
 | **15** | **Dynamic Inventory** | Túi đồ 12 slot, giới hạn 15kg, 24 loại vật phẩm, cốp xe (`/trunk`, `/puttrunk`, `/taketrunk`), thả đồ (`/drop`), đưa đồ (`/giveitem2`), khám người (`/inspect`). | `core/player/player_inventory.inc`<br>`scriptfiles/player_inventory.sql` |
@@ -35,6 +47,11 @@
 | **32** | **CEF Status HUD Overlay** | Status HUD 2D Overlay hiển thị Máu, Giáp, Đói, Khát, Thể lực, Tiền mặt, Coin, ID, Ping, Online Count, Sao truy nã, Icon Vũ khí & Đạn thực tế. | `core/cef/cef_hud.inc`<br>`scriptfiles/cef/status_hud/` |
 | **33** | **CEF HUD Customizer & Admin** | Tùy chỉnh vị trí kéo thả HUD, kiểu wave, scale, màu nền; Lệnh `/hud` mở Bảng Cài Đặt; Các lệnh Admin chỉnh stats (`/sethunger`, `/setthirst`, `/setmoney`, `/setwanted`, `/sethp`, `/setarmor`). | `core/cef/cef_hud.inc`<br>`core/admin/admin_cmd_lvl3.inc` |
 | **34** | **CEF Core & Chat Integration** | Tự động quản lý CEF Resource & State, ẩn riêng lẻ 7 thành phần HUD gốc GTA SA, bảo toàn khung Chatbox SA-MP và xử lý triệt để crash memory `cef.asi`. | `core/cef/cef_core.inc`<br>`core/cef/cef.inc` |
+| **35** | **Job Skills & Experience** | Hệ thống Cấp độ & Kinh nghiệm kỹ năng nghề (`/jobskills`, `/myjob`), tăng mức thưởng và tốc độ làm việc theo Level. | `core/player/jobs/job_skills.inc`<br>`scriptfiles/job_skills.sql` |
+| **36** | **Player Interaction Menu** | Menu tương tác trực tiếp (`/interact`): bắt tay, khám xét (`/inspect`), đưa tiền (`/giveitem2`), cho xem bằng lái, mời nhóm. | `core/player/player_interaction_menu.inc` |
+| **37** | **Vehicle Insurance** | Mua bảo hiểm xe cá nhân (`/buyinsurance`), xem thông tin (`/myinsurance`), yêu cầu bồi thường (`/claiminsurance`) giảm phí sửa xe. | `core/player/vehicle/vehicle_insurance.inc` |
+| **38** | **Dynamic Item Economy** | Tự động điều chỉnh giá bán sản phẩm tại các cửa hàng 24/7 theo tồn kho thị trường và chia tỷ lệ lợi nhuận kinh doanh. | `core/systems/business_economy.inc` |
+| **39** | **Dynamic Interior Entrances** | Quản lý cổng lối vào/ra Interior động (`/createentrance`, `/editentrance`, `/delentrance`), chống lặp vòng kẹt nảy Teleport (bounce loop). | `core/systems/entrance_system.inc` |
 
 ---
 
