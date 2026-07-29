@@ -71,6 +71,11 @@ static PlayerChar[MAX_PLAYERS][E_CHAR_DATA];
 static CharList[MAX_PLAYERS][MAX_CHARS_PER_ACCOUNT][E_CHAR_DATA];
 static CharListCount[MAX_PLAYERS];
 
+// Temporary buffers for character creation
+static
+    CharacterCreateFirst[MAX_PLAYERS][CHAR_FIRSTNAME_LEN],
+    CharacterCreateLast[MAX_PLAYERS][CHAR_LASTNAME_LEN];
+
 // =============================================================================
 // PREPARED STATEMENTS
 // =============================================================================
@@ -355,8 +360,7 @@ static Char_ShowCreateDialog(playerid)
         }
 
         // Validate định dạng Firstname_Lastname
-        new firstname[32], lastname[32];
-        if (sscanf(inputtext, "s[32]s[32]", firstname, lastname))
+        if (sscanf(inputtext, "s[32]s[32]", CharacterCreateFirst[playerid], CharacterCreateLast[playerid]))
         {
             SendErrorMsg(playerid, "Sai dinh dang! Phai la: Ten Ho (cach nhau bang dau cach).");
             Char_ShowCreateDialog(playerid);
@@ -364,7 +368,7 @@ static Char_ShowCreateDialog(playerid)
         }
 
         // Kiểm tra độ dài
-        if (strlen(firstname) < 2 || strlen(lastname) < 2)
+        if (strlen(CharacterCreateFirst[playerid]) < 2 || strlen(CharacterCreateLast[playerid]) < 2)
         {
             SendErrorMsg(playerid, "Ten va ho phai co it nhat 2 ky tu!");
             Char_ShowCreateDialog(playerid);
@@ -372,7 +376,7 @@ static Char_ShowCreateDialog(playerid)
         }
 
         // Kiểm tra tên đã dùng chưa
-        Char_CheckNameAndCreate(playerid, firstname, lastname);
+        Char_CheckNameAndCreate(playerid);
     }
 
     Dialog_ShowCallback(
@@ -389,7 +393,7 @@ Vi du: {33AA33}Nguyen Van{FFFFFF} hoac {33AA33}John Smith\n\n\
     );
 }
 
-static Char_CheckNameAndCreate(playerid, const firstname[], const lastname[])
+static Char_CheckNameAndCreate(playerid)
 {
     inline OnNameCheck()
     {
@@ -404,15 +408,15 @@ static Char_CheckNameAndCreate(playerid, const firstname[], const lastname[])
         }
 
         // Tên hợp lệ -> hỏi tuổi & giới tính
-        Char_ShowAgeGenderDialog(playerid, firstname, lastname);
+        Char_ShowAgeGenderDialog(playerid);
     }
 
-    MySQL_BindString(stmt_checkName, 0, firstname, 32);
-    MySQL_BindString(stmt_checkName, 1, lastname,  32);
+    MySQL_BindString(stmt_checkName, 0, CharacterCreateFirst[playerid], 32);
+    MySQL_BindString(stmt_checkName, 1, CharacterCreateLast[playerid],  32);
     MySQL_ExecuteParallel_Inline(stmt_checkName, using inline OnNameCheck);
 }
 
-static Char_ShowAgeGenderDialog(playerid, const firstname[], const lastname[])
+static Char_ShowAgeGenderDialog(playerid)
 {
     new content[256];
     format(content, sizeof(content),
@@ -420,7 +424,7 @@ static Char_ShowAgeGenderDialog(playerid, const firstname[], const lastname[])
 Chon gioi tinh:\n\
 Nam\t(Co the chon skin Nam)\n\
 Nu\t(Co the chon skin Nu)\n",
-        firstname, lastname
+        CharacterCreateFirst[playerid], CharacterCreateLast[playerid]
     );
 
     inline OnGenderSelect(response, listitem, string:inputtext[])
@@ -440,7 +444,7 @@ Nu\t(Co the chon skin Nu)\n",
             #pragma unused listitem2
             if (!response2)
             {
-                Char_ShowAgeGenderDialog(playerid, firstname, lastname);
+                Char_ShowAgeGenderDialog(playerid);
                 return;
             }
 
@@ -448,11 +452,11 @@ Nu\t(Co the chon skin Nu)\n",
             if (sscanf(ageText, "i", age) || age < 18 || age > 70)
             {
                 SendErrorMsg(playerid, "Tuoi khong hop le! Phai tu 18 den 70.");
-                Char_ShowAgeGenderDialog(playerid, firstname, lastname);
+                Char_ShowAgeGenderDialog(playerid);
                 return;
             }
 
-            Char_ShowSkinDialog(playerid, firstname, lastname, age, gender);
+            Char_ShowSkinDialog(playerid, age, gender);
         }
 
         Dialog_ShowCallback(playerid, using inline OnAgeInput,
@@ -469,7 +473,7 @@ Nu\t(Co the chon skin Nu)\n",
         "Chon", "Quay lai");
 }
 
-static Char_ShowSkinDialog(playerid, const firstname[], const lastname[], age, gender)
+static Char_ShowSkinDialog(playerid, age, gender)
 {
     new content[256], line[24];
 
@@ -495,7 +499,7 @@ static Char_ShowSkinDialog(playerid, const firstname[], const lastname[], age, g
         #pragma unused inputtext
         if (!response)
         {
-            Char_ShowAgeGenderDialog(playerid, firstname, lastname);
+            Char_ShowAgeGenderDialog(playerid);
             return;
         }
 
@@ -504,7 +508,7 @@ static Char_ShowSkinDialog(playerid, const firstname[], const lastname[], age, g
         else             skinID = DefaultFemaleSkins[listitem];
 
         // Tạo nhân vật vào DB
-        Char_InsertToDB(playerid, firstname, lastname, age, gender, skinID);
+        Char_InsertToDB(playerid, age, gender, skinID);
     }
 
     Dialog_ShowCallback(playerid, using inline OnSkinSelect,
@@ -518,34 +522,35 @@ static Char_ShowSkinDialog(playerid, const firstname[], const lastname[], age, g
 // INTERNAL – Insert Character to DB
 // =============================================================================
 
-static Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID)
+static Char_InsertToDB(playerid, age, gender, skinID)
 {
+    new idx = CharListCount[playerid];
+    strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], CharacterCreateFirst[playerid], 32);
+    strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  CharacterCreateLast[playerid],  32);
+    CharList[playerid][idx][E_CHAR_AGE]    = age;
+    CharList[playerid][idx][E_CHAR_GENDER] = gender;
+    CharList[playerid][idx][E_CHAR_SKIN]   = skinID;
+    CharList[playerid][idx][E_CHAR_MONEY]  = 5000;
+    CharList[playerid][idx][E_CHAR_X]      = CHAR_DEFAULT_SPAWN_X;
+    CharList[playerid][idx][E_CHAR_Y]      = CHAR_DEFAULT_SPAWN_Y;
+    CharList[playerid][idx][E_CHAR_Z]      = CHAR_DEFAULT_SPAWN_Z;
+    CharList[playerid][idx][E_CHAR_A]      = CHAR_DEFAULT_SPAWN_A;
+
     inline OnCharInserted()
     {
         new charID = cache_insert_id();
 
-        // Thêm vào CharList runtime
-        new idx = CharListCount[playerid];
-        CharList[playerid][idx][E_CHAR_ID]     = charID;
-        strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], firstname, 32);
-        strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  lastname,  32);
-        CharList[playerid][idx][E_CHAR_AGE]    = age;
-        CharList[playerid][idx][E_CHAR_GENDER] = gender;
-        CharList[playerid][idx][E_CHAR_SKIN]   = skinID;
-        CharList[playerid][idx][E_CHAR_MONEY]  = 5000;
-        CharList[playerid][idx][E_CHAR_X]      = CHAR_DEFAULT_SPAWN_X;
-        CharList[playerid][idx][E_CHAR_Y]      = CHAR_DEFAULT_SPAWN_Y;
-        CharList[playerid][idx][E_CHAR_Z]      = CHAR_DEFAULT_SPAWN_Z;
-        CharList[playerid][idx][E_CHAR_A]      = CHAR_DEFAULT_SPAWN_A;
+        // Cập nhật ID sau khi insert thành công
+        CharList[playerid][idx][E_CHAR_ID] = charID;
         CharListCount[playerid]++;
 
-        SendMsgF(playerid, COLOR_GREEN, "[NHAN VAT] Da tao nhan vat %s %s thanh cong!", firstname, lastname);
+        SendMsgF(playerid, COLOR_GREEN, "[NHAN VAT] Da tao nhan vat %s %s thanh cong!", CharList[playerid][idx][E_CHAR_FIRSTNAME], CharList[playerid][idx][E_CHAR_LASTNAME]);
         Char_Activate(playerid, idx);
     }
 
     MySQL_BindInt(stmt_insertChar, 0, Player_GetAccountID(playerid));
-    MySQL_BindString(stmt_insertChar, 1, firstname, 32);
-    MySQL_BindString(stmt_insertChar, 2, lastname,  32);
+    MySQL_BindString(stmt_insertChar, 1, CharacterCreateFirst[playerid], 32);
+    MySQL_BindString(stmt_insertChar, 2, CharacterCreateLast[playerid],  32);
     MySQL_BindInt(stmt_insertChar, 3, age);
     MySQL_BindInt(stmt_insertChar, 4, gender);
     MySQL_BindInt(stmt_insertChar, 5, skinID);
