@@ -22,7 +22,6 @@ hook OnPlayerSpawn(playerid) {
 
     // Execute this when player spawns for the first time.
     if(PlayerFirstSpawn[playerid]) {
-
         Logger_Dbg(SERVER_DEBUG_HANDLER, "[OnPlayerSpawn / player_spawn.inc] calling OnPlayerFirstSpawn");
         CallLocalFunction("OnPlayerFirstSpawn", "i", playerid);
         PlayerFirstSpawn[playerid] = false;
@@ -32,7 +31,14 @@ hook OnPlayerSpawn(playerid) {
         Float:x = SF_SPAWN_X,
         Float:y = SF_SPAWN_Y,
         Float:z = SF_SPAWN_Z,
-        Float:ang = SF_SPAWN_A;
+        Float:ang = SF_SPAWN_A,
+        world = SF_SPAWN_WORLD,
+        interior = SF_SPAWN_INTERIOR;
+
+    // Load vị trí lưu cuối cùng trước khi thoát game của người chơi
+    if(PlayerPosition_HasSaved(playerid)) {
+        PlayerPosition_GetSaved(playerid, x, y, z, ang, world, interior);
+    }
 
     if(Player_GetClass(playerid) == TEAM_CIVILIAN) {
         if(Player_GetJob(playerid) == TYPE_NO_JOB) {
@@ -40,15 +46,10 @@ hook OnPlayerSpawn(playerid) {
         }
     }
 
-    SetPlayerPos(playerid, x, y, z);
-    SetPlayerFacingAngle(playerid, ang);
-    SetPlayerInterior(playerid, SF_SPAWN_INTERIOR);
-    SetPlayerVirtualWorld(playerid, SF_SPAWN_WORLD);
-    SetCameraBehindPlayer(playerid);
+    Interaction_LoadSafeTeleport(playerid, x, y, z, ang, world, interior, false, 500);
 
     Logger_Dbg(PLAYER_DEBUG_HANDLER, "[OnPlayerSpawn / player_spawn.inc] player spawned",
         Logger_P(playerid),
-        Logger_S("spawn", "sf-fixed"),
         Logger_F("x", x),
         Logger_F("y", y),
         Logger_F("z", z)

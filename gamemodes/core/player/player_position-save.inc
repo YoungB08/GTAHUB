@@ -86,6 +86,10 @@ stock PlayerPosition_Save(playerid)
         return 0;
     }
 
+    if(!Player_IsLoggedIn(playerid)) {
+        return 0;
+    }
+
     new
         Float:x,
         Float:y,
@@ -96,6 +100,20 @@ stock PlayerPosition_Save(playerid)
 
     GetPlayerPos(playerid, x, y, z);
     GetPlayerFacingAngle(playerid, a);
+
+    if(x == 0.0 && y == 0.0 && z == 0.0) {
+        return 0;
+    }
+
+    // Lưu ngay lập tức vào bộ đệm bộ nhớ
+    PlayerSavedX[playerid] = x;
+    PlayerSavedY[playerid] = y;
+    PlayerSavedZ[playerid] = z;
+    PlayerSavedA[playerid] = a;
+    PlayerSavedWorld[playerid] = world;
+    PlayerSavedInterior[playerid] = interior;
+    PlayerHasSavedPosition[playerid] = true;
+    PlayerPositionLoaded[playerid] = true;
 
     MySQL_BindInt(stmt_SavePlayerPosition, 0, Player_GetAccountID(playerid));
     MySQL_BindFloat(stmt_SavePlayerPosition, 1, x);
