@@ -24,8 +24,14 @@ stock CEF_ShowStatusHUD(playerid)
     // Đóng browser cũ nếu có
     CEF_DestroyBrowser(playerid, CEF_BROWSER_STATUS_HUD);
 
-    // Ẩn toàn bộ HUD zin, ngoại trừ minimap (RADAR)
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, false);
+    // Ẩn riêng từng thành phần HUD zin của GTA SA (Máu, Giáp, Tiền, Vũ khí, Đạn, Truy nã, Nhịp thở)
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_HEALTH, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ARMOUR, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_MONEY, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WEAPON, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_AMMO, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WANTED_STARS, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_BREATH, false);
     CEF_ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
 
     // Mở phím F7 (VK_F7 = 118)

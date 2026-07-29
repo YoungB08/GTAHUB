@@ -58,9 +58,16 @@ stock CEF_EnableGameUI(playerid)
 {
     CEF_ToggleChatInput(playerid, true);
 
-    // Ẩn tất cả HUD mặc định (Health, Armour, Money, Weapon, Ammo, Wanted stars, Breath)
-    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ALL, false);
-    // Giữ lại Minimap / Radar
+    // Ẩn riêng từng thành phần HUD mặc định của GTA SA (Máu, Giáp, Tiền, Vũ khí, Đạn, Truy nã, Nhịp thở)
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_HEALTH, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_ARMOUR, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_MONEY, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WEAPON, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_AMMO, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_WANTED_STARS, false);
+    CEF_ToggleHudComponent(playerid, HUD_COMPONENT_BREATH, false);
+
+    // Giữ lại Minimap / Radar & Chatbox SA-MP
     CEF_ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
 
     // Mở Status HUD CEF Overlay
