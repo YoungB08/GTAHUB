@@ -762,7 +762,6 @@ stock Entrance_LoadPersisted() {
 
 hook OnMySQLConnected()
 {
-    mysql_query_file(MySQL_GetHandle(), "entrances.sql", false);
     Entrance_LoadPersisted();
     return 1;
 }

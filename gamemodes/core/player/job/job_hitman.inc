@@ -8,7 +8,6 @@ static
 ;
 
 hook OnMySQLConnected() {
-    mysql_tquery_file(MySQL_GetHandle(), "player_hits.sql");
     return 1;
 }
 

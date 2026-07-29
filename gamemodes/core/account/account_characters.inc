@@ -28,7 +28,6 @@ static
 
 hook OnMySQLConnected()
 {
-    mysql_tquery_file(MySQL_GetHandle(), "players_characters.sql");
     return 1;
 }
 

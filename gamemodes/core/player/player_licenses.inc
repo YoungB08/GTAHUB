@@ -46,8 +46,6 @@ static bool:License_IsHeavyVehicleModel(modelid)
 
 hook OnMySQLConnected()
 {
-    mysql_query_file(MySQL_GetHandle(), "player_licenses.sql", false);
-
     stmt_loadLicenses = MySQL_PrepareStatement(
         MySQL_GetHandle(),
         "SELECT license_id FROM player_licenses WHERE u_id = ?"

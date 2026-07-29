@@ -1,1 +1,0 @@
-﻿-- SQL Schema file for player_vehicles_plate.sql

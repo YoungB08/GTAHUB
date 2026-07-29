@@ -31,8 +31,6 @@ static bool:JobProgress_IsValid(jobid)
 
 hook OnMySQLConnected()
 {
-    mysql_query_file(MySQL_GetHandle(), "player_job_progress.sql", false);
-
     stmt_loadJobProgress = MySQL_PrepareStatement(
         MySQL_GetHandle(),
         "SELECT job_id, job_xp, job_level FROM player_job_progress WHERE u_id = ?"

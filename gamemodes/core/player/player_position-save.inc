@@ -14,8 +14,6 @@ static
 
 hook OnMySQLConnected()
 {
-    mysql_query_file(MySQL_GetHandle(), "player_positions.sql", false);
-
     stmt_SavePlayerPosition = MySQL_PrepareStatement(
         MySQL_GetHandle(),
         "\
