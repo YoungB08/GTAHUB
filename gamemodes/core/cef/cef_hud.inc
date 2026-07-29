@@ -175,8 +175,6 @@ CMD:hud(playerid, params[])
         CEF_ShowStatusHUD(playerid);
     }
 
-    gPlayerHUDFocused[playerid] = !gPlayerHUDFocused[playerid];
-    CEF_FocusBrowser(playerid, CEF_BROWSER_STATUS_HUD, gPlayerHUDFocused[playerid]);
     CEF_EmitEvent(playerid, CEF_BROWSER_STATUS_HUD, "GTAHUB:ToggleHUDPanel");
     return 1;
 }
