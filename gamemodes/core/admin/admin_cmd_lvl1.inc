@@ -30,6 +30,20 @@ ACMD:[1]get(playerid, params[])
 	return 1;
 }
 
+ACMD:[1]gotopos(playerid, params[])
+{
+    new Float:x, Float:y, Float:z, interior = 0, world = 0;
+    if(sscanf(params, "fffI(0)I(0)", x, y, z, interior, world)) {
+        return SendSyntaxMsg(playerid, "/gotopos [x] [y] [z] (interior=0) (world=0)");
+    }
+
+    Interaction_LoadSafeTeleport(playerid, x, y, z, 0.0, world, interior, false, 500);
+    SendServerMsgF(playerid, "[ADMIN] Da dich chuyen den vi tri X: %.2f, Y: %.2f, Z: %.2f (Interior: %d, World: %d)", x, y, z, interior, world);
+    return 1;
+}
+
+ALTCMD:telepos(gotopos);
+
 ACMD:[1]goto(playerid, params[])
 {
     new gotoType[16];

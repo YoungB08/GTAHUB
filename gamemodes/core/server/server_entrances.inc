@@ -778,18 +778,8 @@ stock Entrance_UpdatePlayerTick(playerid, seconds = 2) {
 }
 
 stock Entrance_PreloadTarget(playerid, idx) {
-    if(!Iter_Contains(entranceID, idx)) {
-        return 0;
-    }
-
-    new
-        Float:x,
-        Float:y,
-        Float:z,
-        Float:a;
-
-    Entrance_GetTargetPoint(idx, x, y, z, a);
-    Streamer_UpdateEx(playerid, x, y, z, exitVirtualID[idx], exitInteriorID[idx], -1, 0, 0);
+    #pragma unused playerid, idx
+    // Streamer_UpdateEx removed to prevent premature auto-teleporting when walking near entrance prompts.
     return 1;
 }
 
