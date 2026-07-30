@@ -30,6 +30,7 @@
 #define MAX_CHARS_PER_ACCOUNT   (2)     // Tối đa 2 nhân vật IC / tài khoản
 #define CHAR_FIRSTNAME_LEN      (32)
 #define CHAR_LASTNAME_LEN       (32)
+#define CHARACTER_PASSWORD_MARKER  "CHARACTER_SLOT"
 
 // Skin mặc định để chọn khi tạo nhân vật
 static const DefaultMaleSkins[]   = {0, 1, 2, 7, 9, 26, 29, 34, 46, 58, 68, 72};
@@ -675,6 +676,51 @@ stock Char_GetAge(playerid)
 
 stock Char_GetGender(playerid)
     return PlayerChar[playerid][E_CHAR_GENDER];
+
+// =============================================================================
+// COMPATIBILITY API (Legacy Character_ wrappers)
+// =============================================================================
+
+stock Character_GetID(playerid)
+    return Char_GetID(playerid);
+
+stock Character_GetFullName(playerid, output[], len = sizeof(output))
+{
+    Char_GetFullname(playerid, output, len);
+    return 1;
+}
+
+stock Character_GetAge(playerid)
+    return Char_GetAge(playerid);
+
+stock Character_GetGender(playerid)
+    return Char_GetGender(playerid);
+
+stock Character_GetGenderName(playerid, output[], len = sizeof(output))
+{
+    format(output, len, "%s", (Char_GetGender(playerid) == 0) ? "Nam" : "Nu");
+    return 1;
+}
+
+stock Character_GetOrigin(playerid, output[], len = sizeof(output))
+{
+    #pragma unused playerid
+    format(output, len, "Los Santos");
+    return 1;
+}
+
+stock Character_GetBackground(playerid, output[], len = sizeof(output))
+{
+    #pragma unused playerid
+    format(output, len, "Chua thiet lap");
+    return 1;
+}
+
+stock Account_ShowCharacterMenu(playerid)
+{
+    Char_LoadList(playerid);
+    return 1;
+}
 
 // =============================================================================
 // COMMAND – /charinfo – Xem thông tin nhân vật hiện tại
