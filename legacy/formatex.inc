@@ -26,7 +26,7 @@
 #endif
 
 #if !defined FORMAT_REPLACE_NATIVES
-	#define FORMAT_REPLACE_NATIVES true
+	#define FORMAT_REPLACE_NATIVES false
 #endif
 
 
