@@ -639,9 +639,8 @@ static Char_Activate(playerid, listIdx)
         0, 0, 0, 0, 0, 0);
     SpawnPlayer(playerid);
 
-    // MỚI: Khôi phục camera sau người chơi và bỏ đóng băng
+    // Camera va freeze se duoc quan ly tu dong bang timer trong OnPlayerSpawn
     SetCameraBehindPlayer(playerid);
-    TogglePlayerControllable(playerid, true);
 
     SendMsgF(playerid, COLOR_GREEN,
         "[NHAN VAT] Chao mung %s %s! Chuc ban choi vui!",

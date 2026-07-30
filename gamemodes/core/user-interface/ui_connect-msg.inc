@@ -46,7 +46,7 @@ hook OnPlayerDisconnect(playerid, reason) {
     new
         string[7 + ((sizeof(joinString[]) * 5))];
 
-    format(joinString[0], sizeof(joinString[]), "~n~%s: ~w~%p (%i)", leave_reason, playerid, playerid);
+    formatex(joinString[0], sizeof(joinString[]), "~n~%s: ~w~%p (%i)", leave_reason, playerid, playerid);
 
     strcat(string, joinString[4], sizeof(string));
     strcat(string, joinString[3], sizeof(string));

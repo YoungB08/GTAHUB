@@ -10,6 +10,17 @@
 static
     bool:PlayerFirstSpawn[MAX_PLAYERS] = true
 ;
+forward OnSpawnUnfreezePlayer(playerid);
+public OnSpawnUnfreezePlayer(playerid)
+{
+    if (IsPlayerConnected(playerid) && Char_IsActive(playerid))
+    {
+        TogglePlayerControllable(playerid, true);
+        SetCameraBehindPlayer(playerid);
+    }
+    return 1;
+}
+
 hook OnPlayerConnect(playerid) {
     PlayerFirstSpawn[playerid] = true;
     return 1;
@@ -65,15 +76,16 @@ hook OnPlayerSpawn(playerid) {
         }
     }
 
+    // Đóng băng tạm thời trong 1.5 giây để nạp va chạm bản đồ & streamer (tránh rơi tự do vào void)
+    TogglePlayerControllable(playerid, false);
     SetPlayerInterior(playerid, interior);
     SetPlayerVirtualWorld(playerid, world);
     SetPlayerPos(playerid, x, y, z);
     SetPlayerFacingAngle(playerid, ang);
-    Streamer_UpdateEx(playerid, x, y, z, world, interior, -1, 0, 0);
-
-    // Bỏ đóng băng và khôi phục camera phía sau người chơi sau khi spawn
-    TogglePlayerControllable(playerid, true);
+    Streamer_UpdateEx(playerid, x, y, z, world, interior, -1, 1, 0);
     SetCameraBehindPlayer(playerid);
+
+    SetTimerEx("OnSpawnUnfreezePlayer", 1500, false, "i", playerid);
 
     Logger_Dbg(PLAYER_DEBUG_HANDLER, "[OnPlayerSpawn / player_spawn.inc] player spawned",
         Logger_P(playerid),
