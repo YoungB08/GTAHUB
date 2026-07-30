@@ -15,6 +15,7 @@ public OnSpawnUnfreezePlayer(playerid)
 {
     if (IsPlayerConnected(playerid) && Char_IsActive(playerid))
     {
+        TogglePlayerSpectating(playerid, false);
         TogglePlayerControllable(playerid, true);
         SetCameraBehindPlayer(playerid);
     }

@@ -637,7 +637,10 @@ static Char_Activate(playerid, listIdx)
         PlayerChar[playerid][E_CHAR_X], PlayerChar[playerid][E_CHAR_Y],
         PlayerChar[playerid][E_CHAR_Z], PlayerChar[playerid][E_CHAR_A],
         0, 0, 0, 0, 0, 0);
-    SpawnPlayer(playerid);
+
+    // Force clean respawn giong lenh /respawn de xoa trang thai class selection / spectator
+    TogglePlayerSpectating(playerid, true);
+    ForceSpawnPlayer(playerid);
 
     // Camera va freeze se duoc quan ly tu dong bang timer trong OnPlayerSpawn
     SetCameraBehindPlayer(playerid);
