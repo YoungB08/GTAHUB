@@ -604,7 +604,7 @@ static Float:vSync_gPaynSprayPos[10][3] = {
 stock vSync_CreateVehicle(modelid, Float:x, Float:y, Float:z, Float:rotation, color1, color2, respawn_delay, addsiren=0)
 {
 	// Check vehicle's model ID.
-	if(!(400 <= modelid <= 611))
+	if(!(400 <= modelid <= 10000))
 	{
 		return INVALID_VEHICLE_ID;
 	}
@@ -677,7 +677,7 @@ stock vSync_CreateVehicle(modelid, Float:x, Float:y, Float:z, Float:rotation, co
 stock vSync_AddStaticVehicle(modelid, Float:x, Float:y, Float:z, Float:rotation, color1, color2)
 {
 	// Check vehicle's model ID.
-	if(!(400 <= modelid <= 611))
+	if(!(400 <= modelid <= 10000))
 	{
 		return INVALID_VEHICLE_ID;
 	}
@@ -743,7 +743,7 @@ stock vSync_AddStaticVehicle(modelid, Float:x, Float:y, Float:z, Float:rotation,
 stock vSync_AddStaticVehicleEx(modelid, Float:x, Float:y, Float:z, Float:rotation, color1, color2, respawn_delay, addsiren=0)
 {
 	// Check vehicle's model ID.
-	if(!(400 <= modelid <= 611))
+	if(!(400 <= modelid <= 10000))
 	{
 		return INVALID_VEHICLE_ID;
 	}
@@ -853,7 +853,7 @@ stock vSync_ChangeVehicleColor(vehicleid, color1, color2)
 {
 	new modelid = GetVehicleModel(vehicleid);
 
-	if(!(400 <= modelid <= 611))
+	if(!(400 <= modelid <= 10000))
 	{
 		return 0;
 	}
@@ -1257,7 +1257,7 @@ stock GetVehicleName(vehicleid, name[], len = sizeof(name))
 {
 	new modelid = GetVehicleModel(vehicleid);
 
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		strcpy(name, vSync_VehicleInfo[modelid - 400][Name], len);
 	}
@@ -1313,7 +1313,7 @@ stock GetVehicleSiren(vehicleid)
 
 stock GetVehicleSeats(modelid)
 {
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		return vSync_VehicleInfo[modelid - 400][Seats];
 	}
@@ -1322,7 +1322,7 @@ stock GetVehicleSeats(modelid)
 
 stock GetVehicleWindows(modelid)
 {
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		return vSync_VehicleInfo[modelid - 400][Windows];
 	}
@@ -1331,7 +1331,7 @@ stock GetVehicleWindows(modelid)
 
 stock GetVehicleMaxSpeed(modelid)
 {
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		return vSync_VehicleInfo[modelid - 400][MaxSpeed];
 	}
@@ -1340,7 +1340,7 @@ stock GetVehicleMaxSpeed(modelid)
 
 stock Float:GetVehicleMass(modelid)
 {
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		return vSync_VehicleInfo[modelid - 400][Mass];
 	}
@@ -1360,7 +1360,7 @@ stock GetVehicleSpeed(vehicleid)
 
 stock GetVehicleEngineType(modelid)
 {
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		if(modelid == 481 || modelid == 509 || modelid == 510) // Bikes
 		{
@@ -1376,7 +1376,7 @@ stock GetVehicleEngineType(modelid)
 
 stock GetVehicleDriveType(modelid)
 {
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		if(modelid == 481 || modelid == 509 || modelid == 510) // Bikes
 		{
@@ -1468,7 +1468,7 @@ stock GetVehicleNeonLightsState(vehicleid)
 
 stock VehicleSupportsNitro(modelid)
 {
-	if(400 <= modelid <= 611)
+	if(400 <= modelid <= 10000)
 	{
 		return vSync_VehicleInfo[modelid - 400][Nitro];
 	}
@@ -1477,7 +1477,7 @@ stock VehicleSupportsNitro(modelid)
 
 stock VehicleSupportsComponent(modelid, componentid)
 {
-	if(!(400 <= modelid <= 611))
+	if(!(400 <= modelid <= 10000))
 	{
 		return 0;
 	}

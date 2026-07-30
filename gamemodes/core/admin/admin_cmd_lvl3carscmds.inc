@@ -1,6 +1,6 @@
 #include <YSI_Coding\y_hooks>
 #define MIN_VEHI_ID		400
-#define MAX_VEHI_ID		611
+#define MAX_VEHI_ID		10000
 
 #define MAX_SPAWNED_VEHICLES 100
 #define MAX_ADMINS_VEHICLES 100
@@ -12,7 +12,7 @@ static
 static
     AdminVehicles[MAX_ADMINS_VEHICLES]
 ;
-
+/*
 new aVehicleNames[212][] = {	// Vehicle Names - Betamaster
 	{"Landstalker"},
 	{"Bravura"},
@@ -227,7 +227,7 @@ new aVehicleNames[212][] = {	// Vehicle Names - Betamaster
 	{"Farm Plow"}, //farmtr1
 	{"Utility Trailer"} //utiltr1
 };
-
+*/
 new aWeaponNames[][32] = {
 	{"Unarmed (Fist)"}, // 0
 	{"Brass Knuckles"}, // 1
@@ -292,15 +292,15 @@ Float:GetXYInFrontOfPlayer2(playerid, &Float:q, &Float:w, Float:distance)
     return a;
 }
 
-GetVehicleModelIDFromName(const vname[])
-{
-	for(new i = 0; i < 211; i++)
-	{
-		if ( strfind(aVehicleNames[i], vname, true) != -1 )
-			return i + MIN_VEHI_ID;
-	}
-	return -1;
-}
+// GetVehicleModelIDFromName(const vname[])
+// {
+// 	for(new i = 0; i < 211; i++)
+// 	{
+// 		if ( strfind(aVehicleNames[i], vname, true) != -1 )
+// 			return i + MIN_VEHI_ID;
+// 	}
+// 	return -1;
+// }
 
 GetWeaponModelIDFromName(const wname[])
 {
@@ -441,20 +441,11 @@ ACMD:[3]aveh(playerid, params[])
     new vname[32], color1, color2;
     new Float:x, Float:y, Float:z;
     new Float:a;
-    new vehid;
-    if(sscanf(params, "s[32]D(1)D(1)", vname, color1, color2)) return SendSyntaxMsg(playerid, "/aveh (ten xe) (tuy chon:mau 1) (tuy chon:mau 2)");
+    if(sscanf(params, "s[32]D(1)D(1)", vname, color1, color2)) return SendSyntaxMsg(playerid, "/aveh (ID) (tuy chon:mau 1) (tuy chon:mau 2)");
     GetPlayerPos(playerid, x, y, z);
     GetPlayerFacingAngle(playerid, a);
     GetXYInFrontOfPlayer2(playerid, x, y, 5.0);
-    vehid = GetVehicleModelIDFromName( vname );
-    if(vehid == -1)
-    {
-        vehid = strval(vname);
-        if(vehid < 400 || vehid > 611) {
-            return SendErrorMsg(playerid, "Ten xe khong hop le.");
-        }
-    }
-    CreateAdminVehicle(vehid, x, y, z, a, color1, color2);
+    CreateAdminVehicle(strval(vname), x, y, z, a, color1, color2);
     return 1;
 }
 

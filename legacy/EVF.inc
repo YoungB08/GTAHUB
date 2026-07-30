@@ -84,7 +84,7 @@ static const s_TopSpeed[212] = {
     93, 60, 110, 60, 158, 158, 270, 130, 158, 153, 151, 136, 85, 0, 153, 142, 165, 108, 162, 0, 0,
     270, 270, 130, 190, 175, 175, 175, 158, 151, 110, 169, 171, 148, 152, 0, 0, 0, 108, 0, 0
 };
-
+/*
 static const s_CarColors[][] = {
     {16, 004, 001, 123, 001, 113, 001, 101, 001, 075, 001, 062, 001, 040, 001, 036, 001},
     {16, 041, 041, 047, 047, 052, 052, 066, 066, 074, 074, 087, 087, 091, 091, 113, 113},
@@ -299,7 +299,7 @@ static const s_CarColors[][] = {
     {0,  000, 000},
     {0,  000, 000}
 };
-
+*/
 /*
     native GetVehicleParams(vehicleid, type);
 	native SetVehicleParams(vehicleid, type, status, delay = 0);
@@ -361,39 +361,12 @@ stock static IsVehiclePropertySet(vehicleid, type)
     return existproperty(4, !"", (vehicleid << 2) + type);
 }
 
-stock GetVehicleRandomColors(modelid, &color1, &color2)
+stock GetVehicleRandomColors(&color1, &color2)
 {
-	new
-		index = 0;
 
-	color1 = 0;
-	color2 = 0;
+	color1 = random(255);
+	color2 = random(255);
 
-	if (!(400 <= modelid <= 611))
-	{
-	    return 0;
-	}
-	else
-	{
-		modelid -= 400;
-
-		if (!s_CarColors[modelid][0])
-		{
-		    return 0;
-		}
-		else if (s_CarColors[modelid][0] == 2)
-		{
-		    color1 = s_CarColors[modelid][1];
-		    color2 = s_CarColors[modelid][2];
-		}
-		else
-		{
-			index = random(s_CarColors[modelid][0]) & -2;
-
-			color1 = s_CarColors[modelid][index + 1];
-			color2 = s_CarColors[modelid][index + 2];
-		}
-	}
 	return 1;
 }
 
@@ -602,13 +575,13 @@ stock EVF_CreateVehicle(modelid, Float:x, Float:y, Float:z, Float:a, color1, col
 {
 	new vehicleid = INVALID_VEHICLE_ID;
 
-	if (400 <= modelid <= 611)
+	if (400 <= modelid <= 10000)
 	{
 	    new
 			randcolor1,
 			randcolor2;
 
-	    if (GetVehicleRandomColors(modelid, randcolor1, randcolor2))
+	    if (GetVehicleRandomColors(randcolor1, randcolor2))
 	    {
 	        if (color1 == -1)
 	        {
@@ -652,13 +625,13 @@ stock EVF_AddStaticVehicle(modelid, Float:x, Float:y, Float:z, Float:a, color1, 
 {
 	new vehicleid = INVALID_VEHICLE_ID;
 
-	if (400 <= modelid <= 611)
+	if (400 <= modelid <= 10000)
 	{
 	    new
 			randcolor1,
 			randcolor2;
 
-	    if (GetVehicleRandomColors(modelid, randcolor1, randcolor2))
+	    if (GetVehicleRandomColors( randcolor1, randcolor2))
 	    {
 	        if (color1 == -1)
 	        {
@@ -688,13 +661,13 @@ stock EVF_AddStaticVehicleEx(modelid, Float:x, Float:y, Float:z, Float:a, color1
 {
 	new vehicleid = INVALID_VEHICLE_ID;
 
-	if (400 <= modelid <= 611)
+	if (400 <= modelid <= 10000)
 	{
 	    new
 			randcolor1,
 			randcolor2;
 
-	    if (GetVehicleRandomColors(modelid, randcolor1, randcolor2))
+	    if (GetVehicleRandomColors(randcolor1, randcolor2))
 	    {
 	        if (color1 == -1)
 	        {
