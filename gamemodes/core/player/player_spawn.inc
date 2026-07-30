@@ -16,6 +16,10 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerSpawn(playerid) {
+    if (!Char_IsActive(playerid)) {
+        return 1;
+    }
+
     if (CallLocalFunction("Admin_IsPlayerSpectating", "i", playerid)) {
         return 1;
     }

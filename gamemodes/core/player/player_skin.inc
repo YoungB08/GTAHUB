@@ -1,5 +1,11 @@
 #include <YSI_Coding\y_hooks>
 
+stock bool:Player_IsValidSkin(skinid)
+{
+    if (skinid < 0 || skinid > 311 || skinid == 74) return false;
+    return true;
+}
+
 static
     PlayerSkin[MAX_PLAYERS] = -1,
     bool:PlayerNew[MAX_PLAYERS] = false,
@@ -57,17 +63,26 @@ hook OnPlayerFirstSpawn(playerid) {
 }
 
 stock Player_SetSkin(playerid, skinid, bool:save = false) {
-	PlayerSkin[playerid] = skinid;
-
-    if(save) {
-        MySQL_BindInt(stmt_updatePlayerSkin, 0, Player_GetSkin(playerid));
-        MySQL_BindInt(stmt_updatePlayerSkin, 1, Player_GetAccountID(playerid));
-        MySQL_ExecuteParallel(stmt_updatePlayerSkin);
+    if (!Player_IsValidSkin(skinid)) {
+        skinid = 1;
     }
+    PlayerSkin[playerid] = skinid;
+    SetPlayerSkin(playerid, skinid);
+
+    if(save && Player_GetAccountID(playerid) > 0) {
+        MySQL_BindInt(stmt_updatePlayerSkin, 0, skinid);
+        MySQL_BindInt(stmt_updatePlayerSkin, 1, Player_GetAccountID(playerid));
+        MySQL_ExecuteThreaded(stmt_updatePlayerSkin);
+    }
+    return 1;
 }
 
 stock Player_GetSkin(playerid) {
-	return PlayerSkin[playerid];
+    new skinid = PlayerSkin[playerid];
+    if (!Player_IsValidSkin(skinid)) {
+        return 1;
+    }
+    return skinid;
 }
 
 // (helper removed; revert to original behavior)

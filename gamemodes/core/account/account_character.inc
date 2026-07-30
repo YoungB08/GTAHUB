@@ -23,6 +23,10 @@
 
 #include <YSI_Coding\y_hooks>
 
+forward bool:PlayerPosition_IsValid(Float:x, Float:y, Float:z);
+forward bool:Player_IsValidSkin(skinid);
+forward bool:PlayerPosition_HasSaved(playerid);
+
 // =============================================================================
 // CONSTANTS
 // =============================================================================
@@ -573,21 +577,44 @@ static Char_Activate(playerid, listIdx)
     strcopy(PlayerChar[playerid][E_CHAR_LASTNAME],  CharList[playerid][listIdx][E_CHAR_LASTNAME],  32);
     PlayerChar[playerid][E_CHAR_AGE]       = CharList[playerid][listIdx][E_CHAR_AGE];
     PlayerChar[playerid][E_CHAR_GENDER]    = CharList[playerid][listIdx][E_CHAR_GENDER];
-    PlayerChar[playerid][E_CHAR_SKIN]      = CharList[playerid][listIdx][E_CHAR_SKIN];
+
+    // Validate Skin hợp lệ
+    new skin = CharList[playerid][listIdx][E_CHAR_SKIN];
+    if (!Player_IsValidSkin(skin))
+    {
+        skin = (CharList[playerid][listIdx][E_CHAR_GENDER] == 0) ? 1 : 9;
+    }
+    PlayerChar[playerid][E_CHAR_SKIN]      = skin;
+
     PlayerChar[playerid][E_CHAR_MONEY]     = CharList[playerid][listIdx][E_CHAR_MONEY];
     PlayerChar[playerid][E_CHAR_KILLS]     = CharList[playerid][listIdx][E_CHAR_KILLS];
     PlayerChar[playerid][E_CHAR_DEATHS]    = CharList[playerid][listIdx][E_CHAR_DEATHS];
     PlayerChar[playerid][E_CHAR_JOB]       = CharList[playerid][listIdx][E_CHAR_JOB];
     PlayerChar[playerid][E_CHAR_CLASS]     = CharList[playerid][listIdx][E_CHAR_CLASS];
     PlayerChar[playerid][E_CHAR_XP]        = CharList[playerid][listIdx][E_CHAR_XP];
-    PlayerChar[playerid][E_CHAR_X]         = CharList[playerid][listIdx][E_CHAR_X];
-    PlayerChar[playerid][E_CHAR_Y]         = CharList[playerid][listIdx][E_CHAR_Y];
-    PlayerChar[playerid][E_CHAR_Z]         = CharList[playerid][listIdx][E_CHAR_Z];
-    PlayerChar[playerid][E_CHAR_A]         = CharList[playerid][listIdx][E_CHAR_A];
+
+    // Validate Vị Trí Hợp Lệ
+    new Float:px = CharList[playerid][listIdx][E_CHAR_X];
+    new Float:py = CharList[playerid][listIdx][E_CHAR_Y];
+    new Float:pz = CharList[playerid][listIdx][E_CHAR_Z];
+    new Float:pa = CharList[playerid][listIdx][E_CHAR_A];
+
+    if (!PlayerPosition_IsValid(px, py, pz))
+    {
+        px = CHAR_DEFAULT_SPAWN_X;
+        py = CHAR_DEFAULT_SPAWN_Y;
+        pz = CHAR_DEFAULT_SPAWN_Z;
+        pa = CHAR_DEFAULT_SPAWN_A;
+    }
+
+    PlayerChar[playerid][E_CHAR_X]         = px;
+    PlayerChar[playerid][E_CHAR_Y]         = py;
+    PlayerChar[playerid][E_CHAR_Z]         = pz;
+    PlayerChar[playerid][E_CHAR_A]         = pa;
     PlayerChar[playerid][E_CHAR_ACTIVE]    = true;
 
     // Áp dụng cho player
-    SetPlayerSkin(playerid, PlayerChar[playerid][E_CHAR_SKIN]);
+    Player_SetSkin(playerid, PlayerChar[playerid][E_CHAR_SKIN]);
     GivePlayerMoney(playerid, PlayerChar[playerid][E_CHAR_MONEY]);
     Player_SetJob(playerid, PlayerChar[playerid][E_CHAR_JOB]);
     Player_SetClass(playerid, PlayerChar[playerid][E_CHAR_CLASS]);
