@@ -83,7 +83,7 @@ public OnPlayerText(playerid, text[])
 
     // Normal Local IC Chat (20m radius)
     new msg[192];
-    format(msg, sizeof(msg), "[%d] %p: %s", playerid, playerid, processedMessage);
+    formatex(msg, sizeof(msg), "[%d] %p: %s", playerid, playerid, processedMessage);
     SendLocalMessage(playerid, COLOR_RP_LOCAL_CHAT, msg, LOCAL_CHAT_DISTANCE);
 
     chat_Cooldown[playerid] = gettime() + 2;
