@@ -380,9 +380,6 @@ ACMD:[4]setrank(playerid, params[])
     if (!IsPlayerConnected(targetid))
         return SendErrorMsg(playerid, "Nguoi choi khong ton tai."), 1;
 
-    if (rank < 0 || rank > 5)
-        return SendErrorMsg(playerid, "Rank phai tu 0 den 5."), 1;
-
     LSPDRank[targetid] = rank;
 
     new rankName[24];
@@ -392,5 +389,37 @@ ACMD:[4]setrank(playerid, params[])
         ReturnPlayerName(targetid), rankName);
     SendMsgF(targetid, COLOR_GREEN, "Ban da duoc thang cap len rank %s.",
         rankName);
+    return 1;
+}
+
+// Quick Cuff & Arrest Hotkey (KEY_LOOK_BEHIND / Num 2)
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+    if (PRESSED(KEY_LOOK_BEHIND))
+    {
+        if (Player_GetClass(playerid) != TEAM_POLICE && !LSPD_IsOnDuty(playerid))
+            return 1;
+
+        new targetid = Player_GetClosestWanted(playerid, 5.0);
+
+        if (targetid == INVALID_PLAYER_ID)
+            return SendErrorMsg(playerid, "Khong co nguoi choi bi truy na nao o gan (ban kinh 5m)."), 1;
+
+        new errorMessage[64];
+        if (!Player_IsCuffed(targetid))
+        {
+            if (!Player_CuffPlayer(playerid, targetid, errorMessage, sizeof(errorMessage)))
+            {
+                return SendErrorMsg(playerid, errorMessage), 1;
+            }
+        }
+        else
+        {
+            if (!Player_Arrest(playerid, targetid, errorMessage, sizeof(errorMessage)))
+            {
+                return SendErrorMsg(playerid, errorMessage), 1;
+            }
+        }
+    }
     return 1;
 }

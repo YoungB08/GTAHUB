@@ -73,6 +73,9 @@ static SpeedViolationCount[MAX_PLAYERS];
 static CurrentCPIndex[MAX_PLAYERS];
 static TestVehicleID[MAX_PLAYERS];
 static SelectedLicenseType[MAX_PLAYERS];
+static TestScore[MAX_PLAYERS];
+static Float:TestVehicleHealth[MAX_PLAYERS];
+static TestDeadline[MAX_PLAYERS];
 
 // =============================================================================
 // QUESTIONS REGISTRY
@@ -186,7 +189,7 @@ hook OnPlayerEnterRaceCheckpoint(playerid)
     return 1;
 }
 
-// Kiểm tra tốc độ thực hành mỗi giây
+// Kiểm tra tốc độ thực hành, va chạm và thời gian mỗi giây
 hook OnPlayerSecondUpdate(playerid)
 {
     if (PlayerTestState[playerid] != TEST_PRACTICAL) return 1;
@@ -197,7 +200,30 @@ hook OnPlayerSecondUpdate(playerid)
         return 1;
     }
 
-    // Kiểm tra tốc độ
+    // Kiểm tra thời gian tối đa bài thi (4 phút)
+    if (gettime() > TestDeadline[playerid])
+    {
+        DS_FailExam(playerid, "Qua thoi gian thi (Toi da 4 phut).");
+        return 1;
+    }
+
+    // Kiểm tra va chạm xe và trừ điểm
+    new Float:health;
+    GetVehicleHealth(TestVehicleID[playerid], health);
+    if (health + 25.0 < TestVehicleHealth[playerid])
+    {
+        TestScore[playerid] -= 10;
+        TestVehicleHealth[playerid] = health;
+        SendMsgF(playerid, COLOR_RED, "[CANH BAO] Ban bi tru 10 diem do va cham xe! Diem hien tai: %d/100 (Yeu cau >= 70)", TestScore[playerid]);
+
+        if (TestScore[playerid] < 70)
+        {
+            DS_FailExam(playerid, "Va cham qua nhieu (Diem so duoi 70).");
+            return 1;
+        }
+    }
+
+    // Kiểm tra tốc độ xe
     new Float:vx, Float:vy, Float:vz;
     GetVehicleVelocity(TestVehicleID[playerid], vx, vy, vz);
     new Float:speed = floatsqroot(vx * vx + vy * vy + vz * vz) * 160.0; // km/h
@@ -211,7 +237,8 @@ hook OnPlayerSecondUpdate(playerid)
 
         if (SpeedViolationCount[playerid] >= MAX_SPEED_VIOLATIONS)
         {
-            DS_FailExam(playerid, "Vi pham toc do qua 3 lan!");
+            DS_FailExam(playerid, "Vuot qua toc do 60 km/h qua 3 lan.");
+            return 1;
         }
     }
 
@@ -327,6 +354,8 @@ static DS_StartPracticalTest(playerid)
     PlayerTestState[playerid]     = TEST_PRACTICAL;
     SpeedViolationCount[playerid] = 0;
     CurrentCPIndex[playerid]      = 0;
+    TestScore[playerid]           = 100;
+    TestDeadline[playerid]        = gettime() + 240;
 
     // Dịch chuyển người chơi từ City Hall đến Sân Thi Red County
     SetPlayerPos(playerid, DS_PRACTICAL_X, DS_PRACTICAL_Y, DS_PRACTICAL_Z);
@@ -341,6 +370,7 @@ static DS_StartPracticalTest(playerid)
         DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z, DS_VEH_SPAWN_A,
         3, 3, 300);
 
+    GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
     PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
 
     // Đặt Checkpoint đầu tiên tại Red County

@@ -263,3 +263,107 @@ Heroin\t(Can 5 Weed + $1000)",
 
     return 1;
 }
+
+// =============================================================================
+// WEED PLANTING SYSTEM
+// =============================================================================
+
+#define MAX_WEED_PLANT_PER_PLAYER	(5)
+
+static
+	weedObject[MAX_PLAYERS][MAX_WEED_PLANT_PER_PLAYER],
+	weedPercent[MAX_PLAYERS][MAX_WEED_PLANT_PER_PLAYER],
+	Text3D:weedLabel[MAX_PLAYERS][MAX_WEED_PLANT_PER_PLAYER],
+	Float:weedObjectPosX[MAX_PLAYERS][MAX_WEED_PLANT_PER_PLAYER],
+	Float:weedObjectPosY[MAX_PLAYERS][MAX_WEED_PLANT_PER_PLAYER],
+	Float:weedObjectPosZ[MAX_PLAYERS][MAX_WEED_PLANT_PER_PLAYER],
+	Iterator:weedIndex[MAX_PLAYERS]<MAX_WEED_PLANT_PER_PLAYER>,
+	Timer:weedTimer[MAX_PLAYERS][MAX_WEED_PLANT_PER_PLAYER];
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+	for(new i = 0; i < MAX_WEED_PLANT_PER_PLAYER; i++) {
+		Weed_ResetData(playerid, i);
+	}
+	return 1;
+}
+
+stock Weed_Create(playerid, Float:x, Float:y, Float:z)
+{
+	new slot = Iter_Free(weedIndex[playerid]);
+
+	if (Iter_Count(weedIndex[playerid]) == MAX_WEED_PLANT_PER_PLAYER)
+		return SendErrorMsg(playerid, "Ban da trong toi da so cay can sa cho phep!");
+
+	weedPercent[playerid][slot] 	= 0;
+	weedObjectPosX[playerid][slot] 	= x;
+	weedObjectPosY[playerid][slot] 	= y;
+	weedObjectPosZ[playerid][slot] 	= z;
+
+	weedObject[playerid][slot] 		= CreateDynamicObject(19473, x, y, z - 2.2, 0, 0, 0);
+	weedLabel[playerid][slot] 		= CreateDynamic3DTextLabelEx("[CAY CAN SA]\n"C_GREY"0% "C_WHITE"tren "C_GREY"100%", COLOR_YELLOW, x, y, z, 100.0, .testlos = 0);
+
+	weedTimer[playerid][slot] 		= repeat OnWeedGrow(playerid, slot);
+
+	Iter_Add(weedIndex[playerid], slot);
+	ApplyAnimation(playerid, "BOMBER", "BOM_Plant", 4.0, false , false, false, false, 0, SYNC_ALL);
+
+	SendMsgF(playerid, COLOR_GREEN, "** CAY CAN SA ** Ban da trong can sa - Con co the trong them %i cay.", MAX_WEED_PLANT_PER_PLAYER - Iter_Count(weedIndex[playerid]));
+	return slot;
+}
+
+stock Weed_ResetData(playerid, slot)
+{
+	DestroyDynamic3DTextLabel(weedLabel[playerid][slot]);
+	DestroyDynamicObject(weedObject[playerid][slot]);
+
+	weedObjectPosX[playerid][slot]		= 0.0;
+	weedObjectPosY[playerid][slot]		= 0.0;
+	weedObjectPosZ[playerid][slot]		= 0.0;
+
+	weedObject[playerid][slot] 			= INVALID_OBJECT_ID;
+	weedLabel[playerid][slot] 			= Text3D:INVALID_3DTEXT_ID;
+	weedPercent[playerid][slot] 		= -1;
+
+	Iter_Remove(weedIndex[playerid], slot);
+}
+
+stock Weed_GetClosest(playerid)
+{
+	foreach(new i : weedIndex[playerid]) {
+		if(IsPlayerInRangeOfPoint(playerid, 2.0, weedObjectPosX[playerid][i], weedObjectPosY[playerid][i], weedObjectPosZ[playerid][i])) {
+			return i;
+		}
+	}
+	return -1;
+}
+
+stock Weed_GetPercent(playerid, slot)
+{
+	if (slot < 0 || slot >= MAX_WEED_PLANT_PER_PLAYER) return -1;
+	return weedPercent[playerid][slot];
+}
+
+timer OnWeedGrow[30000](playerid, slot)
+{
+	if(weedPercent[playerid][slot] >= 100){
+		UpdateDynamic3DTextLabelText(weedLabel[playerid][slot], COLOR_YELLOW, "[CAY CAN SA]\n"C_WHITE"Da san sang thu hoach!");
+		stop weedTimer[playerid][slot];
+		return 1;
+	}
+
+	new Float:null, Float:z;
+	GetDynamicObjectPos(weedObject[playerid][slot], null, null, z);
+	weedObjectPosZ[playerid][slot] = z + 0.0666;
+
+	SetDynamicObjectPos(weedObject[playerid][slot],
+		weedObjectPosX[playerid][slot],
+		weedObjectPosY[playerid][slot],
+		weedObjectPosZ[playerid][slot]);
+
+	weedPercent[playerid][slot] += 10;
+	new string[64];
+	format(string, sizeof(string), "[CAY CAN SA]\n"C_GREY"%d%% "C_WHITE"tren "C_GREY"100%%", weedPercent[playerid][slot]);
+	UpdateDynamic3DTextLabelText(weedLabel[playerid][slot], COLOR_YELLOW, string);
+	return 1;
+}

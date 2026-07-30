@@ -2,12 +2,7 @@
 #include <tower_system>
 
 #include <stores_system>
-#include <police_system>
 #include <jailcell_system>
-#include <cityhall_system>
-#include <hospital_system>
-#include <crack_system>
-#include <weed_system>
 #include <army_system>
 #include <bomb_shop>
 #include <car_crusher>
@@ -44,9 +39,6 @@
 
 // Turf War System
 #include <turf_system>
-
-// Phone System
-#include <phone_system>
 
 // EMS / LSFD System
 #include <ems_system>

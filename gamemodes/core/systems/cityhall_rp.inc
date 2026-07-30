@@ -112,6 +112,10 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
         {
             CityHall_ShowMainMenu(playerid);
         }
+        else if (IsPlayerInRangeOfPoint(playerid, 5.0, 359.7139, 173.5916, 1008.3893))
+        {
+            Cityhall_ChangeSkill(playerid);
+        }
     }
     return 1;
 }
@@ -128,6 +132,10 @@ hook OnGameModeInit()
 
     new npcActor = CreateActor(143, CITYHALL_NPC_X, CITYHALL_NPC_Y, CITYHALL_NPC_Z - 1.0, 90.0);
     SetActorVirtualWorld(npcActor, CITYHALL_NPC_VW);
+
+    Create3DTextLabel("Nhan "C_YELLOW"Y"C_WHITE" de doi ky nang nghe", COLOR_WHITE, 359.7139, 173.5916, 1009.3893, 40.0, 26, false);
+    new BotAnna = CreateActor(141, 359.7139, 173.5916, 1008.3893, 271.1871);
+    SetActorVirtualWorld(BotAnna, 26);
     return 1;
 }
 
@@ -437,4 +445,36 @@ CMD:mybiz(playerid, params[])
 stock Player_HasBizLicense(playerid)
 {
     return PlayerHasBizLicense[playerid];
+}
+
+// =============================================================================
+// JOB SKILL CHANGE NPC (BotAnna at City Hall Interior 26)
+// =============================================================================
+
+const CHANGE_SKILL_PRICE = 7_500;
+
+stock Cityhall_ChangeSkill(playerid)
+{
+    inline const _response(response, listitem, string:inputtext[])
+    {
+        #pragma unused listitem, inputtext
+        if(!response) return 1;
+
+        if (GetPlayerMoney(playerid) < CHANGE_SKILL_PRICE)
+            return SendErrorMsg(playerid, "Khong the doi ky nang, ban khong du tien.");
+
+        if (!Player_HasLicense(playerid, LICENSE_JOB))
+            return SendErrorMsg(playerid, "Ban can giay phep nghe dac biet de doi ky nang tai Toa Thi Chinh.");
+
+        Player_ShowJobMenu(playerid);
+        GivePlayerMoney(playerid, -CHANGE_SKILL_PRICE);
+        return 1;
+    }
+
+    new string[128];
+    format(string, sizeof(string), "Ban co chac muon doi ky nang khong?\n\nPhi doi ky nang: {33AA33}$%d", CHANGE_SKILL_PRICE);
+
+    Dialog_ShowCallback(playerid, using inline _response,
+        DIALOG_STYLE_MSGBOX, "Doi ky nang nghe nghiep", string, "Chac chan", "Khong");
+    return 1;
 }
