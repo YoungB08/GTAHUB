@@ -38,6 +38,7 @@ hook OnGameModeInit() {
     new
         MySQLOpt: option_id = mysql_init_options();
 	mysql_set_option(option_id, AUTO_RECONNECT, true); // it automatically reconnects when loosing connection to mysql server
+	mysql_set_option(option_id, SERVER_TIMEOUT, 10); // connection timeout in seconds
 
     MySQL_ConHandle = mysql_connect(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, option_id);
 
