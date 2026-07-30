@@ -119,27 +119,27 @@ enum E_QUESTION {
 static const Questions[MAX_THEORY_QUESTIONS][E_QUESTION] = {
     {
         "Khi gap den do tai nga tu, ban phai lam gi?",
-        "Tang toc qua nhanh\tDung lai truoc vach qua duong\tRe phai ngay khong can dung",
+        "1. Tang toc qua nhanh\n2. Dung lai truoc vach qua duong\n3. Re phai ngay khong can dung",
         1
     },
     {
         "Toc do toi da cho phep trong khu dan cu la bao nhieu?",
-        "60 km/h\t100 km/h\tKhong gioi han",
+        "1. 60 km/h\n2. 100 km/h\n3. Khong gioi han",
         0
     },
     {
         "Khi nghe tieng coi xe Canh Sat / EMS dang cap cuu, ban phai:",
-        "Dua xe voi ho\tNhuong duong bang cach tấp vao le phai\tDung lai giua duong",
+        "1. Dua xe voi ho\n2. Nhuong duong bang cach tap vao le phai\n3. Dung lai giua duong",
         1
     },
     {
-        "Lai xe khi dang say ruou / ngáo ma túy se bi xu ly nhu the nao?",
-        "Khong sao ca\tBi phat tien va tước bang lai IC\tDuoc thuong tien",
+        "Lai xe khi dang say ruou / ngao ma tuy se bi xu ly nhu the nao?",
+        "1. Khong sao ca\n2. Bi phat tien va tuoc bang lai IC\n3. Duoc thuong tien",
         1
     },
     {
         "Khi chuyen huong hoac re duong, ban bat buoc phai:",
-        "Bật den xi-nhan bao hieu truoc\tBop coi lien tuc\tKhong can lam gi",
+        "1. Bat den xi-nhan bao hieu truoc\n2. Bop coi lien tuc\n3. Khong can lam gi",
         0
     }
 };
@@ -351,8 +351,8 @@ static DS_PromptStartExam(playerid, licenseType, fee, const licenseName[])
 
 static DS_ShowTheoryQuestion(playerid, qIdx)
 {
-    new title[64];
-    format(title, sizeof(title), "Thi Ly Thuyet – Cau %d/%d", qIdx + 1, MAX_THEORY_QUESTIONS);
+    new title[128];
+    format(title, sizeof(title), "Cau %d/%d: %s", qIdx + 1, MAX_THEORY_QUESTIONS, Questions[qIdx][E_Q_TEXT]);
 
     inline OnAnswer(response, listitem, string:inputtext[])
     {
