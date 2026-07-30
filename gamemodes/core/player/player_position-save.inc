@@ -6,8 +6,9 @@ stock bool:PlayerPosition_IsValid(Float:x, Float:y, Float:z)
     if (x != x || y != y || z != z) return false;
     // Tọa độ 0,0,0
     if (x == 0.0 && y == 0.0 && z == 0.0) return false;
-    // Tọa độ kẹt camera / độ cao bất thường (z > 1000m hoặc z < -100m)
+    // Tọa độ kẹt camera / độ cao bất thường (z > 1000m hoặc z < -100m) hoặc ngoài giới hạn bản đồ (-6000 đến +6000)
     if (z > 1000.0 || z < -100.0) return false;
+    if (floatabs(x) > 6000.0 || floatabs(y) > 6000.0) return false;
     // Tọa độ camera selection mặc định của SA-MP (2931.9829, -1922.0767)
     if (floatabs(x - 2931.9829) < 2.0 && floatabs(y - (-1922.0767)) < 2.0) return false;
     return true;
@@ -62,6 +63,8 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerLogin(playerid)
 {
+    if (Player_GetAccountID(playerid) <= 0) return 1;
+
     inline const OnPositionLoad()
     {
         MySQL_BindResultFloat(stmt_LoadPlayerPosition, 0, PlayerSavedX[playerid]);

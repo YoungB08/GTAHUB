@@ -31,17 +31,32 @@ hook OnPlayerSpawn(playerid) {
         PlayerFirstSpawn[playerid] = false;
     }
 
-    new
-        Float:x = SF_SPAWN_X,
-        Float:y = SF_SPAWN_Y,
-        Float:z = SF_SPAWN_Z,
-        Float:ang = SF_SPAWN_A,
-        world = SF_SPAWN_WORLD,
-        interior = SF_SPAWN_INTERIOR;
+    // Lấy vị trí từ nhân vật IC làm mặc định
+    new Float:x, Float:y, Float:z, Float:ang, world = 0, interior = 0;
+    Char_GetPos(playerid, x, y, z, ang);
 
-    // Load vị trí lưu cuối cùng trước khi thoát game của người chơi
+    // Ưu tiên vị trí lưu gần nhất trong player_position-save nếu hợp lệ
     if(PlayerPosition_HasSaved(playerid)) {
-        PlayerPosition_GetSaved(playerid, x, y, z, ang, world, interior);
+        new Float:sx, Float:sy, Float:sz, Float:sa, sw, sint;
+        PlayerPosition_GetSaved(playerid, sx, sy, sz, sa, sw, sint);
+        if (PlayerPosition_IsValid(sx, sy, sz)) {
+            x = sx;
+            y = sy;
+            z = sz;
+            ang = sa;
+            world = sw;
+            interior = sint;
+        }
+    }
+
+    // Nếu tọa độ vẫn không hợp lệ -> reset về Bệnh viện Los Santos
+    if(!PlayerPosition_IsValid(x, y, z)) {
+        x = CHAR_DEFAULT_SPAWN_X;
+        y = CHAR_DEFAULT_SPAWN_Y;
+        z = CHAR_DEFAULT_SPAWN_Z;
+        ang = CHAR_DEFAULT_SPAWN_A;
+        world = 0;
+        interior = 0;
     }
 
     if(Player_GetClass(playerid) == TEAM_CIVILIAN) {

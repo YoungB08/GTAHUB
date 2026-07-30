@@ -26,6 +26,7 @@
 forward bool:PlayerPosition_IsValid(Float:x, Float:y, Float:z);
 forward bool:Player_IsValidSkin(skinid);
 forward bool:PlayerPosition_HasSaved(playerid);
+forward bool:Char_IsActive(playerid);
 
 // =============================================================================
 // CONSTANTS
@@ -80,6 +81,16 @@ static CharListCount[MAX_PLAYERS];
 static
     CharacterCreateFirst[MAX_PLAYERS][CHAR_FIRSTNAME_LEN],
     CharacterCreateLast[MAX_PLAYERS][CHAR_LASTNAME_LEN];
+
+stock Char_GetPos(playerid, &Float:x, &Float:y, &Float:z, &Float:a)
+{
+    if (!Char_IsActive(playerid)) return 0;
+    x = PlayerChar[playerid][E_CHAR_X];
+    y = PlayerChar[playerid][E_CHAR_Y];
+    z = PlayerChar[playerid][E_CHAR_Z];
+    a = PlayerChar[playerid][E_CHAR_A];
+    return 1;
+}
 
 // =============================================================================
 // PREPARED STATEMENTS

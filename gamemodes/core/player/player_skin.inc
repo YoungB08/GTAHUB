@@ -30,6 +30,8 @@ hook OnPlayerConnect(playerid) {
 }
 
 hook OnPlayerLogin(playerid) {
+    if (Player_GetAccountID(playerid) <= 0) return 1;
+
     inline const OnSkinLoad() {
         new
             playerSkin;
@@ -51,6 +53,7 @@ hook OnPlayerLogin(playerid) {
 }
 
 hook OnPlayerFirstSpawn(playerid) {
+    if (Char_IsActive(playerid)) return 1;
 
     new
         skinid = Player_GetSkin(playerid);
