@@ -291,3 +291,58 @@ ACMD:[1]relog(playerid, params[])
 	defer UnbanPlayerIP(targetid);
 	return 1;
 }
+
+// =============================================================================
+// COMMAND – /up [khoang_cach] [targetid] – Dich chuyen len cao de mo ket
+// =============================================================================
+
+ACMD:[1]up(playerid, params[])
+{
+    new Float:distance = 5.0, targetid = playerid;
+
+    if (!sscanf(params, "fU(-1)", distance, targetid))
+    {
+        if (targetid == -1 || targetid == INVALID_PLAYER_ID)
+            targetid = playerid;
+    }
+    else if (!sscanf(params, "u", targetid))
+    {
+        distance = 5.0;
+    }
+    else
+    {
+        distance = 5.0;
+        targetid = playerid;
+    }
+
+    if (!IsPlayerConnected(targetid))
+        return SendErrorMsg(playerid, "Nguoi choi khong ton tai hoac da thoat."), 1;
+
+    if (distance < 1.0 || distance > 100.0)
+        distance = 5.0;
+
+    new Float:x, Float:y, Float:z;
+
+    if (IsPlayerInAnyVehicle(targetid))
+    {
+        new vehid = GetPlayerVehicleID(targetid);
+        GetVehiclePos(vehid, x, y, z);
+        SetVehiclePos(vehid, x, y, z + distance);
+    }
+    else
+    {
+        GetPlayerPos(targetid, x, y, z);
+        SetPlayerPos(targetid, x, y, z + distance);
+    }
+
+    if (targetid == playerid)
+    {
+        SendServerMsgF(playerid, "[ADMIN] Da dich chuyen ban len cao +%.1fm de mo ket.", distance);
+    }
+    else
+    {
+        SendServerMsgF(playerid, "[ADMIN] Da dich chuyen %s len cao +%.1fm de mo ket.", ReturnPlayerName(targetid), distance);
+        SendServerMsgF(targetid, "[ADMIN] Admin %s da dich chuyen ban len cao +%.1fm de mo ket.", ReturnPlayerName(playerid), distance);
+    }
+    return 1;
+}
