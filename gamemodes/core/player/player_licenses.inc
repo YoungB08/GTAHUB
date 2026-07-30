@@ -8,6 +8,7 @@ enum {
     LICENSE_PILOT,
     LICENSE_WEAPON,
     LICENSE_JOB,
+    LICENSE_BIKE,
     LICENSE_TOTAL
 }
 
@@ -39,6 +40,15 @@ static bool:License_IsHeavyVehicleModel(modelid)
 {
     switch(modelid) {
         case 403, 406, 407, 408, 414, 431, 433, 437, 443, 455, 456, 486, 498, 499, 514, 515, 524, 525, 552, 578, 609:
+            return true;
+    }
+    return false;
+}
+
+static bool:License_IsBikeModel(modelid)
+{
+    switch(modelid) {
+        case 461, 462, 463, 468, 471, 521, 522, 523, 581, 586:
             return true;
     }
     return false;
@@ -102,7 +112,8 @@ static License_Load(playerid)
 stock License_GetName(licenseid, output[], len)
 {
     switch(licenseid) {
-        case LICENSE_DRIVING: format(output, len, "Bang lai xe");
+        case LICENSE_DRIVING: format(output, len, "Bang lai xe o to");
+        case LICENSE_BIKE: format(output, len, "Bang lai xe mo to/xe may");
         case LICENSE_TRUCK: format(output, len, "Bang xe tai/bus");
         case LICENSE_PILOT: format(output, len, "Bang may bay");
         case LICENSE_WEAPON: format(output, len, "Giay phep sung");
@@ -172,6 +183,10 @@ stock License_GetRequiredForVehicleModel(modelid)
         return LICENSE_TRUCK;
     }
 
+    if(License_IsBikeModel(modelid)) {
+        return LICENSE_BIKE;
+    }
+
     return LICENSE_DRIVING;
 }
 
@@ -181,8 +196,12 @@ stock bool:License_CheckVehicleAccess(playerid, vehicleid, bool:notify = true)
         return false;
     }
 
-    if(GetPVarInt(playerid, "LicenseTestActive")) {
-        return true;
+    // Nếu đang trong bài thi thực hành bằng lái xe và phương tiện đúng là vehicle thi được cấp ➔ Cho phép lái!
+    if(GetPVarInt(playerid, "LicenseTestActive") > 0) {
+        new testVeh = GetPVarInt(playerid, "LicenseTestVehID");
+        if (testVeh > 0 && vehicleid == testVeh) {
+            return true;
+        }
     }
 
     new

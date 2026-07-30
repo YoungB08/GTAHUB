@@ -28,7 +28,8 @@ hook OnGameModeInit() {
     Admin_AddCommandToList(1, "/afix - repair the vehicle you're currently in");
     Admin_AddCommandToList(1, "/get - pull a player to your position");
     Admin_AddCommandToList(1, "/kick - remove a player from the server");
-    Admin_AddCommandToList(1, "/goto - teleport to a player");
+    Admin_AddCommandToList(1, "/goto - teleport to preset locations (cityhall, vipls, dmv, ems, pd)");
+    Admin_AddCommandToList(1, "/gotoid - teleport to a player by ID or partial name");
     Admin_AddCommandToList(1, "/setwanted - set a player's wanted level");
     Admin_AddCommandToList(1, "/respawn - force a player to respawn");
     Admin_AddCommandToList(1, "/spec - spectate a player");

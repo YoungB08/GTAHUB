@@ -423,6 +423,11 @@ static DS_StartPracticalTest(playerid)
             3, 3, 300);
 
         GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
+
+        // Cấp quyền lái xe tạm thời cho đúng phương tiện thi này
+        SetPVarInt(playerid, "LicenseTestActive", 1);
+        SetPVarInt(playerid, "LicenseTestVehID", TestVehicleID[playerid]);
+
         PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
 
         // Đặt Checkpoint đầu tiên cho Xe Tải
@@ -434,9 +439,38 @@ static DS_StartPracticalTest(playerid)
         SendMsgF(playerid, COLOR_GREEN,
             "[THUC HANH RED COUNTY] Dang thi BANG LAI XE TAI (TRUCK)! Hay lai xe Flatbed qua 11 Checkpoints. Toc do < 60 km/h!");
     }
+    else if (SelectedLicenseType[playerid] == LICENSE_BIKE)
+    {
+        // Dịch chuyển người chơi đến Sân Thi Red County (Xe máy PCJ-600)
+        SetPlayerPos(playerid, DS_PRACTICAL_X, DS_PRACTICAL_Y, DS_PRACTICAL_Z);
+        SetPlayerFacingAngle(playerid, DS_PRACTICAL_A);
+        SetPlayerVirtualWorld(playerid, 0);
+        SetPlayerInterior(playerid, 0);
+
+        TestVehicleID[playerid] = CreateVehicle(461, // PCJ-600
+            DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z, DS_VEH_SPAWN_A,
+            3, 3, 300);
+
+        GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
+
+        // Cấp quyền lái xe tạm thời cho đúng phương tiện thi này
+        SetPVarInt(playerid, "LicenseTestActive", 1);
+        SetPVarInt(playerid, "LicenseTestVehID", TestVehicleID[playerid]);
+
+        PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
+
+        // Đặt Checkpoint đầu tiên cho Xe máy
+        SetPlayerRaceCheckpoint(playerid, 0,
+            DSCheckpoints[0][0], DSCheckpoints[0][1], DSCheckpoints[0][2],
+            DSCheckpoints[1][0], DSCheckpoints[1][1], DSCheckpoints[1][2],
+            5.0);
+
+        SendMsgF(playerid, COLOR_GREEN,
+            "[THUC HANH RED COUNTY] Dang thi BANG LAI XE MO TO / XE MAY (BIKE)! Hay lai xe PCJ-600 qua 10 Checkpoints. Toc do < 60 km/h!");
+    }
     else
     {
-        // Dịch chuyển người chơi từ City Hall đến Sân Thi Red County (Ô tô)
+        // Dịch chuyển người chơi từ City Hall đến Sân Thi Red County (Ô tô Premier)
         SetPlayerPos(playerid, DS_PRACTICAL_X, DS_PRACTICAL_Y, DS_PRACTICAL_Z);
         SetPlayerFacingAngle(playerid, DS_PRACTICAL_A);
         SetPlayerVirtualWorld(playerid, 0);
@@ -447,6 +481,11 @@ static DS_StartPracticalTest(playerid)
             3, 3, 300);
 
         GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
+
+        // Cấp quyền lái xe tạm thời cho đúng phương tiện thi này
+        SetPVarInt(playerid, "LicenseTestActive", 1);
+        SetPVarInt(playerid, "LicenseTestVehID", TestVehicleID[playerid]);
+
         PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
 
         // Đặt Checkpoint đầu tiên cho Ô tô
@@ -491,6 +530,10 @@ static DS_CleanupTest(playerid)
     PlayerTestState[playerid] = TEST_NONE;
     DisablePlayerRaceCheckpoint(playerid);
 
+    // Xóa quyền lái xe tạm thời
+    DeletePVar(playerid, "LicenseTestActive");
+    DeletePVar(playerid, "LicenseTestVehID");
+
     if (TestVehicleID[playerid] != INVALID_VEHICLE_ID)
     {
         DestroyVehicle(TestVehicleID[playerid]);
@@ -510,6 +553,24 @@ static DS_CleanupTest(playerid)
     }
     SetPlayerVirtualWorld(playerid, 0);
     SetPlayerInterior(playerid, 0);
+    return 1;
+}
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+    if (PlayerTestState[playerid] != TEST_NONE)
+    {
+        DS_CleanupTest(playerid);
+    }
+    return 1;
+}
+
+hook OnPlayerDeath(playerid, killerid, reason)
+{
+    if (PlayerTestState[playerid] != TEST_NONE)
+    {
+        DS_FailExam(playerid, "Nguoi choi bi chet trong khi dang thi.");
+    }
     return 1;
 }
 
@@ -536,11 +597,15 @@ CMD:takeexam(playerid, params[])
 
         switch (listitem)
         {
-            case 0: // Bang Lai Xe O To (Car) - $500
+            case 0: // Bang Lai Xe Mo To / Xe May (Bike) - $300
+            {
+                DS_PromptStartExam(playerid, LICENSE_BIKE, 300, "Bang Lai Xe Mo To / Xe May (Bike)");
+            }
+            case 1: // Bang Lai Xe O To (Car) - $500
             {
                 DS_PromptStartExam(playerid, LICENSE_CAR, 500, "Bang Lai Xe O To (Car)");
             }
-            case 1: // Bang Lai Xe Tai / Bus (Truck) - $1,000
+            case 2: // Bang Lai Xe Tai / Bus (Truck) - $1,000
             {
                 DS_PromptStartExam(playerid, LICENSE_TRUCK, 1000, "Bang Lai Xe Tai (Truck / Bus)");
             }
@@ -551,8 +616,9 @@ CMD:takeexam(playerid, params[])
     Dialog_ShowCallback(playerid, using inline OnLicenseSelect,
         DIALOG_STYLE_LIST,
         "=== CHON LOAI BANG LAI XE THI ===",
-        "1. Bang Lai Xe O To (Car) - $500\n\
-2. Bang Lai Xe Tai / Bus (Truck) - $1,000",
+        "1. Bang Lai Xe Mo To / Xe May (Bike) - $300\n\
+2. Bang Lai Xe O To (Car) - $500\n\
+3. Bang Lai Xe Tai / Bus (Truck) - $1,000",
         "Chon", "Huy");
     return 1;
 }
