@@ -277,7 +277,7 @@ static Char_LoadList(playerid)
         Char_ShowSelectionDialog(playerid);
     }
 
-    MySQL_BindInt(stmt_loadChars, 0, Player_GetAccountID(playerid));
+    MySQL_BindInt(stmt_loadChars, 0, Player_GetMasterAccountID(playerid));
     MySQL_BindInt(stmt_loadChars, 1, MAX_CHARS_PER_ACCOUNT);
     MySQL_ExecuteParallel_Inline(stmt_loadChars, using inline OnCharListLoad);
 }
@@ -549,7 +549,7 @@ static Char_InsertToDB(playerid, age, gender, skinID)
         Char_Activate(playerid, idx);
     }
 
-    MySQL_BindInt(stmt_insertChar, 0, Player_GetAccountID(playerid));
+    MySQL_BindInt(stmt_insertChar, 0, Player_GetMasterAccountID(playerid));
     MySQL_BindString(stmt_insertChar, 1, CharacterCreateFirst[playerid], 32);
     MySQL_BindString(stmt_insertChar, 2, CharacterCreateLast[playerid],  32);
     MySQL_BindInt(stmt_insertChar, 3, age);
@@ -564,6 +564,9 @@ static Char_InsertToDB(playerid, age, gender, skinID)
 
 static Char_Activate(playerid, listIdx)
 {
+    // Đặt Character ID cho playerid
+    Player_SetCharacterID(playerid, CharList[playerid][listIdx][E_CHAR_ID]);
+
     // Copy từ CharList -> PlayerChar
     PlayerChar[playerid][E_CHAR_ID]        = CharList[playerid][listIdx][E_CHAR_ID];
     strcopy(PlayerChar[playerid][E_CHAR_FIRSTNAME], CharList[playerid][listIdx][E_CHAR_FIRSTNAME], 32);
@@ -803,7 +806,7 @@ CMD:deletechar(playerid, params[])
         new charID = PlayerChar[playerid][E_CHAR_ID];
 
         MySQL_BindInt(stmt_deleteChar, 0, charID);
-        MySQL_BindInt(stmt_deleteChar, 1, Player_GetAccountID(playerid));
+        MySQL_BindInt(stmt_deleteChar, 1, Player_GetMasterAccountID(playerid));
         MySQL_ExecuteThreaded(stmt_deleteChar);
 
         SendMsgF(playerid, COLOR_RED, "[NHAN VAT] Da xoa nhan vat %s %s.",

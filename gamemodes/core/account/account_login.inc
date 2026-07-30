@@ -118,7 +118,8 @@ public OnPasswordVerify(playerid, bool:success, string:hash[]) {
     );
 
     PlayerAttempts[playerid] = 0;
-    Account_ShowCharacterMenu(playerid);
+    Player_SetLoginStatus(playerid, true);
+    CallLocalFunction("OnPlayerLogin", "i", playerid);
 }
 
  // API
