@@ -435,29 +435,6 @@ ACMD:[3]giveweaps(playerid, params[])
 	return 1;
 }
 
-ACMD:[3]veh(playerid, params[])
-{
-    new vname[32], color1, color2;
-    new Float:x, Float:y, Float:z;
-    new Float:a;
-    new veh;
-    if(sscanf(params, "s[32]D(1)D(1)", vname, color1, color2)) return SendSyntaxMsg(playerid, "/veh (ten xe) (tuy chon:mau 1) (tuy chon:mau 2)");
-    GetPlayerPos(playerid, x, y, z);
-    GetPlayerFacingAngle(playerid, a);
-    GetXYInFrontOfPlayer2(playerid, x, y, 5.0);
-    veh = GetVehicleModelIDFromName( vname );
-    if(veh == -1)
-    {
-        veh = strval(vname);
-        if(veh < 400 || veh > 611) {
-            return SendErrorMsg(playerid, "Ten xe khong hop le.");
-        }
-    }
-    new vehid = SpawnVehicle(veh, x, y, z, a, color1, color2);
-	LinkVehicleToInterior(vehid, GetPlayerInterior(playerid));
-	SetVehicleVirtualWorld(vehid, GetPlayerVirtualWorld(playerid));
-    return 1;
-}
 
 ACMD:[3]aveh(playerid, params[])
 {

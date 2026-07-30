@@ -29,7 +29,42 @@ ACMD:[1]get(playerid, params[])
 	SetPlayerInterior(targetid, GetPlayerInterior(playerid));
 	return 1;
 }
+ACMD:[1]veh(playerid, params[])
+{
+    new
+        modelid,
+        color1 = -1,
+        color2 = -1;
 
+    if(sscanf(params, "k<vehicleid>I(-1)I(-1)", modelid, color1, color2)) {
+        return SendSyntaxMsg(playerid, "/veh <modelid/vehicle name> <color 1> <color 2>");
+    }
+
+    // if(modelid < 400 || modelid > 611) {
+    //     return SendErrorMsg(playerid, "ID phuong tien khong hop le (400 - 611).");
+    // }
+
+    if(color1 == -1) color1 = random(126);
+    if(color2 == -1) color2 = random(126);
+
+    new
+        Float:x,
+        Float:y,
+        Float:z,
+        Float:angle;
+
+    GetPlayerPos(playerid, x, y, z);
+    GetPlayerFacingAngle(playerid, angle);
+
+    // Dynamic vehicle ID variable
+    new vehicleid = CreateVehicle(modelid, x + 1.5, y, z + 0.5, angle, color1, color2, -1);
+
+    SetVehicleVirtualWorld(vehicleid, GetPlayerVirtualWorld(playerid));
+    LinkVehicleToInterior(vehicleid, GetPlayerInterior(playerid));
+
+    PutPlayerInVehicle(playerid, vehicleid, 0);
+    return 1;
+}
 ACMD:[1]goto(playerid, params[])
 {
     new gotoType[16];
