@@ -48,6 +48,10 @@ hook OnPlayerSpawn(playerid) {
 
     Interaction_LoadSafeTeleport(playerid, x, y, z, ang, world, interior, false, 500);
 
+    // Bỏ đóng băng và khôi phục camera phía sau người chơi sau khi spawn
+    TogglePlayerControllable(playerid, true);
+    SetCameraBehindPlayer(playerid);
+
     Logger_Dbg(PLAYER_DEBUG_HANDLER, "[OnPlayerSpawn / player_spawn.inc] player spawned",
         Logger_P(playerid),
         Logger_F("x", x),

@@ -384,7 +384,7 @@ static Char_ShowCreateDialog(playerid)
         playerid,
         using inline OnEnterName,
         DIALOG_STYLE_INPUT,
-        "Tao Nhan Vat Moi – Ten IC",
+        "Tao Nhan Vat Moi - Ten IC",
         "Nhap ten nhan vat theo dinh dang:\n\
 {FFAA00}Firstname Lastname{FFFFFF}\n\n\
 Vi du: {33AA33}Nguyen Van{FFFFFF} hoac {33AA33}John Smith\n\n\
@@ -462,14 +462,14 @@ Nu\t(Co the chon skin Nu)\n",
 
         Dialog_ShowCallback(playerid, using inline OnAgeInput,
             DIALOG_STYLE_INPUT,
-            "Tao Nhan Vat – Tuoi",
+            "Tao Nhan Vat - Tuoi",
             "Nhap tuoi nhan vat (18-70):",
             "Tiep tuc", "Quay lai");
     }
 
     Dialog_ShowCallback(playerid, using inline OnGenderSelect,
         DIALOG_STYLE_LIST,
-        "Tao Nhan Vat – Gioi Tinh",
+        "Tao Nhan Vat - Gioi Tinh",
         content,
         "Chon", "Quay lai");
 }
@@ -514,7 +514,7 @@ static Char_ShowSkinDialog(playerid, age, gender)
 
     Dialog_ShowCallback(playerid, using inline OnSkinSelect,
         DIALOG_STYLE_LIST,
-        "Tao Nhan Vat – Skin",
+        "Tao Nhan Vat - Skin",
         content,
         "Chon skin", "Quay lai");
 }
@@ -597,6 +597,10 @@ static Char_Activate(playerid, listIdx)
         PlayerChar[playerid][E_CHAR_Z], PlayerChar[playerid][E_CHAR_A],
         0, 0, 0, 0, 0, 0);
     SpawnPlayer(playerid);
+
+    // MỚI: Khôi phục camera sau người chơi và bỏ đóng băng
+    SetCameraBehindPlayer(playerid);
+    TogglePlayerControllable(playerid, true);
 
     SendMsgF(playerid, COLOR_GREEN,
         "[NHAN VAT] Chao mung %s %s! Chuc ban choi vui!",
