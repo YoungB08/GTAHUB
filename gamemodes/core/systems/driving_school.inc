@@ -276,10 +276,8 @@ hook OnPlayerSecondUpdate(playerid)
         }
     }
 
-    // Kiểm tra tốc độ xe
-    new Float:vx, Float:vy, Float:vz;
-    GetVehicleVelocity(TestVehicleID[playerid], vx, vy, vz);
-    new Float:speed = floatsqroot(vx * vx + vy * vy + vz * vz) * 160.0; // km/h
+    // Kiem tra toc do xe (dong bo voi dong ho Speedometer, giam 1/3 giup thi de hon)
+    new Float:speed = GetVehicleSpeed(TestVehicleID[playerid]);
 
     if (speed > TEST_SPEED_LIMIT)
     {

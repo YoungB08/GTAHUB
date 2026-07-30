@@ -165,10 +165,8 @@ hook OnPlayerSecondUpdate(playerid)
         return 1;
     }
 
-    // Tính tiêu hao theo tốc độ
-    new Float:vx, Float:vy, Float:vz;
-    GetVehicleVelocity(vehicleid, vx, vy, vz);
-    new Float:speed = floatsqroot(vx*vx + vy*vy + vz*vz) * 179.82; // km/h
+    // Tinh tieu hao theo toc do
+    new Float:speed = GetVehicleSpeed(vehicleid);
 
     new Float:consume = FUEL_CONSUME_PER_SECOND + (speed * FUEL_CONSUME_SPEED_FACTOR);
     VehicleFuel[vehicleid] -= consume;
