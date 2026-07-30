@@ -277,7 +277,6 @@ ACMD:[2]gotoentrance(playerid, params[])
     return Admin_ShowEntranceGotoDialog(playerid);
 }
 
-ALTCMD:gotodoor(gotoentrance);
 ALTCMD:gotobiz(gotoentrance);
 
 ACMD:[2]entrances(playerid, params[])
