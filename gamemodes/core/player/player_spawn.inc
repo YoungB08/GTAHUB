@@ -65,7 +65,11 @@ hook OnPlayerSpawn(playerid) {
         }
     }
 
-    Interaction_LoadSafeTeleport(playerid, x, y, z, ang, world, interior, false, 500);
+    SetPlayerInterior(playerid, interior);
+    SetPlayerVirtualWorld(playerid, world);
+    SetPlayerPos(playerid, x, y, z);
+    SetPlayerFacingAngle(playerid, ang);
+    Streamer_UpdateEx(playerid, x, y, z, world, interior, -1, 0, 0);
 
     // Bỏ đóng băng và khôi phục camera phía sau người chơi sau khi spawn
     TogglePlayerControllable(playerid, true);

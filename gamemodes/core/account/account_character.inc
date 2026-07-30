@@ -661,6 +661,8 @@ static Char_SavePosition(playerid)
     GetPlayerPos(playerid, px, py, pz);
     GetPlayerFacingAngle(playerid, pa);
 
+    if (!PlayerPosition_IsValid(px, py, pz)) return;
+
     MySQL_BindFloat(stmt_saveCharPos, 0, px);
     MySQL_BindFloat(stmt_saveCharPos, 1, py);
     MySQL_BindFloat(stmt_saveCharPos, 2, pz);
@@ -678,6 +680,14 @@ static Char_SaveStats(playerid)
     new Float:px, Float:py, Float:pz, Float:pa;
     GetPlayerPos(playerid, px, py, pz);
     GetPlayerFacingAngle(playerid, pa);
+
+    if (!PlayerPosition_IsValid(px, py, pz))
+    {
+        px = PlayerChar[playerid][E_CHAR_X];
+        py = PlayerChar[playerid][E_CHAR_Y];
+        pz = PlayerChar[playerid][E_CHAR_Z];
+        pa = PlayerChar[playerid][E_CHAR_A];
+    }
 
     MySQL_BindInt(stmt_saveCharStats,   0, GetPlayerMoney(playerid));
     MySQL_BindInt(stmt_saveCharStats,   1, Player_GetKills(playerid));
