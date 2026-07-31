@@ -524,7 +524,7 @@ static Char_ShowSkinDialog(playerid, age, gender)
         else             skinID = DefaultFemaleSkins[listitem];
 
         // Tạo nhân vật vào DB
-        Char_InsertToDB(playerid, age, gender, skinID);
+        Char_InsertToDB(playerid, CharacterCreateFirst[playerid], CharacterCreateLast[playerid], age, gender, skinID);
     }
 
     Dialog_ShowCallback(playerid, using inline OnSkinSelect,
@@ -534,17 +534,13 @@ static Char_ShowSkinDialog(playerid, age, gender)
         "Chon skin", "Quay lai");
 }
 
-static s_PendingFirst[MAX_PLAYERS][CHAR_FIRSTNAME_LEN];
-static s_PendingLast[MAX_PLAYERS][CHAR_LASTNAME_LEN];
-static s_PendingAge[MAX_PLAYERS];
-static s_PendingGender[MAX_PLAYERS];
-static s_PendingSkin[MAX_PLAYERS];
 
-static Char_InsertToDB(playerid, age, gender, skinID)
+
+Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID)
 {
     new idx = CharListCount[playerid];
-    strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], CharacterCreateFirst[playerid], 32);
-    strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  CharacterCreateLast[playerid],  32);
+    strcopy(CharList[playerid][idx][E_CHAR_FIRSTNAME], firstname, 32);
+    strcopy(CharList[playerid][idx][E_CHAR_LASTNAME],  lastname,  32);
     CharList[playerid][idx][E_CHAR_AGE]    = age;
     CharList[playerid][idx][E_CHAR_GENDER] = gender;
     CharList[playerid][idx][E_CHAR_SKIN]   = skinID;
@@ -565,12 +561,10 @@ static Char_InsertToDB(playerid, age, gender, skinID)
         SendMsgF(playerid, COLOR_GREEN, "[NHAN VAT] Da tao nhan vat %s %s thanh cong!", CharList[playerid][idx][E_CHAR_FIRSTNAME], CharList[playerid][idx][E_CHAR_LASTNAME]);
         Char_Activate(playerid, idx);
     }
-    return 1;
-}
 
     MySQL_BindInt(stmt_insertChar, 0, Player_GetMasterAccountID(playerid));
-    MySQL_BindString(stmt_insertChar, 1, CharacterCreateFirst[playerid], 32);
-    MySQL_BindString(stmt_insertChar, 2, CharacterCreateLast[playerid],  32);
+    MySQL_BindString(stmt_insertChar, 1, firstname, 32);
+    MySQL_BindString(stmt_insertChar, 2, lastname,  32);
     MySQL_BindInt(stmt_insertChar, 3, age);
     MySQL_BindInt(stmt_insertChar, 4, gender);
     MySQL_BindInt(stmt_insertChar, 5, skinID);
@@ -882,8 +876,7 @@ CMD:deletechar(playerid, params[])
 
         new charID = PlayerChar[playerid][E_CHAR_ID];
 
-        new accountID = Player_GetMasterAccountID(playerid);
-        if (accountID <= 0) accountID = Player_GetAccountID(playerid);
+
 
         MySQL_BindInt(stmt_deleteChar, 0, charID);
         MySQL_BindInt(stmt_deleteChar, 1, Player_GetMasterAccountID(playerid));

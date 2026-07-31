@@ -419,6 +419,8 @@ public CEF_CharCreate_Done(playerid)
 // PUBLIC ALIAS FOR OTHER MODULES
 // =============================================================================
 
+forward Char_InsertToDB(playerid, const firstname[], const lastname[], age, gender, skinID);
+
 stock Account_ShowCharacterMenu_CEF(playerid)
 {
     CEF_ShowCharacterSelection(playerid);

@@ -60,7 +60,7 @@ CMD:veh(playerid, params[])
     
     return 1;
 }
-ACMD:[1]goto(playerid, params[])
+
 ACMD:[1]gotopos(playerid, params[])
 {
     new Float:x, Float:y, Float:z, interior = 0, world = 0;
