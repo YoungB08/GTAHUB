@@ -796,7 +796,14 @@ stock Character_GetBackground(playerid, output[], len = sizeof(output))
 
 stock Account_ShowCharacterMenu(playerid)
 {
-    Char_LoadList(playerid);
+    if (CEF_IsPlayerCEFReady(playerid) || CEF_PlayerHasPlugin(playerid))
+    {
+        Account_ShowCharacterMenu_CEF(playerid);
+    }
+    else
+    {
+        Char_LoadList(playerid);
+    }
     return 1;
 }
 

@@ -2,22 +2,22 @@
     "files": {
         "index.html": {
             "encrypted": true,
-            "modified": 13429827452,
+            "modified": 13429991036,
             "size": 20072
         },
         "script.js": {
             "encrypted": true,
-            "modified": 13429826839,
+            "modified": 13429991036,
             "size": 15622
         },
         "style.css": {
             "encrypted": true,
-            "modified": 13429827463,
+            "modified": 13429991036,
             "size": 3677
         }
     },
     "pak": {
-        "hash": "2d32af420304b699b101db97c978cf3b1c0e93d94c55962e25e48bdf3e3ec64b",
+        "hash": "682f4dac46fe8075a70c1b0cda9a29949bd95e586ff38d426dc5f6fa39e409bd",
         "path": "status_hud.pak",
         "size": 39812
     },
