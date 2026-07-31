@@ -19,7 +19,8 @@
 		"kristoisberg/samp-map-zones",
 		"s4marium/samp-ini:1.1.1",
 		"Sreyas-Sreelal/samp-bcrypt:0.4.1",
-		"AmyrAhmady/samp-gps-plugin:1.4.1"
+		"AmyrAhmady/samp-gps-plugin:1.4.1",
+		"katursis/Pawn.RakNet:1.6.0"
 	],
 	"local": true,
 	"runtime": {

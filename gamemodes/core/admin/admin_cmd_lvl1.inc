@@ -44,7 +44,7 @@ CMD:veh(playerid, params[])
 
     // Dynamic vehicle ID variable
     new vehicleid = CreateVehicle(612, x + 1.5, y, z + 0.5, angle, 1, 1, -1),
-	vehicleid1 = CreateVehicle(614, x + 1.5, y, z + 0.5, angle, 11, 1, -1);
+	vehicleid1 = CreateVehicle(613, x + 1.5, y, z + 0.5, angle, 11, 1, -1);
 	new engines, lights, alarm, doors, bonnet, boot, objective;
 
     GetVehicleParamsEx(vehicleid, engines, lights, alarm, doors, bonnet, boot, objective);
