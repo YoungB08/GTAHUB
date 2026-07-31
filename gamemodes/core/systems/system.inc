@@ -58,6 +58,9 @@
 // Tu do nha rieng
 #include <house_storage>
 
+// Custom Weapon System
+#include <custom_weapon_system>
+
 // RP Fishing System
 #include <fishing_system>
 

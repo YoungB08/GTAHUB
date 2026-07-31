@@ -16,6 +16,7 @@
 
 #include <admin_cmd-entrance>
 #include <admin_cmd-door>
+#include <admin_cmd-customweapon>
 #include <admin_cmd-atm>
 #include <rcon_cmd>
 #include <fly_cmd>
@@ -106,4 +107,7 @@ hook OnGameModeInit() {
     Admin_AddCommandToList(5, "/doordisable - disable a door");
     Admin_AddCommandToList(5, "/doordelete - delete a door from database");
     Admin_AddCommandToList(5, "/doorreload - reload a door runtime objects");
+    Admin_AddCommandToList(5, "/createcustomweapon - create a new custom weapon blueprint");
+    Admin_AddCommandToList(5, "/givecustomweapon - give a custom weapon to a player");
+    Admin_AddCommandToList(5, "/listcustomweapons - list all custom weapon blueprints");
 }
