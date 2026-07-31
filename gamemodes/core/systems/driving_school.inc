@@ -2,17 +2,18 @@
     driving_school.inc
     ------------------
     Hệ thống Trường Thi Lái Xe & Bài Kiểm Tra Thực Hành (Driving School RP).
+    Toàn bộ hệ thống tập trung tại Red County với đường thi 11 Checkpoints.
 
     Flow:
-    1. Người chơi đến NPC Trường thi lái xe (Los Santos / San Fierro).
-    2. Đăng ký thi lái xe (/takeexam hoặc bấm Y tại NPC, phí $500).
+    1. Người chơi đến NPC Trường thi lái xe (Red County).
+    2. Đăng ký thi lái xe (/takeexam hoặc bấm Y tại NPC).
     3. Thi Lý Thuyết: Bộ 5 câu hỏi trắc nghiệm Dialog về Luật Giao Thông IC. (Đạt >=4/5 câu).
-    4. Thi Thực Hành:
-       - Cấp xe thi (Driving Test Vehicle).
-       - Chạy qua 10 Checkpoints định sẵn.
+    4. Thi Thực Hành (Red County - 11 Checkpoints):
+       - Cấp xe thi (Bike: PCJ-600, Car: Premier, Truck: Flatbed).
+       - Chạy qua 11 Checkpoints định sẵn tại Red County.
        - Giới hạn tốc độ: 60 km/h (vượt quá 3 lần bị hủy bài thi).
        - Hỏng xe quá 25% -> Trượt bài thi.
-    5. Đạt yêu cầu -> Tự động cấp Bằng lái xe (LICENSE_CAR) lưu DB.
+    5. Đạt yêu cầu -> Tự động cấp Bằng lái xe tương ứng lưu DB.
 */
 
 #include <YSI_Coding\y_hooks>
@@ -25,57 +26,23 @@
 #define MAX_THEORY_QUESTIONS     (5)        // Số câu hỏi lý thuyết
 #define PASS_THEORY_MIN          (4)        // Số câu đúng tối thiểu
 #define MAX_SPEED_VIOLATIONS     (3)        // Tối đa 3 lần vượt 60km/h
-#define MAX_TEST_CHECKPOINTS     (10)       // 10 Checkpoints thực hành
+#define MAX_TEST_CHECKPOINTS     (11)       // 11 Checkpoints thực hành tại Red County
 #define TEST_SPEED_LIMIT         (60.0)     // km/h
 
-// Vị trí Trung Tâm Đăng Ký Thi Bằng Lái (City Hall - Los Santos)
-#define DS_NPC_X                 (1172.5)
-#define DS_NPC_Y                 (-1323.8)
-#define DS_NPC_Z                 (15.4104)
-#define DS_NPC_ANGLE             (270.0)
+// Vị trí Trung Tâm Đăng Ký Thi Bằng Lái Duy Nhất (Red County)
+#define DS_NPC_X                 (854.5622)
+#define DS_NPC_Y                 (-604.4556)
+#define DS_NPC_Z                 (18.4219)
+#define DS_NPC_ANGLE             (358.2418)
 
-// Vị trí Sân Thi Thực Hành Ô Tô (Red County - Dillimore Track)
-#define DS_PRACTICAL_X           (1368.5)
-#define DS_PRACTICAL_Y           (-1279.0)
-#define DS_PRACTICAL_Z           (13.5)
-#define DS_PRACTICAL_A           (90.0)
+// Vị trí spawn xe thi thực hành tại Red County
+#define DS_VEH_SPAWN_X           (849.7348)
+#define DS_VEH_SPAWN_Y           (-560.9124)
+#define DS_VEH_SPAWN_Z           (16.9223)
+#define DS_VEH_SPAWN_A           (101.0128)
 
-// Vị trí spawn xe thi thực hành Ô tô tại Red County
-#define DS_VEH_SPAWN_X           (1355.0)
-#define DS_VEH_SPAWN_Y           (-1280.0)
-#define DS_VEH_SPAWN_Z           (13.5)
-#define DS_VEH_SPAWN_A           (90.0)
-
-// Vị trí NPC Bằng Lái Xe Tải (Red County)
-#define TRUCK_NPC_X              (854.5622)
-#define TRUCK_NPC_Y              (-604.4556)
-#define TRUCK_NPC_Z              (18.4219)
-#define TRUCK_NPC_ANGLE          (358.2418)
-
-// Vị trí spawn xe thi Bằng Lái Xe Tải (Flatbed)
-#define TRUCK_VEH_SPAWN_X        (849.7348)
-#define TRUCK_VEH_SPAWN_Y        (-560.9124)
-#define TRUCK_VEH_SPAWN_Z        (16.9223)
-#define TRUCK_VEH_SPAWN_A        (101.0128)
-
-#define MAX_TRUCK_CHECKPOINTS    (11)
-
-// 10 Checkpoints bài thi thực hành Ô tô tại Red County / Dillimore
+// 11 Checkpoints bài thi thực hành duy nhất tại Red County
 static const Float:DSCheckpoints[MAX_TEST_CHECKPOINTS][3] = {
-    {1300.0, -1280.0, 13.5},
-    {1200.0, -1280.0, 13.5},
-    {1050.0, -1200.0, 16.0},
-    {1050.0, -1000.0, 31.0},
-    {1250.0, -950.0, 42.0},
-    {1450.0, -950.0, 37.0},
-    {1450.0, -1100.0, 24.0},
-    {1450.0, -1250.0, 14.5},
-    {1380.0, -1280.0, 13.5},
-    {1355.0, -1280.0, 13.5}  // Về đích tại Red County
-};
-
-// 11 Checkpoints bài thi thực hành Xe Tải (Red County)
-static const Float:DSTruckCheckpoints[MAX_TRUCK_CHECKPOINTS][3] = {
     {773.8661, -525.8478, 16.1875},
     {702.6376, -597.2467, 16.1875},
     {679.2297, -713.8463, 16.0839},
@@ -161,23 +128,15 @@ hook OnPlayerConnect(playerid)
 
 hook OnGameModeInit()
 {
-    // Tạo NPC Giảng viên thi lái xe Ô tô (City Hall)
+    // Tạo 1 NPC Giảng viên thi lái xe duy nhất tại Red County
     Create3DTextLabel(
-        "Truong Thi Lai Xe IC (O To)\n"C_YELLOW"Nhan Y de dang ky thi ($500)",
+        "Truong Thi Lai Xe IC (Red County)\n"C_YELLOW"Nhan Y hoac /takeexam de dang ky thi",
         COLOR_WHITE, DS_NPC_X, DS_NPC_Y, DS_NPC_Z + 1.0, 30.0, 0, false);
 
     new actor = CreateActor(17, DS_NPC_X, DS_NPC_Y, DS_NPC_Z, DS_NPC_ANGLE);
     SetActorVirtualWorld(actor, 0);
 
-    // Tạo NPC Giảng viên thi lái xe Tai / Bus (Red County)
-    Create3DTextLabel(
-        "Thi Bang Lai Xe Tai (Truck / Bus)\n"C_YELLOW"Nhan Y de dang ky thi ($1,000)",
-        COLOR_WHITE, TRUCK_NPC_X, TRUCK_NPC_Y, TRUCK_NPC_Z + 1.0, 30.0, 0, false);
-
-    new truckActor = CreateActor(13, TRUCK_NPC_X, TRUCK_NPC_Y, TRUCK_NPC_Z, TRUCK_NPC_ANGLE);
-    SetActorVirtualWorld(truckActor, 0);
-
-    Logger_Log("[driving_school.inc] Driving school initialized.");
+    Logger_Log("[driving_school.inc] Driving school initialized at Red County.");
     return 1;
 }
 
@@ -189,10 +148,6 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
         {
             CallLocalFunction("cmd_takeexam", "is", playerid, "\1");
         }
-        else if (IsPlayerInRangeOfPoint(playerid, 4.0, TRUCK_NPC_X, TRUCK_NPC_Y, TRUCK_NPC_Z))
-        {
-            DS_PromptStartExam(playerid, LICENSE_TRUCK, 1000, "Bang Lai Xe Tai (Truck / Bus)");
-        }
     }
     return 1;
 }
@@ -202,7 +157,7 @@ hook OnPlayerEnterRaceCheckpoint(playerid)
     if (PlayerTestState[playerid] != TEST_PRACTICAL) return 1;
 
     new nextCP = CurrentCPIndex[playerid] + 1;
-    new maxCPs = (SelectedLicenseType[playerid] == LICENSE_TRUCK) ? MAX_TRUCK_CHECKPOINTS : MAX_TEST_CHECKPOINTS;
+    new maxCPs = MAX_TEST_CHECKPOINTS;
 
     if (nextCP >= maxCPs)
     {
@@ -215,24 +170,12 @@ hook OnPlayerEnterRaceCheckpoint(playerid)
         DisablePlayerRaceCheckpoint(playerid);
 
         new type = (nextCP == maxCPs - 1) ? 1 : 0; // 1 = Finish flag
-        if (SelectedLicenseType[playerid] == LICENSE_TRUCK)
-        {
-            SetPlayerRaceCheckpoint(playerid, type,
-                DSTruckCheckpoints[nextCP][0], DSTruckCheckpoints[nextCP][1], DSTruckCheckpoints[nextCP][2],
-                (nextCP == maxCPs - 1) ? DSTruckCheckpoints[nextCP][0] : DSTruckCheckpoints[nextCP + 1][0],
-                (nextCP == maxCPs - 1) ? DSTruckCheckpoints[nextCP][1] : DSTruckCheckpoints[nextCP + 1][1],
-                (nextCP == maxCPs - 1) ? DSTruckCheckpoints[nextCP][2] : DSTruckCheckpoints[nextCP + 1][2],
-                6.0);
-        }
-        else
-        {
-            SetPlayerRaceCheckpoint(playerid, type,
-                DSCheckpoints[nextCP][0], DSCheckpoints[nextCP][1], DSCheckpoints[nextCP][2],
-                (nextCP == maxCPs - 1) ? DSCheckpoints[nextCP][0] : DSCheckpoints[nextCP + 1][0],
-                (nextCP == maxCPs - 1) ? DSCheckpoints[nextCP][1] : DSCheckpoints[nextCP + 1][1],
-                (nextCP == maxCPs - 1) ? DSCheckpoints[nextCP][2] : DSCheckpoints[nextCP + 1][2],
-                5.0);
-        }
+        SetPlayerRaceCheckpoint(playerid, type,
+            DSCheckpoints[nextCP][0], DSCheckpoints[nextCP][1], DSCheckpoints[nextCP][2],
+            (nextCP == maxCPs - 1) ? DSCheckpoints[nextCP][0] : DSCheckpoints[nextCP + 1][0],
+            (nextCP == maxCPs - 1) ? DSCheckpoints[nextCP][1] : DSCheckpoints[nextCP + 1][1],
+            (nextCP == maxCPs - 1) ? DSCheckpoints[nextCP][2] : DSCheckpoints[nextCP + 1][2],
+            6.0);
 
         SendMsgF(playerid, COLOR_GREEN,
             "[THI LAI XE] Checkpoint %d/%d! Duy tri toc do duoi 60 km/h.",
@@ -320,13 +263,13 @@ static DS_PromptStartExam(playerid, licenseType, fee, const licenseName[])
 
         GivePlayerMoney(playerid, -fee);
 
-        // Bắt đầu phần thi Lý thuyết tại City Hall
+        // Bắt đầu phần thi Lý thuyết
         PlayerTestState[playerid]      = TEST_THEORY;
         TheoryCorrectAnswers[playerid] = 0;
         TheoryCurrentQ[playerid]       = 0;
 
         SendMsgF(playerid, COLOR_GREEN,
-            "[THI LAI XE] Da dong phi $%d. Bat dau phan thi LY THUYET %s tai City Hall (5 cau hoi).", fee, licenseName);
+            "[THI LAI XE] Da dong phi $%d. Bat dau phan thi LY THUYET %s (5 cau hoi).", fee, licenseName);
 
         DS_ShowTheoryQuestion(playerid, 0);
         return 1;
@@ -336,7 +279,7 @@ static DS_PromptStartExam(playerid, licenseType, fee, const licenseName[])
     format(msg, sizeof(msg),
         "Ban co muon dang ky thi %s?\n\n\
 - Phi thi: {33AA33}$%d{FFFFFF}\n\
-- Bai thi bao gom: 5 cau Ly Thuyet + 10 Checkpoint Thuc Hanh Red County\n\
+- Bai thi bao gom: 5 cau Ly Thuyet + 11 Checkpoint Thuc Hanh Red County\n\
 - Gioi han toc do thuc hanh: {FFAA00}60 km/h{FFFFFF}", licenseName, fee);
 
     Dialog_ShowCallback(playerid, using inline OnConfirm,
@@ -408,93 +351,45 @@ static DS_StartPracticalTest(playerid)
     TestScore[playerid]           = 100;
     TestDeadline[playerid]        = gettime() + 240;
 
+    SetPlayerPos(playerid, DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z);
+    SetPlayerFacingAngle(playerid, DS_VEH_SPAWN_A);
+    SetPlayerVirtualWorld(playerid, 0);
+    SetPlayerInterior(playerid, 0);
+
+    new vehModel = 426; // Premier (Car)
+    new constName[64] = "O TO (CAR)";
+
     if (SelectedLicenseType[playerid] == LICENSE_TRUCK)
     {
-        // Dịch chuyển người chơi đến Vị Trí Spawn Xe Thi Xe Tải (Red County)
-        SetPlayerPos(playerid, TRUCK_VEH_SPAWN_X, TRUCK_VEH_SPAWN_Y, TRUCK_VEH_SPAWN_Z);
-        SetPlayerFacingAngle(playerid, TRUCK_VEH_SPAWN_A);
-        SetPlayerVirtualWorld(playerid, 0);
-        SetPlayerInterior(playerid, 0);
-
-        TestVehicleID[playerid] = CreateVehicle(455, // Flatbed
-            TRUCK_VEH_SPAWN_X, TRUCK_VEH_SPAWN_Y, TRUCK_VEH_SPAWN_Z, TRUCK_VEH_SPAWN_A,
-            3, 3, 300);
-
-        GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
-
-        // Cấp quyền lái xe tạm thời cho đúng phương tiện thi này
-        SetPVarInt(playerid, "LicenseTestActive", 1);
-        SetPVarInt(playerid, "LicenseTestVehID", TestVehicleID[playerid]);
-
-        PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
-
-        // Đặt Checkpoint đầu tiên cho Xe Tải
-        SetPlayerRaceCheckpoint(playerid, 0,
-            DSTruckCheckpoints[0][0], DSTruckCheckpoints[0][1], DSTruckCheckpoints[0][2],
-            DSTruckCheckpoints[1][0], DSTruckCheckpoints[1][1], DSTruckCheckpoints[1][2],
-            6.0);
-
-        SendMsgF(playerid, COLOR_GREEN,
-            "[THUC HANH RED COUNTY] Dang thi BANG LAI XE TAI (TRUCK)! Hay lai xe Flatbed qua 11 Checkpoints. Toc do < 60 km/h!");
+        vehModel = 455; // Flatbed (Truck)
+        strcpy(constName, "XE TAI (TRUCK / BUS)", sizeof(constName));
     }
     else if (SelectedLicenseType[playerid] == LICENSE_BIKE)
     {
-        // Dịch chuyển người chơi đến Sân Thi Red County (Xe máy PCJ-600)
-        SetPlayerPos(playerid, DS_PRACTICAL_X, DS_PRACTICAL_Y, DS_PRACTICAL_Z);
-        SetPlayerFacingAngle(playerid, DS_PRACTICAL_A);
-        SetPlayerVirtualWorld(playerid, 0);
-        SetPlayerInterior(playerid, 0);
-
-        TestVehicleID[playerid] = CreateVehicle(461, // PCJ-600
-            DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z, DS_VEH_SPAWN_A,
-            3, 3, 300);
-
-        GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
-
-        // Cấp quyền lái xe tạm thời cho đúng phương tiện thi này
-        SetPVarInt(playerid, "LicenseTestActive", 1);
-        SetPVarInt(playerid, "LicenseTestVehID", TestVehicleID[playerid]);
-
-        PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
-
-        // Đặt Checkpoint đầu tiên cho Xe máy
-        SetPlayerRaceCheckpoint(playerid, 0,
-            DSCheckpoints[0][0], DSCheckpoints[0][1], DSCheckpoints[0][2],
-            DSCheckpoints[1][0], DSCheckpoints[1][1], DSCheckpoints[1][2],
-            5.0);
-
-        SendMsgF(playerid, COLOR_GREEN,
-            "[THUC HANH RED COUNTY] Dang thi BANG LAI XE MO TO / XE MAY (BIKE)! Hay lai xe PCJ-600 qua 10 Checkpoints. Toc do < 60 km/h!");
+        vehModel = 461; // PCJ-600 (Bike)
+        strcpy(constName, "XE MAY (BIKE)", sizeof(constName));
     }
-    else
-    {
-        // Dịch chuyển người chơi từ City Hall đến Sân Thi Red County (Ô tô Premier)
-        SetPlayerPos(playerid, DS_PRACTICAL_X, DS_PRACTICAL_Y, DS_PRACTICAL_Z);
-        SetPlayerFacingAngle(playerid, DS_PRACTICAL_A);
-        SetPlayerVirtualWorld(playerid, 0);
-        SetPlayerInterior(playerid, 0);
 
-        TestVehicleID[playerid] = CreateVehicle(426, // Premier
-            DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z, DS_VEH_SPAWN_A,
-            3, 3, 300);
+    TestVehicleID[playerid] = CreateVehicle(vehModel,
+        DS_VEH_SPAWN_X, DS_VEH_SPAWN_Y, DS_VEH_SPAWN_Z, DS_VEH_SPAWN_A,
+        3, 3, 300);
 
-        GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
+    GetVehicleHealth(TestVehicleID[playerid], TestVehicleHealth[playerid]);
 
-        // Cấp quyền lái xe tạm thời cho đúng phương tiện thi này
-        SetPVarInt(playerid, "LicenseTestActive", 1);
-        SetPVarInt(playerid, "LicenseTestVehID", TestVehicleID[playerid]);
+    // Cấp quyền lái xe tạm thời cho đúng phương tiện thi này
+    SetPVarInt(playerid, "LicenseTestActive", 1);
+    SetPVarInt(playerid, "LicenseTestVehID", TestVehicleID[playerid]);
 
-        PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
+    PutPlayerInVehicle(playerid, TestVehicleID[playerid], 0);
 
-        // Đặt Checkpoint đầu tiên cho Ô tô
-        SetPlayerRaceCheckpoint(playerid, 0,
-            DSCheckpoints[0][0], DSCheckpoints[0][1], DSCheckpoints[0][2],
-            DSCheckpoints[1][0], DSCheckpoints[1][1], DSCheckpoints[1][2],
-            5.0);
+    // Đặt Checkpoint đầu tiên cho bài thi Red County
+    SetPlayerRaceCheckpoint(playerid, 0,
+        DSCheckpoints[0][0], DSCheckpoints[0][1], DSCheckpoints[0][2],
+        DSCheckpoints[1][0], DSCheckpoints[1][1], DSCheckpoints[1][2],
+        6.0);
 
-        SendMsgF(playerid, COLOR_GREEN,
-            "[THUC HANH RED COUNTY] Dang thi BANG LAI XE O TO (CAR)! Hay lai xe Premier qua 10 Checkpoints. Toc do < 60 km/h!");
-    }
+    SendMsgF(playerid, COLOR_GREEN,
+        "[THUC HANH RED COUNTY] Dang thi BANG LAI %s! Hay lai xe qua 11 Checkpoints. Toc do < 60 km/h!", constName);
     return 1;
 }
 
@@ -502,7 +397,7 @@ static DS_PassExam(playerid)
 {
     new licenseType = SelectedLicenseType[playerid];
 
-    // Clean up và trả về vị trí đăng ký
+    // Clean up và trả về vị trí đăng ký Red County
     DS_CleanupTest(playerid);
 
     // Cấp bằng lái xe tương ứng
@@ -538,17 +433,9 @@ static DS_CleanupTest(playerid)
         TestVehicleID[playerid] = INVALID_VEHICLE_ID;
     }
 
-    // Trả người chơi về lại điểm đăng ký tương ứng (City Hall hoặc NPC Bằng Lái Xe Tải)
-    if (SelectedLicenseType[playerid] == LICENSE_TRUCK)
-    {
-        SetPlayerPos(playerid, TRUCK_NPC_X, TRUCK_NPC_Y, TRUCK_NPC_Z);
-        SetPlayerFacingAngle(playerid, TRUCK_NPC_ANGLE);
-    }
-    else
-    {
-        SetPlayerPos(playerid, DS_NPC_X, DS_NPC_Y, DS_NPC_Z);
-        SetPlayerFacingAngle(playerid, DS_NPC_ANGLE);
-    }
+    // Trả người chơi về lại điểm đăng ký Red County
+    SetPlayerPos(playerid, DS_NPC_X, DS_NPC_Y, DS_NPC_Z);
+    SetPlayerFacingAngle(playerid, DS_NPC_ANGLE);
     SetPlayerVirtualWorld(playerid, 0);
     SetPlayerInterior(playerid, 0);
     return 1;
@@ -581,9 +468,8 @@ CMD:takeexam(playerid, params[])
     if (!Player_IsLoggedIn(playerid))
         return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
 
-    if (!IsPlayerInRangeOfPoint(playerid, 30.0, DS_NPC_X, DS_NPC_Y, DS_NPC_Z)
-        && !IsPlayerInRangeOfPoint(playerid, 30.0, TRUCK_NPC_X, TRUCK_NPC_Y, TRUCK_NPC_Z))
-        return SendErrorMsg(playerid, "Ban phai den Trung Tam Thi Bang Lai de dang ky."), 1;
+    if (!IsPlayerInRangeOfPoint(playerid, 30.0, DS_NPC_X, DS_NPC_Y, DS_NPC_Z))
+        return SendErrorMsg(playerid, "Ban phai den Trung Tam Thi Bang Lai (Red County) de dang ky."), 1;
 
     if (PlayerTestState[playerid] != TEST_NONE)
         return SendErrorMsg(playerid, "Ban dang trong bai thi roi."), 1;
