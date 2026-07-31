@@ -111,6 +111,43 @@ hook OnPlayerLogin(playerid) {
     }
 }
 
+forward OnPasswordVerify(playerid, bool:success, string:hash[]);
+public OnPasswordVerify(playerid, bool:success, string:hash[]) {
+    if(!success) {
+        PlayerAttempts[playerid] ++;
+        if(PlayerAttempts[playerid] >= MAX_PASSWORD_ATTEMPT) {
+            SendErrorMsg(playerid, "Ban da bi kick vi dang nhap sai qua nhieu lan.");
+            Kick(playerid);
+
+            Logger_Dbg(PLAYER_DEBUG_HANDLER, "player has been kicked for too many login attempts",
+                Logger_P(playerid),
+                Logger_I("uid", Player_GetMasterAccountID(playerid))
+            );
+            return;
+        }
+
+        Account_PromptLogin(playerid, hash, BCRYPT_HASH_LENGTH);
+
+        SendErrorMsg(playerid, "Co loi xay ra, vui long thu lai.");
+
+        Logger_Dbg(PLAYER_DEBUG_HANDLER, "player failed to login",
+            Logger_I("attempts", PlayerAttempts[playerid]),
+            Logger_P(playerid),
+            Logger_I("uid", Player_GetMasterAccountID(playerid))
+        );
+        return;
+    }
+
+    Logger_Dbg(PLAYER_DEBUG_HANDLER, "player successfully logged in",
+        Logger_P(playerid),
+        Logger_I("uid", Player_GetMasterAccountID(playerid))
+    );
+
+    PlayerAttempts[playerid] = 0;
+    Player_SetLoginStatus(playerid, true);
+    CallLocalFunction("OnPlayerLogin", "i", playerid);
+}
+
  // API
 Player_IsLoggedIn(playerid) {
     return gPlayerLoginStatus[playerid];

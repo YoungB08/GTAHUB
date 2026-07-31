@@ -50,6 +50,13 @@ static bool:EMSOnStretcher[MAX_PLAYERS]; // Đang đẩy cáng
 // HOOKS
 // =============================================================================
 
+const
+    HOSPITAL_CURE_PRICE  = 1_500,
+    HOSPITAL_HEAL_PRICE  = 500,
+    HOSPITAL_SKIN_CHANGE = 10_000;
+
+static bool:BoughtChangeSkin[MAX_PLAYERS];
+
 hook OnMySQLConnected()
 {
     static const loadQ[] = "\
@@ -58,7 +65,90 @@ hook OnMySQLConnected()
 
     static const saveQ[] = "UPDATE player_stats SET ems_rank = ? WHERE u_id = ?";
     stmt_saveEMS = MySQL_PrepareStatement(MySQL_GetHandle(), saveQ);
+    return 1;
+}
 
+hook OnGameModeInit()
+{
+    Create3DTextLabel("Nhan "C_YELLOW"Y"C_WHITE" de xem dich vu Benh Vien", COLOR_WHITE, 1173.1469, -1323.4918, 16.3958, 40.0, 0, false);
+    CreateActor(70, 1173.1469, -1323.4918, 15.3958, 270.2290);
+    return 1;
+}
+
+hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys)
+{
+    if (PRESSED(KEY_YES))
+    {
+        if (IsPlayerInRangeOfPoint(playerid, 5.0, 1173.1469, -1323.4918, 15.3958))
+        {
+            ShowHospitalMenu(playerid);
+        }
+    }
+    return 1;
+}
+
+stock ShowHospitalMenu(playerid)
+{
+    inline const _response(response, listitem, string:inputtext[])
+    {
+        #pragma unused inputtext
+        if(!response) return 1;
+
+        switch(listitem)
+        {
+            case 0:
+            {
+                new Float:health;
+                GetPlayerHealth(playerid, health);
+
+                if (GetPlayerMoney(playerid) < HOSPITAL_HEAL_PRICE)
+                    return SendErrorMsg(playerid, "Khong du tien!");
+
+                if (health >= 100.0)
+                    return SendErrorMsg(playerid, "Mau cua ban da day, hien khong the hoi mau.");
+
+                SetPlayerHealth(playerid, 100);
+                GivePlayerMoney(playerid, -HOSPITAL_HEAL_PRICE);
+                SendMsgF(playerid, COLOR_GREEN, "[BENH VIEN] Ban da duoc hoi phuc day mau voi gia $%d.", HOSPITAL_HEAL_PRICE);
+            }
+            case 1:
+            {
+                if (GetPlayerMoney(playerid) < HOSPITAL_SKIN_CHANGE)
+                    return SendErrorMsg(playerid, "Khong du tien!");
+
+                if (GetPlayerWantedLevel(playerid) != 0)
+                    return SendErrorMsg(playerid, "Ban phai khong bi truy na de doi skin!");
+
+                BoughtChangeSkin[playerid] = true;
+                Class_SelectionState(playerid, true);
+
+                ForceClassSelection(playerid);
+                TogglePlayerSpectating(playerid, true);
+                TogglePlayerSpectating(playerid, false);
+
+                GivePlayerMoney(playerid, -HOSPITAL_SKIN_CHANGE);
+            }
+            case 2:
+            {
+                if (GetPlayerMoney(playerid) < HOSPITAL_CURE_PRICE)
+                    return SendErrorMsg(playerid, "Khong du tien!");
+
+                if (!Disease_PlayerHas(playerid))
+                    return SendErrorMsg(playerid, "Ban khong mac benh nao.");
+
+                Disease_GivePlayer(playerid, DISEASE_NONE);
+                GivePlayerMoney(playerid, -HOSPITAL_CURE_PRICE);
+                SendMsgF(playerid, COLOR_GREEN, "[BENH VIEN] Ban da duoc chua khoi benh voi gia $%d.", HOSPITAL_CURE_PRICE);
+            }
+        }
+        return 1;
+    }
+
+    Dialog_ShowCallback(playerid, using inline _response,
+        DIALOG_STYLE_LIST,
+        "=== DICH VU BENH VIEN ===",
+        "1. Hoi phuc mau ($500)\n2. Thay doi trang phuc IC ($10,000)\n3. Dieu tri benh truyen nhiem ($1,500)",
+        "Chon", "Thoat");
     return 1;
 }
 

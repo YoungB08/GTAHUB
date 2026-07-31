@@ -51,3 +51,12 @@ stock IsVehiclePolice(vehicleid) {
     }
     return 0;
 }
+
+#define VEHICLE_SPEED_KMH_MULTIPLIER    (120.0) // Giam 1/3 so voi mac dinh (180.0 -> 120.0) de de dang kiem soat toc do va thi bang lai
+
+stock Float:GetVehicleSpeed(vehicleid) {
+    if (!vehicleid) return 0.0;
+    new Float:vx, Float:vy, Float:vz;
+    GetVehicleVelocity(vehicleid, vx, vy, vz);
+    return floatsqroot(vx * vx + vy * vy + vz * vz) * VEHICLE_SPEED_KMH_MULTIPLIER;
+}

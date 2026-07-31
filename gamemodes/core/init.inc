@@ -27,6 +27,7 @@ public OnQueryError(errorid, const error[], const callback[], const query[], MyS
 }
 
 hook OnGameModeInit() {
+    DisableInteriorEnterExits();
 
     print("[first call OnGameModeInit] setting up...");
 

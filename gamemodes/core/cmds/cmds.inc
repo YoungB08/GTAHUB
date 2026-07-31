@@ -66,6 +66,7 @@ public OnPlayerCommandPerformed(playerid, cmd[], success) {
 
 ALTCMD:help(commands);
 ALTCMD:cmds(commands);
+ALTCMD:trogiup(commands);
 CMD:commands(playerid, params[]) {
 
     inline _response(pid, dialogid, response, listitem, string:inputtext[]) {

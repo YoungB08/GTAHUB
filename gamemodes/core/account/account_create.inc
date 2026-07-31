@@ -100,6 +100,9 @@ static Account_InsertToDatabase(playerid, const hash[]) {
         CallLocalFunction("OnPlayerRegister", "i", playerid);
         Player_SetCharacterID(playerid, 0);
 
+        Player_SetLoginStatus(playerid, true);
+        CallLocalFunction("OnPlayerLogin", "i", playerid);
+
         SendServerMsg(playerid, "Tai khoan da duoc tao. Hay chon hoac tao nhan vat.");
         Account_ShowCharacterMenu_CEF(playerid);
     }

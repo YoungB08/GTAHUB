@@ -61,49 +61,91 @@ CMD:veh(playerid, params[])
     return 1;
 }
 ACMD:[1]goto(playerid, params[])
+ACMD:[1]gotopos(playerid, params[])
 {
-    new gotoType[16];
-
-    if(!sscanf(params, "s[16]", gotoType)) {
-        if(
-            !strcmp(gotoType, "entrance", true) ||
-            !strcmp(gotoType, "entrace", true) ||
-            !strcmp(gotoType, "door", true) ||
-            !strcmp(gotoType, "biz", true) ||
-            !strcmp(gotoType, "business", true)
-        ) {
-            if(Admin_GetPlayerLevel(playerid) < ADM_LVL_2) {
-                return SendErrorMsg(playerid, "Lenh nay can admin level 2 tro len.");
-            }
-            return CallLocalFunction("cmd_gotoentrance", "is", playerid, "\1");
-        }
+    new Float:x, Float:y, Float:z, interior = 0, world = 0;
+    if(sscanf(params, "fffI(0)I(0)", x, y, z, interior, world)) {
+        return SendSyntaxMsg(playerid, "/gotopos [x] [y] [z] (interior=0) (world=0)");
     }
 
-	new
-		targetid;
+    Interaction_LoadSafeTeleport(playerid, x, y, z, 0.0, world, interior, false, 500);
+    SendServerMsgF(playerid, "[ADMIN] Da dich chuyen den vi tri X: %.2f, Y: %.2f, Z: %.2f (Interior: %d, World: %d)", x, y, z, interior, world);
+    return 1;
+}
 
-	if(sscanf(params, "u", targetid)) {
-		return SendSyntaxMsg(playerid, "/goto (playerid)");
-	}
+ALTCMD:telepos(gotopos);
 
-	if(!IsPlayerConnected(targetid)) {
-		return SendErrorMsg(playerid, "Nguoi choi khong online.");
-	}
+ACMD:[1]gotoid(playerid, params[])
+{
+    new targetid;
+    if (sscanf(params, "u", targetid)) {
+        return SendSyntaxMsg(playerid, "/gotoid <playerid | Partial Name>");
+    }
 
-	if(targetid == playerid) {
-		return SendErrorMsg(playerid, "Ban khong the teleport den chinh minh.");
-	}
+    if (!IsPlayerConnected(targetid) || !Player_IsLoggedIn(targetid) || !Char_IsActive(targetid)) {
+        return SendErrorMsg(playerid, "Nguoi choi khong online hoac chua vao game.");
+    }
 
-	new
-		Float:x,
-		Float:y,
-		Float:z;
-	GetPlayerPos(targetid, x, y, z);
+    if (targetid == playerid) {
+        return SendErrorMsg(playerid, "Ban khong the dich chuyen den chinh minh.");
+    }
 
-	SetPlayerPos(playerid, x, y, z);
-	SetPlayerVirtualWorld(playerid, GetPlayerVirtualWorld(targetid));
-	SetPlayerInterior(playerid, GetPlayerInterior(targetid));
-	return 1;
+    new Float:x, Float:y, Float:z;
+    new world = GetPlayerVirtualWorld(targetid);
+    new interior = GetPlayerInterior(targetid);
+
+    if (IsPlayerInAnyVehicle(targetid)) {
+        new vehid = GetPlayerVehicleID(targetid);
+        GetVehiclePos(vehid, x, y, z);
+        x += 2.0; // Đặt admin đứng cạnh xe an toàn
+    } else {
+        GetPlayerPos(targetid, x, y, z);
+        x += 1.0;
+    }
+
+    SetPlayerPos(playerid, x, y, z);
+    SetPlayerVirtualWorld(playerid, world);
+    SetPlayerInterior(playerid, interior);
+
+    SendServerMsgF(playerid, "[ADMIN] Da dich chuyen den nguoi choi %s (ID: %d).", ReturnPlayerName(targetid), targetid);
+    return 1;
+}
+
+ACMD:[1]goto(playerid, params[])
+{
+    new loc[32];
+    if (sscanf(params, "s[32]", loc)) {
+        return SendSyntaxMsg(playerid, "/goto <location | playerid>\nDanh sach: cityhall, vipls, dmv (drivingtest), ems (hospital), police (pd)");
+    }
+
+    // Nếu tham số là ID hoặc tên người chơi -> tự động gọi /gotoid
+    new targetid;
+    if (!sscanf(loc, "u", targetid) && IsPlayerConnected(targetid)) {
+        return CallLocalFunction("ACMD_gotoid", "is", playerid, loc);
+    }
+
+    if (!strcmp(loc, "cityhall", true)) {
+        Interaction_LoadSafeTeleport(playerid, 1481.0, -1771.0, 18.7, 0.0, 0, 0, false, 500);
+        return SendServerMsg(playerid, "[ADMIN] Da dich chuyen den Toa Thi Chinh (City Hall).");
+    }
+    else if (!strcmp(loc, "vipls", true)) {
+        Interaction_LoadSafeTeleport(playerid, 1172.5, -1323.8, 15.4, 270.0, 0, 0, false, 500);
+        return SendServerMsg(playerid, "[ADMIN] Da dich chuyen den Khu Vuc VIP Los Santos.");
+    }
+    else if (!strcmp(loc, "dmv", true) || !strcmp(loc, "drivingtest", true)) {
+        Interaction_LoadSafeTeleport(playerid, 854.5, -604.4, 18.4, 0.0, 0, 0, false, 500);
+        return SendServerMsg(playerid, "[ADMIN] Da dich chuyen den Trung Tam Thi Bang Lai Xe (DMV / Driving Test).");
+    }
+    else if (!strcmp(loc, "ems", true) || !strcmp(loc, "hospital", true)) {
+        Interaction_LoadSafeTeleport(playerid, 1172.0, -1323.0, 15.4, 270.0, 0, 0, false, 500);
+        return SendServerMsg(playerid, "[ADMIN] Da dich chuyen den Benh Vien (EMS / Hospital).");
+    }
+    else if (!strcmp(loc, "police", true) || !strcmp(loc, "pd", true)) {
+        Interaction_LoadSafeTeleport(playerid, 1555.0, -1675.0, 16.2, 90.0, 0, 0, false, 500);
+        return SendServerMsg(playerid, "[ADMIN] Da dich chuyen den Tru So Canh Sat (LSPD / Police).");
+    }
+
+    return SendErrorMsg(playerid, "Dia diem khong ton tai! Cac dia diem: cityhall, vipls, dmv, drivingtest, ems, hospital, police, pd.");
 }
 
 ACMD:[1]kick(playerid, params[])
@@ -307,4 +349,59 @@ ACMD:[1]relog(playerid, params[])
 
 	defer UnbanPlayerIP(targetid);
 	return 1;
+}
+
+// =============================================================================
+// COMMAND – /up [khoang_cach] [targetid] – Dich chuyen len cao de mo ket
+// =============================================================================
+
+ACMD:[1]up(playerid, params[])
+{
+    new Float:distance = 5.0, targetid = playerid;
+
+    if (!sscanf(params, "fU(-1)", distance, targetid))
+    {
+        if (targetid == -1 || targetid == INVALID_PLAYER_ID)
+            targetid = playerid;
+    }
+    else if (!sscanf(params, "u", targetid))
+    {
+        distance = 5.0;
+    }
+    else
+    {
+        distance = 5.0;
+        targetid = playerid;
+    }
+
+    if (!IsPlayerConnected(targetid))
+        return SendErrorMsg(playerid, "Nguoi choi khong ton tai hoac da thoat."), 1;
+
+    if (distance < 1.0 || distance > 100.0)
+        distance = 5.0;
+
+    new Float:x, Float:y, Float:z;
+
+    if (IsPlayerInAnyVehicle(targetid))
+    {
+        new vehid = GetPlayerVehicleID(targetid);
+        GetVehiclePos(vehid, x, y, z);
+        SetVehiclePos(vehid, x, y, z + distance);
+    }
+    else
+    {
+        GetPlayerPos(targetid, x, y, z);
+        SetPlayerPos(targetid, x, y, z + distance);
+    }
+
+    if (targetid == playerid)
+    {
+        SendServerMsgF(playerid, "[ADMIN] Da dich chuyen ban len cao +%.1fm de mo ket.", distance);
+    }
+    else
+    {
+        SendServerMsgF(playerid, "[ADMIN] Da dich chuyen %s len cao +%.1fm de mo ket.", ReturnPlayerName(targetid), distance);
+        SendServerMsgF(targetid, "[ADMIN] Admin %s da dich chuyen ban len cao +%.1fm de mo ket.", ReturnPlayerName(playerid), distance);
+    }
+    return 1;
 }

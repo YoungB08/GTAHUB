@@ -1,7 +1,7 @@
 #include <YSI_Coding\y_hooks>
 
 #define SPEEDOMETER_UPDATE_MS       (250)
-#define SPEEDOMETER_KMH_MULTIPLIER  (180.0)
+#define SPEEDOMETER_KMH_MULTIPLIER  (120.0) // Giam 1/3 so voi mac dinh (180.0 -> 120.0)
 
 static
     PlayerText:SpeedometerBox[MAX_PLAYERS],

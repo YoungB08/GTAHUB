@@ -120,7 +120,7 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 //#include <formatex>
 
 // MySQL Config
-#define MYSQL_HOST      "localhost"
+#define MYSQL_HOST      "127.0.0.1"
 #define MYSQL_USER      "root"
 #define MYSQL_PASSWORD  "123456"
 #define MYSQL_DATABASE  "gtahub"

@@ -1,5 +1,19 @@
 #include <YSI_Coding\y_hooks>
 
+stock bool:PlayerPosition_IsValid(Float:x, Float:y, Float:z)
+{
+    // Kiểm tra NaN
+    if (x != x || y != y || z != z) return false;
+    // Tọa độ 0,0,0
+    if (x == 0.0 && y == 0.0 && z == 0.0) return false;
+    // Tọa độ kẹt camera / độ cao bất thường (z > 1000m hoặc z < -100m) hoặc ngoài giới hạn bản đồ (-6000 đến +6000)
+    if (z > 1000.0 || z < -100.0) return false;
+    if (floatabs(x) > 6000.0 || floatabs(y) > 6000.0) return false;
+    // Tọa độ camera selection mặc định của SA-MP (2931.9829, -1922.0767)
+    if (floatabs(x - 2931.9829) < 2.0 && floatabs(y - (-1922.0767)) < 2.0) return false;
+    return true;
+}
+
 static
     Statement:stmt_SavePlayerPosition,
     Statement:stmt_LoadPlayerPosition,
@@ -49,6 +63,8 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerLogin(playerid)
 {
+    if (Player_GetAccountID(playerid) <= 0) return 1;
+
     inline const OnPositionLoad()
     {
         MySQL_BindResultFloat(stmt_LoadPlayerPosition, 0, PlayerSavedX[playerid]);
@@ -67,35 +83,100 @@ hook OnPlayerLogin(playerid)
     return 1;
 }
 
+hook OnPlayerSecondUpdate(playerid)
+{
+    // Cập nhật RAM Cache vị trí hợp lệ định kỳ (mỗi 15 giây)
+    if (Char_IsActive(playerid) && !CallLocalFunction("Admin_IsPlayerSpectating", "i", playerid))
+    {
+        new Float:x, Float:y, Float:z, Float:a;
+        GetPlayerPos(playerid, x, y, z);
+        GetPlayerFacingAngle(playerid, a);
+
+        if (PlayerPosition_IsValid(x, y, z))
+        {
+            PlayerSavedX[playerid]        = x;
+            PlayerSavedY[playerid]        = y;
+            PlayerSavedZ[playerid]        = z;
+            PlayerSavedA[playerid]        = a;
+            PlayerSavedWorld[playerid]    = GetPlayerVirtualWorld(playerid);
+            PlayerSavedInterior[playerid] = GetPlayerInterior(playerid);
+            PlayerHasSavedPosition[playerid] = true;
+            PlayerPositionLoaded[playerid]   = true;
+        }
+    }
+    return 1;
+}
+
 hook OnPlayerAutoSave(playerid)
 {
-    PlayerPosition_Save(playerid);
+    if (Char_IsActive(playerid))
+    {
+        PlayerPosition_Save(playerid, false);
+    }
     return 1;
 }
 
 hook OnPlayerDisconnect(playerid, reason)
 {
-    #pragma unused reason
-    PlayerPosition_Save(playerid);
+    if (!Char_IsActive(playerid)) return 1;
+
+    // reason = 1: Người chơi tự thoát bằng /q hoặc ESC menu (lấy trực tiếp vị trí hiện tại)
+    // reason = 0 hoặc 2: Crash, Timeout, Kick/Ban (dùng RAM cache vị trí hợp lệ gần nhất)
+    new bool:isNormalQuit = (reason == 1);
+    PlayerPosition_Save(playerid, isNormalQuit);
     return 1;
 }
 
-stock PlayerPosition_Save(playerid)
+stock PlayerPosition_Save(playerid, bool:forceFresh = true)
 {
-    if(Player_GetAccountID(playerid) <= 0) {
+    if(Player_GetAccountID(playerid) <= 0 || !Player_IsLoggedIn(playerid) || !Char_IsActive(playerid)) {
         return 0;
     }
 
     new
-        Float:x,
-        Float:y,
-        Float:z,
-        Float:a,
-        world = GetPlayerVirtualWorld(playerid),
+        Float:x, Float:y, Float:z, Float:a,
+        world, interior;
+
+    if (forceFresh && !CallLocalFunction("Admin_IsPlayerSpectating", "i", playerid))
+    {
+        GetPlayerPos(playerid, x, y, z);
+        GetPlayerFacingAngle(playerid, a);
+        world = GetPlayerVirtualWorld(playerid);
         interior = GetPlayerInterior(playerid);
 
-    GetPlayerPos(playerid, x, y, z);
-    GetPlayerFacingAngle(playerid, a);
+        if (!PlayerPosition_IsValid(x, y, z))
+        {
+            if (!PlayerPosition_HasSaved(playerid)) return 0;
+            x = PlayerSavedX[playerid];
+            y = PlayerSavedY[playerid];
+            z = PlayerSavedZ[playerid];
+            a = PlayerSavedA[playerid];
+            world = PlayerSavedWorld[playerid];
+            interior = PlayerSavedInterior[playerid];
+        }
+    }
+    else
+    {
+        if (!PlayerPosition_HasSaved(playerid)) return 0;
+        x = PlayerSavedX[playerid];
+        y = PlayerSavedY[playerid];
+        z = PlayerSavedZ[playerid];
+        a = PlayerSavedA[playerid];
+        world = PlayerSavedWorld[playerid];
+        interior = PlayerSavedInterior[playerid];
+    }
+
+    if (!PlayerPosition_IsValid(x, y, z)) return 0;
+
+    // Lưu ngay lập tức vào bộ đệm bộ nhớ
+    PlayerSavedX[playerid] = x;
+    PlayerSavedY[playerid] = y;
+    PlayerSavedZ[playerid] = z;
+    PlayerSavedA[playerid] = a;
+    PlayerSavedWorld[playerid] = world;
+    PlayerSavedInterior[playerid] = interior;
+    PlayerHasSavedPosition[playerid] = true;
+    PlayerPositionLoaded[playerid] = true;
 
     MySQL_BindInt(stmt_SavePlayerPosition, 0, Player_GetAccountID(playerid));
     MySQL_BindFloat(stmt_SavePlayerPosition, 1, x);

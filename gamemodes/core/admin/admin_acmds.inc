@@ -1,4 +1,4 @@
-#define MAX_COMMANDS_PER_LEVEL  (13)
+#define MAX_COMMANDS_PER_LEVEL  (50)
 
 static
     aCommands[MAX_ADMIN_LEVELS][MAX_COMMANDS_PER_LEVEL][2048],
@@ -43,6 +43,18 @@ stock Admin_AddCommandToList(alevel, const string[])
 }
 
 ACMD:[1]acmds(playerid, params[])
+{
+    Admin_ShowLevelList(playerid);
+    return 1;
+}
+
+ACMD:[1]ah(playerid, params[])
+{
+    Admin_ShowLevelList(playerid);
+    return 1;
+}
+
+ACMD:[1]ahelp(playerid, params[])
 {
     Admin_ShowLevelList(playerid);
     return 1;

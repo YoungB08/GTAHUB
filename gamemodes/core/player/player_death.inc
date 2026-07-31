@@ -83,13 +83,13 @@ hook OnPlayerSpawn(playerid)
         SetPlayerInterior(playerid, DeathInt[playerid]);
 
         SetPlayerHealth(playerid, 10.0); // Giữ máu thấp
-        TogglePlayerControllable(playerid, false); // Đóng băng
+        TogglePlayerControllable(playerid, false); // Đóng băng di chuyển
 
-        // Animation gục ngã
-        ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, false, true, true, true, 0, SYNC_ALL);
+        // Animation gục ngã nằm chết (CRACK: crckdeth2)
+        ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, false, true, true, true, 0, true);
 
         SendMsgF(playerid, COLOR_RED, "=====================================================");
-        SendMsgF(playerid, COLOR_RED, "BAN ĐANG BỊ THƯƠNG NẶNG (BRUTALLY WOUNDED)!");
+        SendMsgF(playerid, COLOR_RED, "BAN DANG BI THUONG NANG (BRUTALLY WOUNDED)!");
         SendMsgF(playerid, COLOR_RED, "Hay doi EMS den cuu chua. Thoi gian cho: 5 phut.");
         SendMsgF(playerid, COLOR_RED, "Sau 60 giay, ban co the dung lenh /acceptdeath de chap nhan tu vong.");
         SendMsgF(playerid, COLOR_RED, "=====================================================");
@@ -101,6 +101,9 @@ hook OnPlayerSecondUpdate(playerid)
 {
     if (IsPlayerDowned[playerid])
     {
+        // Duy trì animation nằm gục chết liên tục
+        ApplyAnimation(playerid, "CRACK", "crckdeth2", 4.1, false, true, true, true, 0, true);
+
         if (DownedTimeLeft[playerid] > 0)
         {
             DownedTimeLeft[playerid]--;

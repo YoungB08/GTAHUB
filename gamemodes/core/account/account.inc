@@ -1,7 +1,6 @@
 
 #include <account_create>
 #include <account_login>
-#include <account_characters>
 #include <account_vip>
 #include <account_wanted-level>
 #include <account_stats>

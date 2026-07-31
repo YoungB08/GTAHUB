@@ -46,6 +46,7 @@ static
     PlayerInteriorExitID[MAX_PLAYERS],
     PlayerBlockedEntranceID[MAX_PLAYERS],
     PlayerBlockedEntranceUntil[MAX_PLAYERS],
+    gPlayerEntranceCooldown[MAX_PLAYERS],
     PlayerAdminEntranceListID[MAX_PLAYERS][MAX_ENTRANCES],
     PlayerAdminEntranceListCount[MAX_PLAYERS];
 
@@ -763,7 +764,9 @@ stock Entrance_LoadPersisted() {
 hook OnMySQLConnected()
 {
     mysql_query_file(MySQL_GetHandle(), "entrances.sql", false);
+    mysql_query_file(MySQL_GetHandle(), "doors.sql", false);
     Entrance_LoadPersisted();
+    Door_LoadPersisted();
     return 1;
 }
 
@@ -777,18 +780,8 @@ stock Entrance_UpdatePlayerTick(playerid, seconds = 2) {
 }
 
 stock Entrance_PreloadTarget(playerid, idx) {
-    if(!Iter_Contains(entranceID, idx)) {
-        return 0;
-    }
-
-    new
-        Float:x,
-        Float:y,
-        Float:z,
-        Float:a;
-
-    Entrance_GetTargetPoint(idx, x, y, z, a);
-    Streamer_UpdateEx(playerid, x, y, z, exitVirtualID[idx], exitInteriorID[idx], -1, 0, 0);
+    #pragma unused playerid, idx
+    // Streamer_UpdateEx removed to prevent premature auto-teleporting when walking near entrance prompts.
     return 1;
 }
 
@@ -810,28 +803,20 @@ stock Entrance_ClearReuseBlock(playerid)
     return 1;
 }
 
-stock Entrance_BlockReuse(playerid, idx, duration = ENTRANCE_REUSE_BLOCK_MS)
+stock Entrance_BlockReuse(playerid, idx, duration = 3000)
 {
-    if(!Iter_Contains(entranceID, idx)) {
-        return 0;
-    }
-
-    PlayerBlockedEntranceID[playerid] = idx;
-    PlayerBlockedEntranceUntil[playerid] = GetTickCount() + duration;
+    #pragma unused idx
+    gPlayerEntranceCooldown[playerid] = GetTickCount() + duration;
     return 1;
 }
 
 stock bool:Entrance_IsReuseBlocked(playerid, idx)
 {
-    if(PlayerBlockedEntranceID[playerid] != idx) {
-        return false;
+    #pragma unused idx
+    if(GetTickCount() < gPlayerEntranceCooldown[playerid]) {
+        return true;
     }
-
-    if(GetTickCount() >= PlayerBlockedEntranceUntil[playerid]) {
-        Entrance_ClearReuseBlock(playerid);
-        return false;
-    }
-    return true;
+    return false;
 }
 
 stock bool:Entrance_IsInteriorExitForPlayer(playerid, idx) {
@@ -914,15 +899,11 @@ stock Entrance_Use(playerid, idx) {
         return 0;
     }
 
-    if(!Entrance_IsPlayerAllowed(playerid)) {
-        return SendErrorMsg(playerid, "Vui long cho vai giay roi thu lai.");
+    if(GetTickCount() < gPlayerEntranceCooldown[playerid]) {
+        return SendErrorMsg(playerid, "Vui long cho 3 giay de tiep tuc ra/vao.");
     }
 
     if(IsPlayerInAnyVehicle(playerid)) {
-        return 1;
-    }
-
-    if(Entrance_IsReuseBlocked(playerid, idx)) {
         return 1;
     }
 
@@ -933,6 +914,8 @@ stock Entrance_Use(playerid, idx) {
     ) {
         return 1;
     }
+
+    gPlayerEntranceCooldown[playerid] = GetTickCount() + 3000;
 
     new
         Float:x,
@@ -945,8 +928,8 @@ stock Entrance_Use(playerid, idx) {
 
     Entrance_GetTargetPoint(idx, x, y, z, a);
     Interaction_ClearPrompt(playerid);
-    Interaction_LockPrompts(playerid, teleportDelay + GetPlayerPing(playerid) + 1000);
-    Entrance_BlockReuse(playerid, targetid, teleportDelay + GetPlayerPing(playerid) + ENTRANCE_REUSE_BLOCK_MS);
+    Interaction_LockPrompts(playerid, 3000);
+    Entrance_BlockReuse(playerid, targetid, 3000);
     Interaction_LoadSafeTeleport(
         playerid,
         x,
@@ -1055,12 +1038,14 @@ hook OnPlayerConnect(playerid) {
 CMD:vao(playerid, params[])
 {
     #pragma unused params
+    if(Door_TryInteract(playerid)) return 1;
     return Entrance_CommandUse(playerid);
 }
 
 CMD:ra(playerid, params[])
 {
     #pragma unused params
+    if(Door_TryInteract(playerid)) return 1;
     return Entrance_CommandUse(playerid);
 }
 
@@ -1075,10 +1060,6 @@ hook OnPlayerLeaveDynArea(playerid, areaid) {
             idx = arr[1];
 
         if(areaid == EnExArea[idx]) {
-            if(PlayerBlockedEntranceID[playerid] == idx) {
-                Entrance_ClearReuseBlock(playerid);
-            }
-
             Interaction_ClearPrompt(playerid, INTERACTION_TYPE_ENTRANCE, idx);
         }
     }
@@ -1092,7 +1073,425 @@ hook OnPlayerKeyStateChange(playerid, newkeys, oldkeys) {
     }
 
     if(PRESSED(KEY_YES) && Interaction_IsActive(playerid, INTERACTION_TYPE_ENTRANCE)) {
+        if(GetTickCount() < gPlayerEntranceCooldown[playerid]) {
+            return SendErrorMsg(playerid, "Vui long cho 3 giay de tiep tuc ra/vao.");
+        }
         return Entrance_Use(playerid, Interaction_GetActiveID(playerid));
     }
+
+    if(PRESSED(KEY_YES) || PRESSED(KEY_SECONDARY_ATTACK)) {
+        Door_TryInteract(playerid);
+    }
     return 1;
+}
+
+// =============================================================================
+// CENTRALIZED SQL DOORS SYSTEM IMPLEMENTATION
+// =============================================================================
+
+#define MAX_DOORS                       (256)
+#define DOOR_STREAMER_IDENTIFIER        (0x444F4F52) // "DOOR"
+
+static
+    Iterator:DoorIndex<MAX_DOORS>,
+    doorName[MAX_DOORS][64],
+    doorSlug[MAX_DOORS][64],
+    doorLabelText[MAX_DOORS][128],
+    Float:doorExtX[MAX_DOORS],
+    Float:doorExtY[MAX_DOORS],
+    Float:doorExtZ[MAX_DOORS],
+    Float:doorExtA[MAX_DOORS],
+    doorExtInt[MAX_DOORS],
+    doorExtVW[MAX_DOORS],
+    Float:doorIntX[MAX_DOORS],
+    Float:doorIntY[MAX_DOORS],
+    Float:doorIntZ[MAX_DOORS],
+    Float:doorIntA[MAX_DOORS],
+    doorIntInt[MAX_DOORS],
+    doorIntVW[MAX_DOORS],
+    doorPickupModel[MAX_DOORS],
+    doorType[MAX_DOORS],
+    bool:doorLocked[MAX_DOORS],
+    doorFaction[MAX_DOORS],
+    doorBusiness[MAX_DOORS],
+    doorHouse[MAX_DOORS],
+    doorAdminLevel[MAX_DOORS],
+    doorVipLevel[MAX_DOORS],
+    bool:doorEnabled[MAX_DOORS],
+    doorExtPickup[MAX_DOORS],
+    doorIntPickup[MAX_DOORS],
+    Text3D:doorExtLabel[MAX_DOORS],
+    Text3D:doorIntLabel[MAX_DOORS],
+    doorExtArea[MAX_DOORS],
+    doorIntArea[MAX_DOORS];
+
+stock bool:Door_IsValid(doorid) {
+    return (doorid > 0 && doorid < MAX_DOORS && Iter_Contains(DoorIndex, doorid));
+}
+
+stock Door_DestroyObjects(doorid) {
+    if(!Door_IsValid(doorid)) return 0;
+
+    if(doorExtPickup[doorid] != INVALID_STREAMER_ID) {
+        DestroyDynamicPickup(doorExtPickup[doorid]);
+        doorExtPickup[doorid] = INVALID_STREAMER_ID;
+    }
+    if(doorIntPickup[doorid] != INVALID_STREAMER_ID) {
+        DestroyDynamicPickup(doorIntPickup[doorid]);
+        doorIntPickup[doorid] = INVALID_STREAMER_ID;
+    }
+    if(doorExtLabel[doorid] != INVALID_3DTEXT_ID) {
+        DestroyDynamic3DTextLabel(doorExtLabel[doorid]);
+        doorExtLabel[doorid] = INVALID_3DTEXT_ID;
+    }
+    if(doorIntLabel[doorid] != INVALID_3DTEXT_ID) {
+        DestroyDynamic3DTextLabel(doorIntLabel[doorid]);
+        doorIntLabel[doorid] = INVALID_3DTEXT_ID;
+    }
+    if(doorExtArea[doorid] != INVALID_STREAMER_ID) {
+        DestroyDynamicArea(doorExtArea[doorid]);
+        doorExtArea[doorid] = INVALID_STREAMER_ID;
+    }
+    if(doorIntArea[doorid] != INVALID_STREAMER_ID) {
+        DestroyDynamicArea(doorIntArea[doorid]);
+        doorIntArea[doorid] = INVALID_STREAMER_ID;
+    }
+    return 1;
+}
+
+stock Door_BuildObjects(doorid) {
+    if(!Door_IsValid(doorid) || !doorEnabled[doorid]) return 0;
+
+    Door_DestroyObjects(doorid);
+
+    new model = (doorPickupModel[doorid] > 0) ? doorPickupModel[doorid] : 19130;
+    new labelStr[180];
+
+    // Exterior Pickup & Label
+    doorExtPickup[doorid] = CreateDynamicPickup(model, 1, doorExtX[doorid], doorExtY[doorid], doorExtZ[doorid], doorExtVW[doorid], doorExtInt[doorid]);
+    doorExtArea[doorid] = CreateDynamicSphere(doorExtX[doorid], doorExtY[doorid], doorExtZ[doorid], 2.0, doorExtVW[doorid], doorExtInt[doorid]);
+
+    format(labelStr, sizeof(labelStr), "CUA VAO: %s\n"C_GREY"%s\n"C_YELLOW"Nhan 'Y' hoac /enter de vao", 
+        doorName[doorid], doorLocked[doorid] ? ("{FF0000}[DA KHOA]") : ("{00FF00}[MO CUA]"));
+    doorExtLabel[doorid] = CreateDynamic3DTextLabel(labelStr, COLOR_ORANGE, doorExtX[doorid], doorExtY[doorid], doorExtZ[doorid] + 0.8, 15.0, .worldid = doorExtVW[doorid], .interiorid = doorExtInt[doorid]);
+
+    // Interior Pickup & Label
+    doorIntPickup[doorid] = CreateDynamicPickup(model, 1, doorIntX[doorid], doorIntY[doorid], doorIntZ[doorid], doorIntVW[doorid], doorIntInt[doorid]);
+    doorIntArea[doorid] = CreateDynamicSphere(doorIntX[doorid], doorIntY[doorid], doorIntZ[doorid], 2.0, doorIntVW[doorid], doorIntInt[doorid]);
+
+    format(labelStr, sizeof(labelStr), "LOI RA: %s\n"C_YELLOW"Nhan 'Y' hoac /exit de ra", doorName[doorid]);
+    doorIntLabel[doorid] = CreateDynamic3DTextLabel(labelStr, COLOR_GREEN, doorIntX[doorid], doorIntY[doorid], doorIntZ[doorid] + 0.8, 15.0, .worldid = doorIntVW[doorid], .interiorid = doorIntInt[doorid]);
+    return 1;
+}
+
+stock Door_LoadPersisted() {
+    inline OnDoorsLoad() {
+        new rows = cache_num_rows();
+        if(!rows) return 1;
+
+        new id;
+        for(new i = 0; i < rows; i++) {
+            cache_get_value_name_int(i, "id", id);
+            if(id <= 0 || id >= MAX_DOORS) continue;
+
+            Iter_Add(DoorIndex, id);
+            cache_get_value_name(i, "name", doorName[id], 64);
+            cache_get_value_name(i, "slug", doorSlug[id], 64);
+            cache_get_value_name(i, "label", doorLabelText[id], 128);
+
+            cache_get_value_name_float(i, "exterior_x", doorExtX[id]);
+            cache_get_value_name_float(i, "exterior_y", doorExtY[id]);
+            cache_get_value_name_float(i, "exterior_z", doorExtZ[id]);
+            cache_get_value_name_float(i, "exterior_a", doorExtA[id]);
+            cache_get_value_name_int(i, "exterior_interior", doorExtInt[id]);
+            cache_get_value_name_int(i, "exterior_vw", doorExtVW[id]);
+
+            cache_get_value_name_float(i, "interior_x", doorIntX[id]);
+            cache_get_value_name_float(i, "interior_y", doorIntY[id]);
+            cache_get_value_name_float(i, "interior_z", doorIntZ[id]);
+            cache_get_value_name_float(i, "interior_a", doorIntA[id]);
+            cache_get_value_name_int(i, "interior_interior", doorIntInt[id]);
+            cache_get_value_name_int(i, "interior_vw", doorIntVW[id]);
+
+            cache_get_value_name_int(i, "pickup_model", doorPickupModel[id]);
+            cache_get_value_name_int(i, "door_type", doorType[id]);
+
+            new lockedInt, enabledInt;
+            cache_get_value_name_int(i, "locked", lockedInt);
+            doorLocked[id] = (lockedInt == 1);
+
+            cache_get_value_name_int(i, "faction_id", doorFaction[id]);
+            cache_get_value_name_int(i, "business_id", doorBusiness[id]);
+            cache_get_value_name_int(i, "house_id", doorHouse[id]);
+            cache_get_value_name_int(i, "admin_level", doorAdminLevel[id]);
+            cache_get_value_name_int(i, "vip_level", doorVipLevel[id]);
+
+            cache_get_value_name_int(i, "enabled", enabledInt);
+            doorEnabled[id] = (enabledInt == 1);
+
+            Door_BuildObjects(id);
+        }
+        printf("[SQL Doors] Successfully loaded %d doors from database.", rows);
+    }
+
+    MySQL_TQueryInline(MySQL_GetHandle(), using inline OnDoorsLoad,
+        "SELECT id, name, slug, label, exterior_x, exterior_y, exterior_z, exterior_a, exterior_interior, exterior_vw, \
+         interior_x, interior_y, interior_z, interior_a, interior_interior, interior_vw, pickup_model, door_type, \
+         locked, faction_id, business_id, house_id, admin_level, vip_level, enabled FROM doors WHERE enabled = 1 ORDER BY id ASC");
+    return 1;
+}
+
+stock Door_CreateNew(const name[], Float:x, Float:y, Float:z, Float:a, intid, vworld, creatorid) {
+    new query[512], creatorName[32];
+    GetPlayerName(creatorid, creatorName, sizeof(creatorName));
+
+    inline OnDoorInserted() {
+        new doorid = cache_insert_id();
+        if(doorid > 0 && doorid < MAX_DOORS) {
+            Iter_Add(DoorIndex, doorid);
+            strcpy(doorName[doorid], name, 64);
+            doorExtX[doorid] = x;
+            doorExtY[doorid] = y;
+            doorExtZ[doorid] = z;
+            doorExtA[doorid] = a;
+            doorExtInt[doorid] = intid;
+            doorExtVW[doorid] = vworld;
+            doorPickupModel[doorid] = 19130;
+            doorEnabled[doorid] = true;
+
+            Door_BuildObjects(doorid);
+        }
+    }
+
+    mysql_format(MySQL_GetHandle(), query, sizeof(query),
+        "INSERT INTO doors (name, exterior_x, exterior_y, exterior_z, exterior_a, exterior_interior, exterior_vw, created_by) \
+         VALUES ('%e', %f, %f, %f, %f, %d, %d, '%e')",
+        name, x, y, z, a, intid, vworld, creatorName);
+    MySQL_TQueryInline(MySQL_GetHandle(), using inline OnDoorInserted, query);
+    return 1;
+}
+
+stock Door_SetExteriorPos(doorid, Float:x, Float:y, Float:z, Float:a, intid, vworld) {
+    if(!Door_IsValid(doorid)) return 0;
+    doorExtX[doorid] = x;
+    doorExtY[doorid] = y;
+    doorExtZ[doorid] = z;
+    doorExtA[doorid] = a;
+    doorExtInt[doorid] = intid;
+    doorExtVW[doorid] = vworld;
+
+    new query[256];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query),
+        "UPDATE doors SET exterior_x=%f, exterior_y=%f, exterior_z=%f, exterior_a=%f, exterior_interior=%d, exterior_vw=%d WHERE id=%d",
+        x, y, z, a, intid, vworld, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_SetInteriorPos(doorid, Float:x, Float:y, Float:z, Float:a, intid, vworld) {
+    if(!Door_IsValid(doorid)) return 0;
+    doorIntX[doorid] = x;
+    doorIntY[doorid] = y;
+    doorIntZ[doorid] = z;
+    doorIntA[doorid] = a;
+    doorIntInt[doorid] = intid;
+    doorIntVW[doorid] = vworld;
+
+    new query[256];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query),
+        "UPDATE doors SET interior_x=%f, interior_y=%f, interior_z=%f, interior_a=%f, interior_interior=%d, interior_vw=%d WHERE id=%d",
+        x, y, z, a, intid, vworld, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_SetName(doorid, const name[]) {
+    if(!Door_IsValid(doorid)) return 0;
+    strcpy(doorName[doorid], name, 64);
+
+    new query[256];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE doors SET name='%e' WHERE id=%d", name, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_SetLabel(doorid, const label[]) {
+    if(!Door_IsValid(doorid)) return 0;
+    strcpy(doorLabelText[doorid], label, 128);
+
+    new query[256];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE doors SET label='%e' WHERE id=%d", label, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_SetLocked(doorid, bool:locked) {
+    if(!Door_IsValid(doorid)) return 0;
+    doorLocked[doorid] = locked;
+
+    new query[128];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE doors SET locked=%d WHERE id=%d", locked ? 1 : 0, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_SetType(doorid, type) {
+    if(!Door_IsValid(doorid)) return 0;
+    doorType[doorid] = type;
+
+    new query[128];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE doors SET door_type=%d WHERE id=%d", type, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+    return 1;
+}
+
+stock Door_SetPickupModel(doorid, model) {
+    if(!Door_IsValid(doorid)) return 0;
+    doorPickupModel[doorid] = model;
+
+    new query[128];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE doors SET pickup_model=%d WHERE id=%d", model, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_SetEnabled(doorid, bool:enabled) {
+    if(!Door_IsValid(doorid)) return 0;
+    doorEnabled[doorid] = enabled;
+
+    new query[128];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "UPDATE doors SET enabled=%d WHERE id=%d", enabled ? 1 : 0, doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    if(!enabled) Door_DestroyObjects(doorid);
+    else Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_Delete(doorid) {
+    if(!Door_IsValid(doorid)) return 0;
+    Door_DestroyObjects(doorid);
+
+    new query[128];
+    mysql_format(MySQL_GetHandle(), query, sizeof(query), "DELETE FROM doors WHERE id=%d", doorid);
+    mysql_tquery(MySQL_GetHandle(), query);
+
+    Iter_Remove(DoorIndex, doorid);
+    return 1;
+}
+
+stock Door_Reload(doorid) {
+    if(!Door_IsValid(doorid)) return 0;
+    Door_BuildObjects(doorid);
+    return 1;
+}
+
+stock Door_GetExteriorPos(doorid, &Float:x, &Float:y, &Float:z, &Float:a, &intid, &vworld) {
+    if(!Door_IsValid(doorid)) return 0;
+    x = doorExtX[doorid]; y = doorExtY[doorid]; z = doorExtZ[doorid]; a = doorExtA[doorid];
+    intid = doorExtInt[doorid]; vworld = doorExtVW[doorid];
+    return 1;
+}
+
+stock Door_GetInteriorPos(doorid, &Float:x, &Float:y, &Float:z, &Float:a, &intid, &vworld) {
+    if(!Door_IsValid(doorid)) return 0;
+    x = doorIntX[doorid]; y = doorIntY[doorid]; z = doorIntZ[doorid]; a = doorIntA[doorid];
+    intid = doorIntInt[doorid]; vworld = doorIntVW[doorid];
+    return 1;
+}
+
+stock Door_ShowInfo(playerid, doorid) {
+    if(!Door_IsValid(doorid)) return 0;
+    new info[512];
+    format(info, sizeof(info),
+        "ID: %d | Ten: %s\nKhoa: %s | Type: %d | Enabled: %s\nExterior: Pos(%.2f, %.2f, %.2f) Int(%d) VW(%d)\nInterior: Pos(%.2f, %.2f, %.2f) Int(%d) VW(%d)\nPickup: %d | Admin: %d | VIP: %d",
+        doorid, doorName[doorid], doorLocked[doorid] ? "Co" : "Khong", doorType[doorid], doorEnabled[doorid] ? "Co" : "Khong",
+        doorExtX[doorid], doorExtY[doorid], doorExtZ[doorid], doorExtInt[doorid], doorExtVW[doorid],
+        doorIntX[doorid], doorIntY[doorid], doorIntZ[doorid], doorIntInt[doorid], doorIntVW[doorid],
+        doorPickupModel[doorid], doorAdminLevel[doorid], doorVipLevel[doorid]);
+    Dialog_Show(playerid, DIALOG_STYLE_MSGBOX, "Door Information", info, "Dong", "");
+    return 1;
+}
+
+stock Door_ShowList(playerid) {
+    new list[2048] = "ID\tTen Door\tTrang Thai\n";
+    new item[128];
+    foreach(new i : DoorIndex) {
+        format(item, sizeof(item), "%d\t%s\t%s\n", i, doorName[i], doorLocked[i] ? "{FF0000}Khoa" : "{00FF00}Mo");
+        strcat(list, item, sizeof(list));
+    }
+    Dialog_Show(playerid, DIALOG_STYLE_TABLIST_HEADERS, "Danh Sach Doors", list, "Dong", "");
+    return 1;
+}
+
+stock Door_TryInteract(playerid) {
+    if(IsPlayerInAnyVehicle(playerid)) return 0;
+
+    new Float:px, Float:py, Float:pz;
+    GetPlayerPos(playerid, px, py, pz);
+    new intid = GetPlayerInterior(playerid);
+    new vworld = GetPlayerVirtualWorld(playerid);
+
+    foreach(new i : DoorIndex) {
+        if(!doorEnabled[i]) continue;
+
+        // Check Exterior -> Interior
+        if(vworld == doorExtVW[i] && intid == doorExtInt[i] && IsPlayerInRangeOfPoint(playerid, 2.5, doorExtX[i], doorExtY[i], doorExtZ[i])) {
+            if(doorLocked[i]) {
+                return SendErrorMsg(playerid, "Door nay dang bi KHOA.");
+            }
+
+            SetPlayerInterior(playerid, doorIntInt[i]);
+            SetPlayerVirtualWorld(playerid, doorIntVW[i]);
+            SetPlayerPos(playerid, doorIntX[i], doorIntY[i], doorIntZ[i]);
+            SetPlayerFacingAngle(playerid, doorIntA[i]);
+            Streamer_UpdateEx(playerid, doorIntX[i], doorIntY[i], doorIntZ[i], doorIntVW[i], doorIntInt[i], -1, 1, 0);
+            SetCameraBehindPlayer(playerid);
+            SendServerMsgF(playerid, "Ban da vao '%s'.", doorName[i]);
+            return 1;
+        }
+
+        // Check Interior -> Exterior
+        if(vworld == doorIntVW[i] && intid == doorIntInt[i] && IsPlayerInRangeOfPoint(playerid, 2.5, doorIntX[i], doorIntY[i], doorIntZ[i])) {
+            SetPlayerInterior(playerid, doorExtInt[i]);
+            SetPlayerVirtualWorld(playerid, doorExtVW[i]);
+            SetPlayerPos(playerid, doorExtX[i], doorExtY[i], doorExtZ[i]);
+            SetPlayerFacingAngle(playerid, doorExtA[i]);
+            Streamer_UpdateEx(playerid, doorExtX[i], doorExtY[i], doorExtZ[i], doorExtVW[i], doorExtInt[i], -1, 1, 0);
+            SetCameraBehindPlayer(playerid);
+            SendServerMsgF(playerid, "Ban da ra ngoai '%s'.", doorName[i]);
+            return 1;
+        }
+    }
+    return 0;
+}
+
+CMD:enter(playerid, params[]) {
+    #pragma unused params
+    if(Door_TryInteract(playerid)) return 1;
+    return Entrance_CommandUse(playerid);
+}
+
+CMD:exit(playerid, params[]) {
+    #pragma unused params
+    if(Door_TryInteract(playerid)) return 1;
+    return Entrance_CommandUse(playerid);
+}
+
+CMD:door(playerid, params[]) {
+    #pragma unused params
+    if(Door_TryInteract(playerid)) return 1;
+    return Entrance_CommandUse(playerid);
 }
