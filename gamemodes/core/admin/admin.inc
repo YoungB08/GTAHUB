@@ -38,6 +38,9 @@ hook OnGameModeInit() {
     Admin_AddCommandToList(1, "/bulletstats - view a player's shot and accuracy stats");
     Admin_AddCommandToList(1, "/relog - reconnect a player to the server");
     Admin_AddCommandToList(1, "/up - teleport upwards to un-stuck player/vehicle [distance] [playerid]");
+    Admin_AddCommandToList(1, "/doorlist - view list of all SQL doors");
+    Admin_AddCommandToList(1, "/doorinfo - view detailed information of a door");
+    Admin_AddCommandToList(1, "/gotodoor - teleport to a door (exterior/interior)");
 
     // Level 2
     Admin_AddCommandToList(2, "/jail - jail a player (seconds, reason)");
@@ -90,4 +93,17 @@ hook OnGameModeInit() {
     Admin_AddCommandToList(5, "/renameentrance - rename an entrance pair");
     Admin_AddCommandToList(5, "/setentranceentry - set entry position to current position");
     Admin_AddCommandToList(5, "/setentranceexit - set exit position to current position");
+    Admin_AddCommandToList(5, "/doorcreate - create a new SQL door");
+    Admin_AddCommandToList(5, "/doorexterior - update door exterior position from current location");
+    Admin_AddCommandToList(5, "/doorinterior - update door interior position from current location");
+    Admin_AddCommandToList(5, "/doorname - change door name");
+    Admin_AddCommandToList(5, "/doorlabel - change door 3D label text");
+    Admin_AddCommandToList(5, "/doorlock - lock a door");
+    Admin_AddCommandToList(5, "/doorunlock - unlock a door");
+    Admin_AddCommandToList(5, "/doortype - change door type");
+    Admin_AddCommandToList(5, "/doorpickup - change door pickup model");
+    Admin_AddCommandToList(5, "/doorenable - enable a door");
+    Admin_AddCommandToList(5, "/doordisable - disable a door");
+    Admin_AddCommandToList(5, "/doordelete - delete a door from database");
+    Admin_AddCommandToList(5, "/doorreload - reload a door runtime objects");
 }
