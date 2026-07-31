@@ -1038,12 +1038,14 @@ hook OnPlayerConnect(playerid) {
 CMD:vao(playerid, params[])
 {
     #pragma unused params
+    if(Door_TryInteract(playerid)) return 1;
     return Entrance_CommandUse(playerid);
 }
 
 CMD:ra(playerid, params[])
 {
     #pragma unused params
+    if(Door_TryInteract(playerid)) return 1;
     return Entrance_CommandUse(playerid);
 }
 
