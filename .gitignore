@@ -29,8 +29,11 @@ plugins/
 
 # binaries
 *.exe
+!omp-server.exe
 *.dll
 *.so
+!components/
+!components/**
 announce
 samp03svr
 samp-npc
