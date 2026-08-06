@@ -1,0 +1,29 @@
+[00:00:01.101] (1344) ERROR  Failed to bind to IPC port: Only one usage of each socket address (protocol/network address/port) is normally permitted. (os error 10048)
+[00:00:01.579] (4ea8) INFO   Frontend info: Archive checksum valid, processing files
+[00:00:02.217] (4ea8) INFO   Frontend info: Validation successful: samp_clients.7z
+[00:00:02.219] (4ea8) INFO   Frontend info: Validation successful: samp.dll
+[00:00:02.219] (4ea8) INFO   Frontend info: Validation successful: samp.dll
+[00:00:02.220] (4ea8) INFO   Frontend info: Validation successful: samp.dll
+[00:00:02.220] (4ea8) INFO   Frontend info: Validation successful: samp.dll
+[00:00:02.221] (4ea8) INFO   Frontend info: Validation successful: samp.dll
+[00:00:02.221] (4ea8) INFO   Frontend info: Validation successful: samp.dll
+[00:00:02.222] (4ea8) INFO   Frontend info: Validation successful: bass.dll
+[00:00:02.222] (4ea8) INFO   Frontend info: Validation successful: gtaweap3.ttf
+[00:00:02.223] (4ea8) INFO   Frontend info: Validation successful: mouse.png
+[00:00:02.223] (4ea8) INFO   Frontend info: Validation successful: samp.dll
+[00:00:02.223] (4ea8) INFO   Frontend info: Validation successful: blanktex.txd
+[00:00:02.223] (4ea8) INFO   Frontend info: Validation successful: CUSTOM.ide
+[00:00:02.224] (4ea8) INFO   Frontend info: Validation successful: custom.img
+[00:00:02.224] (4ea8) INFO   Frontend info: Validation successful: samaps.txd
+[00:00:02.225] (4ea8) INFO   Frontend info: Validation successful: SAMP.ide
+[00:00:02.225] (4ea8) INFO   Frontend info: Validation successful: SAMP.img
+[00:00:02.226] (4ea8) INFO   Frontend info: Validation successful: SAMP.ipl
+[00:00:02.226] (4ea8) INFO   Frontend info: Validation successful: SAMPCOL.img
+[00:00:02.227] (4ea8) INFO   Frontend info: Validation successful: samp.saa
+[00:00:02.227] (4ea8) INFO   Frontend info: Validation successful: sampaux3.ttf
+[00:00:02.227] (4ea8) INFO   Frontend info: Validation successful: sampgui.png
+[00:00:02.228] (4ea8) INFO   Frontend info: File validation successful
+[00:00:02.256] (4ea8) INFO   Frontend info: OMP plugin is up to date
+[00:00:02.799] (4ea8) INFO   Frontend info: No new update available
+[00:00:54.953] (4ea8) WARN   NewEvents emitted without explicit RedrawEventsCleared
+[00:00:54.956] (4ea8) WARN   RedrawEventsCleared emitted without explicit MainEventsCleared

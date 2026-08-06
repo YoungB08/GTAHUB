@@ -38,8 +38,9 @@ stock CEF_ShowRegisterPage(playerid)
 {
     CEF_CloseAllBrowsers(playerid);
     CEF_DisableGameUI(playerid);
-    CEF_CreateBrowser(playerid, CEF_BROWSER_REGISTER, CEF_URL_REGISTER, true, false);
     TogglePlayerSpectating(playerid, true);
+    CEF_TrackBrowserCreated(playerid, CEF_BROWSER_REGISTER, false);
+    CEF_CreateBrowser(playerid, CEF_BROWSER_REGISTER, CEF_URL_REGISTER, true, false);
 
     SetTimerEx("CEF_EmitRegisterUsername", 300, false, "i", playerid);
     return 1;

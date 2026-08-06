@@ -17,6 +17,7 @@
 #include <cmds_license> // he thong giay phep
 #include <cmds_bank>    // chuyen khoan ngan hang RP
 #include <cmds_admin_rp> // ticket, warn, aduty
+#include <cmds_role> // test role commands & callbacks
 
 static
 	cmd_Cooldown[MAX_PLAYERS],
@@ -112,7 +113,8 @@ static _HelpMenu_General(playerid) {
 
     strcat(string, ""C_ORANGE"Lien Lac\n\
         "C_GREY"/pm <id> <noi dung> "C_WHITE"- Gui tin nhan rieng.\n\
-        "C_GREY"/r <noi dung> "C_WHITE"- Tra loi PM gan nhat ban nhan duoc.\n\
+        "C_GREY"/re <noi dung> "C_WHITE"- Tra loi PM gan nhat nhan duoc.\n\
+        "C_GREY"/r <noi dung> "C_WHITE"- Chat Global toan server.\n\
         "C_GREY"/dnd "C_WHITE"- Bat/tat che do khong lam phien (chan PM).\n\n");
 
     strcat(string, ""C_ORANGE"Thong Tin & Chi So\n\

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="vi">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>GTAHUB Chat</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <section id="chat-shell" aria-label="Chat">
+        <div id="chat-feed" class="chat-feed" role="log" aria-live="polite"></div>
+
+        <form id="chat-form" class="chat-form is-hidden" autocomplete="off">
+            <span class="chat-prompt" aria-hidden="true">&gt;</span>
+            <input id="chat-input" type="text" maxlength="144" placeholder="Nhập tin nhắn..." spellcheck="false">
+            <span id="chat-count" class="chat-count">0/144</span>
+        </form>
+    </section>
+
+    <script src="script.js" charset="utf-8"></script>
+</body>
+</html>

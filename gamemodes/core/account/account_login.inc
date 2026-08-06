@@ -28,6 +28,7 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
     {
         print("[CEF] Player plugin not ready yet on connect. Marking pending LOGIN.");
         CEF_SetPendingUI(playerid, CEF_PENDING_LOGIN);
+        CEF_Login_SetPending(playerid, true);
         CEF_ShowLoginPage(playerid);
         SetTimerEx("CEF_CheckLoginFallback", 3000, false, "i", playerid);
     }

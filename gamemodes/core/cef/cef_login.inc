@@ -47,17 +47,19 @@ public CEF_CheckLoginFallback(playerid)
     if (!IsPlayerConnected(playerid))
         return 0;
 
-    if (gPlayerPendingLogin[playerid])
+    if (gPlayerPendingLogin[playerid] || CEF_GetPendingUI(playerid) == CEF_PENDING_LOGIN)
     {
         gPlayerPendingLogin[playerid] = false;
-        if (!CEF_PlayerHasPlugin(playerid))
+        CEF_SetPendingUI(playerid, CEF_PENDING_NONE);
+
+        if (!CEF_PlayerHasPlugin(playerid) && !CEF_IsPlayerCEFReady(playerid))
         {
-            printf("[CEF] Fallback check: Player %d does NOT have CEF plugin installed. Falling back to SA-MP Dialog login.", playerid);
+            printf("[CEF] Fallback check: Player %d does NOT have CEF plugin ready. Falling back to SA-MP Dialog login.", playerid);
             Account_PromptLogin_DialogFallback(playerid, gLoginHash[playerid]);
         }
         else
         {
-            printf("[CEF] Fallback check: Player %d has CEF plugin. Showing CEF Login page.", playerid);
+            printf("[CEF] Fallback check: Player %d has CEF plugin ready. Showing CEF Login page.", playerid);
             CEF_ShowLoginPage(playerid);
         }
     }
@@ -89,11 +91,12 @@ stock CEF_ShowLoginPage(playerid)
 {
     CEF_CloseAllBrowsers(playerid);
     CEF_DisableGameUI(playerid);
+    TogglePlayerSpectating(playerid, true);
+
+    // Force clear browser creation state so CEF_CreateBrowser never gets blocked
+    CEF_TrackBrowserCreated(playerid, CEF_BROWSER_LOGIN, false);
     // controls_chat = false để tránh treo/đứng máy khi gõ input trên một số GPU/SA-MP client
     CEF_CreateBrowser(playerid, CEF_BROWSER_LOGIN, CEF_URL_LOGIN, true, false);
-
-    // Di chuyển camera background giống Account cũ
-    TogglePlayerSpectating(playerid, true);
 
     // Phát sự kiện tự động điền Username (tên IC SA-MP)
     SetTimerEx("CEF_EmitUsernameDelayed", 300, false, "i", playerid);

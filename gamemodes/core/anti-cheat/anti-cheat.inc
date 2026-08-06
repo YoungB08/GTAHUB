@@ -54,7 +54,7 @@ forward bool: AC_IsPlayerSpawned( playerid );
 /* ** Callback Hooks ** */
 hook OnPlayerUpdate( playerid )
 {
-	if( ! AC_IsPlayerSpawned( playerid ) && Class_SelectionStatus(playerid) )
+	if( ! AC_IsPlayerSpawned( playerid ) )
 		return ~0; // Not Spawned, No SYNC!
 
 	if( !IsPlayerNPC( playerid ) )

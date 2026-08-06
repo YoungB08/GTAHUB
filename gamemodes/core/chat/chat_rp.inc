@@ -4,23 +4,23 @@
     Hệ thống kênh chat Roleplay IC / OOC.
 
     Kênh IC (In-Character):
-        Chat thường     : Nói chuyện trong bán kính LOCAL_CHAT_DISTANCE (metres)
+        Chat thường     : Nói chuyện trong bán kính LOCAL_CHAT_DISTANCE (20.0m)
         /me  <action>   : Mô tả hành động nhân vật  (vd: * CJ bat tay voi ...)
         /do  <desc>     : Mô tả môi trường / trạng thái (vd: * [Ban co the thay...])
-        /low <msg>      : Nói thầm – bán kính LOW_CHAT_DISTANCE nhỏ hơn
-        /s   <msg>      : Hét to – bán kính SHOUT_CHAT_DISTANCE lớn hơn
-        /r   <msg>      : Bộ đàm Faction (Gang/LSPD/EMS – chung 1 kênh theo faction)
+        /low <msg>      : Nói thầm – bán kính LOW_CHAT_DISTANCE (5.0m)
+        /s   <msg>      : Hét to – bán kính SHOUT_CHAT_DISTANCE (50.0m)
+        /r   <msg>      : Chat Global (toàn server)
+        /radio <msg>    : Bộ đàm Faction (Gang/LSPD/EMS – chung 1 kênh theo faction)
         /dep <msg>      : Bộ đàm liên bộ Cảnh sát/Quân đội
 
     Kênh OOC (Out-Of-Character):
-        /b   <msg>      : Local OOC – chỉ người trong phạm vi nghe được
+        /b   <msg>      : Local OOC – bán kính 20.0m
         /o   <msg>      : Global OOC – toàn server (có cooldown)
-        /pm  đã có sẵn trong cmds_pm.inc
+        /pm, /re        : đã có sẵn trong cmds_pm.inc
 
     Lưu ý thiết kế:
-    - Chat thường (không lệnh) giữ nguyên xử lý tại chat_OnPlayerText.inc (bán kính local).
-    - Module này chỉ xử lý các lệnh /me, /do, /low, /s, /r, /dep, /b, /o.
-    - Không import y_hooks do đây là file commands thuần túy.
+    - Chat thường (không lệnh) giữ nguyên xử lý tại chat_OnPlayerText.inc (bán kính local 20m).
+    - Module này chỉ xử lý các lệnh /me, /do, /low, /s, /r, /radio, /dep, /b, /o.
 */
 
 #include <YSI_Coding\y_hooks>
@@ -40,7 +40,7 @@
 #define COLOR_RP_LOW            (0xCCCCCCFF)   // Xám – /low
 #define COLOR_RP_SHOUT          (0xFF6B6BFF)   // Đỏ cam – /s
 #define COLOR_RP_LOCAL_CHAT     (0xFFFFFFFF)   // Trắng – chat thường local
-#define COLOR_RP_RADIO          (0x55FF55FF)   // Xanh lá – /r bộ đàm
+#define COLOR_RP_RADIO          (0x55FF55FF)   // Xanh lá – /r chat global
 #define COLOR_RP_DEP_RADIO      (0x00BFFFFF)   // Xanh cyan – /dep liên bộ
 #define COLOR_RP_LOCAL_OOC      (0xAFAFAFFF)   // Xám nhạt – /b
 #define COLOR_RP_GLOBAL_OOC     (0xAFAFAFFF)   // Xám nhạt – /o
@@ -59,19 +59,39 @@ stock SendLocalMessage(senderid, color, const msg[], Float:distance)
 {
     new Float:x, Float:y, Float:z;
     GetPlayerPos(senderid, x, y, z);
+    printf("[CEF Chat Debug] SendLocalMessage senderid=%d pos=(%.2f, %.2f, %.2f) msg='%s'",
+        senderid, x, y, z, msg);
 
+    new sentCount = 0;
     foreach (new i : Player)
     {
-        if (!Player_IsLoggedIn(i)) continue;
-        if (GetPlayerVirtualWorld(i) != GetPlayerVirtualWorld(senderid)) continue;
-        if (GetPlayerInterior(i) != GetPlayerInterior(senderid)) continue;
-        if (!IsPlayerInRangeOfPoint(i, distance, x, y, z)) continue;
+        if (!Player_IsLoggedIn(i)) {
+            printf("[CEF Chat Debug] SendLocalMessage skip recipient %d: not logged in", i);
+            continue;
+        }
+        if (GetPlayerVirtualWorld(i) != GetPlayerVirtualWorld(senderid)) {
+            printf("[CEF Chat Debug] SendLocalMessage skip recipient %d: VW mismatch (%d != %d)",
+                i, GetPlayerVirtualWorld(i), GetPlayerVirtualWorld(senderid));
+            continue;
+        }
+        if (GetPlayerInterior(i) != GetPlayerInterior(senderid)) {
+            printf("[CEF Chat Debug] SendLocalMessage skip recipient %d: Interior mismatch (%d != %d)",
+                i, GetPlayerInterior(i), GetPlayerInterior(senderid));
+            continue;
+        }
+        if (!IsPlayerInRangeOfPoint(i, distance, x, y, z)) {
+            printf("[CEF Chat Debug] SendLocalMessage skip recipient %d: out of range", i);
+            continue;
+        }
+        printf("[CEF Chat Debug] SendLocalMessage sending to recipient %d", i);
         SendClientMessage(i, color, msg);
+        sentCount++;
     }
+    printf("[CEF Chat Debug] SendLocalMessage finished, total recipients=%d", sentCount);
 }
 
 // =============================================================================
-// /me – Hành động nhân vật IC
+// /me – Mô tả hành động IC
 // =============================================================================
 
 CMD:me(playerid, params[])
@@ -85,7 +105,7 @@ CMD:me(playerid, params[])
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    new msg[192];
+    new msg[CHAT_FORMATTED_BYTES];
     format(msg, sizeof(msg), "* %s %s", playerName, params);
 
     SendLocalMessage(playerid, COLOR_RP_ME, msg, LOCAL_CHAT_DISTANCE);
@@ -107,7 +127,7 @@ CMD:do(playerid, params[])
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    new msg[192];
+    new msg[CHAT_FORMATTED_BYTES];
     format(msg, sizeof(msg), "* %s ((- %s -))", params, playerName);
 
     SendLocalMessage(playerid, COLOR_RP_DO, msg, LOCAL_CHAT_DISTANCE);
@@ -129,7 +149,7 @@ CMD:low(playerid, params[])
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    new msg[192];
+    new msg[CHAT_FORMATTED_BYTES];
     format(msg, sizeof(msg), "[%d] %s (tham): %s", playerid, playerName, params);
 
     SendLocalMessage(playerid, COLOR_RP_LOW, msg, LOW_CHAT_DISTANCE);
@@ -154,7 +174,7 @@ CMD:s(playerid, params[])
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    new msg[192];
+    new msg[CHAT_FORMATTED_BYTES];
     format(msg, sizeof(msg), "[%d] %s (HET): %s", playerid, playerName, params);
 
     SendLocalMessage(playerid, COLOR_RP_SHOUT, msg, SHOUT_CHAT_DISTANCE);
@@ -165,7 +185,32 @@ CMD:s(playerid, params[])
 ALTCMD:shout(s);
 
 // =============================================================================
-// /r – Bộ đàm Faction (Gang / LSPD / EMS)
+// /r – Chat Global (Toàn máy chủ)
+// =============================================================================
+
+CMD:r(playerid, params[])
+{
+    if (!Player_IsLoggedIn(playerid))
+        return SendErrorMsg(playerid, "Ban phai dang nhap truoc."), 1;
+
+    if (isnull(params))
+        return SendErrorMsg(playerid, "Su dung: /r <noi dung chat global>"), 1;
+
+    new playerName[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
+
+    new msg[CHAT_FORMATTED_BYTES];
+    format(msg, sizeof(msg), "[GLOBAL] [%d] %s: %s", playerid, playerName, params);
+
+    SendClientMessageToAll(COLOR_RP_RADIO, msg);
+    return 1;
+}
+
+ALTCMD:g(r);
+ALTCMD:globalchat(r);
+
+// =============================================================================
+// /radio – Bộ đàm Faction (Gang / LSPD / EMS)
 // =============================================================================
 
 CMD:radio(playerid, params[])
@@ -178,14 +223,10 @@ CMD:radio(playerid, params[])
 
     new playerClass = Player_GetClass(playerid);
 
-    // Chỉ cho phép thành viên trong đội (Police, Army, Medic) hoặc civilian có gang dùng /r
-    // Gang: faction radio chỉ cho civilian (gang members)
-    // Hiện tại dùng team class để lọc
-
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    new msg[192];
+    new msg[CHAT_FORMATTED_BYTES];
     new radioLabel[32];
 
     switch (playerClass)
@@ -234,7 +275,7 @@ CMD:dep(playerid, params[])
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    new msg[192];
+    new msg[CHAT_FORMATTED_BYTES];
     format(msg, sizeof(msg), "[LIEN BO] %s: %s", playerName, params);
 
     foreach (new i : Player)
@@ -262,7 +303,7 @@ CMD:b(playerid, params[])
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
-    new msg[192];
+    new msg[CHAT_FORMATTED_BYTES];
     format(msg, sizeof(msg), "(( [%d] %s: %s ))", playerid, playerName, params);
 
     SendLocalMessage(playerid, COLOR_RP_LOCAL_OOC, msg, LOCAL_OOC_DISTANCE);

@@ -1,0 +1,25 @@
+{
+    "files": {
+        "index.html": {
+            "encrypted": true,
+            "modified": 13430393442,
+            "size": 795
+        },
+        "script.js": {
+            "encrypted": true,
+            "modified": 13430420098,
+            "size": 6399
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13430392529,
+            "size": 3085
+        }
+    },
+    "pak": {
+        "hash": "818cff7c9a7b1f8ebc37b5af6aacc53fc042cb0401899bab8515f8791c0965f8",
+        "path": "custom_chat.pak",
+        "size": 10708
+    },
+    "version": 2
+}

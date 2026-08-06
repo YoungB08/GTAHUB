@@ -1,0 +1,92 @@
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    overflow: hidden;
+    background: #1f292d;
+}
+
+.scene {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    min-width: 960px;
+    min-height: 540px;
+    overflow: hidden;
+    background: #344348;
+}
+
+.scene::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 42% 0;
+    background: #52676d;
+}
+
+.scene::after {
+    content: "";
+    position: absolute;
+    right: 12%;
+    bottom: 0;
+    width: 34%;
+    height: 58%;
+    background: #283338;
+    transform: skewX(-18deg);
+    transform-origin: bottom;
+}
+
+.street-grid {
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 42%;
+    border-top: 3px solid rgba(255, 255, 255, 0.18);
+    background: #222b2f;
+}
+
+.street-grid::before,
+.street-grid::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: rgba(255, 224, 127, 0.4);
+}
+
+.street-grid::before {
+    top: 38%;
+}
+
+.street-grid::after {
+    top: 42%;
+}
+
+iframe {
+    position: absolute;
+    z-index: 3;
+    border: 0;
+    background: transparent;
+    pointer-events: none;
+}
+
+.chat-preview {
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.nametag-preview {
+    top: 24%;
+    left: 50%;
+    width: 320px;
+    height: 124px;
+    transform: translateX(-50%);
+}

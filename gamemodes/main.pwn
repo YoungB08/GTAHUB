@@ -13,6 +13,9 @@
 // Letter-size-y = letter-size-x * 4
 // For a nice font display
 #define SAMP_COMPAT
+#define CHAT_MAX_CHARACTERS    (144)
+#define CHAT_MAX_UTF8_BYTES    (768)
+#define CHAT_FORMATTED_BYTES   (896)
 
 
 #if 0
@@ -80,6 +83,7 @@
 #include <a_mysql>
 #include <samp_bcrypt>
 #include <cef>
+#include <PawnPlus>
 
 // YSI
 #include <YSI_Core\y_utils>
@@ -127,6 +131,8 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 
 // Gamemode Scripts
 
+
+
 #include <init>
 
 #if SETUP_TABLE
@@ -148,6 +154,9 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 #include <admin>
 #include <system>
 #include <chat> // chat & messaging
+// HUB-Core Role Component Include
+#include <hubcore_role>
+
 #include <cmds>
 #include <mapping>
 
@@ -165,6 +174,9 @@ public OnGameModeInit() {
     Message_Add("Neu thich GTAHUB, hay them server vao danh sach yeu thich!");
 	Message_Add("Website chinh thuc: GTAHUB.vn");
     Message_Add("Ung ho de giup server phat trien lau dai!");
+
+	// Role Component Config
+	SetRoleGlobalConfig(25.0, true, true, 32.0, 32.0);
 
 
 	SendRconCommand("name "#SERVER_NAME " v" #SCRIPT_VERSION_MAJOR "." #SCRIPT_VERSION_MINOR "." #SCRIPT_VERSION_PATCH);

@@ -18,6 +18,7 @@ static embedColours[8][E_COLOUR_EMBED_DATA] =
 
 ExpandMentions(const input[], output[], outCap, colour) 
 {
+	output[0] = EOS;
 	new
 		inLen = strlen(input),
 		outLen = 0,
@@ -32,7 +33,7 @@ ExpandMentions(const input[], output[], outCap, colour)
 
 	format(endColour, sizeof(endColour), "{%06x}", colour >>> 8);
 
-	for( ; index < inLen && outLen < outCap; ++index) 
+	for( ; index < inLen && outLen < outCap - 1; ++index)
 	{
 		if(input[index] == '@' && numTags < 3) 
 		{
@@ -49,8 +50,7 @@ ExpandMentions(const input[], output[], outCap, colour)
 					strcat(output, mentionName, outCap);
 					strcat(output, endColour, outCap);
 
-					// update the output string length
-					outLen += 8 + strlen(mentionName) + 8;
+					outLen = strlen(output);
 
 					numTags++;
 					skip = true;
@@ -66,8 +66,7 @@ ExpandMentions(const input[], output[], outCap, colour)
 				{
 					strcat(output, embedColours[colourEmbed][ce_colour], outCap);
 
-					// update the output string length
-					outLen += 8;
+					outLen = strlen(output);
 
 					numTags++;
 					skip = true;
@@ -82,8 +81,11 @@ ExpandMentions(const input[], output[], outCap, colour)
 			}
 
 			output[outLen++] = input[index];
+			output[outLen] = EOS;
 		}
 	}
+
+	output[min(outLen, outCap - 1)] = EOS;
 
 	return numTags;
 }
@@ -116,4 +118,3 @@ _mentions_isAlphabetic(ch)
 	}
 	return false;
 }
-

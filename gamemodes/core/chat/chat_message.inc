@@ -12,10 +12,11 @@
 #include <YSI_Coding\y_va>
 
 static
-    chat_msgOut[144];
+    chat_msgOut[CHAT_FORMATTED_BYTES];
 
 
 stock SendErrorMsg(playerid, const string[]) {
+    SendClientMessage(playerid, COLOR_RED, string);
     UI_ShowError(playerid, string);
     return 1;
 }

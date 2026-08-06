@@ -103,7 +103,7 @@
             "pawn-memory",
             "samp_bcrypt",
             "GPS",
-            "pawnraknet"
+            "PawnPlus"
         ],
         "main_scripts": [
             "main 1"

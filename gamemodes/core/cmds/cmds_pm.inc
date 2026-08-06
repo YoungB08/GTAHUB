@@ -61,12 +61,12 @@ CMD:pm(playerid, params[]) {
     return 1;
 }
 
-CMD:r(playerid, params[])
+CMD:re(playerid, params[])
 {
     new msg[128];
     new targetid = PlayerLastPM[playerid];
     if(sscanf(params, "s[128]", msg)) {
-        return SendSyntaxMsg(playerid, "/r <noi dung>");
+        return SendSyntaxMsg(playerid, "/re <noi dung>");
     }
     if(targetid == -1) {
         return SendErrorMsg(playerid, "Nguoi choi ban muon PM da thoat.");
@@ -81,3 +81,5 @@ CMD:r(playerid, params[])
     PlayerLastPM[targetid] = playerid;
     return 1;
 }
+
+ALTCMD:reply(re);

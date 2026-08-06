@@ -20,7 +20,8 @@
 		"s4marium/samp-ini:1.1.1",
 		"Sreyas-Sreelal/samp-bcrypt:0.4.1",
 		"AmyrAhmady/samp-gps-plugin:1.4.1",
-		"katursis/Pawn.RakNet:1.6.0"
+		"katursis/Pawn.RakNet:1.6.0",
+		"IS4Code/PawnPlus:latest"
 	],
 	"local": true,
 	"runtime": {
@@ -94,7 +95,8 @@
 				"gamemodes/core/houses",
 				"gamemodes/core/houses/furniture",
 				"gamemodes/core/mapping",
-				"gamemodes/core/gangs"
+				"gamemodes/core/gangs",
+				"gamemodes/hub-core"
 			],
 			"compiler": {
 				"user": "openmultiplayer",

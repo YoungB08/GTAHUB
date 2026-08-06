@@ -199,10 +199,12 @@ public GPS_UpdateDistance(playerid) {
 }
 
 stock GPS_ClearLocation(playerid) {
-    if(IsValidDynamicCP(PlayerGPSCheckpoint[playerid])) {
-        DestroyDynamicCP(PlayerGPSCheckpoint[playerid]);
+    if(PlayerGPSCheckpoint[playerid] != -1) {
+        if(IsValidDynamicCP(PlayerGPSCheckpoint[playerid])) {
+            DestroyDynamicCP(PlayerGPSCheckpoint[playerid]);
+        }
+        PlayerGPSCheckpoint[playerid] = -1;
     }
-    PlayerGPSCheckpoint[playerid] = -1;
 
     for (new i = 0; i < MAX_GPS_ARROWS; i++) {
         if (PlayerGPSArrows[playerid][i] != -1) {
@@ -212,10 +214,12 @@ stock GPS_ClearLocation(playerid) {
         PlayerGPSArrowIdx[playerid][i] = -1;
     }
 
-    if (IsValidPath(PlayerGPSPath[playerid])) {
-        DestroyPath(PlayerGPSPath[playerid]);
+    if (PlayerGPSPath[playerid] != INVALID_GPS_PATH_ID) {
+        if (IsValidPath(PlayerGPSPath[playerid])) {
+            DestroyPath(PlayerGPSPath[playerid]);
+        }
+        PlayerGPSPath[playerid] = INVALID_GPS_PATH_ID;
     }
-    PlayerGPSPath[playerid] = INVALID_GPS_PATH_ID;
 
     if(PlayerGPSTimer[playerid] != -1) {
         KillTimer(PlayerGPSTimer[playerid]);

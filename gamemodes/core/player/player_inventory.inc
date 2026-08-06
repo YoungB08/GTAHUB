@@ -173,13 +173,10 @@ hook OnPlayerAutoSave(playerid)
 static Inv_ResetPlayer(playerid)
 {
     PlayerInvSlots[playerid] = 0;
+    static const emptySlot[E_INV_SLOT];
     for (new i = 0; i < MAX_INV_SLOTS; i++)
     {
-        PlayerInv[playerid][i][E_SLOT_NAME][0] = '\0';
-        PlayerInv[playerid][i][E_SLOT_LABEL][0] = '\0';
-        PlayerInv[playerid][i][E_SLOT_QTY] = 0;
-        PlayerInv[playerid][i][E_SLOT_WEIGHT] = 0.0;
-        PlayerInv[playerid][i][E_SLOT_ILLEGAL] = false;
+        PlayerInv[playerid][i] = emptySlot;
     }
 }
 
