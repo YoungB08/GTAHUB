@@ -3,7 +3,7 @@
 static
     chat_Cooldown[MAX_PLAYERS],
     chat_Count[MAX_PLAYERS],
-    chat_LastMessage[MAX_PLAYERS][CHAT_MAX_UTF8_BYTES];
+    String:g_LastPlayerMessage[MAX_PLAYERS];
 
 forward CEF_HandlePlayerChat(playerid, const text[]);
 public CEF_HandlePlayerChat(playerid, const text[])
@@ -49,14 +49,19 @@ public CEF_HandlePlayerChat(playerid, const text[])
 
     ExpandMentions(text, processedMessage, sizeof(processedMessage), -1);
 
-    // User can not send the same message twice.
-    if (!isnull(chat_LastMessage[playerid]) && !strcmp(chat_LastMessage[playerid], processedMessage, true, CHAT_MAX_UTF8_BYTES)) {
+    // Dynamic PawnPlus String Duplicate Message Protection
+    new String:strCurrent = str_new(processedMessage);
+    if (str_valid(g_LastPlayerMessage[playerid]) && str_cmp(g_LastPlayerMessage[playerid], strCurrent) == 0) {
         printf("[CEF Chat Debug] Player %d duplicate message blocked: '%s'", playerid, processedMessage);
+        str_delete(strCurrent);
         SendErrorMsg(playerid, "Khong duoc lap lai cung mot tin nhan.");
         return 0;
     }
 
-    strcpy(chat_LastMessage[playerid], processedMessage, CHAT_MAX_UTF8_BYTES);
+    if (str_valid(g_LastPlayerMessage[playerid])) {
+        str_delete(g_LastPlayerMessage[playerid]);
+    }
+    g_LastPlayerMessage[playerid] = strCurrent;
 
     // Police Radio
     if(processedMessage[0] == '!') {
@@ -110,6 +115,18 @@ hook OnPlayerConnect(playerid)
 {
     chat_Cooldown[playerid] = 0;
     chat_Count[playerid] = 0;
-    chat_LastMessage[playerid][0] = '\0';
+    if (str_valid(g_LastPlayerMessage[playerid])) {
+        str_delete(g_LastPlayerMessage[playerid]);
+    }
+    g_LastPlayerMessage[playerid] = String:0;
+    return 1;
+}
+
+hook OnPlayerDisconnect(playerid, reason)
+{
+    if (str_valid(g_LastPlayerMessage[playerid])) {
+        str_delete(g_LastPlayerMessage[playerid]);
+    }
+    g_LastPlayerMessage[playerid] = String:0;
     return 1;
 }
