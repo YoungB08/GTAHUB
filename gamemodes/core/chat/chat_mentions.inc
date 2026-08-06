@@ -50,6 +50,9 @@ ExpandMentions(const input[], output[], outCap, colour)
 					strcat(output, mentionName, outCap);
 					strcat(output, endColour, outCap);
 
+					// Sound ping notification for mentioned player
+					PlayerPlaySound(mentionID, 1085, 0.0, 0.0, 0.0);
+
 					outLen = strlen(output);
 
 					numTags++;
