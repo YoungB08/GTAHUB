@@ -25,6 +25,7 @@
 
 static Float:LastVehicleHealth[MAX_VEHICLES];
 static bool:IsEngineBroken[MAX_VEHICLES];
+static Map:g_VehicleDamageMap;
 
 // =============================================================================
 // HOOKS
@@ -32,6 +33,11 @@ static bool:IsEngineBroken[MAX_VEHICLES];
 
 hook OnGameModeInit()
 {
+    if (map_valid(g_VehicleDamageMap)) {
+        map_delete(g_VehicleDamageMap);
+    }
+    g_VehicleDamageMap = map_new();
+
     for (new i = 0; i < MAX_VEHICLES; i++)
     {
         LastVehicleHealth[i] = 1000.0;
@@ -44,6 +50,10 @@ hook OnVehicleSpawn(vehicleid)
 {
     LastVehicleHealth[vehicleid] = 1000.0;
     IsEngineBroken[vehicleid] = false;
+    if (map_valid(g_VehicleDamageMap) && map_has_key(g_VehicleDamageMap, vehicleid))
+    {
+        map_remove(g_VehicleDamageMap, vehicleid);
+    }
     return 1;
 }
 

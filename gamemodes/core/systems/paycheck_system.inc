@@ -139,6 +139,13 @@ static Paycheck_Give(playerid)
         "[LUONG] Nghe: %s | Luong: $%d | Bonus: $%d | Thue: $%d | NHAN: $%d",
         className, basePay, bonusAmount, tax, netPay);
 
+    // Non-blocking Async Database Logging for Paycheck
+    new asyncQ[160];
+    mysql_format(MySQL_GetHandle(), asyncQ, sizeof(asyncQ),
+        "INSERT INTO paycheck_logs (u_id, amount, created_at) VALUES (%d, %d, NOW())",
+        Player_GetAccountID(playerid), netPay);
+    mysql_tquery(MySQL_GetHandle(), asyncQ);
+
     Logger_Dbg(PLAYER_DEBUG_HANDLER, "[Paycheck_Give] paycheck issued",
         Logger_P(playerid),
         Logger_I("class",   playerClass),
