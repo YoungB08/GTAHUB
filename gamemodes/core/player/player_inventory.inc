@@ -89,6 +89,7 @@ enum E_INV_SLOT {
 
 static PlayerInv[MAX_PLAYERS][MAX_INV_SLOTS][E_INV_SLOT];
 static PlayerInvSlots[MAX_PLAYERS];   // Số slot đang dùng
+static Map:g_PlayerInvMap[MAX_PLAYERS];
 
 static TrunkInv[MAX_PLAYERS][MAX_TRUNK_SLOTS][E_INV_SLOT];
 static TrunkSlots[MAX_PLAYERS];   // Slot cốp xe đang mở
@@ -143,6 +144,10 @@ hook OnMySQLConnected()
 
 hook OnPlayerConnect(playerid)
 {
+    if (map_valid(g_PlayerInvMap[playerid])) {
+        map_delete(g_PlayerInvMap[playerid]);
+    }
+    g_PlayerInvMap[playerid] = map_new();
     Inv_ResetPlayer(playerid);
     TrunkVehicleID[playerid] = -1;
     return 1;
@@ -157,6 +162,10 @@ hook OnPlayerLogin(playerid)
 hook OnPlayerDisconnect(playerid, reason)
 {
     Inv_Save(playerid);
+    if (map_valid(g_PlayerInvMap[playerid])) {
+        map_delete(g_PlayerInvMap[playerid]);
+        g_PlayerInvMap[playerid] = Map:0;
+    }
     return 1;
 }
 
@@ -173,6 +182,9 @@ hook OnPlayerAutoSave(playerid)
 static Inv_ResetPlayer(playerid)
 {
     PlayerInvSlots[playerid] = 0;
+    if (map_valid(g_PlayerInvMap[playerid])) {
+        map_clear(g_PlayerInvMap[playerid]);
+    }
     static const emptySlot[E_INV_SLOT];
     for (new i = 0; i < MAX_INV_SLOTS; i++)
     {
@@ -316,6 +328,9 @@ stock bool:Inv_AddItem(playerid, const slug[], qty = 1)
         if (PlayerInv[playerid][slotIdx][E_SLOT_QTY] + qty <= ItemDefs[defIdx][E_ITEM_MAX_STACK])
         {
             PlayerInv[playerid][slotIdx][E_SLOT_QTY] += qty;
+            if (map_valid(g_PlayerInvMap[playerid])) {
+                map_str_set(g_PlayerInvMap[playerid], slug, PlayerInv[playerid][slotIdx][E_SLOT_QTY]);
+            }
             return true;
         }
     }
@@ -333,6 +348,10 @@ stock bool:Inv_AddItem(playerid, const slug[], qty = 1)
     PlayerInv[playerid][slotIdx][E_SLOT_QTY]     = qty;
     PlayerInv[playerid][slotIdx][E_SLOT_WEIGHT]  = ItemDefs[defIdx][E_ITEM_WEIGHT];
     PlayerInv[playerid][slotIdx][E_SLOT_ILLEGAL] = ItemDefs[defIdx][E_ITEM_ILLEGAL];
+
+    if (map_valid(g_PlayerInvMap[playerid])) {
+        map_str_set(g_PlayerInvMap[playerid], slug, qty);
+    }
 
     if (slotIdx + 1 > PlayerInvSlots[playerid])
         PlayerInvSlots[playerid] = slotIdx + 1;
@@ -355,12 +374,25 @@ stock bool:Inv_RemoveItem(playerid, const slug[], qty = 1)
         PlayerInv[playerid][slotIdx][E_SLOT_QTY] = 0;
         PlayerInv[playerid][slotIdx][E_SLOT_WEIGHT] = 0.0;
         PlayerInv[playerid][slotIdx][E_SLOT_ILLEGAL] = false;
+        if (map_valid(g_PlayerInvMap[playerid])) {
+            map_str_remove(g_PlayerInvMap[playerid], slug);
+        }
+    }
+    else
+    {
+        if (map_valid(g_PlayerInvMap[playerid])) {
+            map_str_set(g_PlayerInvMap[playerid], slug, PlayerInv[playerid][slotIdx][E_SLOT_QTY]);
+        }
     }
     return true;
 }
 
 stock Inv_GetItemCount(playerid, const slug[])
 {
+    if (map_valid(g_PlayerInvMap[playerid]) && map_has_str_key(g_PlayerInvMap[playerid], slug))
+    {
+        return map_str_get(g_PlayerInvMap[playerid], slug);
+    }
     new slotIdx = Inv_FindSlot(playerid, slug);
     if (slotIdx == -1) return 0;
     return PlayerInv[playerid][slotIdx][E_SLOT_QTY];
