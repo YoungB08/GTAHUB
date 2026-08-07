@@ -7,8 +7,8 @@
         },
         "script.js": {
             "encrypted": true,
-            "modified": 13430387173,
-            "size": 6252
+            "modified": 13430512068,
+            "size": 6073
         },
         "style.css": {
             "encrypted": true,
@@ -17,9 +17,9 @@
         }
     },
     "pak": {
-        "hash": "f44d8d0cc54aa9a6668d1ecee3babd9e2e82dc4570d1bc22715dfb08de7ee761",
+        "hash": "05e628b9081347d8046f55efdb2ab1a5a1f1ab1e4e884b633b9fd1563f70957d",
         "path": "login.pak",
-        "size": 14084
+        "size": 13908
     },
     "version": 2
 }

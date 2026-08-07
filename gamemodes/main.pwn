@@ -148,6 +148,9 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 // CEF Core System
 #include <cef_core>
 
+// OMP Voice Component Include
+#include <ompvoice>
+
 #include <account>
 #include <player>
 #include <houses>

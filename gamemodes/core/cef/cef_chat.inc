@@ -58,9 +58,8 @@ stock CEF_ChatOnDisconnect(playerid)
 
 stock bool:CEF_ChatCanReceive(playerid)
 {
-    return IsPlayerConnected(playerid)
-        && CEF_IsPlayerCEFReady(playerid)
-        && gCEFChatCreated[playerid];
+    #pragma unused playerid
+    return false;
 }
 
 static CEF_ChatEncodeOutput(const input[], output[], outputSize)

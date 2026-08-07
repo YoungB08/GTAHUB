@@ -32,10 +32,11 @@ stock CEF_Login_SetPending(playerid, bool:status)
 // Gọi khi player hoàn tất handshake CEF
 public CEF_OnPlayerReadyUI(playerid)
 {
-    if (gPlayerPendingLogin[playerid])
+    if (gPlayerPendingLogin[playerid] || CEF_GetPendingUI(playerid) == CEF_PENDING_LOGIN)
     {
         printf("[CEF] CEF_OnPlayerReadyUI: playerid=%d is now CEF ready, showing CEF login page!", playerid);
         gPlayerPendingLogin[playerid] = false;
+        CEF_SetPendingUI(playerid, CEF_PENDING_NONE);
         CEF_ShowLoginPage(playerid);
     }
     return 1;
@@ -89,13 +90,18 @@ hook OnGameModeInit()
 // --- Mở trang Login cho player ---
 stock CEF_ShowLoginPage(playerid)
 {
-    CEF_CloseAllBrowsers(playerid);
+    gPlayerPendingLogin[playerid] = false;
+    CEF_SetPendingUI(playerid, CEF_PENDING_NONE);
+
     CEF_DisableGameUI(playerid);
     TogglePlayerSpectating(playerid, true);
 
-    // Force clear browser creation state so CEF_CreateBrowser never gets blocked
-    CEF_TrackBrowserCreated(playerid, CEF_BROWSER_LOGIN, false);
-    // controls_chat = false để tránh treo/đứng máy khi gõ input trên một số GPU/SA-MP client
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_REGISTER);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_ACTIVE);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_SELECT);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_CREATE);
+
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
     CEF_CreateBrowser(playerid, CEF_BROWSER_LOGIN, CEF_URL_LOGIN, true, false);
 
     // Phát sự kiện tự động điền Username (tên IC SA-MP)

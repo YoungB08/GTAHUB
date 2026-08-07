@@ -154,7 +154,6 @@ stock CEF_EnableGameUI(playerid)
 
     // Mở Status HUD CEF Overlay
     CEF_ShowStatusHUD(playerid);
-    CEF_ShowCustomChat(playerid);
     return 1;
 }
 

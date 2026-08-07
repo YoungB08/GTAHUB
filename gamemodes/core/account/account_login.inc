@@ -19,9 +19,9 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
     // Lưu hash cho CEF verify
     CEF_Login_SetHash(playerid, hash, len);
 
-    if (CEF_IsPlayerCEFReady(playerid) || CEF_PlayerHasPlugin(playerid))
+    if (CEF_IsPlayerCEFReady(playerid))
     {
-        print("[CEF] Player has CEF plugin & is ready. Showing CEF Login page.");
+        print("[CEF] Player CEF is ready. Showing CEF Login page.");
         CEF_ShowLoginPage(playerid);
     }
     else
@@ -29,7 +29,6 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
         print("[CEF] Player plugin not ready yet on connect. Marking pending LOGIN.");
         CEF_SetPendingUI(playerid, CEF_PENDING_LOGIN);
         CEF_Login_SetPending(playerid, true);
-        CEF_ShowLoginPage(playerid);
         SetTimerEx("CEF_CheckLoginFallback", 3000, false, "i", playerid);
     }
 }

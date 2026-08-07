@@ -14,12 +14,6 @@ const statusMsg = document.getElementById("status-msg");
 init();
 
 function init() {
-    // Đăng ký phím tắt Escape đóng UI
-    document.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") {
-            closeCEF();
-        }
-    });
 
     // Quên mật khẩu
     if (forgotPasswordLink) {

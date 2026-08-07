@@ -29,36 +29,90 @@ ACMD:[1]get(playerid, params[])
 	SetPlayerInterior(targetid, GetPlayerInterior(playerid));
 	return 1;
 }
+
 CMD:veh(playerid, params[])
 {
+    if (isnull(params)) {
+        return SendSyntaxMsg(playerid, "/veh [Model ID]");
+    }
 
+    new modelid = strval(params);
 
-    new
-        Float:x,
-        Float:y,
-        Float:z,
-        Float:angle;
-
+    new Float:x, Float:y, Float:z, Float:angle;
     GetPlayerPos(playerid, x, y, z);
     GetPlayerFacingAngle(playerid, angle);
 
-    // Dynamic vehicle ID variable
-    new vehicleid = CreateVehicle(612, x + 1.5, y, z + 0.5, angle, 1, 1, -1),
-	vehicleid1 = CreateVehicle(613, x + 1.5, y, z + 0.5, angle, 11, 1, -1);
-	new engines, lights, alarm, doors, bonnet, boot, objective;
+    new vehicleid = CreateVehicle(modelid, x + 1.5, y, z + 0.5, angle, -1, -1, -1);
+    if (vehicleid == INVALID_VEHICLE_ID) {
+        return SendErrorMsg(playerid, "Khong the tao phuong tien (Vuot qua gioi han xe server)!");
+    }
 
+    new engines, lights, alarm, doors, bonnet, boot, objective;
     GetVehicleParamsEx(vehicleid, engines, lights, alarm, doors, bonnet, boot, objective);
-	SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_ON, lights, alarm, doors, bonnet, boot, objective);
-
-	GetVehicleParamsEx(vehicleid1, engines, lights, alarm, doors, bonnet, boot, objective);
-	SetVehicleParamsEx(vehicleid1, VEHICLE_PARAMS_ON, lights, alarm, doors, bonnet, boot, objective);
-
+    SetVehicleParamsEx(vehicleid, VEHICLE_PARAMS_ON, lights, alarm, doors, bonnet, boot, objective);
 
     SetVehicleVirtualWorld(vehicleid, GetPlayerVirtualWorld(playerid));
     LinkVehicleToInterior(vehicleid, GetPlayerInterior(playerid));
-	SendClientMessage(playerid, -1, "Spawn xe thanh cong");
-    
+
+    // Cap day binh xang 100%
+    Vehicle_SetFuel(vehicleid, 100.0);
+
+    PutPlayerInVehicle(playerid, vehicleid, 0);
+
+    SendServerMsgF(playerid, "Spawn phuong tien Model %d thanh cong (VehicleID: %d) - Full Fuel 100%%!", modelid, vehicleid);
     return 1;
+}
+
+ACMD:[1]givelicense(playerid, params[])
+{
+    new targetid, option[32];
+    if (sscanf(params, "us[32]", targetid, option)) {
+        SendSyntaxMsg(playerid, "/givelicense [playerid/Name] [car | truck | pilot | weapon | job | bike | all]");
+        return SendClientMessage(playerid, -1, "Cac loai giay phep: 0/car, 1/truck, 2/pilot, 3/weapon, 4/job, 5/bike, 6/all");
+    }
+
+    if (!IsPlayerConnected(targetid)) {
+        return SendErrorMsg(playerid, "Nguoi choi khong online.");
+    }
+
+    new adminName[MAX_PLAYER_NAME], targetName[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, adminName, sizeof(adminName));
+    GetPlayerName(targetid, targetName, sizeof(targetName));
+
+    if (strequal(option, "all", true) || strequal(option, "6", true)) {
+        for (new i = 0; i < LICENSE_TOTAL; i++) {
+            License_Give(targetid, i, true);
+        }
+        SendServerMsgF(playerid, "Ban da cap TAT CA bang lai cho %s.", targetName);
+        SendServerMsgF(targetid, "Admin %s da cap TAT CA bang lai cho ban.", adminName);
+        return 1;
+    }
+
+    new licID = LICENSE_NONE;
+    if (strequal(option, "car", true) || strequal(option, "driving", true) || strequal(option, "0", true)) licID = LICENSE_DRIVING;
+    else if (strequal(option, "truck", true) || strequal(option, "1", true)) licID = LICENSE_TRUCK;
+    else if (strequal(option, "pilot", true) || strequal(option, "plane", true) || strequal(option, "2", true)) licID = LICENSE_PILOT;
+    else if (strequal(option, "weapon", true) || strequal(option, "gun", true) || strequal(option, "3", true)) licID = LICENSE_WEAPON;
+    else if (strequal(option, "job", true) || strequal(option, "4", true)) licID = LICENSE_JOB;
+    else if (strequal(option, "bike", true) || strequal(option, "moto", true) || strequal(option, "5", true)) licID = LICENSE_BIKE;
+
+    if (licID == LICENSE_NONE) {
+        return SendErrorMsg(playerid, "Loai giay phep khong hop le! (car, truck, pilot, weapon, job, bike, all)");
+    }
+
+    License_Give(targetid, licID, true);
+
+    new licName[64];
+    License_GetName(licID, licName, sizeof(licName));
+
+    SendServerMsgF(playerid, "Ban da cap %s cho %s.", licName, targetName);
+    SendServerMsgF(targetid, "Admin %s da cap %s cho ban.", adminName, licName);
+    return 1;
+}
+
+ACMD:[1]givelic(playerid, params[])
+{
+    return cmd_givelicense(playerid, params);
 }
 
 ACMD:[1]gotopos(playerid, params[])

@@ -10,16 +10,15 @@ hook OnMySQLConnected() {
 
 // Prompts the player the register dialog -> Thay bằng CEF browser (với Dialog Fallback)
 stock Account_PromptRegister(playerid) {
-    if (CEF_IsPlayerCEFReady(playerid) || CEF_PlayerHasPlugin(playerid))
+    if (CEF_IsPlayerCEFReady(playerid))
     {
-        print("[CEF] Account_PromptRegister: Player has CEF plugin & is ready. Showing CEF Register page.");
+        print("[CEF] Account_PromptRegister: Player CEF is ready. Showing CEF Register page.");
         CEF_ShowRegisterPage(playerid);
     }
     else
     {
         print("[CEF] Account_PromptRegister: Player plugin not ready yet on connect. Marking pending REGISTER.");
         CEF_SetPendingUI(playerid, CEF_PENDING_REGISTER);
-        CEF_ShowRegisterPage(playerid);
         SetTimerEx("CEF_CheckRegisterFallbackTimer", 3000, false, "i", playerid);
     }
 }

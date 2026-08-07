@@ -1,0 +1,47 @@
+{
+  "blacklist": [],
+  "debug": {
+    "fakeRemote": false,
+    "jitterMs": 0,
+    "latencyMs": 0,
+    "loopback": false,
+    "mirrorMode": false,
+    "packetLoss": 0.0,
+    "showOverlay": true
+  },
+  "defaultVoiceDistance": 25.0,
+  "globalDistanceValue": -1.0,
+  "maxVoices": 8,
+  "microphone": {
+    "device": -1,
+    "enabled": true,
+    "gain": 1.0,
+    "muted": false
+  },
+  "microphoneHud": {
+    "enabled": true,
+    "offsetX": 0.0,
+    "offsetY": 0.0,
+    "scale": 1.0
+  },
+  "phone": {
+    "leakRadius": 8.0
+  },
+  "sound": {
+    "automaticGainControl": true,
+    "enabled": true,
+    "highPassFilter": true,
+    "masterVolume": 32,
+    "noiseSuppression": true,
+    "smoothing": true,
+    "voiceActivation": false,
+    "voiceThreshold": 0.15000000596046448
+  },
+  "speakerIcon": {
+    "enabled": true,
+    "offsetX": 0.0,
+    "offsetY": 0.0,
+    "scale": 1.0
+  },
+  "talkKey": 90
+}
