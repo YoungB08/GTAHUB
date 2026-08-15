@@ -220,7 +220,7 @@ stock CEF_GetPendingUI(playerid)
 stock bool:CEF_IsPlayerCEFReady(playerid)
 {
     if (!IsPlayerConnected(playerid)) return false;
-    return gPlayerCEFReady[playerid] || CEF_PlayerHasPlugin(playerid);
+    return gPlayerCEFReady[playerid];
 }
 
 // --- CEF Callbacks Logging & Event Dispatch ---

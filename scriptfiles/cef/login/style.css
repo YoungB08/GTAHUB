@@ -1,15 +1,46 @@
-/* Candy Red Glassmorphism Theme cho GTAHUB */
+/* =============================================================================
+   GTAHUB Login UI - Pure Vanilla CSS Glassmorphism Theme
+   Hoạt động độc lập 100% không phụ thuộc CDN bên ngoài
+   ============================================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
 body {
-    font-family: 'Inter', sans-serif;
-    background: transparent !important;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #070913 0%, #14050a 50%, #05080f 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 20s ease infinite;
     user-select: none;
     overflow: hidden;
 }
 
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
 .glass-panel {
-    background: rgba(11, 15, 25, 0.96);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
+    width: 420px;
+    padding: 36px 32px;
+    background: rgba(11, 15, 25, 0.94);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 28px;
+    box-shadow: 0 0 80px rgba(239, 68, 68, 0.20), 0 20px 50px rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    position: relative;
+    z-index: 10;
+    transition: all 0.3s ease;
 }
 
 /* Enable text cursor and selection on input fields */
@@ -19,28 +50,11 @@ input, textarea, select {
     caret-color: #ef4444 !important;
 }
 
-.action-btn {
-    width: 56px;
-    height: 56px;
-    background: rgba(15, 23, 42, 0.8);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 16px;
-    color: #f87171;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.2s ease;
+.space-y-4 > * + * {
+    margin-top: 16px;
 }
 
-.action-btn:hover {
-    background: #ef4444;
-    color: #ffffff;
-    box-shadow: 0 0 15px #ef4444;
-    border-color: #ef4444;
-}
-
-/* Tùy chỉnh thanh cuộn đẹp mắt cho Glassmorphism */
+/* Tùy chỉnh thanh cuộn đẹp mắt */
 ::-webkit-scrollbar {
     width: 4px;
 }
