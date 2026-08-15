@@ -19,13 +19,13 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
     // Lưu hash cho CEF verify
     CEF_Login_SetHash(playerid, hash, len);
 
-    // Gọi mở CEF Login Page trực tiếp ngay khi kết nối
+    // Đặt trạng thái pending để OnCefReady tự động kích hoạt nếu handshake chưa xong
+    CEF_SetPendingUI(playerid, CEF_PENDING_LOGIN);
+    CEF_Login_SetPending(playerid, true);
+
     print("[CEF] Prompting CEF Login page for player...");
     CEF_ShowLoginPage(playerid);
 
-    // Đặt trạng thái pending & timer fallback phòng trường hợp client không cài CEF plugin
-    CEF_SetPendingUI(playerid, CEF_PENDING_LOGIN);
-    CEF_Login_SetPending(playerid, true);
     SetTimerEx("CEF_CheckLoginFallback", 5500, false, "i", playerid);
 }
 

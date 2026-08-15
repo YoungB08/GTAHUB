@@ -62,19 +62,20 @@ static bool:gCEFBrowserRequested[MAX_PLAYERS][CEF_BROWSER_COUNT];
 stock CEF_TrackedCreateBrowser(playerid, browserid, const url[], bool:focused,
     bool:controlsChat = true, Float:width = 0.0, Float:height = 0.0)
 {
-    if (browserid < 0 || browserid >= CEF_BROWSER_COUNT) return 0;
-
-    gCEFBrowserRequested[playerid][browserid] = true;
+    if (browserid >= 0 && browserid < CEF_BROWSER_COUNT)
+    {
+        gCEFBrowserRequested[playerid][browserid] = true;
+    }
     CEF_NativeCreateBrowser(playerid, browserid, url, focused, controlsChat, width, height);
     return 1;
 }
 
 stock CEF_TrackedDestroyBrowser(playerid, browserid)
 {
-    if (browserid < 0 || browserid >= CEF_BROWSER_COUNT) return 0;
-    if (!gCEFBrowserRequested[playerid][browserid]) return 0;
-
-    gCEFBrowserRequested[playerid][browserid] = false;
+    if (browserid >= 0 && browserid < CEF_BROWSER_COUNT)
+    {
+        gCEFBrowserRequested[playerid][browserid] = false;
+    }
     CEF_NativeDestroyBrowser(playerid, browserid);
     return 1;
 }
