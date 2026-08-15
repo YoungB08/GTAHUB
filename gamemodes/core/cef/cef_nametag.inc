@@ -186,7 +186,12 @@ public CEF_UpdateNametags(playerid)
             }
         }
 
-        new Float:headZ = tz + 1.15;
+        new Float:headOffset = 1.15;
+        if (IsPlayerInAnyVehicle(targetid))
+        {
+            headOffset = 0.65;
+        }
+        new Float:headZ = tz + headOffset;
         new w2dBid = CEF_WORLD2D_NAMETAG_BASE + targetid;
 
         // World2D Browser Engine Update
@@ -265,7 +270,8 @@ hook OnPlayerUpdate@cef_nt_sync(playerid)
 {
     new Float:x = 0.0, Float:y = 0.0, Float:z = 0.0;
     GetPlayerPos(playerid, x, y, z);
-    new Float:headZ = z + 1.15;
+    new Float:headOffset = IsPlayerInAnyVehicle(playerid) ? 0.65 : 1.15;
+    new Float:headZ = z + headOffset;
     new w2dBid = CEF_WORLD2D_NAMETAG_BASE + playerid;
 
     foreach (new observerid : Player)
