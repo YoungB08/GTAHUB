@@ -184,6 +184,7 @@ hook OnPlayerConnect@cef_core(playerid)
 // --- Hook OnPlayerSpawn ---
 hook OnPlayerSpawn@cef_core(playerid)
 {
+    ShowNameTags(false);
     if (Char_IsActive(playerid))
     {
         CEF_EnableGameUI(playerid);

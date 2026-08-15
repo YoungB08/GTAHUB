@@ -207,11 +207,7 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
 
         // Lưu dữ liệu để active nhân vật
         Char_SetActiveData(playerid, charId, firstname, lastname, skinId, money, kills, deaths, jobId, classId, xp, px, py, pz, pa);
-
-        // Đóng CEF browser & mở lại Game UI (Chat & HUD)
-        CEF_CloseAllBrowsers(playerid);
-        TogglePlayerSpectating(playerid, false);
-        CEF_EnableGameUI(playerid);
+        Player_SetLoggedIn(playerid, true);
 
         // Đổi tên SA-MP thành Firstname_Lastname
         new sampName[MAX_PLAYER_NAME];
@@ -233,8 +229,17 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
             px = 1543.4; py = -1675.6; pz = 13.5; pa = 180.0;
         }
 
+        // Đóng CEF browsers & SetSpawnInfo trước khi ngắt spectating
+        CEF_CloseAllBrowsers(playerid);
         SetSpawnInfo(playerid, NO_TEAM, skinId, px, py, pz, pa, 0, 0, 0, 0, 0, 0);
+        TogglePlayerSpectating(playerid, false);
         SpawnPlayer(playerid);
+        SetPlayerPos(playerid, px, py, pz);
+        SetPlayerFacingAngle(playerid, pa);
+        SetCameraBehindPlayer(playerid);
+
+        // Bật lại Game UI (Chat, HUD & Custom Nametag)
+        CEF_EnableGameUI(playerid);
 
         SendServerMsgF(playerid, "Da vao nhan vat %s!", sampName);
         CallLocalFunction("OnCharacterActivated", "i", playerid);

@@ -74,12 +74,15 @@
         const localX = dx * rx + dy * ry + dz * rz;
         const localY = dx * ux + dy * uy + dz * uz;
 
-        const fovFactor = 1.15; // Standard SA-MP Field of View scale factor
         const screenWidth = window.innerWidth || 1920;
         const screenHeight = window.innerHeight || 1080;
 
-        const projectedX = (screenWidth / 2) + (localX / depth) * (screenHeight / 2) * fovFactor;
-        const projectedY = (screenHeight / 2) - (localY / depth) * (screenHeight / 2) * fovFactor;
+        // SA-MP Camera Projection (Standard 70-degree Field of View)
+        const fovRad = 70.0 * (Math.PI / 180.0);
+        const focalLength = (screenHeight / 2) / Math.tan(fovRad / 2);
+
+        const projectedX = (screenWidth / 2) + (localX / depth) * focalLength;
+        const projectedY = (screenHeight / 2) - (localY / depth) * focalLength;
 
         // Calculate distance-based scaling & opacity fade
         const dist = Math.hypot(dx, dy, dz);
@@ -277,11 +280,11 @@
             const currentScale = parseFloat(card.dataset.currentScale || targetScale);
             const currentOpacity = parseFloat(card.dataset.currentOpacity || targetOpacity);
 
-            // Responsive 0.85 Lerp for ultra-smooth 60-144 FPS tracking
-            const lerpX = currentX + (targetX - currentX) * 0.85;
-            const lerpY = currentY + (targetY - currentY) * 0.85;
-            const lerpScale = currentScale + (targetScale - currentScale) * 0.85;
-            const lerpOpacity = currentOpacity + (targetOpacity - currentOpacity) * 0.85;
+            // Direct 0.98 Lerp for 1:1 tight locking to player head
+            const lerpX = currentX + (targetX - currentX) * 0.98;
+            const lerpY = currentY + (targetY - currentY) * 0.98;
+            const lerpScale = currentScale + (targetScale - currentScale) * 0.98;
+            const lerpOpacity = currentOpacity + (targetOpacity - currentOpacity) * 0.98;
 
             card.dataset.currentX = lerpX;
             card.dataset.currentY = lerpY;
