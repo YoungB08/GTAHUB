@@ -19,12 +19,18 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
     // Lưu hash cho CEF verify
     CEF_Login_SetHash(playerid, hash, len);
 
-    // Đặt trạng thái pending để OnCefReady tự động kích hoạt nếu handshake chưa xong
     CEF_SetPendingUI(playerid, CEF_PENDING_LOGIN);
     CEF_Login_SetPending(playerid, true);
 
-    print("[CEF] Prompting CEF Login page for player...");
-    CEF_ShowLoginPage(playerid);
+    if (CEF_IsPlayerCEFReady(playerid))
+    {
+        printf("[CEF] Player %d is CEF ready. Showing CEF Login page immediately.", playerid);
+        CEF_ShowLoginPage(playerid);
+    }
+    else
+    {
+        printf("[CEF] Player %d not CEF ready yet. Pending LOGIN UI set, waiting for OnCefReady callback.", playerid);
+    }
 
     SetTimerEx("CEF_CheckLoginFallback", 5500, false, "i", playerid);
 }
