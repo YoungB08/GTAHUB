@@ -246,3 +246,21 @@ hook OnPlayerSecondUpdate@cef_nt(playerid)
     }
     return 1;
 }
+
+// Cập nhật vị trí World2D Nametag liên tục theo gói tin di chuyển (Player Sync Packet)
+hook OnPlayerUpdate@cef_nt_sync(playerid)
+{
+    new Float:x = 0.0, Float:y = 0.0, Float:z = 0.0;
+    GetPlayerPos(playerid, x, y, z);
+    new Float:headZ = z + 1.15;
+    new w2dBid = CEF_WORLD2D_NAMETAG_BASE + playerid;
+
+    foreach (new observerid : Player)
+    {
+        if (gWorld2DNametagActive[observerid][playerid])
+        {
+            CEF_SetWorld2DBrowserPos(observerid, w2dBid, x, y, headZ);
+        }
+    }
+    return 1;
+}
