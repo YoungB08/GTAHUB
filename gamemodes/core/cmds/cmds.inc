@@ -26,9 +26,16 @@ static
 
 public OnPlayerCommandReceived(playerid, cmd[])
 {
-	// if player is not spawned, do not allow him to use commands.
-	if(!Player_IsSpawned(playerid))
-		return 0;
+    // Cho phép dùng các lệnh debug/test /cef và /testcef ngay cả khi đang test
+    if (strequal(cmd, "cef") || strequal(cmd, "testcef"))
+        return 1;
+
+    // Tự động kiểm tra Player_IsSpawned với fallback state
+    if(!Player_IsSpawned(playerid))
+    {
+        SendErrorMsg(playerid, "Ban phai dang nhap va spawn nhan vat de dung lenh.");
+        return 0;
+    }
 
 	// anti command spam
 	if(gettime() < cmd_Cooldown[playerid]) {

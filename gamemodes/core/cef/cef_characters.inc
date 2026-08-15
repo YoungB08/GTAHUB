@@ -208,6 +208,7 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
         // Lưu dữ liệu để active nhân vật
         Char_SetActiveData(playerid, charId, firstname, lastname, skinId, money, kills, deaths, jobId, classId, xp, px, py, pz, pa);
         Player_SetLoggedIn(playerid, true);
+        Player_SetSpawned(playerid, true);
 
         // Đổi tên SA-MP thành Firstname_Lastname
         new sampName[MAX_PLAYER_NAME];

@@ -51,8 +51,27 @@ hook OnPlayerDeathEx(playerid, killerid, reason) {
     return 1;
 }
 
+stock Player_SetSpawned(playerid, bool:status) {
+    if (!IsPlayerConnected(playerid)) return 0;
+    Bit_Set(PlayerSpawnState, playerid, status);
+    return 1;
+}
+
 stock Player_IsSpawned(playerid) {
-    return Bit_Get(PlayerSpawnState, playerid);
+    if (!IsPlayerConnected(playerid))
+        return 0;
+
+    if (Bit_Get(PlayerSpawnState, playerid))
+        return 1;
+
+    // Fallback: Tự động phát hiện state ONFOOT/DRIVER/PASSENGER từ SA-MP Engine
+    new pState = GetPlayerState(playerid);
+    if (pState == PLAYER_STATE_ONFOOT || pState == PLAYER_STATE_DRIVER || pState == PLAYER_STATE_PASSENGER || pState == PLAYER_STATE_SPAWNED)
+    {
+        Bit_Set(PlayerSpawnState, playerid, true);
+        return 1;
+    }
+    return 0;
 }
 
 // updates player colour depending on wanted level.
