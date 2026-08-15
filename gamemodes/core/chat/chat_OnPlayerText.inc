@@ -17,8 +17,6 @@ public CEF_HandlePlayerChat(playerid, const text[])
     }
 
     if(!Player_IsLoggedIn(playerid) || !Char_IsActive(playerid)) {
-        printf("[CEF Chat Debug] Player %d NOT logged in or NOT active (loggedIn=%d, active=%d)",
-            playerid, Player_IsLoggedIn(playerid), Char_IsActive(playerid));
         SendErrorMsg(playerid, "Ban phai dang nhap va chon nhan vat de chat.");
         return 0;
     }
@@ -103,7 +101,7 @@ public CEF_HandlePlayerChat(playerid, const text[])
     SendLocalMessage(playerid, COLOR_RP_LOCAL_CHAT, msg, LOCAL_CHAT_DISTANCE);
 
     chat_Cooldown[playerid] = gettime() + 2;
-    return 1;
+    return 0;
 }
 
 public OnPlayerText(playerid, text[])

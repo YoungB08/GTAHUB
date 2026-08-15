@@ -26,14 +26,10 @@ static
 
 public OnPlayerCommandReceived(playerid, cmd[])
 {
-    // Cho phép dùng các lệnh debug/test /cef và /testcef ngay cả khi đang test
-    if (strequal(cmd, "cef") || strequal(cmd, "testcef"))
-        return 1;
-
-    // Tự động kiểm tra Player_IsSpawned với fallback state
-    if(!Player_IsSpawned(playerid))
+    // Tất cả người chơi đã log in và active nhân vật đều được dùng lệnh
+    if(!Player_IsLoggedIn(playerid) || !Char_IsActive(playerid))
     {
-        SendErrorMsg(playerid, "Ban phai dang nhap va spawn nhan vat de dung lenh.");
+        SendErrorMsg(playerid, "Ban phai dang nhap va chon nhan vat de dung lenh.");
         return 0;
     }
 
