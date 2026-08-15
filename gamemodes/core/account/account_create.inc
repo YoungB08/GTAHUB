@@ -10,17 +10,11 @@ hook OnMySQLConnected() {
 
 // Prompts the player the register dialog -> Thay bằng CEF browser (với Dialog Fallback)
 stock Account_PromptRegister(playerid) {
-    if (CEF_IsPlayerCEFReady(playerid))
-    {
-        print("[CEF] Account_PromptRegister: Player CEF is ready. Showing CEF Register page.");
-        CEF_ShowRegisterPage(playerid);
-    }
-    else
-    {
-        print("[CEF] Account_PromptRegister: Player plugin not ready yet on connect. Marking pending REGISTER.");
-        CEF_SetPendingUI(playerid, CEF_PENDING_REGISTER);
-        SetTimerEx("CEF_CheckRegisterFallbackTimer", 3000, false, "i", playerid);
-    }
+    print("[CEF] Account_PromptRegister: Showing CEF Register page for player...");
+    CEF_ShowRegisterPage(playerid);
+
+    CEF_SetPendingUI(playerid, CEF_PENDING_REGISTER);
+    SetTimerEx("CEF_CheckRegisterFallbackTimer", 5500, false, "i", playerid);
 }
 
 forward CEF_CheckRegisterFallbackTimer(playerid);
@@ -32,7 +26,7 @@ public CEF_CheckRegisterFallbackTimer(playerid)
     if (CEF_GetPendingUI(playerid) == CEF_PENDING_REGISTER)
     {
         CEF_SetPendingUI(playerid, CEF_PENDING_NONE);
-        if (!CEF_PlayerHasPlugin(playerid))
+        if (!CEF_PlayerHasPlugin(playerid) && !CEF_IsPlayerCEFReady(playerid))
         {
             printf("[CEF] Fallback check: Player %d does NOT have CEF plugin installed. Falling back to SA-MP Dialog register.", playerid);
             Account_PromptRegister_DialogFallback(playerid);

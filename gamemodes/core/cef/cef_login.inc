@@ -94,15 +94,19 @@ stock CEF_ShowLoginPage(playerid)
     CEF_SetPendingUI(playerid, CEF_PENDING_NONE);
 
     CEF_DisableGameUI(playerid);
-    TogglePlayerSpectating(playerid, true);
+
+    // Đặt vị trí camera toàn cảnh thành phố khi đăng nhập
+    SetPlayerCameraPos(playerid, 2106.8354, -1270.0221, 100.7057);
+    SetPlayerCameraLookAt(playerid, 2325.7061, -1063.7642, 55.4202);
 
     CEF_DestroyBrowser(playerid, CEF_BROWSER_REGISTER);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_ACTIVE);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_SELECT);
     CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_CREATE);
-
     CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
-    CEF_CreateBrowser(playerid, CEF_BROWSER_LOGIN, CEF_URL_LOGIN, true, false);
+
+    // Tạo Browser CEF Login
+    CEF_CreateBrowser(playerid, CEF_BROWSER_LOGIN, CEF_URL_LOGIN, true, true);
 
     // Phát sự kiện tự động điền Username (tên IC SA-MP)
     SetTimerEx("CEF_EmitUsernameDelayed", 300, false, "i", playerid);
@@ -198,13 +202,14 @@ public OnCEF_LoginPasswordVerify(playerid, bool:success, string:hash[])
     if (success)
     {
         PlayerAttempts_Reset(playerid);
+        Player_SetLoginStatus(playerid, true);
+        CallLocalFunction("OnPlayerLogin", "i", playerid);
+
         CEF_EmitEvent(playerid, CEF_BROWSER_LOGIN, "GTAHUB:LoginResponse",
             CEF_INT(1), CEF_STR("Dang nhap thanh cong! Dang tai...")
         );
 
         // Đóng login browser và chuyển sang character selection
-        // Sau 1.5s JS sẽ tự emit GTAHUB:ToCharacterSelectionPage
-        // Chúng ta handle ở đây luôn
         CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
         Account_ShowCharacterMenu_CEF(playerid);
     }

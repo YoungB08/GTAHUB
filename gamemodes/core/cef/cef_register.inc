@@ -36,11 +36,18 @@ hook OnGameModeInit()
 // --- Mở trang Register cho player ---
 stock CEF_ShowRegisterPage(playerid)
 {
-    CEF_CloseAllBrowsers(playerid);
     CEF_DisableGameUI(playerid);
-    TogglePlayerSpectating(playerid, true);
-    CEF_TrackBrowserCreated(playerid, CEF_BROWSER_REGISTER, false);
-    CEF_CreateBrowser(playerid, CEF_BROWSER_REGISTER, CEF_URL_REGISTER, true, false);
+
+    SetPlayerCameraPos(playerid, 2106.8354, -1270.0221, 100.7057);
+    SetPlayerCameraLookAt(playerid, 2325.7061, -1063.7642, 55.4202);
+
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_ACTIVE);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_SELECT);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_CREATE);
+    CEF_DestroyBrowser(playerid, CEF_BROWSER_REGISTER);
+
+    CEF_CreateBrowser(playerid, CEF_BROWSER_REGISTER, CEF_URL_REGISTER, true, true);
 
     SetTimerEx("CEF_EmitRegisterUsername", 300, false, "i", playerid);
     return 1;

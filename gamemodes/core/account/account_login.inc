@@ -19,18 +19,14 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
     // Lưu hash cho CEF verify
     CEF_Login_SetHash(playerid, hash, len);
 
-    if (CEF_IsPlayerCEFReady(playerid))
-    {
-        print("[CEF] Player CEF is ready. Showing CEF Login page.");
-        CEF_ShowLoginPage(playerid);
-    }
-    else
-    {
-        print("[CEF] Player plugin not ready yet on connect. Marking pending LOGIN.");
-        CEF_SetPendingUI(playerid, CEF_PENDING_LOGIN);
-        CEF_Login_SetPending(playerid, true);
-        SetTimerEx("CEF_CheckLoginFallback", 3000, false, "i", playerid);
-    }
+    // Gọi mở CEF Login Page trực tiếp ngay khi kết nối
+    print("[CEF] Prompting CEF Login page for player...");
+    CEF_ShowLoginPage(playerid);
+
+    // Đặt trạng thái pending & timer fallback phòng trường hợp client không cài CEF plugin
+    CEF_SetPendingUI(playerid, CEF_PENDING_LOGIN);
+    CEF_Login_SetPending(playerid, true);
+    SetTimerEx("CEF_CheckLoginFallback", 5500, false, "i", playerid);
 }
 
 // Fallback SA-MP Dialog khi client không cài CEF plugin
@@ -155,4 +151,8 @@ Player_IsLoggedIn(playerid) {
 
 Player_SetLoginStatus(playerid, bool:status) {
     return gPlayerLoginStatus[playerid] = status;
+}
+
+stock Player_SetLoggedIn(playerid, bool:status) {
+    return Player_SetLoginStatus(playerid, status);
 }
