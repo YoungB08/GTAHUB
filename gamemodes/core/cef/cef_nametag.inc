@@ -1,6 +1,6 @@
 // =============================================================================
 // CEF Custom Nametag Overlay - GTAHUB
-// Hiển thị Nametag Custom qua CEF Overlay trên đầu Player (Pure Pawn + CEF)
+// Architecture: Single Transparent Fullscreen Browser Overlay + Server 3D Payload
 // =============================================================================
 
 #if defined _cef_nametag_included
@@ -19,16 +19,9 @@ forward CEF_UpdateNametagsTimer(playerid);
 static bool:gPlayerNametagCreated[MAX_PLAYERS];
 static gNametagTimer[MAX_PLAYERS] = {-1, ...};
 
-#define CEF_WORLD2D_NAMETAG_BASE    (9000)
-
-static bool:gWorld2DNametagActive[MAX_PLAYERS][MAX_PLAYERS];
-
 stock CEF_Nametag_OnConnect(playerid)
 {
     gPlayerNametagCreated[playerid] = false;
-    for (new i = 0; i < MAX_PLAYERS; i++) {
-        gWorld2DNametagActive[playerid][i] = false;
-    }
     if (gNametagTimer[playerid] != -1) {
         KillTimer(gNametagTimer[playerid]);
         gNametagTimer[playerid] = -1;
@@ -39,12 +32,6 @@ stock CEF_Nametag_OnConnect(playerid)
 stock CEF_Nametag_OnDisconnect(playerid)
 {
     gPlayerNametagCreated[playerid] = false;
-    for (new i = 0; i < MAX_PLAYERS; i++) {
-        if (gWorld2DNametagActive[playerid][i]) {
-            CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + i);
-            gWorld2DNametagActive[playerid][i] = false;
-        }
-    }
     if (gNametagTimer[playerid] != -1) {
         KillTimer(gNametagTimer[playerid]);
         gNametagTimer[playerid] = -1;
@@ -78,7 +65,8 @@ stock CEF_Nametag_OnBrowserCreated(playerid, browserid, bool:success)
         if (gNametagTimer[playerid] != -1) {
             KillTimer(gNametagTimer[playerid]);
         }
-        gNametagTimer[playerid] = SetTimerEx("CEF_UpdateNametagsTimer", 20, true, "i", playerid);
+        // Run update timer at 50ms (~20 FPS server pipeline)
+        gNametagTimer[playerid] = SetTimerEx("CEF_UpdateNametagsTimer", 50, true, "i", playerid);
     }
     return 1;
 }
@@ -86,13 +74,6 @@ stock CEF_Nametag_OnBrowserCreated(playerid, browserid, bool:success)
 stock CEF_HideCustomNametag(playerid)
 {
     if (!IsPlayerConnected(playerid)) return 0;
-
-    for (new i = 0; i < MAX_PLAYERS; i++) {
-        if (gWorld2DNametagActive[playerid][i]) {
-            CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + i);
-            gWorld2DNametagActive[playerid][i] = false;
-        }
-    }
 
     if (gNametagTimer[playerid] != -1) {
         KillTimer(gNametagTimer[playerid]);
@@ -134,35 +115,22 @@ public CEF_UpdateNametags(playerid)
     new Float:px = 0.0, Float:py = 0.0, Float:pz = 0.0;
     GetPlayerPos(playerid, px, py, pz);
 
-    static gNametagJSONBuffer[3072];
+    static gNametagJSONBuffer[4096];
     format(gNametagJSONBuffer, sizeof(gNametagJSONBuffer), "{\"cam\":{\"cx\":%.2f,\"cy\":%.2f,\"cz\":%.2f,\"fx\":%.4f,\"fy\":%.4f,\"fz\":%.4f},\"players\":[",
         cx, cy, cz, fx, fy, fz
     );
 
     new count = 0;
 
-    // Quét toàn bộ người chơi trong Server (Multi-Player Support)
     foreach (new targetid : Player)
     {
         if (!IsPlayerConnected(targetid))
-        {
-            if (gWorld2DNametagActive[playerid][targetid]) {
-                CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
-                gWorld2DNametagActive[playerid][targetid] = false;
-            }
             continue;
-        }
 
         new bool:isLocal = (targetid == playerid);
 
         if (!IsPlayerRoleVisible(targetid))
-        {
-            if (gWorld2DNametagActive[playerid][targetid]) {
-                CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
-                gWorld2DNametagActive[playerid][targetid] = false;
-            }
             continue;
-        }
 
         new Float:tx = 0.0, Float:ty = 0.0, Float:tz = 0.0;
         GetPlayerPos(targetid, tx, ty, tz);
@@ -171,39 +139,18 @@ public CEF_UpdateNametags(playerid)
         if (!isLocal)
         {
             if (GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(targetid))
-            {
-                if (gWorld2DNametagActive[playerid][targetid]) {
-                    CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
-                    gWorld2DNametagActive[playerid][targetid] = false;
-                }
                 continue;
-            }
+
+            if (GetPlayerInterior(playerid) != GetPlayerInterior(targetid))
+                continue;
 
             dist = VectorSize(px - tx, py - ty, pz - tz);
             if (dist > 35.0)
-            {
-                if (gWorld2DNametagActive[playerid][targetid]) {
-                    CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
-                    gWorld2DNametagActive[playerid][targetid] = false;
-                }
                 continue;
-            }
         }
 
-        // Tọa độ đầu người chơi (Z + 1.15m)
+        // Target Head Position (Z + 1.15m)
         new Float:headZ = tz + 1.15;
-
-        // Cập nhật vị trí World2D C++ Plugin Native (nếu dùng World2D Mode)
-        new w2dBid = CEF_WORLD2D_NAMETAG_BASE + targetid;
-        if (!gWorld2DNametagActive[playerid][targetid])
-        {
-            CEF_CreateWorld2DBrowser(playerid, w2dBid, CEF_URL_CUSTOM_NAMETAG, tx, ty, headZ, 0.0, 0.0, 0.0, 0.5, 1.0);
-            gWorld2DNametagActive[playerid][targetid] = true;
-        }
-        else
-        {
-            CEF_SetWorld2DBrowserPos(playerid, w2dBid, tx, ty, headZ);
-        }
 
         new pName[MAX_PLAYER_NAME];
         GetPlayerName(targetid, pName, sizeof(pName));
@@ -220,16 +167,30 @@ public CEF_UpdateNametags(playerid)
         new rolesStr[512];
         GetPlayerRoleJSON(targetid, rolesStr, sizeof(rolesStr));
 
+        new bool:isAFK = false;
+        #if defined IsPlayerAFK
+            isAFK = IsPlayerAFK(targetid);
+        #endif
+
+        new bool:isVoice = false;
+        #if defined IsPlayerSpeaking
+            isVoice = IsPlayerSpeaking(targetid);
+        #endif
+
         if (count > 0) strcat(gNametagJSONBuffer, ",");
 
         new entry[512];
         format(entry, sizeof(entry),
-            "{\"id\":%d,\"name\":\"%s\",\"visible\":true,\"health\":%d,\"armour\":%d,\"color\":%d,\"isLocal\":%s,\"rainbow\":%s,\"x\":%.2f,\"y\":%.2f,\"z\":%.2f,\"dist\":%.1f,\"roles\":%s}",
+            "{\"id\":%d,\"name\":\"%s\",\"hp\":%d,\"arm\":%d,\"color\":%d,\"local\":%s,\"rainbow\":%s,\"dist\":%.1f,\"x\":%.2f,\"y\":%.2f,\"z\":%.2f,\"roles\":%s,\"voice\":%s,\"afk\":%s}",
             targetid, pName, floatround(hp), floatround(arm), nColor, isLocal ? "true" : "false", rainbow ? "true" : "false",
-            tx, ty, headZ, dist, rolesStr
+            dist, tx, ty, headZ, rolesStr, isVoice ? "true" : "false", isAFK ? "true" : "false"
         );
-        strcat(gNametagJSONBuffer, entry, sizeof(gNametagJSONBuffer));
-        count++;
+
+        if (strlen(gNametagJSONBuffer) + strlen(entry) + 5 < sizeof(gNametagJSONBuffer))
+        {
+            strcat(gNametagJSONBuffer, entry, sizeof(gNametagJSONBuffer));
+            count++;
+        }
     }
 
     strcat(gNametagJSONBuffer, "]}", sizeof(gNametagJSONBuffer));
@@ -243,24 +204,6 @@ hook OnPlayerSecondUpdate@cef_nt(playerid)
     if (gPlayerNametagCreated[playerid] && gNametagTimer[playerid] == -1)
     {
         CEF_UpdateNametags(playerid);
-    }
-    return 1;
-}
-
-// Cập nhật vị trí World2D Nametag liên tục theo gói tin di chuyển (Player Sync Packet)
-hook OnPlayerUpdate@cef_nt_sync(playerid)
-{
-    new Float:x = 0.0, Float:y = 0.0, Float:z = 0.0;
-    GetPlayerPos(playerid, x, y, z);
-    new Float:headZ = z + 1.15;
-    new w2dBid = CEF_WORLD2D_NAMETAG_BASE + playerid;
-
-    foreach (new observerid : Player)
-    {
-        if (gWorld2DNametagActive[observerid][playerid])
-        {
-            CEF_SetWorld2DBrowserPos(observerid, w2dBid, x, y, headZ);
-        }
     }
     return 1;
 }

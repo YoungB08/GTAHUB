@@ -1,0 +1,222 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background: transparent;
+}
+
+#nametag-root {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+#nametags-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Single Player Nametag Card */
+.nametag-card {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    will-change: transform, opacity;
+    transition: opacity 0.15s ease-out;
+    pointer-events: none;
+}
+
+/* Multi-Slot Role Badges Wrapper */
+.role-slots-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    max-width: 280px;
+}
+
+.role-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 8px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    text-transform: uppercase;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+}
+
+.role-badge img {
+    width: 16px;
+    height: 16px;
+    object-fit: contain;
+}
+
+/* Preset Role Colors & Neon Glows */
+.role-badge.role-admin {
+    background: linear-gradient(135deg, rgba(220, 38, 38, 0.9), rgba(185, 28, 28, 0.9));
+    border-color: rgba(248, 113, 113, 0.6);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(220, 38, 38, 0.5);
+}
+
+.role-badge.role-vip {
+    background: linear-gradient(135deg, rgba(217, 119, 6, 0.9), rgba(180, 83, 9, 0.9));
+    border-color: rgba(251, 191, 36, 0.6);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(217, 119, 6, 0.5);
+}
+
+.role-badge.role-dev {
+    background: linear-gradient(135deg, rgba(124, 58, 237, 0.9), rgba(109, 40, 217, 0.9));
+    border-color: rgba(167, 139, 250, 0.6);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(124, 58, 237, 0.5);
+}
+
+.role-badge.role-mod {
+    background: linear-gradient(135deg, rgba(25, 118, 210, 0.9), rgba(30, 64, 175, 0.9));
+    border-color: rgba(96, 165, 250, 0.6);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(25, 118, 210, 0.4);
+}
+
+.role-badge.role-helper {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.9), rgba(4, 120, 87, 0.9));
+    border-color: rgba(52, 211, 153, 0.6);
+    color: #ffffff;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+}
+
+/* Local Player & Voice/AFK Indicators */
+.indicator-icon {
+    font-size: 11px;
+    padding: 1px 4px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.indicator-icon.voice-icon {
+    animation: voice-pulse 1s infinite alternate;
+}
+
+@keyframes voice-pulse {
+    from { transform: scale(0.95); opacity: 0.8; }
+    to { transform: scale(1.1); opacity: 1; filter: drop-shadow(0 0 6px #10b981); }
+}
+
+.local-player-tag {
+    background: linear-gradient(135deg, rgba(14, 165, 233, 0.95), rgba(2, 132, 199, 0.95));
+    color: #ffffff;
+    font-size: 10px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    box-shadow: 0 0 10px rgba(14, 165, 233, 0.6);
+}
+
+/* Nametag Main Header Container */
+.nametag-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    padding: 5px 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+}
+
+.nametag-name {
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+    white-space: nowrap;
+}
+
+.nametag-id {
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.12);
+    padding: 1px 6px;
+    border-radius: 4px;
+}
+
+/* Rainbow animation effect */
+.rainbow-text {
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #8b00ff, #ff0000);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: rainbow-shine 2s linear infinite;
+}
+
+@keyframes rainbow-shine {
+    to { background-position: 200% center; }
+}
+
+/* Health & Armour Bars */
+.stat-bars-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    width: 100%;
+    min-width: 100px;
+    background: rgba(15, 23, 42, 0.8);
+    backdrop-filter: blur(8px);
+    padding: 4px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.bar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 5px;
+    background: rgba(0, 0, 0, 0.6);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.bar-fill.health {
+    background: linear-gradient(90deg, #f43f5e, #fb7185);
+    box-shadow: 0 0 8px rgba(244, 63, 94, 0.6);
+}
+
+.bar-fill.armour {
+    background: linear-gradient(90deg, #06b6d4, #38bdf8);
+    box-shadow: 0 0 8px rgba(6, 182, 212, 0.6);
+}
