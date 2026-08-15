@@ -286,6 +286,12 @@
                 }
                 const players = payload.players || payload;
                 if (Array.isArray(players)) {
+                    const activeIds = new Set(players.map(p => p.id));
+                    playerNametags.forEach((card, id) => {
+                        if (!activeIds.has(id)) {
+                            removeNametag(id);
+                        }
+                    });
                     players.forEach(updatePlayerNametag);
                 }
             } catch (e) {

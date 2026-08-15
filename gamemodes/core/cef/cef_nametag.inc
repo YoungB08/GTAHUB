@@ -51,6 +51,7 @@ stock CEF_ShowCustomNametag(playerid)
 
     if (!gPlayerNametagCreated[playerid])
     {
+        CEF_DestroyBrowser(playerid, CEF_BROWSER_CUSTOM_NAMETAG);
         CEF_CreateBrowser(playerid, CEF_BROWSER_CUSTOM_NAMETAG, CEF_URL_CUSTOM_NAMETAG, false, false);
     }
     return 1;
