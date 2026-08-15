@@ -19,9 +19,16 @@ forward CEF_UpdateNametagsTimer(playerid);
 static bool:gPlayerNametagCreated[MAX_PLAYERS];
 static gNametagTimer[MAX_PLAYERS] = {-1, ...};
 
+#define CEF_WORLD2D_NAMETAG_BASE    (9000)
+
+static bool:gWorld2DNametagActive[MAX_PLAYERS][MAX_PLAYERS];
+
 stock CEF_Nametag_OnConnect(playerid)
 {
     gPlayerNametagCreated[playerid] = false;
+    for (new i = 0; i < MAX_PLAYERS; i++) {
+        gWorld2DNametagActive[playerid][i] = false;
+    }
     if (gNametagTimer[playerid] != -1) {
         KillTimer(gNametagTimer[playerid]);
         gNametagTimer[playerid] = -1;
@@ -32,6 +39,12 @@ stock CEF_Nametag_OnConnect(playerid)
 stock CEF_Nametag_OnDisconnect(playerid)
 {
     gPlayerNametagCreated[playerid] = false;
+    for (new i = 0; i < MAX_PLAYERS; i++) {
+        if (gWorld2DNametagActive[playerid][i]) {
+            CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + i);
+            gWorld2DNametagActive[playerid][i] = false;
+        }
+    }
     if (gNametagTimer[playerid] != -1) {
         KillTimer(gNametagTimer[playerid]);
         gNametagTimer[playerid] = -1;
@@ -73,6 +86,13 @@ stock CEF_Nametag_OnBrowserCreated(playerid, browserid, bool:success)
 stock CEF_HideCustomNametag(playerid)
 {
     if (!IsPlayerConnected(playerid)) return 0;
+
+    for (new i = 0; i < MAX_PLAYERS; i++) {
+        if (gWorld2DNametagActive[playerid][i]) {
+            CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + i);
+            gWorld2DNametagActive[playerid][i] = false;
+        }
+    }
 
     if (gNametagTimer[playerid] != -1) {
         KillTimer(gNametagTimer[playerid]);
@@ -125,12 +145,24 @@ public CEF_UpdateNametags(playerid)
     foreach (new targetid : Player)
     {
         if (!IsPlayerConnected(targetid))
+        {
+            if (gWorld2DNametagActive[playerid][targetid]) {
+                CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
+                gWorld2DNametagActive[playerid][targetid] = false;
+            }
             continue;
+        }
 
         new bool:isLocal = (targetid == playerid);
 
         if (!IsPlayerRoleVisible(targetid))
+        {
+            if (gWorld2DNametagActive[playerid][targetid]) {
+                CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
+                gWorld2DNametagActive[playerid][targetid] = false;
+            }
             continue;
+        }
 
         new Float:tx = 0.0, Float:ty = 0.0, Float:tz = 0.0;
         GetPlayerPos(targetid, tx, ty, tz);
@@ -139,15 +171,39 @@ public CEF_UpdateNametags(playerid)
         if (!isLocal)
         {
             if (GetPlayerVirtualWorld(playerid) != GetPlayerVirtualWorld(targetid))
+            {
+                if (gWorld2DNametagActive[playerid][targetid]) {
+                    CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
+                    gWorld2DNametagActive[playerid][targetid] = false;
+                }
                 continue;
+            }
 
             dist = VectorSize(px - tx, py - ty, pz - tz);
             if (dist > 35.0)
+            {
+                if (gWorld2DNametagActive[playerid][targetid]) {
+                    CEF_DestroyBrowser(playerid, CEF_WORLD2D_NAMETAG_BASE + targetid);
+                    gWorld2DNametagActive[playerid][targetid] = false;
+                }
                 continue;
+            }
         }
 
         // Tọa độ đầu người chơi (Z + 1.15m)
         new Float:headZ = tz + 1.15;
+
+        // Cập nhật vị trí World2D C++ Plugin Native (nếu dùng World2D Mode)
+        new w2dBid = CEF_WORLD2D_NAMETAG_BASE + targetid;
+        if (!gWorld2DNametagActive[playerid][targetid])
+        {
+            CEF_CreateWorld2DBrowser(playerid, w2dBid, CEF_URL_CUSTOM_NAMETAG, tx, ty, headZ, 0.0, 0.0, 0.0, 0.5, 1.0);
+            gWorld2DNametagActive[playerid][targetid] = true;
+        }
+        else
+        {
+            CEF_SetWorld2DBrowserPos(playerid, w2dBid, tx, ty, headZ);
+        }
 
         new pName[MAX_PLAYER_NAME];
         GetPlayerName(targetid, pName, sizeof(pName));
