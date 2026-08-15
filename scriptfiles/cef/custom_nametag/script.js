@@ -15,13 +15,14 @@
     let cameraData = { cx: 0, cy: 0, cz: 0, fx: 0, fy: 0, fz: 1 };
     let localPlayerId = -1;
 
-    // Preset Role Configurations
+    // Preset Role Configurations (Loaded from http://gtahub.kntech.co/icons/)
     const PRESET_ROLES = {
-        1: { text: 'ADMIN', class: 'role-admin', icon: '../shared/svg/shield.svg' },
-        2: { text: 'VIP', class: 'role-vip', icon: '../shared/svg/crown.svg' },
-        3: { text: 'POLICE', class: 'role-mod', icon: '../shared/svg/police.svg' },
-        4: { text: 'HELPER', class: 'role-helper', icon: '../shared/svg/user.svg' },
-        5: { text: 'DEVELOPER', class: 'role-dev', icon: '../shared/svg/code.svg' }
+        1: { text: 'ADMIN', class: 'role-admin', icon: 'http://gtahub.kntech.co/icons/admin.png' },
+        2: { text: 'VIP', class: 'role-vip', icon: 'http://gtahub.kntech.co/icons/vip.png' },
+        3: { text: 'MODERATOR', class: 'role-mod', icon: 'http://gtahub.kntech.co/icons/moderator.png' },
+        4: { text: 'HELPER', class: 'role-helper', icon: 'http://gtahub.kntech.co/icons/helper.png' },
+        5: { text: 'DEVELOPER', class: 'role-dev', icon: 'http://gtahub.kntech.co/icons/dev.png' },
+        6: { text: 'MOD', class: 'role-mod', icon: 'http://gtahub.kntech.co/icons/mod.png' }
     };
 
     // --- Helper Functions ---
