@@ -145,6 +145,7 @@ stock CEF_EnableGameUI(playerid)
 // --- Hook OnGameModeInit: Đăng ký tất cả resources & events ---
 hook OnGameModeInit()
 {
+    ShowNameTags(false);
     CEF_AddResource("login");
     CEF_AddResource("register");
     CEF_AddResource("active");
