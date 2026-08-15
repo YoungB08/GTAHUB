@@ -18,6 +18,7 @@
 #include <cmds_bank>    // chuyen khoan ngan hang RP
 #include <cmds_admin_rp> // ticket, warn, aduty
 #include <cmds_role> // test role commands & callbacks
+#include <cmds_cef_test> // lenh test tat ca CEF UI
 
 static
 	cmd_Cooldown[MAX_PLAYERS],
