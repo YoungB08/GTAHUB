@@ -17,9 +17,9 @@
 #define CHAT_MAX_UTF8_BYTES    (768)
 #define CHAT_FORMATTED_BYTES   (896)
 
+forward OnPlayerSecondUpdate(playerid);
 
 #if 0
-	// called when player successfully logged in.
 	forward OnPlayerLogin(playerid);
 
 	// called when player successfully registered.
@@ -157,8 +157,7 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 #include <admin>
 #include <system>
 #include <chat> // chat & messaging
-// HUB-Core Role Component Include
-#include <hubcore_role>
+#include <role/role.inc>
 
 #include <cmds>
 #include <mapping>
@@ -167,6 +166,15 @@ stock MySQL_BindResultString(Statement:statement, field, const value[], len = si
 #include <cef_login>
 #include <cef_register>
 #include <cef_characters>
+#include <cef_active>
+#include <cef_interaction>
+#include <cef_radial>
+#include <cef_banking>
+#include <cef_inventory>
+#include <cef_trunk>
+#include <cef_licenses>
+#include <cef_notifications>
+#include <cef_phone>
 
 #include <gangs>
 
