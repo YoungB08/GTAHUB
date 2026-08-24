@@ -1,0 +1,70 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431284798,
+            "size": 15695
+        },
+        "assets/bank.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 453
+        },
+        "assets/bills.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 532
+        },
+        "assets/contacts.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 629
+        },
+        "assets/exit.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 382
+        },
+        "assets/maps.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 652
+        },
+        "assets/messages.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 434
+        },
+        "assets/settings.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 625
+        },
+        "assets/transfer.svg": {
+            "encrypted": true,
+            "modified": 13430597671,
+            "size": 409
+        },
+        "assets/wallpaper.jpg": {
+            "encrypted": false,
+            "modified": 13430597689,
+            "size": 148958
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13431281618,
+            "size": 16253
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13431284807,
+            "size": 30841
+        }
+    },
+    "pak": {
+        "hash": "061a72f00a715fd4713ad47af48b6bf0fdb1f083f3d18d877309dcc61502446b",
+        "path": "phone.pak",
+        "size": 217688
+    },
+    "version": 2
+}

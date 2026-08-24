@@ -26,6 +26,12 @@ static
 
 public OnPlayerCommandReceived(playerid, cmd[])
 {
+    // Cho phep lenh test CEF va Help hoat dong
+    if (strequal(cmd, "cef") || strequal(cmd, "testcef") || strequal(cmd, "help") || strequal(cmd, "commands") || strequal(cmd, "trogiup"))
+    {
+        return 1;
+    }
+
     // Tất cả người chơi đã log in và active nhân vật đều được dùng lệnh
     if(!Player_IsLoggedIn(playerid) || !Char_IsActive(playerid))
     {
@@ -69,11 +75,19 @@ public OnPlayerCommandPerformed(playerid, cmd[], success) {
 // HELP / COMMANDS MENU
 // =============================================================================
 
-ALTCMD:help(commands);
-ALTCMD:cmds(commands);
-ALTCMD:trogiup(commands);
-CMD:commands(playerid, params[]) {
+CMD:help(playerid, params[]) {
+    #pragma unused params
+    SendServerMsg(playerid, "===== DANH SACH LENH GTAHUB =====");
+    SendClientMessage(playerid, -1, "{FFA500}Co ban: {FFFFFF}/help, /v, /stats, /info, /pm, /r");
+    SendClientMessage(playerid, -1, "{FFA500}CEF UI: {FFFFFF}/cef [login|hud|bank|inv|radial|phone|licenses]");
+    SendClientMessage(playerid, -1, "{FFA500}Trang thai: {FFFFFF}Dang mo bang Menu Tro Giup...");
+    return cmd_commands(playerid, params);
+}
+ALTCMD:cmds(help);
+ALTCMD:trogiup(help);
 
+CMD:commands(playerid, params[]) {
+    #pragma unused params
     inline _response(pid, dialogid, response, listitem, string:inputtext[]) {
         #pragma unused dialogid, inputtext
         if (!response) {

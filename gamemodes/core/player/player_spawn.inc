@@ -15,7 +15,6 @@ public OnSpawnUnfreezePlayer(playerid)
 {
     if (IsPlayerConnected(playerid) && Char_IsActive(playerid))
     {
-        TogglePlayerSpectating(playerid, false);
         TogglePlayerControllable(playerid, true);
         SetCameraBehindPlayer(playerid);
     }
@@ -71,11 +70,6 @@ hook OnPlayerSpawn(playerid) {
         interior = 0;
     }
 
-    if(Player_GetClass(playerid) == TEAM_CIVILIAN) {
-        if(Player_GetJob(playerid) == TYPE_NO_JOB) {
-            Player_ShowJobMenu(playerid);
-        }
-    }
 
     // Đóng băng tạm thời trong 1.5 giây để nạp va chạm bản đồ & streamer (tránh rơi tự do vào void)
     TogglePlayerControllable(playerid, false);

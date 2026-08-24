@@ -1028,3 +1028,941 @@
 [2026-08-07 15:07:16] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
 [2026-08-07 15:07:24] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
 [2026-08-07 15:07:24] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:09:10] [INFO] =================================================================
+[2026-08-10 00:09:10] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 00:09:10] [INFO] =================================================================
+[2026-08-10 00:09:10] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 00:09:13] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 00:09:13] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 00:09:13] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 00:09:13] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 00:09:13] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 00:09:13] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 00:09:13] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 00:11:44] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:11:54] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-10 00:12:36] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:12:36] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:15:52] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 00:15:53] [INFO] =================================================================
+[2026-08-10 00:15:53] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 00:15:53] [INFO] =================================================================
+[2026-08-10 00:15:53] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 00:15:56] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 00:15:56] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 00:15:56] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 00:15:56] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 00:15:56] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 00:15:56] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 00:15:56] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 00:16:15] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:16:26] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:16:26] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:16:45] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:16:54] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-10 00:18:25] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 00:18:26] [INFO] =================================================================
+[2026-08-10 00:18:26] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 00:18:26] [INFO] =================================================================
+[2026-08-10 00:18:26] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 00:18:28] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 00:18:28] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 00:18:28] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 00:18:28] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 00:18:28] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 00:18:28] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 00:18:28] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 00:18:40] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:19:48] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 00:19:50] [INFO] =================================================================
+[2026-08-10 00:19:50] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 00:19:50] [INFO] =================================================================
+[2026-08-10 00:19:50] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 00:19:53] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 00:19:53] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 00:19:53] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 00:19:53] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 00:19:53] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 00:19:53] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 00:19:53] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 00:20:18] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:20:27] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:20:27] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:20:45] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:20:55] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:20:55] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:22:50] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 00:22:52] [INFO] =================================================================
+[2026-08-10 00:22:52] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 00:22:52] [INFO] =================================================================
+[2026-08-10 00:22:52] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 00:22:55] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 00:22:55] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 00:22:55] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 00:22:55] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 00:22:55] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 00:22:55] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 00:22:55] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 00:23:15] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:23:28] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:23:28] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:24:42] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 00:24:43] [INFO] =================================================================
+[2026-08-10 00:24:43] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 00:24:43] [INFO] =================================================================
+[2026-08-10 00:24:43] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 00:24:45] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 00:24:45] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 00:24:45] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 00:24:45] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 00:24:45] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 00:24:45] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 00:24:45] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 00:25:08] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:25:16] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:25:16] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:25:37] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:25:41] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:25:41] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:27:10] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:27:24] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-10 00:27:52] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:27:52] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:32:16] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 00:32:17] [INFO] =================================================================
+[2026-08-10 00:32:17] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 00:32:17] [INFO] =================================================================
+[2026-08-10 00:32:17] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 00:32:19] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 00:32:19] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 00:32:19] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 00:32:19] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 00:32:19] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 00:32:19] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 00:32:19] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 00:33:19] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:33:49] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:33:49] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:35:06] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:35:14] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:35:14] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 00:36:05] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 00:36:27] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 00:36:27] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:09:41] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:10:03] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:10:03] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:25:32] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:26:04] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:26:04] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:28:30] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:29:03] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:29:03] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:29:08] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 01:29:10] [INFO] =================================================================
+[2026-08-10 01:29:10] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 01:29:10] [INFO] =================================================================
+[2026-08-10 01:29:10] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 01:29:12] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 01:29:12] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 01:29:12] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 01:29:12] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 01:29:12] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 01:29:12] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 01:29:12] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 01:29:31] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:29:57] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:29:57] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:33:47] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:34:58] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:34:58] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:36:59] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:37:41] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:37:41] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:49:30] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 01:49:40] [INFO] =================================================================
+[2026-08-10 01:49:40] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 01:49:40] [INFO] =================================================================
+[2026-08-10 01:49:40] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 01:49:42] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 01:49:42] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 01:49:42] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 01:49:42] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 01:49:42] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 01:49:42] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 01:49:42] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 01:50:10] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:53:40] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:53:40] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:54:24] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 01:54:37] [INFO] =================================================================
+[2026-08-10 01:54:37] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 01:54:37] [INFO] =================================================================
+[2026-08-10 01:54:37] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 01:54:39] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 01:54:39] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 01:54:39] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 01:54:39] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 01:54:39] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 01:54:39] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 01:54:39] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 01:55:00] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:56:07] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:56:07] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:57:27] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:57:43] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:57:43] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 01:58:10] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-10 01:58:25] [INFO] =================================================================
+[2026-08-10 01:58:25] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-10 01:58:25] [INFO] =================================================================
+[2026-08-10 01:58:25] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-10 01:58:27] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-10 01:58:27] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-10 01:58:27] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-10 01:58:27] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-10 01:58:27] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-10 01:58:27] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-10 01:58:27] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-10 01:58:46] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 01:59:00] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 01:59:00] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 02:07:49] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 02:07:58] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 02:07:58] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-10 02:08:33] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-10 02:08:50] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-10 02:08:50] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 00:07:09] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 00:07:10] [INFO] =================================================================
+[2026-08-11 00:07:10] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 00:07:10] [INFO] =================================================================
+[2026-08-11 00:07:10] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 00:07:13] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 00:07:13] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 00:07:13] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 00:07:13] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 00:07:13] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 00:07:13] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 00:07:13] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 00:19:03] [INFO] =================================================================
+[2026-08-11 00:19:03] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 00:19:03] [INFO] =================================================================
+[2026-08-11 00:19:03] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 00:19:05] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 00:19:05] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 00:19:05] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 00:19:05] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 00:19:05] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 00:19:05] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 00:19:05] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 00:19:14] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 00:19:39] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 00:19:39] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 00:19:40] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 00:19:46] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 00:21:45] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 00:21:45] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:04:26] [INFO] =================================================================
+[2026-08-11 01:04:26] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:04:26] [INFO] =================================================================
+[2026-08-11 01:04:26] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:04:29] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:04:29] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:04:29] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:04:29] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:04:29] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:04:29] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:04:29] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:05:05] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:05:48] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:05:48] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:10:02] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:10:11] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:10:18] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:10:18] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:10:23] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:10:29] [INFO] =================================================================
+[2026-08-11 01:10:29] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:10:29] [INFO] =================================================================
+[2026-08-11 01:10:30] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:10:34] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:10:34] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:10:34] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:10:34] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:10:34] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:10:34] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:10:34] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:10:45] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:10:56] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:11:11] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:11:11] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:14:44] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:14:45] [INFO] =================================================================
+[2026-08-11 01:14:45] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:14:45] [INFO] =================================================================
+[2026-08-11 01:14:45] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:14:47] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:14:47] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:14:47] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:14:47] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:14:47] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:14:47] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:14:47] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:15:08] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:15:48] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:15:48] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:15:56] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:16:10] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:16:10] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:16:26] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:16:34] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:17:04] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:17:04] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:18:33] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:18:34] [INFO] =================================================================
+[2026-08-11 01:18:34] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:18:34] [INFO] =================================================================
+[2026-08-11 01:18:34] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:18:37] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:18:37] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:18:37] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:18:37] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:18:37] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:18:37] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:18:37] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:18:57] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:19:13] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:19:13] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:19:37] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:19:46] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:19:46] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:20:35] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:20:36] [INFO] =================================================================
+[2026-08-11 01:20:36] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:20:36] [INFO] =================================================================
+[2026-08-11 01:20:36] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:20:39] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:20:39] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:20:39] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:20:39] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:20:39] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:20:39] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:20:39] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:20:57] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:21:05] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:21:15] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:21:15] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:22:36] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:22:37] [INFO] =================================================================
+[2026-08-11 01:22:37] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:22:37] [INFO] =================================================================
+[2026-08-11 01:22:37] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:22:39] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:22:39] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:22:39] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:22:39] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:22:39] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:22:39] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:22:39] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:22:55] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:23:33] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:23:33] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:24:24] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:24:24] [INFO] =================================================================
+[2026-08-11 01:24:24] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:24:24] [INFO] =================================================================
+[2026-08-11 01:24:24] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:24:26] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:24:26] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:24:26] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:24:26] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:24:26] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:24:26] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:24:26] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:24:44] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:25:09] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:25:09] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:26:15] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:26:16] [INFO] =================================================================
+[2026-08-11 01:26:16] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:26:16] [INFO] =================================================================
+[2026-08-11 01:26:16] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:26:19] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:26:19] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:26:19] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:26:19] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:26:19] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:26:19] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:26:19] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:26:36] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:26:43] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:27:04] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:27:04] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:28:41] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:28:41] [INFO] =================================================================
+[2026-08-11 01:28:41] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:28:41] [INFO] =================================================================
+[2026-08-11 01:28:41] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:28:43] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:28:43] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:28:43] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:28:43] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:28:43] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:28:43] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:28:43] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:29:00] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:29:08] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:29:21] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:29:21] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:31:31] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:31:32] [INFO] =================================================================
+[2026-08-11 01:31:32] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:31:32] [INFO] =================================================================
+[2026-08-11 01:31:32] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:31:34] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:31:34] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:31:34] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:31:34] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:31:34] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:31:34] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:31:34] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:31:53] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:32:10] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:32:10] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:32:36] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:32:44] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:33:03] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:33:03] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:34:34] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:34:35] [INFO] =================================================================
+[2026-08-11 01:34:35] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:34:35] [INFO] =================================================================
+[2026-08-11 01:34:35] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:34:37] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:34:37] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:34:37] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:34:37] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:34:37] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:34:37] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:34:37] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:34:56] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:35:09] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:35:09] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:35:27] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:35:57] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:35:57] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:36:52] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:36:54] [INFO] =================================================================
+[2026-08-11 01:36:54] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:36:54] [INFO] =================================================================
+[2026-08-11 01:36:54] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:36:56] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:36:56] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:36:56] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:36:56] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:36:56] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:36:56] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:36:56] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:37:17] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:37:46] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:37:46] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:38:56] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:38:56] [INFO] =================================================================
+[2026-08-11 01:38:56] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:38:56] [INFO] =================================================================
+[2026-08-11 01:38:56] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:38:59] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:38:59] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:38:59] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:38:59] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:38:59] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:38:59] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:38:59] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:39:17] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:39:25] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:39:37] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:39:37] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:40:07] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:41:01] [INFO] =================================================================
+[2026-08-11 01:41:01] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:41:01] [INFO] =================================================================
+[2026-08-11 01:41:01] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:41:03] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:41:03] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:41:03] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:41:03] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:41:03] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:41:03] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:41:03] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:41:46] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:41:54] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:42:22] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:42:22] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:43:44] [INFO] =================================================================
+[2026-08-11 01:43:44] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:43:44] [INFO] =================================================================
+[2026-08-11 01:43:44] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:43:47] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-11 01:43:47] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-11 01:43:47] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-11 01:43:47] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-11 01:43:47] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-11 01:43:47] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-11 01:43:47] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:45:09] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:45:16] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-11 01:45:24] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-11 01:45:24] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:52:55] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:52:55] [INFO] =================================================================
+[2026-08-11 01:52:55] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:52:55] [INFO] =================================================================
+[2026-08-11 01:52:56] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:52:59] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:53:19] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:53:44] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:56:24] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:56:25] [INFO] =================================================================
+[2026-08-11 01:56:25] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:56:25] [INFO] =================================================================
+[2026-08-11 01:56:25] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:56:28] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:56:51] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:56:57] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 01:58:20] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 01:58:21] [INFO] =================================================================
+[2026-08-11 01:58:21] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 01:58:21] [INFO] =================================================================
+[2026-08-11 01:58:21] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 01:58:23] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 01:58:38] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 01:58:42] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 02:01:25] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 02:01:29] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 02:01:35] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 02:01:35] [INFO] =================================================================
+[2026-08-11 02:01:35] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 02:01:35] [INFO] =================================================================
+[2026-08-11 02:01:35] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 02:01:38] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 02:01:52] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 02:02:14] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 02:13:36] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 02:13:49] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-11 02:14:05] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-11 02:14:06] [INFO] =================================================================
+[2026-08-11 02:14:06] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-11 02:14:06] [INFO] =================================================================
+[2026-08-11 02:14:06] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-11 02:14:08] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-11 02:14:21] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-11 02:14:39] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-12 00:17:51] [INFO] =================================================================
+[2026-08-12 00:17:51] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-12 00:17:51] [INFO] =================================================================
+[2026-08-12 00:17:51] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-12 00:17:53] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-12 00:26:29] [INFO] =================================================================
+[2026-08-12 00:26:29] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-12 00:26:29] [INFO] =================================================================
+[2026-08-12 00:26:29] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-12 00:26:30] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-15 23:55:23] [INFO] =================================================================
+[2026-08-15 23:55:23] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-15 23:55:23] [INFO] =================================================================
+[2026-08-15 23:55:23] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-15 23:55:26] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-15 23:56:45] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-15 23:57:37] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:00:11] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:00:15] [INFO] =================================================================
+[2026-08-16 00:00:15] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:00:15] [INFO] =================================================================
+[2026-08-16 00:00:15] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:00:17] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:00:28] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:03:05] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:14:50] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:14:51] [INFO] =================================================================
+[2026-08-16 00:14:51] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:14:51] [INFO] =================================================================
+[2026-08-16 00:14:51] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:14:52] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:17:45] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:17:46] [INFO] =================================================================
+[2026-08-16 00:17:46] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:17:46] [INFO] =================================================================
+[2026-08-16 00:17:46] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:17:48] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:18:06] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:23:19] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:24:16] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:25:00] [INFO] =================================================================
+[2026-08-16 00:25:00] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:25:00] [INFO] =================================================================
+[2026-08-16 00:25:00] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:25:02] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:25:20] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:26:02] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:29:38] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:29:38] [INFO] =================================================================
+[2026-08-16 00:29:38] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:29:38] [INFO] =================================================================
+[2026-08-16 00:29:38] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:29:40] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:30:52] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:31:29] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:38:29] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:38:29] [INFO] =================================================================
+[2026-08-16 00:38:29] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:38:29] [INFO] =================================================================
+[2026-08-16 00:38:29] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:38:31] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:38:56] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:39:19] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:40:48] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:40:50] [INFO] =================================================================
+[2026-08-16 00:40:50] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:40:50] [INFO] =================================================================
+[2026-08-16 00:40:50] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:40:51] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:41:07] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:41:20] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:42:37] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:42:37] [INFO] =================================================================
+[2026-08-16 00:42:37] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:42:37] [INFO] =================================================================
+[2026-08-16 00:42:38] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:42:39] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:43:38] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:44:17] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:44:33] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:44:35] [INFO] =================================================================
+[2026-08-16 00:44:35] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:44:35] [INFO] =================================================================
+[2026-08-16 00:44:35] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:44:37] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:44:50] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:45:03] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 00:48:16] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 00:48:17] [INFO] =================================================================
+[2026-08-16 00:48:17] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 00:48:17] [INFO] =================================================================
+[2026-08-16 00:48:17] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 00:48:19] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 00:48:44] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 00:48:52] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 01:19:42] [INFO] =================================================================
+[2026-08-16 01:19:42] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 01:19:42] [INFO] =================================================================
+[2026-08-16 01:19:42] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 01:19:44] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 01:23:41] [INFO] =================================================================
+[2026-08-16 01:23:41] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 01:23:41] [INFO] =================================================================
+[2026-08-16 01:23:41] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 01:23:42] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 01:23:57] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 01:24:16] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:05:24] [INFO] =================================================================
+[2026-08-16 14:05:24] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 14:05:24] [INFO] =================================================================
+[2026-08-16 14:05:24] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 14:05:26] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 14:05:55] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:06:12] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:06:25] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:06:42] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:06:54] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:07:00] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:14:41] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 14:14:42] [INFO] =================================================================
+[2026-08-16 14:14:42] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 14:14:42] [INFO] =================================================================
+[2026-08-16 14:14:42] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 14:14:44] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 14:20:40] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:20:57] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:24:20] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 14:24:21] [INFO] =================================================================
+[2026-08-16 14:24:21] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 14:24:21] [INFO] =================================================================
+[2026-08-16 14:24:21] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 14:24:23] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 14:24:35] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:25:18] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:25:21] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 14:33:23] [INFO] =================================================================
+[2026-08-16 14:33:23] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 14:33:23] [INFO] =================================================================
+[2026-08-16 14:33:23] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 14:33:25] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 14:33:48] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:36:55] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:39:57] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 14:39:58] [INFO] =================================================================
+[2026-08-16 14:39:58] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 14:39:58] [INFO] =================================================================
+[2026-08-16 14:39:58] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 14:39:59] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 14:40:15] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:42:57] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 14:43:59] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 14:44:03] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 15:58:41] [INFO] =================================================================
+[2026-08-16 15:58:41] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 15:58:41] [INFO] =================================================================
+[2026-08-16 15:58:41] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 15:58:42] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 15:58:42] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 15:58:42] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 15:58:42] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 15:58:42] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 15:58:42] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 15:58:42] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 15:58:42] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 16:00:48] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 16:00:49] [INFO] =================================================================
+[2026-08-16 16:00:49] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 16:00:49] [INFO] =================================================================
+[2026-08-16 16:00:49] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 16:00:52] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:00:52] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 16:00:52] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 16:00:52] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 16:00:52] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 16:00:52] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 16:00:52] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:00:52] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 16:01:27] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:01:38] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 16:01:38] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 16:01:57] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:02:11] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:02:11] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:02:21] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 16:02:21] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 16:05:20] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:05:31] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:05:32] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:05:56] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 16:05:56] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 16:10:10] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 16:10:11] [INFO] =================================================================
+[2026-08-16 16:10:11] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 16:10:11] [INFO] =================================================================
+[2026-08-16 16:10:11] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 16:10:12] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:10:12] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 16:10:12] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 16:10:12] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 16:10:12] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 16:10:12] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 16:10:12] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:10:12] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 16:10:27] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:10:37] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:10:37] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:13:33] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 16:13:34] [INFO] =================================================================
+[2026-08-16 16:13:34] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 16:13:34] [INFO] =================================================================
+[2026-08-16 16:13:34] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 16:13:36] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:13:36] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 16:13:36] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 16:13:36] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 16:13:36] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 16:13:36] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 16:13:36] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:13:36] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 16:13:55] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:14:29] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:14:29] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:14:54] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 16:14:54] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 16:21:49] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 16:21:50] [INFO] =================================================================
+[2026-08-16 16:21:50] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 16:21:50] [INFO] =================================================================
+[2026-08-16 16:21:50] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 16:21:52] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:21:52] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 16:21:52] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 16:21:52] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 16:21:52] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 16:21:52] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 16:21:52] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:21:52] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 16:22:12] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:22:32] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 16:22:32] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 16:22:50] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:22:59] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:22:59] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:24:00] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 16:27:37] [INFO] =================================================================
+[2026-08-16 16:27:37] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 16:27:37] [INFO] =================================================================
+[2026-08-16 16:27:37] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 16:27:38] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:27:38] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 16:27:38] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 16:27:38] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 16:27:38] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 16:27:38] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 16:27:38] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 16:27:38] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 16:27:51] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 16:28:04] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:28:04] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:28:12] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:28:19] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 16:30:01] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 16:30:01] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 23:33:44] [INFO] =================================================================
+[2026-08-16 23:33:44] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 23:33:44] [INFO] =================================================================
+[2026-08-16 23:33:44] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 23:33:47] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 23:33:47] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 23:33:47] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 23:33:47] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 23:33:47] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 23:33:47] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 23:33:47] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 23:33:47] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 23:39:31] [INFO] =================================================================
+[2026-08-16 23:39:31] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 23:39:31] [INFO] =================================================================
+[2026-08-16 23:39:31] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 23:39:36] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 23:39:36] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 23:39:36] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 23:39:36] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 23:39:36] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 23:39:36] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 23:39:36] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 23:39:36] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 23:39:47] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 23:40:05] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 23:40:05] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 23:40:23] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 23:40:48] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 23:40:48] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 23:40:52] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 23:41:09] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 23:41:09] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 23:41:44] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 23:41:44] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 23:52:18] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-16 23:52:19] [INFO] =================================================================
+[2026-08-16 23:52:19] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-16 23:52:19] [INFO] =================================================================
+[2026-08-16 23:52:19] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-16 23:52:21] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 23:52:21] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-16 23:52:21] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-16 23:52:21] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-16 23:52:21] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-16 23:52:21] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-16 23:52:21] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-16 23:52:21] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-16 23:52:34] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-16 23:52:43] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 23:52:43] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-16 23:52:55] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-16 23:52:55] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-16 23:59:37] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-17 00:00:03] [INFO] =================================================================
+[2026-08-17 00:00:03] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-17 00:00:03] [INFO] =================================================================
+[2026-08-17 00:00:03] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-17 00:00:05] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 00:00:05] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-17 00:00:05] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-17 00:00:05] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-17 00:00:05] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-17 00:00:05] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-17 00:00:05] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 00:00:05] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-17 00:00:20] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-17 00:00:29] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-17 00:00:29] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-17 00:01:12] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-17 00:01:12] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-17 00:10:00] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-17 00:10:01] [INFO] =================================================================
+[2026-08-17 00:10:01] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-17 00:10:01] [INFO] =================================================================
+[2026-08-17 00:10:01] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-17 00:10:03] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 00:10:03] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-17 00:10:03] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-17 00:10:03] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-17 00:10:03] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-17 00:10:03] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-17 00:10:03] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 00:10:03] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-17 00:10:19] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-17 00:10:26] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-17 00:10:26] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-17 00:10:55] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-17 00:11:02] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-17 00:11:02] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-17 00:28:05] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-17 00:28:06] [INFO] =================================================================
+[2026-08-17 00:28:06] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-17 00:28:06] [INFO] =================================================================
+[2026-08-17 00:28:06] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-17 00:28:09] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 00:28:09] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-17 00:28:09] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-17 00:28:09] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-17 00:28:09] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-17 00:28:09] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-17 00:28:09] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 00:28:09] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-17 00:28:24] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-17 00:28:40] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-17 00:28:40] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-17 00:28:56] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-17 00:29:04] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-17 00:29:04] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-17 01:10:09] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-17 01:10:09] [INFO] =================================================================
+[2026-08-17 01:10:09] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-17 01:10:09] [INFO] =================================================================
+[2026-08-17 01:10:09] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-17 01:10:11] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 01:10:11] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-17 01:10:11] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-17 01:10:11] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-17 01:10:11] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-17 01:10:11] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-17 01:10:11] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 01:10:11] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-17 01:10:23] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-17 01:10:35] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-17 01:10:35] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-17 01:10:52] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-17 01:10:52] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.
+[2026-08-17 01:30:45] [INFO] [LIFECYCLE] RoleComponent component unloading...
+[2026-08-17 01:30:45] [INFO] =================================================================
+[2026-08-17 01:30:45] [INFO] [LIFECYCLE] RoleComponent plugin loaded into open:mp server.
+[2026-08-17 01:30:45] [INFO] =================================================================
+[2026-08-17 01:30:45] [INFO] [LIFECYCLE] Event handler registered with core IPlayerPool.
+[2026-08-17 01:30:47] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 01:30:47] [INFO] [RESOURCE] AddRoleResource registered: Key='admin.png', URL='http://gtahub.kntech.co/icons/admin.png', LocalPath='HUB-Core/icons/admin.png', AlreadyLoaded=1
+[2026-08-17 01:30:47] [INFO] [RESOURCE] AddRoleResource registered: Key='vip.png', URL='http://gtahub.kntech.co/icons/vip.png', LocalPath='HUB-Core/icons/vip.png', AlreadyLoaded=1
+[2026-08-17 01:30:47] [INFO] [RESOURCE] AddRoleResource registered: Key='mod.png', URL='http://gtahub.kntech.co/icons/moderator.png', LocalPath='HUB-Core/icons/mod.png', AlreadyLoaded=1
+[2026-08-17 01:30:47] [INFO] [RESOURCE] AddRoleResource registered: Key='helper.png', URL='http://gtahub.kntech.co/icons/helper.png', LocalPath='HUB-Core/icons/helper.png', AlreadyLoaded=1
+[2026-08-17 01:30:48] [INFO] [RESOURCE] AddRoleResource registered: Key='dev.png', URL='http://gtahub.kntech.co/icons/dev.png', LocalPath='HUB-Core/icons/dev.png', AlreadyLoaded=1
+[2026-08-17 01:30:48] [INFO] [CONFIG] SetRoleGlobalConfig: Distance=25.0m, LOS=1, AutoHideVeh=1, IconSize=32.0x32.0
+[2026-08-17 01:30:48] [INFO] [LIFECYCLE] RoleComponent is ready and listening to server player events.
+[2026-08-17 01:31:02] [INFO] [PLAYER CONNECT] Player ID 0 connected. Role state initialized.
+[2026-08-17 01:31:10] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-17 01:31:10] [INFO] [SET PRESET] targetPlayer=0, preset=2 ('VIP'), slotID=0, duration=0s, toPlayer=-1
+[2026-08-17 01:32:40] [INFO] [CLEAR ROLE] ClearPlayerRole: ALL slots cleared for targetPlayer=0, toPlayer=-1
+[2026-08-17 01:32:40] [INFO] [PLAYER DISCONNECT] Player ID 0 disconnected. Role state cleared.

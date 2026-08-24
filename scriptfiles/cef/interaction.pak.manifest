@@ -1,0 +1,25 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431001401,
+            "size": 1363
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13431001279,
+            "size": 1319
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13431001401,
+            "size": 2789
+        }
+    },
+    "pak": {
+        "hash": "f8e267cc9690f7aa834c7eec7bb74330a00e802d96d9ecb4080edd80ac56ef7b",
+        "path": "interaction.pak",
+        "size": 5918
+    },
+    "version": 2
+}

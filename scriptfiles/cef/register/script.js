@@ -13,6 +13,8 @@ const statusMsg = document.getElementById("status-msg");
 init();
 
 function init() {
+    emitCEF("GTAHUB:RegisterReady");
+
     // Đăng ký phím tắt Escape đóng UI
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
@@ -123,11 +125,7 @@ function submitRegister() {
 window.handleRegisterResponse = function(success, message) {
     setLoadingState(registerBtn, false, "Hoàn Tất Đăng Ký");
     if (success) {
-        showStatus(message || "Đăng ký thành công! Hãy xác thực email.", "success");
-        // Chuyển tiếp ngay sang giao diện xác thực email (active)
-        setTimeout(() => {
-            window.location.href = "../active/index.html";
-        }, 1500);
+        showStatus(message || "Đăng ký thành công! Đang chuyển tiếp...", "success");
     } else {
         showStatus(message || "Đăng ký thất bại. Tên tài khoản hoặc email trùng lặp!", "error");
     }

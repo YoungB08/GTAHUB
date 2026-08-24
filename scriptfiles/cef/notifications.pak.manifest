@@ -1,0 +1,25 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431281602,
+            "size": 4034
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13430688158,
+            "size": 710
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13430746374,
+            "size": 2645
+        }
+    },
+    "pak": {
+        "hash": "7010eaa3699fa1e237d5535c9265b6c11645e6bc13953f92070948c5d6a841fe",
+        "path": "notifications.pak",
+        "size": 7838
+    },
+    "version": 2
+}

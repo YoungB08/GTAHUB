@@ -48,11 +48,26 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerDeath(playerid, killerid, reason)
 {
+    #pragma unused killerid, reason
+    if (!Player_IsLoggedIn(playerid) || !Player_IsSpawned(playerid))
+        return 1;
+
     // Lưu lại vị trí khi chết
     GetPlayerPos(playerid, DeathPosX[playerid], DeathPosY[playerid], DeathPosZ[playerid]);
     GetPlayerFacingAngle(playerid, DeathPosA[playerid]);
     DeathVW[playerid]  = GetPlayerVirtualWorld(playerid);
     DeathInt[playerid] = GetPlayerInterior(playerid);
+
+    // Neu chet o toa do camera hoac do cao roi tu tren troi -> dua ve mac dinh Benh vien / LSPD
+    if (!PlayerPosition_IsValid(DeathPosX[playerid], DeathPosY[playerid], DeathPosZ[playerid]) || DeathPosZ[playerid] > 50.0)
+    {
+        DeathPosX[playerid] = 1543.4;
+        DeathPosY[playerid] = -1675.6;
+        DeathPosZ[playerid] = 13.5;
+        DeathPosA[playerid] = 180.0;
+        DeathVW[playerid]   = 0;
+        DeathInt[playerid]  = 0;
+    }
 
     // Bật trạng thái bị thương nặng
     IsPlayerDowned[playerid] = true;

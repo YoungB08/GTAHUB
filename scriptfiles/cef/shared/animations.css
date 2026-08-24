@@ -1,0 +1,60 @@
+@keyframes panelSpring {
+  0% {
+    opacity: 0;
+    transform: scale(0.88) translateY(18px);
+    filter: blur(8px);
+  }
+  55% {
+    opacity: 1;
+    transform: scale(1.03) translateY(-2px);
+    filter: blur(0);
+  }
+  75% {
+    transform: scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes scaleOpen {
+  from { opacity: 0; transform: scale(0.92); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translateX(48px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.panel-spring { animation: panelSpring 0.42s cubic-bezier(0.2, 0.85, 0.2, 1) both; }
+.scale-open { animation: panelSpring 0.42s cubic-bezier(.2,.85,.2,1) both; }
+.toast-slide { animation: toastSlide 0.22s var(--ease-spring) both; }
+
+/* Micro-interaction Hover Timings */
+.btn { transition: transform 120ms var(--ease-spring), filter 120ms ease; }
+.card { transition: transform 160ms var(--ease-spring), box-shadow 160ms ease; }
+.slot { transition: transform 140ms var(--ease-spring), border-color 140ms ease; }
+.sector { transition: transform 180ms var(--ease-spring), box-shadow 180ms ease; }
+.toast { transition: transform 220ms var(--ease-spring), opacity 220ms ease; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 1ms !important;
+  }
+}

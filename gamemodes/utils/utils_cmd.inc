@@ -19,18 +19,15 @@ _@ACMD_CHECK_ADM(playerid, const cmd[], const params[], const plevel) {
 #define ACMD:[%0]%1(%2,%3) CMD:%1(%2,%3)if(!_@ACMD_CHECK_ADM(%2,#%1,@ACMD_PARAMS_REPLACE:%3,%0))return 0;else
 
 
-#if defined OnPlayerCommandReceived
-    forward OnPlayerCommandReceived(playerid, cmd[]);
-#endif
-
-#if defined OnPlayerCommandPerformed
-    forward OnPlayerCommandPerformed(playerid, cmd[], success);
-#endif
+forward OnPlayerCommandReceived(playerid, cmd[]);
+forward OnPlayerCommandPerformed(playerid, cmd[], success);
 
 public OnPlayerCommandText(playerid, cmdtext[])
 {
-    static prefix[4] = {'c', 'm', 'd', '_'}, cmd[28];
+    static cmd[28], funcname[32];
     static params[126];
+
+    printf("[CMD Debug] OnPlayerCommandText entered: playerid=%d raw='%s'", playerid, cmdtext);
 
     params = "\1";
     sscanf(cmdtext[1], "s[28]s[126]", cmd, params);
@@ -40,15 +37,27 @@ public OnPlayerCommandText(playerid, cmdtext[])
         cmd[i] |= 0x20;
     }
 
-    #if defined OnPlayerCommandReceived
-        if (!OnPlayerCommandReceived(playerid, cmd)) return 1;
-    #endif
+    printf("[CMD Debug] Parsed command: cmd='%s' params='%s'", cmd, params);
 
-    #if defined OnPlayerCommandPerformed
-        return OnPlayerCommandPerformed(playerid, cmd, CallLocalFunction(prefix, "is", playerid, (params[0] != '\0') ? (params) :("\1")));
-    #else
-        return CallLocalFunction(prefix, "is", playerid, (params[0] != '\0') ? (params) : ("\1"));
-    #endif
+    if (funcidx("OnPlayerCommandReceived") != -1)
+    {
+        if (!CallLocalFunction("OnPlayerCommandReceived", "is", playerid, cmd))
+        {
+            printf("[CMD Debug] OnPlayerCommandReceived rejected cmd='%s'", cmd);
+            return 1;
+        }
+    }
+
+    // Build the full public function name ("cmd_" + command name) and dispatch.
+    format(funcname, sizeof(funcname), "cmd_%s", cmd);
+    new success = CallLocalFunction(funcname, "is", playerid, (params[0] != '\0') ? (params) : ("\1"));
+    printf("[CMD Debug] CallLocalFunction returned %d for cmd='%s'", success, cmd);
+
+    if (funcidx("OnPlayerCommandPerformed") != -1)
+    {
+        return CallLocalFunction("OnPlayerCommandPerformed", "isi", playerid, cmd, success);
+    }
+    return success;
 }
 
 stock CommandExecute(playerid, const cmd[], const params[] = "\1", {GLOBAL_TAG_TYPTES, _}:...) {

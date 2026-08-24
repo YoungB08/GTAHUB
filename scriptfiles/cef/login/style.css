@@ -1,6 +1,5 @@
 /* =============================================================================
-   GTAHUB Login UI - Pure Vanilla CSS Glassmorphism Theme
-   Hoạt động độc lập 100% không phụ thuộc CDN bên ngoài
+   GTAHUB Login UI - Pure Vanilla CSS (no CDN dependencies)
    ============================================================================= */
 
 * {
@@ -16,26 +15,50 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+    overflow: hidden;
+    user-select: none;
     background: linear-gradient(135deg, #070913 0%, #14050a 50%, #05080f 100%);
     background-size: 400% 400%;
     animation: gradientBG 20s ease infinite;
-    user-select: none;
-    overflow: hidden;
 }
 
 @keyframes gradientBG {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
+    0%   { background-position: 0% 50%; }
+    50%  { background-position: 100% 50%; }
     100% { background-position: 0% 50%; }
 }
 
+/* --- Glow orbs --- */
+.glow-orb {
+    position: absolute;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    filter: blur(80px);
+    pointer-events: none;
+}
+.glow-orb--tl {
+    top: -80px;
+    left: -80px;
+    background: rgba(220, 38, 38, 0.10);
+}
+.glow-orb--br {
+    bottom: -80px;
+    right: -80px;
+    background: rgba(136, 19, 55, 0.10);
+}
+
+/* --- Glass panel --- */
 .glass-panel {
     width: 420px;
-    padding: 36px 32px;
+    padding: 40px 40px;
     background: rgba(11, 15, 25, 0.94);
     border: 1px solid rgba(255, 255, 255, 0.10);
-    border-radius: 28px;
-    box-shadow: 0 0 80px rgba(239, 68, 68, 0.20), 0 20px 50px rgba(0, 0, 0, 0.85);
+    border-radius: 32px;
+    box-shadow: 0 0 80px rgba(239, 68, 68, 0.15),
+                inset 0 0 20px rgba(255, 255, 255, 0.02),
+                0 20px 50px rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     position: relative;
@@ -43,28 +66,195 @@ body {
     transition: all 0.3s ease;
 }
 
-/* Enable text cursor and selection on input fields */
-input, textarea, select {
+/* --- Panel header --- */
+.panel-header {
+    text-align: center;
+    margin-bottom: 28px;
+}
+.panel-logo {
+    width: 256px;
+    height: 64px;
+    margin: 0 auto 12px;
+    object-fit: contain;
+    filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.6));
+}
+.panel-subtitle {
+    font-size: 11px;
+    font-weight: 900;
+    color: #94a3b8;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+}
+.accent { color: #ef4444; }
+
+/* --- Status message --- */
+.status-msg {
+    font-size: 11px;
+    font-weight: 600;
+    text-align: center;
+    padding: 10px 12px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    transition: all 0.3s ease;
+    display: block;
+}
+.status-msg.hidden { display: none; }
+.status-msg.error {
+    background: rgba(239, 68, 68, 0.10);
+    border: 1px solid rgba(239, 68, 68, 0.20);
+    color: #f87171;
+}
+.status-msg.success {
+    background: rgba(16, 185, 129, 0.10);
+    border: 1px solid rgba(16, 185, 129, 0.20);
+    color: #34d399;
+}
+.status-msg.info {
+    background: rgba(100, 116, 139, 0.10);
+    border: 1px solid rgba(100, 116, 139, 0.20);
+    color: #94a3b8;
+}
+
+/* --- Form group list (space-y-4 equivalent) --- */
+.form-group-list > * + * {
+    margin-top: 16px;
+}
+.form-hint {
+    font-size: 11px;
+    color: #94a3b8;
+    text-align: center;
+    margin-top: -8px;
+    font-weight: 500;
+}
+
+/* --- Field --- */
+.field-label {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #cbd5e1;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 8px;
+}
+.field-wrap {
+    position: relative;
+}
+.field-icon {
+    width: 16px;
+    height: 16px;
+    color: #64748b;
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+.field-wrap input {
+    width: 100%;
+    background: rgba(15, 23, 42, 0.80);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    border-radius: 12px;
+    padding: 12px 16px 12px 40px;
+    font-size: 12px;
+    color: #ffffff;
+    outline: none;
+    transition: all 0.2s ease;
     user-select: text !important;
     -webkit-user-select: text !important;
     caret-color: #ef4444 !important;
 }
-
-.space-y-4 > * + * {
-    margin-top: 16px;
+.field-wrap input::placeholder {
+    color: #475569;
+}
+.field-wrap input:focus {
+    border-color: rgba(239, 68, 68, 0.80);
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.25);
+    background: rgba(2, 6, 23, 0.80);
 }
 
-/* Tùy chỉnh thanh cuộn đẹp mắt */
-::-webkit-scrollbar {
-    width: 4px;
+/* --- Checkbox row --- */
+.field-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    padding-top: 4px;
 }
-::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.02);
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #94a3b8;
+    transition: color 0.2s;
 }
-::-webkit-scrollbar-thumb {
-    background: rgba(239, 68, 68, 0.4);
-    border-radius: 10px;
+.checkbox-label:hover { color: #e2e8f0; }
+.checkbox-label input[type="checkbox"] {
+    border-radius: 4px;
+    background: #0f172a;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    accent-color: #dc2626;
+    cursor: pointer;
+    width: 14px;
+    height: 14px;
 }
-::-webkit-scrollbar-thumb:hover {
-    background: rgba(239, 68, 68, 0.8);
+
+/* --- Links --- */
+.link-accent {
+    color: #f87171;
+    text-decoration: none;
+    transition: color 0.2s;
 }
+.link-accent:hover {
+    color: #fca5a5;
+    text-decoration: underline;
+}
+.link-bold { font-weight: 700; }
+
+/* --- Primary button --- */
+.btn-primary {
+    width: 100%;
+    padding: 14px 0;
+    background: linear-gradient(to right, #dc2626, #be123c);
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 12px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    box-shadow: 0 4px 20px rgba(239, 68, 68, 0.30);
+    transition: all 0.2s ease;
+    margin-top: 8px;
+}
+.btn-primary:hover {
+    background: linear-gradient(to right, #ef4444, #e11d48);
+    box-shadow: 0 4px 25px rgba(239, 68, 68, 0.50);
+    transform: scale(1.01);
+}
+.btn-primary:active {
+    transform: scale(0.99);
+}
+.btn-primary:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* --- Register link footer --- */
+.register-link {
+    text-align: center;
+    font-size: 12px;
+    color: #94a3b8;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 16px;
+    margin-top: 24px;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.02); }
+::-webkit-scrollbar-thumb { background: rgba(239, 68, 68, 0.4); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(239, 68, 68, 0.8); }

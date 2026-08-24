@@ -1,0 +1,25 @@
+{
+    "files": {
+        "index.html": {
+            "encrypted": true,
+            "modified": 13430769449,
+            "size": 696
+        },
+        "script.js": {
+            "encrypted": true,
+            "modified": 13431337461,
+            "size": 11722
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13431287634,
+            "size": 5303
+        }
+    },
+    "pak": {
+        "hash": "bcdd863f16ef1325332a5eb468e65fa1ae7a904f97ce62e1c7afbfa5da2e60d0",
+        "path": "custom_nametag.pak",
+        "size": 18164
+    },
+    "version": 2
+}

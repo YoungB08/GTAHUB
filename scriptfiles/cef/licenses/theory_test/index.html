@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>San Andreas Driving School — Theory Test</title>
+  <link rel="stylesheet" href="../../shared/variables.css">
+  <link rel="stylesheet" href="../../shared/animations.css">
+  <link rel="stylesheet" href="../../shared/components.css">
+  <link rel="stylesheet" href="../../shared/themes/midnight_luxury_red.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../../shared/aaa-visual.css">
+</head>
+<body class="theory-stage">
+  <main class="theory-card scale-open" id="theoryTestCard">
+    <header class="theory-header">
+      <div>
+        <span class="school-brand">SAN ANDREAS DRIVING SCHOOL</span>
+        <h1>Thi Lý Thuyết Bằng Lái Xe</h1>
+      </div>
+      <div class="progress-badge">
+        <span id="questionStep">Câu 3 / 10</span>
+      </div>
+    </header>
+
+    <!-- Progress Track -->
+    <div class="progress-track">
+      <div class="progress-bar" id="progressBar" style="width: 30%;"></div>
+    </div>
+
+    <!-- Question Box -->
+    <section class="question-section">
+      <h2 id="questionText">Biển báo có vạch đỏ chéo đè lên biểu tượng rẽ trái có ý nghĩa gì?</h2>
+      <div class="answers-grid" id="answersGrid">
+        <button class="answer-option" data-answer="A" type="button">
+          <span class="opt-key">A</span>
+          <span class="opt-text">Cấm tất cả các phương tiện rẽ trái</span>
+        </button>
+        <button class="answer-option" data-answer="B" type="button">
+          <span class="opt-key">B</span>
+          <span class="opt-text">Đường một chiều phía trước</span>
+        </button>
+        <button class="answer-option" data-answer="C" type="button">
+          <span class="opt-key">C</span>
+          <span class="opt-text">Chỉ dành cho xe bus và cấp cứu</span>
+        </button>
+        <button class="answer-option" data-answer="D" type="button">
+          <span class="opt-key">D</span>
+          <span class="opt-text">Tốc độ tối thiểu 50 km/h</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- Footer Actions -->
+    <footer class="theory-footer">
+      <button class="btn btn-secondary" id="exitTheoryBtn" type="button">Thoát bài thi</button>
+      <button class="btn btn-primary" id="nextQuestionBtn" type="button">Câu tiếp theo →</button>
+    </footer>
+  </main>
+
+  <script src="../../shared/cef.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

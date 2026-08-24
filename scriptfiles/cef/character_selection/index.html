@@ -8,21 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden bg-slate-950">
+<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden bg-city-backdrop">
     
+    <!-- Các đốm sáng mờ ảo phía sau (Ambient glow orbs) -->
+    <div class="absolute w-[600px] h-[600px] bg-red-600/15 rounded-full blur-[140px] -top-24 -left-24 pointer-events-none"></div>
+    <div class="absolute w-[600px] h-[600px] bg-rose-900/15 rounded-full blur-[140px] -bottom-24 -right-24 pointer-events-none"></div>
+    <div class="absolute w-[450px] h-[450px] bg-cyan-600/10 rounded-full blur-[120px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"></div>
+
     <!-- Giao diện chính -->
-    <div class="w-[950px] h-[600px] flex gap-6 relative z-10">
+    <div class="w-[960px] h-[600px] flex gap-6 relative z-10">
         <!-- Khung bên trái: Danh sách nhân vật -->
         <div class="glass-panel w-[400px] rounded-3xl p-6 flex flex-col justify-between h-full border border-white/10 shadow-[0_0_50px_rgba(239,68,68,0.15)]">
             <div>
                 <div class="mb-5 border-b border-white/10 pb-3">
                     <h1 class="text-xl font-black text-white tracking-wider uppercase">Chọn Nhân Vật</h1>
-                    <p class="text-xs text-slate-400">Chọn nhân vật để tham gia thành phố</p>
+                    <p class="text-xs text-slate-400">Chọn nhân vật để tham gia thành phố GTAHUB</p>
                 </div>
 
                 <!-- Danh sách thẻ nhân vật (Được render động từ JS) -->
                 <div id="char-list" class="space-y-3 max-h-[380px] overflow-y-auto pr-1">
-                    <!-- Được render tự động -->
+                    <div class="p-6 text-center text-slate-400 text-xs border border-dashed border-white/10 rounded-2xl bg-slate-950/30">
+                        <div class="inline-block w-5 h-5 border-2 border-red-500 border-t-transparent rounded-full animate-spin mb-2"></div>
+                        <p class="font-bold text-white mb-1">Đang tải danh sách nhân vật...</p>
+                        <p class="text-[11px] text-slate-500">Vui lòng chờ trong giây lát</p>
+                    </div>
                 </div>
             </div>
 
@@ -34,11 +43,11 @@
         </div>
 
         <!-- Khung bên phải: Xem trước chi tiết nhân vật -->
-        <div class="glass-panel w-[526px] rounded-3xl p-6 flex flex-col justify-between h-full border border-white/10 shadow-[0_0_50px_rgba(239,68,68,0.15)] relative overflow-hidden">
+        <div class="glass-panel w-[536px] rounded-3xl p-6 flex flex-col justify-between h-full border border-white/10 shadow-[0_0_50px_rgba(239,68,68,0.15)] relative overflow-hidden">
             <!-- Header Preview -->
             <div class="border-b border-white/10 pb-3 w-full">
-                <h2 id="preview-name" class="text-lg font-black text-white uppercase tracking-wider text-center">Tên Nhân Vật</h2>
-                <p id="preview-faction" class="text-[10px] text-red-400 text-center font-bold uppercase mt-0.5">Tổ chức: Taxi</p>
+                <h2 id="preview-name" class="text-lg font-black text-white uppercase tracking-wider text-center">Chưa chọn nhân vật</h2>
+                <p id="preview-faction" class="text-[10px] text-red-400 text-center font-bold uppercase mt-0.5">Tổ chức: -</p>
             </div>
 
             <!-- Body Preview: ảnh skin ở bên trái, thông số ở bên phải -->
@@ -53,24 +62,24 @@
                 <div class="w-1/2 space-y-3 bg-slate-900/40 border border-white/5 rounded-2xl p-4 text-xs">
                     <div class="flex justify-between items-center border-b border-white/5 pb-2">
                         <span class="text-slate-400">Cấp Độ</span>
-                        <span id="stat-level" class="font-bold text-white font-mono">12</span>
+                        <span id="stat-level" class="font-bold text-white font-mono">-</span>
                     </div>
                     <div class="flex justify-between items-center border-b border-white/5 pb-2">
                         <span class="text-slate-400">Tiền Mặt</span>
-                        <span id="stat-cash" class="font-bold text-emerald-400 font-mono">$100,000</span>
+                        <span id="stat-cash" class="font-bold text-emerald-400 font-mono">$0</span>
                     </div>
                     <div class="flex justify-between items-center border-b border-white/5 pb-2">
                         <span class="text-slate-400">Ngân Hàng</span>
-                        <span id="stat-bank" class="font-bold text-cyan-400 font-mono">$2,500,000</span>
+                        <span id="stat-bank" class="font-bold text-cyan-400 font-mono">$0</span>
                     </div>
                     <div class="flex justify-between items-center border-b border-white/5 pb-2">
                         <span class="text-slate-400">Số Điện Thoại</span>
-                        <span id="stat-phone" class="font-bold text-slate-200 font-mono">555-0192</span>
+                        <span id="stat-phone" class="font-bold text-slate-200 font-mono">-</span>
                     </div>
                     <div>
                         <span class="text-slate-400 block mb-1">Phương Tiện Sở Hữu:</span>
                         <div id="stat-vehicles" class="text-[10px] text-slate-300 font-bold max-h-[70px] overflow-y-auto pr-1">
-                            <!-- Danh sách xe -->
+                            <span class="text-slate-500 italic block">Không có</span>
                         </div>
                     </div>
                 </div>
@@ -79,7 +88,7 @@
             <!-- Footer Preview -->
             <div class="w-full bg-slate-950/60 border border-white/5 rounded-xl py-3 px-4 text-center">
                 <span class="text-[10px] text-slate-400 block mb-0.5">Trang Phục Hiện Tại</span>
-                <span id="preview-skin-id" class="text-sm font-mono font-bold text-red-500">SKIN #299</span>
+                <span id="preview-skin-id" class="text-sm font-mono font-bold text-red-500">SKIN #0</span>
             </div>
         </div>
     </div>

@@ -24,7 +24,6 @@ function init() {
     if (cancelVerifyBtn) {
         cancelVerifyBtn.addEventListener("click", () => {
             emitCEF("GTAHUB:ToLoginPage");
-            window.location.href = "../login/index.html";
         });
     }
 
@@ -93,13 +92,11 @@ function resendCode() {
 window.handleVerificationResponse = function(success, message) {
     setLoadingState(verifyBtn, false, "Xác Thực Tài Khoản");
     if (success) {
-        showStatus(message || "Kích hoạt tài khoản thành công!", "success");
+        showStatus(message || "Kích hoạt tài khoản thành công! Đang chuyển tiếp...", "success");
         if (verifyBtn) verifyBtn.innerText = "Kích Hoạt Thành Công!";
-        
-        // Kích hoạt xong thì tự động quay về đăng nhập sau 2 giây
         setTimeout(() => {
-            window.location.href = "../login/index.html";
-        }, 2000);
+            emitCEF("GTAHUB:ToLoginPage");
+        }, 1500);
     } else {
         showStatus(message || "Mã OTP không hợp lệ hoặc đã hết hiệu lực!", "error");
     }

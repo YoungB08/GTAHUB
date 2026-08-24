@@ -16,6 +16,12 @@
         "invite": ""
     },
     "chat_input_filter": true,
+    "cef": {
+        "debug": true,
+        "master_resource_key": "ThisIsA16ByteKey",
+        "resources_loader_mode": "samp_dialog",
+        "resources_loader_dialog_id": 32700
+    },
     "enable_query": true,
     "exclude": [
         "Fixes"

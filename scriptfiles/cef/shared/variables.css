@@ -1,0 +1,183 @@
+:root {
+  color-scheme: dark;
+
+  --bg-root: #020203;
+  --bg-elevated: #0B0C0F;
+  --bg-panel: rgba(15, 16, 19, 0.82);
+  --bg-card: rgba(22, 23, 27, 0.88);
+  --bg-hover: rgba(255, 255, 255, 0.05);
+
+  --accent-primary: #D1001F;
+  --accent-hover: #FF2D55;
+  --accent-soft-glow: rgba(209, 0, 31, 0.18);
+  --accent-active-surface: rgba(209, 0, 31, 0.12);
+
+  --color-success: #30D158;
+  --color-warning: #FF9F0A;
+  --color-danger: #FF453A;
+
+  --text-main: #FFFFFF;
+  --text-secondary: #D4D4DB;
+  --text-muted: #8E8E99;
+
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.14);
+
+  --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.18);
+  --shadow-md: 0 12px 32px rgba(0, 0, 0, 0.32);
+  --shadow-lg: 0 24px 64px rgba(0, 0, 0, 0.48);
+  --shadow-xl: 0 40px 120px rgba(0, 0, 0, 0.62);
+
+  --glass-blur: blur(28px);
+
+  --radius-xs: 10px;
+  --radius-sm: 14px;
+  --radius-md: 18px;
+  --radius-lg: 24px;
+  --radius-xl: 32px;
+  --radius-2xl: 40px;
+  --radius-phone: 54px;
+
+  /* Typography Scale */
+  --font-display: 34px;
+  --font-hero: 28px;
+  --font-section: 22px;
+  --font-card-title: 18px;
+  --font-body: 15px;
+  --font-secondary: 13px;
+  --font-caption: 11px;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  --ease-spring: cubic-bezier(0.2, 0.85, 0.2, 1);
+  --font: "SF Pro Display", "Inter", "Be Vietnam Pro", system-ui, sans-serif;
+  --panel-gradient: linear-gradient(180deg, rgba(255,255,255,.045) 0%, rgba(255,255,255,.015) 100%);
+
+  /* Legacy aliases kept so every CEF module resolves to this same system. */
+  --bg: var(--bg-root);
+  --surface: var(--bg-elevated);
+  --surface-2: var(--bg-card);
+  --surface-3: rgba(255, 255, 255, 0.07);
+  --accent: var(--accent-primary);
+  --accent-2: var(--accent-hover);
+  --accent-soft: var(--accent-active-surface);
+  --accent-glow: var(--accent-soft-glow);
+  --success: var(--color-success);
+  --warning: var(--color-warning);
+  --danger: var(--color-danger);
+  --text: var(--text-main);
+  --muted: var(--text-secondary);
+  --muted-2: var(--text-muted);
+  --border: var(--border-subtle);
+  --shadow: var(--shadow-md);
+  --shadow-deep: var(--shadow-xl);
+  --radius: var(--radius-md);
+  --ease: 0.18s var(--ease-spring);
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --font-small: 13px;
+  --font-h2: var(--font-section);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  letter-spacing: 0;
+  line-height: 1.45;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+}
+
+body {
+  color: var(--text-main);
+  font-family: var(--font);
+  background:
+    radial-gradient(circle at 12% 0%, rgba(209, 0, 31, 0.16) 0%, transparent 26%),
+    radial-gradient(circle at 88% 100%, rgba(255, 45, 85, 0.12) 0%, transparent 32%),
+    linear-gradient(180deg, #0A0B0E 0%, #020203 100%);
+  -webkit-font-smoothing: antialiased;
+  user-select: none;
+}
+
+button,
+input,
+textarea {
+  color: inherit;
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: transform 120ms var(--ease-spring), filter 120ms ease;
+}
+
+button:active {
+  transform: scale(0.97);
+}
+
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent-hover);
+  outline-offset: 2px;
+}
+
+/* Glass Panel Base Component */
+.glass-panel {
+  background: var(--panel-gradient), var(--bg-panel);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-subtle);
+  border-radius: 32px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05), var(--shadow-lg);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 30%,
+    transparent 70%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  pointer-events: none;
+}
+
+/* Responsive Rules */
+@media (max-width: 1366px) {
+  :root {
+    --font-display: 30px;
+    --font-hero: 24px;
+    --font-section: 20px;
+    --font-card-title: 16px;
+  }
+  .iphone-stage { transform: scale(0.88); }
+}
+
+@media (min-width: 2560px) {
+  .iphone-stage { transform: scale(1.08); }
+}
+
+.hidden {
+  display: none !important;
+}

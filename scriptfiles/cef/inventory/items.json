@@ -1,0 +1,2135 @@
+[
+    {
+        "id":  "10kgoldchain",
+        "name":  "10Kgoldchain",
+        "asset":  "images/10kgoldchain.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "advancedkit",
+        "name":  "Advancedkit",
+        "asset":  "images/advancedkit.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "advancedlockpick",
+        "name":  "Advancedlockpick",
+        "asset":  "images/advancedlockpick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "aluminum",
+        "name":  "Aluminum",
+        "asset":  "images/aluminum.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "aluminumoxide",
+        "name":  "Aluminumoxide",
+        "asset":  "images/aluminumoxide.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "antipatharia_coral",
+        "name":  "Antipatharia Coral",
+        "asset":  "images/antipatharia_coral.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "armor",
+        "name":  "Áo giáp",
+        "asset":  "images/armor.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "bandage",
+        "name":  "Băng cứu thương",
+        "asset":  "images/bandage.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "baquette",
+        "name":  "Baquette",
+        "asset":  "images/baquette.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "beer",
+        "name":  "Beer",
+        "asset":  "images/beer.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "binoculars",
+        "name":  "Binoculars",
+        "asset":  "images/binoculars.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "casinochips",
+        "name":  "Casinochips",
+        "asset":  "images/casinochips.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "certificate",
+        "name":  "Certificate",
+        "asset":  "images/certificate.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "cleaningkit",
+        "name":  "Cleaningkit",
+        "asset":  "images/cleaningkit.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "cocaine_baggy",
+        "name":  "Cocaine Baggy",
+        "asset":  "images/cocaine_baggy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "coffee",
+        "name":  "Coffee",
+        "asset":  "images/coffee.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "coke_brick",
+        "name":  "Coke Brick",
+        "asset":  "images/coke_brick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "coke_small_brick",
+        "name":  "Coke Small Brick",
+        "asset":  "images/coke_small_brick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "cola",
+        "name":  "Cola",
+        "asset":  "images/cola.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "copper",
+        "name":  "Copper",
+        "asset":  "images/copper.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "crack_baggy",
+        "name":  "Crack Baggy",
+        "asset":  "images/crack_baggy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "cryptostick",
+        "name":  "Cryptostick",
+        "asset":  "images/cryptostick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "dendrogyra_coral",
+        "name":  "Dendrogyra Coral",
+        "asset":  "images/dendrogyra_coral.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "diamond_ring",
+        "name":  "Diamond Ring",
+        "asset":  "images/diamond_ring.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "diving_gear",
+        "name":  "Diving Gear",
+        "asset":  "images/diving_gear.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "drill",
+        "name":  "Drill",
+        "asset":  "images/drill.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "driver_license",
+        "name":  "Giấy phép lái xe",
+        "asset":  "images/driver_license.png",
+        "category":  "item",
+        "weight":  0.1,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "electronickit",
+        "name":  "Electronickit",
+        "asset":  "images/electronickit.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "evidence",
+        "name":  "Evidence",
+        "asset":  "images/evidence.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "firework1",
+        "name":  "Firework1",
+        "asset":  "images/firework1.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "firework2",
+        "name":  "Firework2",
+        "asset":  "images/firework2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "firework3",
+        "name":  "Firework3",
+        "asset":  "images/firework3.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "firework4",
+        "name":  "Firework4",
+        "asset":  "images/firework4.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "firstaid",
+        "name":  "Bộ sơ cứu",
+        "asset":  "images/firstaid.png",
+        "category":  "item",
+        "weight":  0.8,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "fitbit",
+        "name":  "Fitbit",
+        "asset":  "images/fitbit.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "glass",
+        "name":  "Glass",
+        "asset":  "images/glass.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "goldbar",
+        "name":  "Goldbar",
+        "asset":  "images/goldbar.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "goldchain",
+        "name":  "Goldchain",
+        "asset":  "images/goldchain.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "grape",
+        "name":  "Grape",
+        "asset":  "images/grape.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "grapejuice",
+        "name":  "Grapejuice",
+        "asset":  "images/grapejuice.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "handcuffs",
+        "name":  "Handcuffs",
+        "asset":  "images/handcuffs.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "harness",
+        "name":  "Harness",
+        "asset":  "images/harness.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "id_card",
+        "name":  "Id Card",
+        "asset":  "images/id_card.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "iphone",
+        "name":  "Iphone",
+        "asset":  "images/iphone.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "iron",
+        "name":  "Iron",
+        "asset":  "images/iron.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "ironoxide",
+        "name":  "Ironoxide",
+        "asset":  "images/ironoxide.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "jerry_can",
+        "name":  "Can xăng",
+        "asset":  "images/jerry_can.png",
+        "category":  "item",
+        "weight":  2.8,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "joint",
+        "name":  "Joint",
+        "asset":  "images/joint.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "labkey",
+        "name":  "Chìa khóa",
+        "asset":  "images/labkey.png",
+        "category":  "item",
+        "weight":  0.1,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "laptop",
+        "name":  "Laptop",
+        "asset":  "images/laptop.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "lawyerpass",
+        "name":  "Lawyerpass",
+        "asset":  "images/lawyerpass.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "lighter",
+        "name":  "Lighter",
+        "asset":  "images/lighter.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "lockpick",
+        "name":  "Lockpick",
+        "asset":  "images/lockpick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "markedbills",
+        "name":  "Tiền đánh dấu",
+        "asset":  "images/markedbills.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "mastercard",
+        "name":  "Mastercard",
+        "asset":  "images/mastercard.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "metalscrap",
+        "name":  "Metalscrap",
+        "asset":  "images/metalscrap.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "meth_baggy",
+        "name":  "Meth Baggy",
+        "asset":  "images/meth_baggy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "mg_ammo",
+        "name":  "Mg Ammo",
+        "asset":  "images/mg_ammo.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "moneybag",
+        "name":  "Tiền mặt",
+        "asset":  "images/moneybag.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "nitrous",
+        "name":  "Nitrous",
+        "asset":  "images/nitrous.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "oxy",
+        "name":  "Oxy",
+        "asset":  "images/oxy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "painkillers",
+        "name":  "Painkillers",
+        "asset":  "images/painkillers.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "parachute",
+        "name":  "Parachute",
+        "asset":  "images/parachute.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "phone",
+        "name":  "Điện thoại",
+        "asset":  "images/phone.png",
+        "category":  "item",
+        "weight":  0.2,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "pinger",
+        "name":  "Pinger",
+        "asset":  "images/pinger.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "pistol_ammo",
+        "name":  "Pistol Ammo",
+        "asset":  "images/pistol_ammo.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "pistol_extendedclip",
+        "name":  "Pistol Extendedclip",
+        "asset":  "images/pistol_extendedclip.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "pistol_suppressor",
+        "name":  "Pistol Suppressor",
+        "asset":  "images/pistol_suppressor.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "plastic",
+        "name":  "Plastic",
+        "asset":  "images/plastic.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "police_stormram",
+        "name":  "Police Stormram",
+        "asset":  "images/police_stormram.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "printerdocument",
+        "name":  "Printerdocument",
+        "asset":  "images/printerdocument.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "radio",
+        "name":  "Radio LS-02",
+        "asset":  "images/radio.png",
+        "category":  "item",
+        "weight":  0.6,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "radioscanner",
+        "name":  "Radioscanner",
+        "asset":  "images/radioscanner.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "repairkit",
+        "name":  "Bộ sửa xe",
+        "asset":  "images/repairkit.png",
+        "category":  "item",
+        "weight":  2.4,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "rifle_ammo",
+        "name":  "Rifle Ammo",
+        "asset":  "images/rifle_ammo.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "rifle_drummag",
+        "name":  "Rifle Drummag",
+        "asset":  "images/rifle_drummag.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "rolex",
+        "name":  "Rolex",
+        "asset":  "images/rolex.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "rolling_paper",
+        "name":  "Rolling Paper",
+        "asset":  "images/rolling_paper.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "rubber",
+        "name":  "Rubber",
+        "asset":  "images/rubber.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "samsungphone",
+        "name":  "Samsungphone",
+        "asset":  "images/samsungphone.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "sandwich",
+        "name":  "Sandwich",
+        "asset":  "images/sandwich.png",
+        "category":  "item",
+        "weight":  0.4,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "screwdriverset",
+        "name":  "Screwdriverset",
+        "asset":  "images/screwdriverset.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "security_card_01",
+        "name":  "Security Card 01",
+        "asset":  "images/security_card_01.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "security_card_02",
+        "name":  "Security Card 02",
+        "asset":  "images/security_card_02.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "shotgun_ammo",
+        "name":  "Shotgun Ammo",
+        "asset":  "images/shotgun_ammo.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "smg_ammo",
+        "name":  "Smg Ammo",
+        "asset":  "images/smg_ammo.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "smg_flashlight",
+        "name":  "Smg Flashlight",
+        "asset":  "images/smg_flashlight.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "smg_scope",
+        "name":  "Smg Scope",
+        "asset":  "images/smg_scope.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "snikkel_candy",
+        "name":  "Snikkel Candy",
+        "asset":  "images/snikkel_candy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "snowball",
+        "name":  "Snowball",
+        "asset":  "images/snowball.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "steel",
+        "name":  "Steel",
+        "asset":  "images/steel.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "stickynote",
+        "name":  "Stickynote",
+        "asset":  "images/stickynote.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "tablet",
+        "name":  "Tablet",
+        "asset":  "images/tablet.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "thermite",
+        "name":  "Thermite",
+        "asset":  "images/thermite.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "tosti",
+        "name":  "Tosti",
+        "asset":  "images/tosti.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "tunerchip",
+        "name":  "Tunerchip",
+        "asset":  "images/tunerchip.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "twerks_candy",
+        "name":  "Twerks Candy",
+        "asset":  "images/twerks_candy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "usb_device",
+        "name":  "Usb Device",
+        "asset":  "images/usb_device.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "uwu_bubbletea",
+        "name":  "Uwu Bubbletea",
+        "asset":  "images/uwu_bubbletea.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "visacard",
+        "name":  "Visacard",
+        "asset":  "images/visacard.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "vodka",
+        "name":  "Vodka",
+        "asset":  "images/vodka.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "walkstick",
+        "name":  "Walkstick",
+        "asset":  "images/walkstick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "water_bottle",
+        "name":  "Nước tinh khiết",
+        "asset":  "images/water_bottle.png",
+        "category":  "item",
+        "weight":  0.5,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_advancedrifle",
+        "name":  "Weapon Advancedrifle",
+        "asset":  "images/weapon_advancedrifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_appistol",
+        "name":  "Weapon Appistol",
+        "asset":  "images/weapon_appistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_assaultrifle",
+        "name":  "Weapon Assaultrifle",
+        "asset":  "images/weapon_assaultrifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_assaultrifle_mk2",
+        "name":  "Weapon Assaultrifle Mk2",
+        "asset":  "images/weapon_assaultrifle_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_assaultshotgun",
+        "name":  "Weapon Assaultshotgun",
+        "asset":  "images/weapon_assaultshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_assaultsmg",
+        "name":  "Weapon Assaultsmg",
+        "asset":  "images/weapon_assaultsmg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_autoshotgun",
+        "name":  "Weapon Autoshotgun",
+        "asset":  "images/weapon_autoshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_ball",
+        "name":  "Weapon Ball",
+        "asset":  "images/weapon_ball.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_bat",
+        "name":  "Weapon Bat",
+        "asset":  "images/weapon_bat.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_battleaxe",
+        "name":  "Weapon Battleaxe",
+        "asset":  "images/weapon_battleaxe.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_bottle",
+        "name":  "Weapon Bottle",
+        "asset":  "images/weapon_bottle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_briefcase",
+        "name":  "Weapon Briefcase",
+        "asset":  "images/weapon_briefcase.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_briefcase2",
+        "name":  "Weapon Briefcase2",
+        "asset":  "images/weapon_briefcase2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_bullpuprifle",
+        "name":  "Weapon Bullpuprifle",
+        "asset":  "images/weapon_bullpuprifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_bullpuprifle_mk2",
+        "name":  "Weapon Bullpuprifle Mk2",
+        "asset":  "images/weapon_bullpuprifle_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_bullpupshotgun",
+        "name":  "Weapon Bullpupshotgun",
+        "asset":  "images/weapon_bullpupshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_bzgas",
+        "name":  "Weapon Bzgas",
+        "asset":  "images/weapon_bzgas.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_c4",
+        "name":  "Weapon C4",
+        "asset":  "images/weapon_c4.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_carbinerifle",
+        "name":  "Weapon Carbinerifle",
+        "asset":  "images/weapon_carbinerifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_carbinerifle_mk2",
+        "name":  "Weapon Carbinerifle Mk2",
+        "asset":  "images/weapon_carbinerifle_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_ceramicpistol",
+        "name":  "Weapon Ceramicpistol",
+        "asset":  "images/weapon_ceramicpistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_combatmg",
+        "name":  "Weapon Combatmg",
+        "asset":  "images/weapon_combatmg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_combatmg_mk2",
+        "name":  "Weapon Combatmg Mk2",
+        "asset":  "images/weapon_combatmg_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_combatpdw",
+        "name":  "Weapon Combatpdw",
+        "asset":  "images/weapon_combatpdw.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_combatpistol",
+        "name":  "Weapon Combatpistol",
+        "asset":  "images/weapon_combatpistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_combatshotgun",
+        "name":  "Weapon Combatshotgun",
+        "asset":  "images/weapon_combatshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_compactlauncher",
+        "name":  "Weapon Compactlauncher",
+        "asset":  "images/weapon_compactlauncher.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_compactrifle",
+        "name":  "Weapon Compactrifle",
+        "asset":  "images/weapon_compactrifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_crowbar",
+        "name":  "Weapon Crowbar",
+        "asset":  "images/weapon_crowbar.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_dagger",
+        "name":  "Weapon Dagger",
+        "asset":  "images/weapon_dagger.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_dbshotgun",
+        "name":  "Weapon Dbshotgun",
+        "asset":  "images/weapon_dbshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_doubleaction",
+        "name":  "Weapon Doubleaction",
+        "asset":  "images/weapon_doubleaction.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_fireextinguisher",
+        "name":  "Weapon Fireextinguisher",
+        "asset":  "images/weapon_fireextinguisher.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_firework",
+        "name":  "Weapon Firework",
+        "asset":  "images/weapon_firework.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_flare",
+        "name":  "Weapon Flare",
+        "asset":  "images/weapon_flare.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_flaregun",
+        "name":  "Weapon Flaregun",
+        "asset":  "images/weapon_flaregun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_flashlight",
+        "name":  "Weapon Flashlight",
+        "asset":  "images/weapon_flashlight.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_gadgetpistol",
+        "name":  "Weapon Gadgetpistol",
+        "asset":  "images/weapon_gadgetpistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_garbagebag",
+        "name":  "Weapon Garbagebag",
+        "asset":  "images/weapon_garbagebag.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_golfclub",
+        "name":  "Weapon Golfclub",
+        "asset":  "images/weapon_golfclub.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_grenade",
+        "name":  "Weapon Grenade",
+        "asset":  "images/weapon_grenade.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_grenadelauncher",
+        "name":  "Weapon Grenadelauncher",
+        "asset":  "images/weapon_grenadelauncher.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_grenadelauncher_smoke",
+        "name":  "Weapon Grenadelauncher Smoke",
+        "asset":  "images/weapon_grenadelauncher_smoke.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_gusenberg",
+        "name":  "Weapon Gusenberg",
+        "asset":  "images/weapon_gusenberg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_hammer",
+        "name":  "Weapon Hammer",
+        "asset":  "images/weapon_hammer.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_handcuffs",
+        "name":  "Weapon Handcuffs",
+        "asset":  "images/weapon_handcuffs.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_hatchet",
+        "name":  "Weapon Hatchet",
+        "asset":  "images/weapon_hatchet.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_hazardcan",
+        "name":  "Weapon Hazardcan",
+        "asset":  "images/weapon_hazardcan.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_heavypistol",
+        "name":  "Weapon Heavypistol",
+        "asset":  "images/weapon_heavypistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_heavyshotgun",
+        "name":  "Weapon Heavyshotgun",
+        "asset":  "images/weapon_heavyshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_heavysniper",
+        "name":  "Weapon Heavysniper",
+        "asset":  "images/weapon_heavysniper.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_heavysniper_mk2",
+        "name":  "Weapon Heavysniper Mk2",
+        "asset":  "images/weapon_heavysniper_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_hominglauncher",
+        "name":  "Weapon Hominglauncher",
+        "asset":  "images/weapon_hominglauncher.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_knife",
+        "name":  "Weapon Knife",
+        "asset":  "images/weapon_knife.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_knuckle",
+        "name":  "Weapon Knuckle",
+        "asset":  "images/weapon_knuckle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_license",
+        "name":  "Weapon License",
+        "asset":  "images/weapon_license.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_machete",
+        "name":  "Weapon Machete",
+        "asset":  "images/weapon_machete.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_machinepistol",
+        "name":  "Weapon Machinepistol",
+        "asset":  "images/weapon_machinepistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_marksmanpistol",
+        "name":  "Weapon Marksmanpistol",
+        "asset":  "images/weapon_marksmanpistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_marksmanrifle",
+        "name":  "Weapon Marksmanrifle",
+        "asset":  "images/weapon_marksmanrifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_marksmanrifle_mk2",
+        "name":  "Weapon Marksmanrifle Mk2",
+        "asset":  "images/weapon_marksmanrifle_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_mg",
+        "name":  "Weapon Mg",
+        "asset":  "images/weapon_mg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_microsmg",
+        "name":  "Weapon Microsmg",
+        "asset":  "images/weapon_microsmg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_militaryrifle",
+        "name":  "Weapon Militaryrifle",
+        "asset":  "images/weapon_militaryrifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_minigun",
+        "name":  "Weapon Minigun",
+        "asset":  "images/weapon_minigun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_minismg",
+        "name":  "Weapon Minismg",
+        "asset":  "images/weapon_minismg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_molotov",
+        "name":  "Weapon Molotov",
+        "asset":  "images/weapon_molotov.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_musket",
+        "name":  "Weapon Musket",
+        "asset":  "images/weapon_musket.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_navyrevolver",
+        "name":  "Weapon Navyrevolver",
+        "asset":  "images/weapon_navyrevolver.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_nightstick",
+        "name":  "Weapon Nightstick",
+        "asset":  "images/weapon_nightstick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_petrolcan",
+        "name":  "Weapon Petrolcan",
+        "asset":  "images/weapon_petrolcan.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_pipebomb",
+        "name":  "Weapon Pipebomb",
+        "asset":  "images/weapon_pipebomb.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_pistol",
+        "name":  "Pistol .45",
+        "asset":  "images/weapon_pistol.png",
+        "category":  "item",
+        "weight":  1.2,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_pistol_mk2",
+        "name":  "Weapon Pistol Mk2",
+        "asset":  "images/weapon_pistol_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_pistol50",
+        "name":  "Weapon Pistol50",
+        "asset":  "images/weapon_pistol50.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_poolcue",
+        "name":  "Weapon Poolcue",
+        "asset":  "images/weapon_poolcue.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_proximitymine",
+        "name":  "Weapon Proximitymine",
+        "asset":  "images/weapon_proximitymine.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_pumpshotgun",
+        "name":  "Weapon Pumpshotgun",
+        "asset":  "images/weapon_pumpshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_pumpshotgun_mk2",
+        "name":  "Weapon Pumpshotgun Mk2",
+        "asset":  "images/weapon_pumpshotgun_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_railgun",
+        "name":  "Weapon Railgun",
+        "asset":  "images/weapon_railgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_raycarbine",
+        "name":  "Weapon Raycarbine",
+        "asset":  "images/weapon_raycarbine.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_rayminigun",
+        "name":  "Weapon Rayminigun",
+        "asset":  "images/weapon_rayminigun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_raypistol",
+        "name":  "Weapon Raypistol",
+        "asset":  "images/weapon_raypistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_remotesniper",
+        "name":  "Weapon Remotesniper",
+        "asset":  "images/weapon_remotesniper.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_revolver",
+        "name":  "Weapon Revolver",
+        "asset":  "images/weapon_revolver.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_revolver_mk2",
+        "name":  "Weapon Revolver Mk2",
+        "asset":  "images/weapon_revolver_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_rpg",
+        "name":  "Weapon Rpg",
+        "asset":  "images/weapon_rpg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_sawnoffshotgun",
+        "name":  "Weapon Sawnoffshotgun",
+        "asset":  "images/weapon_sawnoffshotgun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_smg",
+        "name":  "Weapon Smg",
+        "asset":  "images/weapon_smg.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_smg_mk2",
+        "name":  "Weapon Smg Mk2",
+        "asset":  "images/weapon_smg_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_sniperrifle",
+        "name":  "Weapon Sniperrifle",
+        "asset":  "images/weapon_sniperrifle.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_snowball",
+        "name":  "Weapon Snowball",
+        "asset":  "images/weapon_snowball.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_snspistol",
+        "name":  "Weapon Snspistol",
+        "asset":  "images/weapon_snspistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_snspistol_mk2",
+        "name":  "Weapon Snspistol Mk2",
+        "asset":  "images/weapon_snspistol_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_specialcarbine",
+        "name":  "Weapon Specialcarbine",
+        "asset":  "images/weapon_specialcarbine.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_specialcarbine_mk2",
+        "name":  "Weapon Specialcarbine Mk2",
+        "asset":  "images/weapon_specialcarbine_mk2.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_stickybomb",
+        "name":  "Weapon Stickybomb",
+        "asset":  "images/weapon_stickybomb.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_stone_hatchet",
+        "name":  "Weapon Stone Hatchet",
+        "asset":  "images/weapon_stone_hatchet.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_stungun",
+        "name":  "Weapon Stungun",
+        "asset":  "images/weapon_stungun.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_switchblade",
+        "name":  "Weapon Switchblade",
+        "asset":  "images/weapon_switchblade.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_vintagepistol",
+        "name":  "Weapon Vintagepistol",
+        "asset":  "images/weapon_vintagepistol.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapon_wrench",
+        "name":  "Weapon Wrench",
+        "asset":  "images/weapon_wrench.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_army",
+        "name":  "Weapontint Army",
+        "asset":  "images/weapontint_army.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_black",
+        "name":  "Weapontint Black",
+        "asset":  "images/weapontint_black.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_gold",
+        "name":  "Weapontint Gold",
+        "asset":  "images/weapontint_gold.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_green",
+        "name":  "Weapontint Green",
+        "asset":  "images/weapontint_green.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_lspd",
+        "name":  "Weapontint Lspd",
+        "asset":  "images/weapontint_lspd.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_orange",
+        "name":  "Weapontint Orange",
+        "asset":  "images/weapontint_orange.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_pink",
+        "name":  "Weapontint Pink",
+        "asset":  "images/weapontint_pink.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weapontint_plat",
+        "name":  "Weapontint Plat",
+        "asset":  "images/weapontint_plat.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weed_baggy",
+        "name":  "Weed Baggy",
+        "asset":  "images/weed_baggy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weed_baggy_empty",
+        "name":  "Weed Baggy Empty",
+        "asset":  "images/weed_baggy_empty.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weed_brick",
+        "name":  "Weed Brick",
+        "asset":  "images/weed_brick.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weed_nutrition",
+        "name":  "Weed Nutrition",
+        "asset":  "images/weed_nutrition.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "weed_seed",
+        "name":  "Weed Seed",
+        "asset":  "images/weed_seed.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "whiskey",
+        "name":  "Whiskey",
+        "asset":  "images/whiskey.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "wine",
+        "name":  "Wine",
+        "asset":  "images/wine.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "xtc_baggy",
+        "name":  "Xtc Baggy",
+        "asset":  "images/xtc_baggy.png",
+        "category":  "item",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "ammo_pistol_ammo",
+        "name":  "Pistol Ammo",
+        "asset":  "ammo_images/pistol_ammo.png",
+        "category":  "ammo",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "ammo_rifle_ammo",
+        "name":  "Rifle Ammo",
+        "asset":  "ammo_images/rifle_ammo.png",
+        "category":  "ammo",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "ammo_shotgun_ammo",
+        "name":  "Shotgun Ammo",
+        "asset":  "ammo_images/shotgun_ammo.png",
+        "category":  "ammo",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "ammo_smg_ammo",
+        "name":  "Smg Ammo",
+        "asset":  "ammo_images/smg_ammo.png",
+        "category":  "ammo",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_assaultrifle",
+        "name":  "Weapon Assaultrifle",
+        "asset":  "attachment_images/weapon_assaultrifle.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_carbinerifle",
+        "name":  "Weapon Carbinerifle",
+        "asset":  "attachment_images/weapon_carbinerifle.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_compactrifle",
+        "name":  "Weapon Compactrifle",
+        "asset":  "attachment_images/weapon_compactrifle.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_microsmg",
+        "name":  "Weapon Microsmg",
+        "asset":  "attachment_images/weapon_microsmg.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_minismg",
+        "name":  "Weapon Minismg",
+        "asset":  "attachment_images/weapon_minismg.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_pistol",
+        "name":  "Pistol .45",
+        "asset":  "attachment_images/weapon_pistol.png",
+        "category":  "weapon_attachment",
+        "weight":  1.2,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_pistol_mk2",
+        "name":  "Weapon Pistol Mk2",
+        "asset":  "attachment_images/weapon_pistol_mk2.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_pumpshotgun",
+        "name":  "Weapon Pumpshotgun",
+        "asset":  "attachment_images/weapon_pumpshotgun.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_smg",
+        "name":  "Weapon Smg",
+        "asset":  "attachment_images/weapon_smg.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_snspistol",
+        "name":  "Weapon Snspistol",
+        "asset":  "attachment_images/weapon_snspistol.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_stungun",
+        "name":  "Weapon Stungun",
+        "asset":  "attachment_images/weapon_stungun.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    },
+    {
+        "id":  "attachment_weapon_vintagepistol",
+        "name":  "Weapon Vintagepistol",
+        "asset":  "attachment_images/weapon_vintagepistol.png",
+        "category":  "weapon_attachment",
+        "weight":  0,
+        "description":  "",
+        "defaultQuantity":  1
+    }
+]

@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUB GTA Phone</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="phone" id="phone" aria-label="HUB GTA Phone">
+    <div class="side-button side-button-silent"></div>
+    <div class="side-button side-button-volume-up"></div>
+    <div class="side-button side-button-volume-down"></div>
+    <div class="side-button side-button-power"></div>
+
+    <section class="screen" id="phoneScreen">
+      <div class="wallpaper" aria-hidden="true"></div>
+      <div class="wallpaper-shade" aria-hidden="true"></div>
+
+      <header class="status-bar" id="statusBar">
+        <time class="status-time" id="statusTime">09:41</time>
+        <div class="status-icons" aria-label="Trạng thái thiết bị">
+          <span class="cellular" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          <svg class="wifi" viewBox="0 0 20 15" aria-hidden="true"><path d="M1.5 4.5a13 13 0 0 1 17 0M4.3 8a8.7 8.7 0 0 1 11.4 0M7.4 11.3a4 4 0 0 1 5.2 0"/><circle cx="10" cy="14" r="1"/></svg>
+          <span class="battery" aria-label="Pin 92%"><i></i></span>
+        </div>
+      </header>
+
+      <button class="dynamic-island" id="dynamicIsland" type="button" aria-label="Dynamic Island">
+        <span class="island-camera"></span>
+        <span class="island-call" id="islandCall"><i></i><b id="islandCallText">Đang gọi</b></span>
+        <span class="island-sensor"></span>
+      </button>
+
+      <section class="lock-screen view is-active" id="lockScreen" aria-label="Màn hình khóa">
+        <div class="lock-copy">
+          <p class="lock-date" id="lockDate">Thứ Sáu, 8 tháng 8</p>
+          <time class="lock-time" id="lockTime">09:41</time>
+        </div>
+        <div class="lock-footer">
+          <div class="lock-actions">
+            <button class="round-control" type="button" aria-label="Đèn pin">
+              <svg viewBox="0 0 24 24"><path d="M9 2h6l1 5-2 2v10a2 2 0 0 1-4 0V9L8 7l1-5Z"/><path d="M9 5h6"/></svg>
+            </button>
+            <button class="round-control" type="button" aria-label="Máy ảnh">
+              <svg viewBox="0 0 24 24"><path d="M4 7h3l1.5-2h7L17 7h3a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2Z"/><circle cx="12" cy="13" r="4"/></svg>
+            </button>
+          </div>
+          <button class="unlock-hint" id="unlockButton" type="button">
+            <span class="chevron-up"></span>
+            Vuốt lên để mở khóa
+          </button>
+        </div>
+      </section>
+
+      <section class="home-screen view" id="homeScreen" aria-label="Màn hình chính">
+        <div class="home-heading">
+          <p id="homeDate">Thứ Sáu, 8 tháng 8</p>
+          <strong>HUB GTA</strong>
+        </div>
+
+        <div class="app-grid">
+          <button class="app-tile" type="button" data-app="contacts">
+            <img src="assets/contacts.svg" alt="">
+            <span>Danh bạ</span>
+          </button>
+          <button class="app-tile" type="button" data-app="messages">
+            <img src="assets/messages.svg" alt="">
+            <span>Tin nhắn</span>
+          </button>
+          <button class="app-tile" type="button" data-app="banking">
+            <img src="assets/bank.svg" alt="">
+            <span>Ngân hàng</span>
+          </button>
+          <button class="app-tile" type="button" data-app="transfer">
+            <img src="assets/transfer.svg" alt="">
+            <span>Chuyển khoản</span>
+          </button>
+          <button class="app-tile" type="button" data-app="bills">
+            <img src="assets/bills.svg" alt="">
+            <span>Hóa đơn</span>
+          </button>
+          <button class="app-tile" type="button" data-app="maps">
+            <img src="assets/maps.svg" alt="">
+            <span>Bản đồ</span>
+          </button>
+          <button class="app-tile" type="button" data-app="settings">
+            <img src="assets/settings.svg" alt="">
+            <span>Cài đặt</span>
+          </button>
+          <button class="app-tile" type="button" id="exitApp">
+            <img src="assets/exit.svg" alt="">
+            <span>Thoát</span>
+          </button>
+        </div>
+
+        <div class="page-dots" aria-hidden="true"><i class="active"></i><i></i></div>
+
+        <nav class="dock" aria-label="Ứng dụng thường dùng">
+          <button class="dock-app" type="button" data-app="contacts" aria-label="Danh bạ"><img src="assets/contacts.svg" alt=""></button>
+          <button class="dock-app" type="button" data-app="messages" aria-label="Tin nhắn"><img src="assets/messages.svg" alt=""></button>
+          <button class="dock-app browser-icon" type="button" data-app="maps" aria-label="Bản đồ"><span>⌖</span></button>
+          <button class="dock-app music-icon" type="button" id="musicButton" aria-label="Nhạc"><span>♪</span></button>
+        </nav>
+      </section>
+
+      <div class="app-layer" id="appLayer" aria-live="polite">
+        <section class="app-screen ios-app contacts-app" data-screen="contacts">
+          <div class="app-nav">
+            <button class="nav-back" type="button" data-home aria-label="Về màn hình chính">‹</button>
+            <strong>Danh bạ</strong>
+            <button class="nav-action" type="button" aria-label="Thêm liên hệ">＋</button>
+          </div>
+          <div class="app-scroll">
+            <div class="account-row">
+              <div class="avatar avatar-large">HG</div>
+              <div><h2>HUB GTA</h2><p>Thẻ của tôi · ID #27</p></div>
+            </div>
+            <label class="search-field">
+              <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg>
+              <input id="contactSearch" type="search" placeholder="Tìm kiếm">
+            </label>
+            <p class="section-label">LIÊN HỆ</p>
+            <div class="contact-list" id="contactList"></div>
+          </div>
+          <button class="app-home-indicator" type="button" data-home aria-label="Về màn hình chính"></button>
+        </section>
+
+        <section class="app-screen ios-app messages-app" data-screen="messages">
+          <div class="app-nav">
+            <button class="nav-back" type="button" data-home aria-label="Về màn hình chính">‹</button>
+            <div class="nav-person"><div class="avatar avatar-mini">NA</div><strong>Nguyễn An</strong></div>
+            <button class="nav-action" type="button" aria-label="Thông tin">ⓘ</button>
+          </div>
+          <div class="message-thread" id="messageThread">
+            <span class="message-date">Hôm nay, 21:32</span>
+            <div class="bubble incoming">Bạn đang ở đâu vậy?</div>
+            <div class="bubble outgoing">Mình đang gần quảng trường.</div>
+            <div class="bubble incoming">Được rồi, mình tới ngay.</div>
+          </div>
+          <form class="message-composer" id="messageForm">
+            <button type="button" aria-label="Thêm nội dung">＋</button>
+            <input id="messageInput" type="text" placeholder="iMessage" autocomplete="off">
+            <button class="send-message" type="submit" aria-label="Gửi">↑</button>
+          </form>
+          <button class="app-home-indicator dark-indicator" type="button" data-home aria-label="Về màn hình chính"></button>
+        </section>
+
+        <section class="app-screen ios-app bank-app" data-screen="banking">
+          <div class="app-nav transparent-nav">
+            <button class="nav-back" type="button" data-home aria-label="Về màn hình chính">‹</button>
+            <strong>Tài khoản</strong>
+            <button class="nav-action" type="button" aria-label="Thông báo">◉</button>
+          </div>
+          <div class="app-scroll bank-scroll">
+            <div class="balance-card">
+              <div class="balance-brand"><span>HUB BANK</span><b>●●</b></div>
+              <p>Tổng số dư</p>
+              <strong id="balanceValue">$12,450,000</strong>
+              <div class="balance-meta"><span>•••• 8899</span><span>HUB GTA</span></div>
+            </div>
+            <div class="quick-actions">
+              <button type="button" data-app="transfer"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></i><span>Chuyển</span></button>
+              <button type="button"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></i><span>Nạp tiền</span></button>
+              <button type="button"><i><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></i><span>Rút tiền</span></button>
+            </div>
+            <div class="section-heading"><h3>Giao dịch gần đây</h3><button type="button">Xem tất cả</button></div>
+            <div class="transaction-list" id="transactionList"></div>
+          </div>
+          <button class="app-home-indicator dark-indicator" type="button" data-home aria-label="Về màn hình chính"></button>
+        </section>
+
+        <section class="app-screen ios-app transfer-app" data-screen="transfer">
+          <div class="app-nav">
+            <button class="nav-back" type="button" data-home aria-label="Về màn hình chính">‹</button>
+            <strong>Chuyển khoản</strong>
+            <span class="nav-spacer"></span>
+          </div>
+          <form class="app-scroll transfer-form" id="transferForm">
+            <div class="transfer-balance"><span>Số dư khả dụng</span><strong id="transferBalance">$12,450,000</strong></div>
+            <label class="form-field"><span>ID người nhận</span><input id="receiverId" type="number" inputmode="numeric" placeholder="Nhập ID"></label>
+            <label class="form-field"><span>Số tiền</span><div class="money-input"><b>$</b><input id="transferAmount" type="number" inputmode="numeric" placeholder="0"></div></label>
+            <div class="amount-chips"><button type="button" data-amount="100000">$100K</button><button type="button" data-amount="500000">$500K</button><button type="button" data-amount="1000000">$1M</button></div>
+            <label class="form-field"><span>Nội dung</span><input id="transferNote" type="text" maxlength="48" placeholder="Nhập lời nhắn"></label>
+            <p class="form-error" id="transferError"></p>
+            <button class="primary-button" type="submit">Xác nhận chuyển</button>
+          </form>
+          <button class="app-home-indicator dark-indicator" type="button" data-home aria-label="Về màn hình chính"></button>
+        </section>
+
+        <section class="app-screen ios-app bills-app" data-screen="bills">
+          <div class="app-nav">
+            <button class="nav-back" type="button" data-home aria-label="Về màn hình chính">‹</button>
+            <strong>Hóa đơn</strong>
+            <button class="nav-action" type="button" aria-label="Lịch sử">◷</button>
+          </div>
+          <div class="app-scroll">
+            <div class="bill-summary"><span>Cần thanh toán</span><strong id="billTotal">$8,750</strong><small>3 hóa đơn trong tháng này</small></div>
+            <p class="section-label">HÓA ĐƠN CỦA BẠN</p>
+            <div class="bill-list" id="billList"></div>
+          </div>
+          <button class="app-home-indicator dark-indicator" type="button" data-home aria-label="Về màn hình chính"></button>
+        </section>
+
+        <section class="app-screen ios-app maps-app" data-screen="maps">
+          <div class="map-canvas" aria-label="Bản đồ Los Santos">
+            <span class="map-water"></span>
+            <span class="road road-one"></span><span class="road road-two"></span><span class="road road-three"></span><span class="road road-four"></span>
+            <span class="map-district district-one">DOWNTOWN</span><span class="map-district district-two">MARKET</span><span class="map-district district-three">TEMPLE</span>
+            <span class="location-pin"><i></i></span>
+          </div>
+          <div class="map-topbar">
+            <button type="button" data-home aria-label="Về màn hình chính">‹</button>
+            <label><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m16 16 5 5"/></svg><input type="search" placeholder="Tìm địa điểm"></label>
+          </div>
+          <div class="map-sheet">
+            <span class="sheet-grabber"></span>
+            <strong>Vị trí hiện tại</strong>
+            <p>Downtown Los Santos</p>
+            <button type="button">Bắt đầu dẫn đường</button>
+          </div>
+          <button class="app-home-indicator dark-indicator" type="button" data-home aria-label="Về màn hình chính"></button>
+        </section>
+
+        <section class="app-screen ios-app settings-app" data-screen="settings">
+          <div class="app-nav">
+            <button class="nav-back" type="button" data-home aria-label="Về màn hình chính">‹</button>
+            <strong>Cài đặt</strong>
+            <span class="nav-spacer"></span>
+          </div>
+          <div class="app-scroll settings-scroll">
+            <h1>Cài đặt</h1>
+            <div class="settings-profile"><div class="avatar avatar-large">HG</div><div><strong>HUB GTA</strong><p>ID #27 · Thiết bị này</p></div><span>›</span></div>
+            <div class="settings-group">
+              <label class="settings-cell"><i class="setting-icon sound">♪</i><span>Âm lượng</span><input id="volumeRange" type="range" min="0" max="100" value="72"></label>
+              <label class="settings-cell"><i class="setting-icon notify">●</i><span>Thông báo</span><input class="ios-toggle" id="notificationsToggle" type="checkbox" checked></label>
+              <label class="settings-cell"><i class="setting-icon vibration">≈</i><span>Rung</span><input class="ios-toggle" id="vibrationToggle" type="checkbox" checked></label>
+            </div>
+            <div class="settings-group">
+              <label class="settings-cell"><i class="setting-icon darkmode">☾</i><span>Chế độ tối</span><input class="ios-toggle" id="darkModeToggle" type="checkbox" checked></label>
+              <button class="settings-cell" type="button"><i class="setting-icon info">i</i><span>Thông tin thiết bị</span><b>›</b></button>
+            </div>
+          </div>
+          <button class="app-home-indicator dark-indicator" type="button" data-home aria-label="Về màn hình chính"></button>
+        </section>
+      </div>
+
+      <div class="call-overlay" id="callOverlay" aria-hidden="true">
+        <button class="call-close" id="callClose" type="button" aria-label="Thu nhỏ cuộc gọi">⌄</button>
+        <div class="call-contact"><div class="avatar call-avatar" id="callAvatar">NA</div><p>HUB GTA Audio</p><h2 id="callName">Nguyễn An</h2><span id="callStatus">đang gọi...</span></div>
+        <div class="call-controls">
+          <button type="button" id="muteButton"><i>⌁</i><span>Tắt tiếng</span></button>
+          <button type="button"><i>⌨</i><span>Bàn phím</span></button>
+          <button type="button"><i>◉</i><span>Loa</span></button>
+        </div>
+        <button class="end-call" id="endCall" type="button" aria-label="Kết thúc cuộc gọi">⌁</button>
+      </div>
+
+      <div class="toast" id="toast" role="status"></div>
+      <button class="home-indicator" id="homeIndicator" type="button" aria-label="Về màn hình chính"></button>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>

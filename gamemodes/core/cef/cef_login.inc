@@ -10,8 +10,17 @@
 // --- Forward ---
 forward OnCEF_SubmitLogin(playerid, browserid, const username[], const password[], bool:rememberMe);
 forward OnCEF_LoginPasswordVerify(playerid, bool:success, string:hash[]);
+forward OnCEF_LoginReady(playerid, browserid);
+forward OnCEF_ToRegisterPage(playerid, browserid);
+forward OnCEF_ForgotPassword(playerid, browserid);
+forward CEF_Login_TransitionToCharSelect(playerid);
 forward CEF_OnPlayerReadyUI(playerid);
 forward CEF_CheckLoginFallback(playerid);
+forward CEF_EmitUsernameDelayed(playerid);
+forward PlayerAttempts_Reset(playerid);
+forward PlayerAttempts_Increment(playerid);
+forward PlayerAttempts_Get(playerid);
+forward CEF_KickPlayer(playerid);
 
 // --- Pending state per player ---
 static bool:gPlayerPendingLogin[MAX_PLAYERS];
@@ -42,7 +51,7 @@ public CEF_OnPlayerReadyUI(playerid)
     return 1;
 }
 
-// Kiểm tra fallback sau 2.5s nếu CEF chưa ready
+// Check the fallback only after the client has had time to retry its handshake.
 public CEF_CheckLoginFallback(playerid)
 {
     if (!IsPlayerConnected(playerid))
@@ -70,6 +79,9 @@ public CEF_CheckLoginFallback(playerid)
 // --- Đăng ký event khi GameMode khởi tạo ---
 hook OnGameModeInit()
 {
+    // JS emit: cef.emit("GTAHUB:LoginReady")
+    CEF_RegisterEvent("GTAHUB:LoginReady", "OnCEF_LoginReady");
+
     // JS emit: cef.emit("GTAHUB:SubmitLogin", username, password, rememberMe)
     CEF_RegisterEvent("GTAHUB:SubmitLogin", "OnCEF_SubmitLogin",
         Argument_String,    // username
@@ -84,6 +96,17 @@ hook OnGameModeInit()
     CEF_RegisterEvent("GTAHUB:ForgotPassword", "OnCEF_ForgotPassword");
 
     print("[CEF] Login events registered.");
+    return 1;
+}
+
+// --- CEF Event: Trang Login đã tải xong HTML/JS ---
+public OnCEF_LoginReady(playerid, browserid)
+{
+    #pragma unused browserid
+    if (!IsPlayerConnected(playerid)) return 0;
+    new playerName[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, playerName, sizeof(playerName));
+    CEF_EmitEvent(playerid, CEF_BROWSER_LOGIN, "GTAHUB:SetUsername", CEF_STR(playerName));
     return 1;
 }
 
@@ -108,12 +131,12 @@ stock CEF_ShowLoginPage(playerid)
     // Tạo Browser CEF Login
     CEF_CreateBrowser(playerid, CEF_BROWSER_LOGIN, CEF_URL_LOGIN, true, true);
 
-    // Phát sự kiện tự động điền Username (tên IC SA-MP)
+    // Phát sự kiện tự động điền Username (tên IC SA-MP) với multi-timer phòng hờ
     SetTimerEx("CEF_EmitUsernameDelayed", 300, false, "i", playerid);
+    SetTimerEx("CEF_EmitUsernameDelayed", 800, false, "i", playerid);
     return 1;
 }
 
-forward CEF_EmitUsernameDelayed(playerid);
 public CEF_EmitUsernameDelayed(playerid)
 {
     if (!IsPlayerConnected(playerid))
@@ -151,7 +174,6 @@ public OnCEF_SubmitLogin(playerid, browserid, const username[], const password[]
     }
 
     // Tìm tài khoản theo username được gửi từ client
-    // Nếu username trùng với SA-MP name thì xác thực bình thường
     new playerName[MAX_PLAYER_NAME];
     GetPlayerName(playerid, playerName, MAX_PLAYER_NAME);
 
@@ -163,8 +185,6 @@ public OnCEF_SubmitLogin(playerid, browserid, const username[], const password[]
         return 1;
     }
 
-    // Kiểm tra hash đã được lưu trước khi player được redirect đến login
-    // Thực hiện bcrypt verify với hash từ database
     CEF_Login_VerifyWithHash(playerid, password);
     return 1;
 }
@@ -209,9 +229,8 @@ public OnCEF_LoginPasswordVerify(playerid, bool:success, string:hash[])
             CEF_INT(1), CEF_STR("Dang nhap thanh cong! Dang tai...")
         );
 
-        // Đóng login browser và chuyển sang character selection
-        CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
-        Account_ShowCharacterMenu_CEF(playerid);
+        // Đợi 800ms để hiệu ứng giao diện Login hiển thị hoàn tất rồi mới chuyển sang chọn nhân vật
+        SetTimerEx("CEF_Login_TransitionToCharSelect", 800, false, "i", playerid);
     }
     else
     {
@@ -236,29 +255,36 @@ public OnCEF_LoginPasswordVerify(playerid, bool:success, string:hash[])
     return 1;
 }
 
+// --- Timer chuyển trang mượt mà sang Character Selection ---
+public CEF_Login_TransitionToCharSelect(playerid)
+{
+    if (IsPlayerConnected(playerid))
+    {
+        CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
+        Account_ShowCharacterMenu_CEF(playerid);
+    }
+    return 1;
+}
+
 // --- Forward và Public cho player attempts ---
-forward PlayerAttempts_Reset(playerid);
 public PlayerAttempts_Reset(playerid)
 {
     PlayerAttempts[playerid] = 0;
     return 1;
 }
 
-forward PlayerAttempts_Increment(playerid);
 public PlayerAttempts_Increment(playerid)
 {
     PlayerAttempts[playerid]++;
     return 1;
 }
 
-forward PlayerAttempts_Get(playerid);
 public PlayerAttempts_Get(playerid)
 {
     return PlayerAttempts[playerid];
 }
 
 // --- Timer để kick player ---
-forward CEF_KickPlayer(playerid);
 public CEF_KickPlayer(playerid)
 {
     if (IsPlayerConnected(playerid))
@@ -267,7 +293,6 @@ public CEF_KickPlayer(playerid)
 }
 
 // --- CEF Event: Chuyển sang trang Register ---
-forward OnCEF_ToRegisterPage(playerid, browserid);
 public OnCEF_ToRegisterPage(playerid, browserid)
 {
     #pragma unused browserid
@@ -276,7 +301,6 @@ public OnCEF_ToRegisterPage(playerid, browserid)
 }
 
 // --- CEF Event: Quên mật khẩu ---
-forward OnCEF_ForgotPassword(playerid, browserid);
 public OnCEF_ForgotPassword(playerid, browserid)
 {
     #pragma unused browserid

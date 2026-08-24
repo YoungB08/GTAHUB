@@ -2,16 +2,18 @@
 
 hook OnGameModeInit()
 {
-    // Pre-register role icon resources for async background downloading
+    // 1. Cấu hình quy tắc hiển thị chung cho toàn Server Role Component
+    SetRoleGlobalConfig(25.0, true, true, 32.0, 32.0);
+
+    // 2. Pre-register / Pre-load toàn bộ Role Icons
     AddRoleResource("admin.png",  "http://gtahub.kntech.co/icons/admin.png");
     AddRoleResource("vip.png",    "http://gtahub.kntech.co/icons/vip.png");
     AddRoleResource("mod.png",    "http://gtahub.kntech.co/icons/moderator.png");
     AddRoleResource("helper.png", "http://gtahub.kntech.co/icons/helper.png");
     AddRoleResource("dev.png",    "http://gtahub.kntech.co/icons/dev.png");
 
-    ShowNameTags(false);
-
-    print("[GAMEMODE] Registered all role icon resources for async background downloading.");
+    ShowNameTags(true);
+    print("[ROLE] Initialized open:mp Server Role Component.");
     return 1;
 }
 
@@ -25,12 +27,14 @@ hook OnPlayerSpawn(playerid)
 
 hook OnPlayerDisconnect(playerid, reason)
 {
+    #pragma unused reason
     ClearPlayerRoleAll(playerid);
     return 1;
 }
 
 CMD:testpreset(playerid, params[])
 {
+    #pragma unused params
     SetPlayerPresetRole(-1, playerid, ROLE_ADMIN, 0, 0);     // Slot 0: ADMIN
     SetPlayerPresetRole(-1, playerid, ROLE_VIP, 1, 0);       // Slot 1: VIP
     SetPlayerPresetRole(-1, playerid, ROLE_DEVELOPER, 2, 0); // Slot 2: DEV
@@ -40,6 +44,7 @@ CMD:testpreset(playerid, params[])
 
 CMD:testcustom(playerid, params[])
 {
+    #pragma unused params
     SetPlayerCustomRole(-1, playerid, "SUPER ADMIN", 0xFFB30000, 0x88000000, true, 0, 0);
     SetPlayerCustomRole(-1, playerid, "PATRON VIP",  0xFFCC9900, 0x88000000, false, 1, 0);
     SendClientMessage(playerid, 0x00FFFFAFA, "[TEST] Da gan Custom Role Style vao Slot 0 & Slot 1.");
@@ -48,6 +53,7 @@ CMD:testcustom(playerid, params[])
 
 CMD:testimage(playerid, params[])
 {
+    #pragma unused params
     SetPlayerImageRole(-1, playerid, "admin.png", "LEAD ADMIN", 0xFFB30000, 0, 0);
     SendClientMessage(playerid, 0x00FFFFAFA, "[TEST] Da gan Image Role Tag (admin.png) vao Slot 0.");
     return 1;
@@ -55,6 +61,7 @@ CMD:testimage(playerid, params[])
 
 CMD:testrainbow(playerid, params[])
 {
+    #pragma unused params
     new bool:active = IsPlayerRainbowActive(playerid, -1);
     SetPlayerRainbowRole(playerid, !active, 300, -1); // Quick Rainbow Nametag chính
     SetPlayerRainbowRole(playerid, !active, 300, 0);  // Rainbow Slot 0
@@ -67,6 +74,7 @@ CMD:testrainbow(playerid, params[])
 
 CMD:testcolor(playerid, params[])
 {
+    #pragma unused params
     SetPlayerNametagColor(-1, playerid, 0xFF00FFCC); // Mau Xanh Ngoc ARGB
     SendClientMessage(playerid, 0x00FFCCFF, "[TEST] Da doi mau Nametag chinh sang mau Xanh Ngoc (0xFF00FFCC)!");
     return 1;
@@ -74,6 +82,7 @@ CMD:testcolor(playerid, params[])
 
 CMD:testtimed(playerid, params[])
 {
+    #pragma unused params
     SetPlayerCustomRole(-1, playerid, "TIMED ROLE (10s)", 0xFFAA00FF, 0x88000000, true, 1, 10);
     SendClientMessage(playerid, 0xFFAA00FF, "[TEST] Da gan Role thoi han 10 giay vao Slot 1! Role se tu xoa va nhay callback.");
     return 1;
@@ -81,6 +90,7 @@ CMD:testtimed(playerid, params[])
 
 CMD:testundercover(playerid, params[])
 {
+    #pragma unused params
     new bool:visible = IsPlayerRoleVisible(playerid);
     SetPlayerRoleVisible(playerid, !visible, -1);
     if (visible)
@@ -92,6 +102,7 @@ CMD:testundercover(playerid, params[])
 
 CMD:checkrole(playerid, params[])
 {
+    #pragma unused params
     new bool:hasSlot0 = HasPlayerRole(playerid, 0);
     new bool:imgLoaded = IsRoleResourceLoaded("admin.png");
     new msg[128];
@@ -102,6 +113,7 @@ CMD:checkrole(playerid, params[])
 
 CMD:clearallroles(playerid, params[])
 {
+    #pragma unused params
     ClearPlayerRoleAll(playerid);
     SendClientMessage(playerid, 0xFF0000FF, "[TEST] Da xoa toan bo Role o tat ca cac Slot.");
     return 1;
@@ -109,6 +121,7 @@ CMD:clearallroles(playerid, params[])
 
 public OnRoleResourceLoaded(playerid, const resourceKey[], bool:success)
 {
+    #pragma unused playerid
     new msg[128];
     format(msg, sizeof(msg), "[RESOURCE EVENT] Resource '%s' download status: %s", resourceKey, success ? "SUCCESS" : "FAILED");
     print(msg);

@@ -6,11 +6,15 @@ stock bool:PlayerPosition_IsValid(Float:x, Float:y, Float:z)
     if (x != x || y != y || z != z) return false;
     // Tọa độ 0,0,0
     if (x == 0.0 && y == 0.0 && z == 0.0) return false;
-    // Tọa độ kẹt camera / độ cao bất thường (z > 1000m hoặc z < -100m) hoặc ngoài giới hạn bản đồ (-6000 đến +6000)
-    if (z > 1000.0 || z < -100.0) return false;
-    if (floatabs(x) > 6000.0 || floatabs(y) > 6000.0) return false;
+    // Tọa độ kẹt camera / độ cao bất thường (z > 500m hoặc z < -50m) hoặc ngoài giới hạn bản đồ (-4000 đến +4000)
+    if (z > 500.0 || z < -50.0) return false;
+    if (floatabs(x) > 4000.0 || floatabs(y) > 4000.0) return false;
     // Tọa độ camera selection mặc định của SA-MP (2931.9829, -1922.0767)
-    if (floatabs(x - 2931.9829) < 2.0 && floatabs(y - (-1922.0767)) < 2.0) return false;
+    if (floatabs(x - 2931.9829) < 20.0 && floatabs(y - (-1922.0767)) < 20.0) return false;
+    // Tọa độ camera login / register GTAHUB (2106.8354, -1270.0221)
+    if (floatabs(x - 2106.8354) < 20.0 && floatabs(y - (-1270.0221)) < 20.0) return false;
+    // Tọa độ camera intro (3.1435, -1955.6364)
+    if (floatabs(x - 3.1435) < 20.0 && floatabs(y - (-1955.6364)) < 20.0) return false;
     return true;
 }
 

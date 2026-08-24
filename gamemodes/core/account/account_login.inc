@@ -32,7 +32,7 @@ void:Account_PromptLogin(playerid, const hash[], len = sizeof(hash)) {
         printf("[CEF] Player %d not CEF ready yet. Pending LOGIN UI set, waiting for OnCefReady callback.", playerid);
     }
 
-    SetTimerEx("CEF_CheckLoginFallback", 5500, false, "i", playerid);
+    SetTimerEx("CEF_CheckLoginFallback", CEF_UI_FALLBACK_DELAY_MS, false, "i", playerid);
 }
 
 // Fallback SA-MP Dialog khi client không cài CEF plugin

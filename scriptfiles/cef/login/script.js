@@ -10,12 +10,13 @@ const toRegisterBtn = document.getElementById("to-register-btn");
 const panelTitle = document.getElementById("panel-title");
 const statusMsg = document.getElementById("status-msg");
 
-// --- Khởi chạy ---
+// --- Khoi chay ---
 init();
 
 function init() {
+    emitCEF("GTAHUB:LoginReady");
 
-    // Quên mật khẩu
+    // Quen mat khau
     if (forgotPasswordLink) {
         forgotPasswordLink.addEventListener("click", (e) => {
             e.preventDefault();
@@ -23,14 +24,14 @@ function init() {
         });
     }
 
-    // Chuyển sang đăng ký
+    // Chuyen sang dang ky
     if (toRegisterBtn) {
         toRegisterBtn.addEventListener("click", (e) => {
             emitCEF("GTAHUB:ToRegisterPage");
         });
     }
 
-    // Bind sự kiện nút bấm chính
+    // Bind su kien nut bam chinh
     if (loginBtn) loginBtn.addEventListener("click", submitLogin);
 
     // Enter Key Navigation
@@ -38,7 +39,7 @@ function init() {
     bindEnterKey(passwordInput, null, submitLogin);
 }
 
-// Hàm hỗ trợ phím Enter để chuyển đổi ô nhập liệu
+// Ham ho tro phim Enter de chuyen doi o nhap lieu
 function bindEnterKey(currentInput, nextInput, submitCallback = null) {
     if (!currentInput) return;
     currentInput.addEventListener("keydown", (e) => {
@@ -52,25 +53,25 @@ function bindEnterKey(currentInput, nextInput, submitCallback = null) {
     });
 }
 
-// ================= HÀNH ĐỘNG: ĐĂNG NHẬP =================
+// ================= HANH DONG: DANG NHAP =================
 function submitLogin() {
     const username = usernameInput ? usernameInput.value.trim() : "";
     const password = passwordInput ? passwordInput.value : "";
     const rememberMe = rememberMeInput ? rememberMeInput.checked : false;
 
     if (!username) {
-        showStatus("Vui lòng nhập tên tài khoản hoặc email!", "error");
+        showStatus("Vui long nhap ten tai khoan hoac email!", "error");
         if (usernameInput) usernameInput.focus();
         return;
     }
     if (!password) {
-        showStatus("Vui lòng nhập mật khẩu!", "error");
+        showStatus("Vui long nhap mat khau!", "error");
         if (passwordInput) passwordInput.focus();
         return;
     }
 
-    showStatus("Đang xác thực tài khoản đăng nhập...", "info");
-    setLoadingState(loginBtn, true, "Đăng Nhập Ngay");
+    showStatus("Dang xac thuc tai khoan dang nhap...", "info");
+    setLoadingState(loginBtn, true, "Dang Nhap Ngay");
 
     emitCEF("GTAHUB:SubmitLogin", username, password, rememberMe);
 
@@ -78,30 +79,26 @@ function submitLogin() {
     if (!window.cef) {
         setTimeout(() => {
             if (username === "admin" && password === "123456") {
-                handleLoginResponse(true, "Đăng nhập thành công! Đang tải bản đồ...");
+                handleLoginResponse(true, "Dang nhap thanh cong! Dang tai ban do...");
             } else {
-                handleLoginResponse(false, "Sai tài khoản hoặc mật khẩu (Thử: admin/123456)");
+                handleLoginResponse(false, "Sai tai khoan hoac mat khau (Thu: admin/123456)");
             }
         }, 1200);
     }
 }
 
-// --- Phản hồi từ Server ---
+// --- Phan hoi tu Server ---
 window.handleLoginResponse = function(success, message) {
-    setLoadingState(loginBtn, false, "Đăng Nhập Ngay");
+    setLoadingState(loginBtn, false, "Dang Nhap Ngay");
     if (success) {
-        showStatus(message || "Đăng nhập thành công!", "success");
-        if (loginBtn) loginBtn.innerText = "Thành Công!";
-        setTimeout(() => {
-            emitCEF("GTAHUB:ToCharacterSelectionPage");
-            window.location.href = "../character_selection/index.html";
-        }, 1500);
+        showStatus(message || "Dang nhap thanh cong! Dang chuyen trang...", "success");
+        if (loginBtn) loginBtn.innerText = "Thanh Cong!";
     } else {
-        showStatus(message || "Đăng nhập thất bại!", "error");
+        showStatus(message || "Dang nhap that bai!", "error");
     }
 };
 
-// Đăng ký các trình lắng nghe sự kiện từ SA:MP CEF
+// Dang ky cac trinh lang nghe su kien tu SA:MP CEF
 if (window.cef) {
     cef.on("GTAHUB:LoginResponse", (success, message) => {
         window.handleLoginResponse(success, message);
@@ -118,45 +115,30 @@ if (window.cef) {
         }
     });
     cef.on("GTAHUB:ToLoginPage", () => {
-        // Hỗ trợ backend bắt chuyển hướng từ client
         window.location.href = "index.html";
     });
 }
 
-// --- Hàm Tiện Ích ---
+// --- Ham Tien Ich ---
 function emitCEF(eventName, ...args) {
     if (window.cef) {
         cef.emit(eventName, ...args);
     } else {
-        console.log(`[Test Mode] Phát sự kiện: ${eventName}`, args);
+        console.log(`[Test Mode] Phat su kien: ${eventName}`, args);
     }
 }
 
 function closeCEF() {
     emitCEF("GTAHUB:CloseUI");
     if (!window.cef) {
-        console.log("[Test Mode] Đã đóng UI thành công");
+        console.log("[Test Mode] Da dong UI thanh cong");
     }
 }
 
 function showStatus(text, type) {
     if (!statusMsg) return;
     statusMsg.innerText = text;
-    statusMsg.className = "text-[11px] font-semibold text-center py-2.5 px-3 rounded-xl mb-4 transition-all duration-300 block";
-
-    statusMsg.classList.remove(
-        "bg-red-500/10", "border", "border-red-500/20", "text-red-400",
-        "bg-emerald-500/10", "border-emerald-500/20", "text-emerald-400",
-        "bg-slate-500/10", "border-slate-500/20", "text-slate-400"
-    );
-
-    if (type === "error") {
-        statusMsg.classList.add("bg-red-500/10", "border", "border-red-500/20", "text-red-400");
-    } else if (type === "success") {
-        statusMsg.classList.add("bg-emerald-500/10", "border", "border-emerald-500/20", "text-emerald-400");
-    } else {
-        statusMsg.classList.add("bg-slate-500/10", "border", "border-slate-500/20", "text-slate-400");
-    }
+    statusMsg.className = "status-msg " + (type || "info");
 }
 
 function hideStatus() {
@@ -167,13 +149,6 @@ function hideStatus() {
 
 function setLoadingState(btn, isLoading, defaultText) {
     if (!btn) return;
-    if (isLoading) {
-        btn.disabled = true;
-        btn.innerText = "Đang Xử Lý...";
-        btn.classList.add("opacity-50", "cursor-not-allowed");
-    } else {
-        btn.disabled = false;
-        btn.innerText = defaultText;
-        btn.classList.remove("opacity-50", "cursor-not-allowed");
-    }
+    btn.disabled = isLoading;
+    btn.innerText = isLoading ? "Dang Xu Ly..." : defaultText;
 }

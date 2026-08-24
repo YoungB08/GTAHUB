@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu tương tác - SA:MP Roleplay</title>
+  <link rel="stylesheet" href="../shared/variables.css">
+  <link rel="stylesheet" href="../shared/animations.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="radial-stage">
+  <main class="radial-container scale-open" id="radialStage">
+    <div class="target-tag"><span class="pulse-dot"></span><span id="targetLabel">NGƯỜI CHƠI #27</span></div>
+
+    <div class="radial-wheel" id="radialWheel">
+      <div class="radial-ring-main" id="mainRing">
+        <button class="radial-sector sector-top" data-group="citizen" type="button">
+          <span class="sector-content"><img src="../shared/svg/id-card.svg" alt=""><strong>Công dân</strong></span>
+        </button>
+        <button class="radial-sector sector-right" data-group="blips" type="button">
+          <span class="sector-content"><img src="../shared/svg/inspect.svg" alt=""><strong>Điểm đánh dấu</strong></span>
+        </button>
+        <button class="radial-sector sector-bottom" data-group="general" type="button">
+          <span class="sector-content"><img src="../shared/svg/vehicle.svg" alt=""><strong>Tổng quát</strong></span>
+        </button>
+        <button class="radial-sector sector-left" data-group="police" type="button">
+          <span class="sector-content"><img src="../shared/svg/police.svg" alt=""><strong>Cảnh sát<br>Hành động</strong></span>
+        </button>
+      </div>
+
+      <div class="radial-submenu-layer hidden" id="submenuLayer">
+        <div class="submenu-list" id="submenuList"></div>
+      </div>
+    </div>
+
+    <div class="keyboard-hints"><span><kbd>&lt;</kbd><kbd>&gt;</kbd> Nhóm</span><span><kbd>^</kbd><kbd>v</kbd> Mục</span><span><kbd>Enter</kbd> Chọn</span><span><kbd>ESC</kbd> Đóng</span></div>
+  </main>
+
+  <script src="../shared/cef.js"></script>
+  <script src="../shared/focus_manager.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

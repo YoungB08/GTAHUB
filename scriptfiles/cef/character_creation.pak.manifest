@@ -7,8 +7,8 @@
         },
         "script.js": {
             "encrypted": true,
-            "modified": 13430387173,
-            "size": 12191
+            "modified": 13431337859,
+            "size": 12160
         },
         "style.css": {
             "encrypted": true,
@@ -17,9 +17,9 @@
         }
     },
     "pak": {
-        "hash": "bec0d01699a6e1f584d702aefe532f5303de0411303541fadf253dcddcbb9c84",
+        "hash": "1ccd4751be20d3a32f77724ad7f91bf4237b78684b73e59befe33d53f7852859",
         "path": "character_creation.pak",
-        "size": 26884
+        "size": 26868
     },
     "version": 2
 }

@@ -276,7 +276,7 @@ static
 	bool:PlayerClassState[MAX_PLAYERS] = true,
 	PlayerClass[MAX_PLAYERS];
 
-timer ForceSpawnPlayer[50](playerid) {
+stock ForceSpawnPlayer(playerid) {
 	TogglePlayerSpectating(playerid, false);
 	SpawnPlayer(playerid);
 	printf("[class] player spawned after login.");
@@ -288,24 +288,14 @@ hook OnPlayerLogin(playerid) {
 }
 
 hook OnPlayerRequestClass(playerid, classid) {
-
-	// F4 Detection.
-	// bypass this action if PlayerClassState is set to false.
-	// it's true by default.
+    #pragma unused classid
 	if(!Class_SelectionStatus(playerid)) {
-		TogglePlayerSpectating(playerid, true);
-		defer ForceSpawnPlayer(playerid);
-
-		Logger_Dbg(PLAYER_DEBUG_HANDLER, "skipping class selection",
-			Logger_P(playerid)
-    	);
-	} else {
-		SetPlayerPos(playerid, 180.892608, 1830.717895, 23.242187);
-		SetPlayerFacingAngle(playerid, 255.810241);
-		SetPlayerCameraLookAt(playerid, 180.892608, 1830.717895, 23.242187);
-		SetPlayerCameraPos(playerid, 180.892608 + (5 * floatsin(-255.810241, degrees)), 1830.717895 + (5 * floatcos(-255.810241, degrees)), 23.242187);
+		SetCameraBehindPlayer(playerid);
+		SpawnPlayer(playerid);
+		return 0;
 	}
-	return 1;
+	TogglePlayerSpectating(playerid, true);
+	return 0;
 }
 
 hook OnPlayerConnect(playerid) {

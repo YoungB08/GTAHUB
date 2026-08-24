@@ -1,0 +1,25 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431281543,
+            "size": 8395
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13431281536,
+            "size": 7689
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13431001072,
+            "size": 6839
+        }
+    },
+    "pak": {
+        "hash": "e2d1bbcd7b7dc651a36c418960988c507bc96159986e49a65925c6c9c7dd6ef3",
+        "path": "banking.pak",
+        "size": 23358
+    },
+    "version": 2
+}

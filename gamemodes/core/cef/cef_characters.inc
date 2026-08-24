@@ -21,6 +21,8 @@ forward OnCEF_DeleteCharacter(playerid, browserid, const charName[]);
 forward OnCEF_OpenCreateCharacter(playerid, browserid);
 forward OnCEF_CreateCharacter(playerid, browserid, const name[], const dob[], const gender[], skinId, const desc[]);
 forward OnCEF_ToCharacterSelectionPage(playerid, browserid);
+forward OnCEF_CharSelectReady(playerid, browserid);
+forward OnCEF_CharCreateReady(playerid, browserid);
 forward CEF_SendCharacterList(playerid);
 forward CEF_CharCreate_Done(playerid);
 
@@ -28,6 +30,9 @@ forward CEF_CharCreate_Done(playerid);
 hook OnGameModeInit()
 {
     // Character Selection events
+    CEF_RegisterEvent("GTAHUB:CharSelectReady", "OnCEF_CharSelectReady");
+    CEF_RegisterEvent("GTAHUB:CharCreateReady", "OnCEF_CharCreateReady");
+
     CEF_RegisterEvent("GTAHUB:SelectCharacter", "OnCEF_SelectCharacter",
         Argument_String     // charName
     );
@@ -53,6 +58,21 @@ hook OnGameModeInit()
     return 1;
 }
 
+// --- CEF Event: Trang Character Selection đã sẵn sàng ---
+public OnCEF_CharSelectReady(playerid, browserid)
+{
+    #pragma unused browserid
+    if (!IsPlayerConnected(playerid)) return 0;
+    CEF_SendCharacterList(playerid);
+    return 1;
+}
+
+public OnCEF_CharCreateReady(playerid, browserid)
+{
+    #pragma unused browserid
+    return 1;
+}
+
 // =============================================================================
 // CHARACTER SELECTION
 // =============================================================================
@@ -65,8 +85,9 @@ stock CEF_ShowCharacterSelection(playerid)
     CEF_CreateBrowser(playerid, CEF_BROWSER_CHAR_SELECT, CEF_URL_CHAR_SELECT, true, false);
     TogglePlayerSpectating(playerid, true);
 
-    // Load và gửi data nhân vật thực tế cho JS
+    // Gửi data nhân vật an toàn qua multi-timer phòng hờ
     SetTimerEx("CEF_SendCharacterList", 300, false, "i", playerid);
+    SetTimerEx("CEF_SendCharacterList", 800, false, "i", playerid);
     return 1;
 }
 
@@ -80,13 +101,13 @@ public CEF_SendCharacterList(playerid)
     return 1;
 }
 
-// --- Load nhân vật từ bảng characters và emit cho JS ---
+// --- Load nhân vật từ bảng players & characters và emit cho JS ---
 static CEF_LoadAndEmitCharacters(playerid)
 {
-    new accountid = Player_GetAccountID(playerid);
+    new accountid = Player_GetMasterAccountID(playerid);
     if (accountid <= 0)
     {
-        accountid = Player_GetMasterAccountID(playerid);
+        accountid = Player_GetAccountID(playerid);
     }
     if (accountid <= 0)
     {
@@ -98,11 +119,12 @@ static CEF_LoadAndEmitCharacters(playerid)
     {
         new
             rows = cache_num_rows(),
-            json[1536],
+            json[2048],
             entry[384],
             charId,
             firstName[32],
             lastName[32],
+            userName[32],
             age,
             gender,
             skinId,
@@ -116,6 +138,7 @@ static CEF_LoadAndEmitCharacters(playerid)
             cache_get_value_name_int(i, "char_id", charId);
             cache_get_value_name(i, "firstname", firstName, sizeof(firstName));
             cache_get_value_name(i, "lastname", lastName, sizeof(lastName));
+            cache_get_value_name(i, "username", userName, sizeof(userName));
             cache_get_value_name_int(i, "age", age);
             cache_get_value_name_int(i, "gender", gender);
             cache_get_value_name_int(i, "skin_id", skinId);
@@ -124,7 +147,19 @@ static CEF_LoadAndEmitCharacters(playerid)
 
             new level = xp / 1000 + 1;
             new fullName[64];
-            format(fullName, sizeof(fullName), "%s_%s", firstName, lastName);
+            if (!isnull(firstName))
+            {
+                if (!isnull(lastName))
+                    format(fullName, sizeof(fullName), "%s_%s", firstName, lastName);
+                else
+                    format(fullName, sizeof(fullName), "%s", firstName);
+            }
+            else
+            {
+                format(fullName, sizeof(fullName), "%s", userName);
+            }
+
+            if (skinId <= 0) skinId = (gender == 1) ? 9 : 1;
 
             format(entry, sizeof(entry),
                 "{\"id\":%d,\"name\":\"%s\",\"level\":%d,\"cash\":%d,\"bank\":0,\"phone\":\"N/A\",\"skin\":%d,\"faction\":\"Dan Thuong\",\"vehicles\":[]}",
@@ -150,8 +185,34 @@ static CEF_LoadAndEmitCharacters(playerid)
     MySQL_TQueryInline(
         MySQL_GetHandle(),
         using inline OnCharLoad,
-        "SELECT char_id, firstname, lastname, age, gender, skin_id, money, xp FROM characters WHERE u_id = %i ORDER BY last_played DESC LIMIT 4",
-        accountid
+        "SELECT \
+            p.u_id AS char_id, \
+            p.firstname, \
+            p.lastname, \
+            p.username, \
+            p.age, \
+            p.gender, \
+            COALESCE(ps.skin, 1) AS skin_id, \
+            COALESCE(ps.money, 0) AS money, \
+            COALESCE(ps.xp, 0) AS xp \
+        FROM players AS p \
+        LEFT JOIN player_stats AS ps ON ps.u_id = p.u_id \
+        WHERE p.account_id = %i AND p.is_character = 1 \
+        UNION ALL \
+        SELECT \
+            c.char_id, \
+            c.firstname, \
+            c.lastname, \
+            CONCAT(c.firstname, '_', c.lastname) AS username, \
+            c.age, \
+            c.gender, \
+            c.skin_id, \
+            c.money, \
+            c.xp \
+        FROM characters AS c \
+        WHERE c.u_id = %i \
+        LIMIT 4",
+        accountid, accountid
     );
     return 1;
 }
@@ -167,7 +228,6 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
     if (isnull(charName))
         return 1;
 
-    // Phân tích firstname & lastname từ charName (hỗ trợ cả _ và space) an toàn qua sscanf
     new firstname[32], lastname[32];
     firstname[0] = '\0';
     lastname[0] = '\0';
@@ -200,17 +260,16 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
         cache_get_value_name_int(0, "job_id", jobId);
         cache_get_value_name_int(0, "class_id", classId);
         cache_get_value_name_int(0, "xp", xp);
-        cache_get_value_name_float(0, "pos_x", px);
-        cache_get_value_name_float(0, "pos_y", py);
-        cache_get_value_name_float(0, "pos_z", pz);
-        cache_get_value_name_float(0, "pos_a", pa);
+
+        if (skinId <= 0) skinId = 1;
 
         // Lưu dữ liệu để active nhân vật
-        Char_SetActiveData(playerid, charId, firstname, lastname, skinId, money, kills, deaths, jobId, classId, xp, px, py, pz, pa);
+        Char_SetActiveData(playerid, charId, firstname, lastname, skinId, money, kills, deaths, jobId, classId, xp, 1543.4, -1675.6, 13.5, 180.0);
+        Player_SetCharacterID(playerid, charId);
+        Player_SetSkin(playerid, skinId);
         Player_SetLoggedIn(playerid, true);
         Player_SetSpawned(playerid, true);
 
-        // Đổi tên SA-MP thành Firstname_Lastname
         new sampName[MAX_PLAYER_NAME];
         if (!isnull(lastname))
             format(sampName, sizeof(sampName), "%s_%s", firstname, lastname);
@@ -225,13 +284,11 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
         Player_SetJob(playerid, jobId);
         Player_SetClass(playerid, classId);
 
-        if (px == 0.0 && py == 0.0)
-        {
-            px = 1543.4; py = -1675.6; pz = 13.5; pa = 180.0;
-        }
+        px = 1543.4; py = -1675.6; pz = 13.5; pa = 180.0;
 
         // Đóng CEF browsers & SetSpawnInfo trước khi ngắt spectating
         CEF_CloseAllBrowsers(playerid);
+        Class_SelectionState(playerid, false);
         SetSpawnInfo(playerid, NO_TEAM, skinId, px, py, pz, pa, 0, 0, 0, 0, 0, 0);
         TogglePlayerSpectating(playerid, false);
         SpawnPlayer(playerid);
@@ -247,29 +304,28 @@ public OnCEF_SelectCharacter(playerid, browserid, const charName[])
         return 1;
     }
 
-    new accountid = Player_GetAccountID(playerid);
-    if (accountid <= 0) accountid = Player_GetMasterAccountID(playerid);
+    new accountid = Player_GetMasterAccountID(playerid);
+    if (accountid <= 0) accountid = Player_GetAccountID(playerid);
 
-    if (!isnull(lastname))
-    {
-        MySQL_TQueryInline(
-            MySQL_GetHandle(),
-            using inline OnCharSelectFind,
-            "SELECT char_id, skin_id, money, kills, deaths, job_id, class_id, xp, pos_x, pos_y, pos_z, pos_a \
-             FROM characters WHERE u_id = %i AND firstname = '%e' AND lastname = '%e' LIMIT 1",
-            accountid, firstname, lastname
-        );
-    }
-    else
-    {
-        MySQL_TQueryInline(
-            MySQL_GetHandle(),
-            using inline OnCharSelectFind,
-            "SELECT char_id, skin_id, money, kills, deaths, job_id, class_id, xp, pos_x, pos_y, pos_z, pos_a \
-             FROM characters WHERE u_id = %i AND firstname = '%e' LIMIT 1",
-            accountid, firstname
-        );
-    }
+    MySQL_TQueryInline(
+        MySQL_GetHandle(),
+        using inline OnCharSelectFind,
+        "SELECT p.u_id AS char_id, COALESCE(ps.skin, 1) AS skin_id, COALESCE(ps.money, 0) AS money, \
+                COALESCE(ps.kills, 0) AS kills, COALESCE(ps.deaths, 0) AS deaths, \
+                COALESCE(ps.job_id, 0) AS job_id, COALESCE(ps.class_id, 0) AS class_id, \
+                COALESCE(ps.xp, 0) AS xp \
+         FROM players AS p \
+         LEFT JOIN player_stats AS ps ON ps.u_id = p.u_id \
+         WHERE (p.username = '%e' OR CONCAT(p.firstname, '_', p.lastname) = '%e' OR p.firstname = '%e') \
+           AND p.account_id = %i AND p.is_character = 1 \
+         UNION ALL \
+         SELECT c.char_id, c.skin_id, c.money, c.kills, c.deaths, c.job_id, c.class_id, c.xp \
+         FROM characters AS c \
+         WHERE (CONCAT(c.firstname, '_', c.lastname) = '%e' OR c.firstname = '%e') \
+           AND c.u_id = %i \
+         LIMIT 1",
+        charName, charName, charName, accountid, charName, charName, accountid
+    );
     return 1;
 }
 

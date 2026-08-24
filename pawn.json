@@ -96,7 +96,9 @@
 				"gamemodes/core/houses/furniture",
 				"gamemodes/core/mapping",
 				"gamemodes/core/gangs",
-				"gamemodes/hub-core"
+				"gamemodes/role",
+				"gamemodes/hub-core",
+				"gamemodes"
 			],
 			"compiler": {
 				"user": "openmultiplayer",

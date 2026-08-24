@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ngân hàng San Andreas</title>
+  <link rel="stylesheet" href="../shared/variables.css">
+  <link rel="stylesheet" href="../shared/animations.css">
+  <link rel="stylesheet" href="../shared/components.css">
+  <link rel="stylesheet" href="../shared/themes/midnight_luxury_red.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../shared/aaa-visual.css">
+</head>
+<body class="banking-stage">
+  <main class="banking-app scale-open" id="bankingApp">
+    <header class="banking-header">
+      <div class="banking-brand"><span class="micro-label">SAN ANDREAS BANK</span><h1>Tài khoản</h1><p>Xin chào, <b id="accountName">HUB GTA</b></p></div>
+      <div class="banking-header-meta"><span class="account-id">SA-1000-6627-8921</span><button class="close-btn" id="closeBankBtn" type="button" aria-label="Đóng ngân hàng"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>
+    </header>
+
+    <div class="banking-layout">
+      <aside class="banking-nav" aria-label="Điều hướng ngân hàng">
+        <button class="bank-nav-item is-active" data-bank-view="overview" type="button"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/></svg></span><span>Tổng quan</span></button>
+        <button class="bank-nav-item" data-bank-view="transfer" type="button"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span><span>Chuyển khoản</span></button>
+        <button class="bank-nav-item" data-bank-view="deposit" type="button"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></span><span>Nạp tiền</span></button>
+        <button class="bank-nav-item" data-bank-view="withdraw" type="button"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></span><span>Rút tiền</span></button>
+        <button class="bank-nav-item" data-bank-view="bills" type="button"><span class="nav-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></span><span>Hóa đơn</span></button>
+      </aside>
+
+      <section class="banking-content">
+        <article class="balance-card">
+          <div class="card-top"><span>SA PREMIUM</span><b>ACTIVE ACCOUNT</b></div>
+          <div class="card-middle"><small>TỔNG SỐ DƯ TÀI KHOẢN</small><strong id="totalBalance">$24,750,000</strong></div>
+          <div class="card-bottom"><span>SA-1000-6627-8921</span><span class="card-chip">SA</span></div>
+        </article>
+
+        <section class="quick-actions">
+          <button class="action-item" id="transferBtn" type="button"><span class="action-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg></span><label>Chuyển khoản</label></button>
+          <button class="action-item" id="depositBtn" type="button"><span class="action-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="19" x2="12" y2="5"/><polyline points="5 12 12 5 19 12"/></svg></span><label>Nạp tiền</label></button>
+          <button class="action-item" id="withdrawBtn" type="button"><span class="action-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/></svg></span><label>Rút tiền</label></button>
+          <button class="action-item" id="payBillBtn" type="button"><span class="action-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg></span><label>Thanh toán</label></button>
+        </section>
+
+        <section class="transactions-section">
+          <div class="section-title"><h2>Giao dịch gần đây</h2><button id="viewAllTx" type="button">Tất cả</button></div>
+          <div class="tx-list" id="txList"></div>
+        </section>
+      </section>
+    </div>
+
+    <div class="bottom-sheet-overlay hidden" id="txDetailSheet"><div class="bottom-sheet scale-open"><button class="sheet-close" id="sheetClose" type="button" aria-label="Đóng"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><div class="sheet-header"><span class="sheet-badge">CHI TIẾT GIAO DỊCH</span><h3 id="sheetTxId">#TX-1021</h3></div><div class="sheet-body"><div class="sheet-row"><span>Người nhận / Nguồn:</span><strong id="sheetTarget">HUB GTA</strong></div><div class="sheet-row"><span>Số tiền:</span><strong class="text-success" id="sheetAmount">+$500,000</strong></div><div class="sheet-row"><span>Phí giao dịch:</span><span id="sheetFee">$0</span></div><div class="sheet-row"><span>Thời gian:</span><span id="sheetTime">18:44 - 08/08/2026</span></div><div class="sheet-row"><span>Ghi chú:</span><p id="sheetNote">Chuyển tiền nhanh qua SA Mobile</p></div></div></div></div>
+
+    <div class="banking-modal hidden" id="bankingModal"><div class="modal-card scale-open"><button class="modal-close" id="modalClose" type="button" aria-label="Đóng"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button><h3 id="modalTitle">Chuyển tiền</h3><form id="bankingForm"><label class="field" id="targetField"><span>ID NGƯỜI NHẬN</span><input class="input" id="txTarget" type="number" placeholder="Nhập ID (Ví dụ: 27)" required></label><label class="field"><span>SỐ TIỀN ($)</span><input class="input" id="txAmount" type="number" min="1" placeholder="0" required></label><label class="field" id="noteField"><span>GHI CHÚ</span><input class="input" id="txNote" type="text" placeholder="Nội dung chuyển khoản"></label><button class="btn btn-primary btn-block" id="formSubmitBtn" type="submit"><span id="submitSpinner" class="spinner hidden">...</span><span id="submitLabel">Xác nhận giao dịch</span></button></form></div></div>
+  </main>
+  <script src="../shared/cef.js"></script><script src="../shared/confirm_modal.js"></script><script src="app.js"></script>
+</body>
+</html>

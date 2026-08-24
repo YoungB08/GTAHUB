@@ -3,88 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập - GTAHUB</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
+    <title>Dang Nhap - GTAHUB</title>
     <link rel="stylesheet" href="style.css">
-    <style>
-        .bg-animation {
-            background: linear-gradient(135deg, #070913 0%, #14050a 50%, #05080f 100%);
-            background-size: 400% 400%;
-            animation: gradientBG 20s ease infinite;
-        }
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-        .login-glow-box {
-            box-shadow: 0 0 80px rgba(239, 68, 68, 0.15), 
-                        inset 0 0 20px rgba(255, 255, 255, 0.02);
-        }
-    </style>
 </head>
-<body class="h-screen w-screen flex items-center justify-center relative overflow-hidden bg-animation">
-    
-    <!-- Các đốm sáng mờ ảo phía sau -->
-    <div class="absolute w-[500px] h-[500px] bg-red-600/10 rounded-full blur-3xl -top-20 -left-20 pointer-events-none"></div>
-    <div class="absolute w-[500px] h-[500px] bg-rose-900/10 rounded-full blur-3xl -bottom-20 -right-20 pointer-events-none"></div>
+<body>
 
-    <!-- Khung đăng nhập SPA cao cấp -->
-    <div class="glass-panel w-[420px] p-10 rounded-[32px] relative border border-white/10 login-glow-box z-10 transition-all duration-300">
-        
-        <!-- Logo chung ở đầu -->
-        <div class="text-center mb-7">
-            <img src="http://gtahub.kntech.co/gtahub.png" alt="GTAHUB Logo" class="w-64 h-16 mx-auto mb-3 object-contain filter drop-shadow-[0_0_20px_rgba(239,68,68,0.6)]">
-            <h1 id="panel-title" class="text-xs font-black text-slate-400 tracking-[0.25em] uppercase">ROLEPLAY <span class="text-red-500">SYSTEM</span></h1>
+    <!-- Glow orbs -->
+    <div class="glow-orb glow-orb--tl"></div>
+    <div class="glow-orb glow-orb--br"></div>
+
+    <!-- Login panel -->
+    <div class="glass-panel">
+
+        <!-- Logo / Title -->
+        <div class="panel-header">
+            <img src="http://gtahub.kntech.co/gtahub.png" alt="GTAHUB" class="panel-logo">
+            <h1 id="panel-title" class="panel-subtitle">ROLEPLAY <span class="accent">SYSTEM</span></h1>
         </div>
 
-        <!-- Vùng hiển thị thông báo trạng thái dùng chung -->
-        <div id="status-msg" class="text-[11px] font-semibold text-center hidden py-2.5 px-3 rounded-xl mb-4 transition-all duration-300"></div>
+        <!-- Status message area -->
+        <div id="status-msg" class="status-msg hidden"></div>
 
-        <!-- ================= VIEW: ĐĂNG NHẬP ================= -->
-        <div id="login-view" class="space-y-4">
-            <p class="text-[11px] text-slate-400 text-center -mt-2 font-medium">Vui lòng đăng nhập tài khoản để tiếp tục hành trình</p>
-            
-            <!-- Tài khoản đăng nhập -->
-            <div>
-                <label class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block mb-2">Tên Tài Khoản / Email</label>
-                <div class="relative">
-                    <input type="text" id="username" placeholder="Nhập tên tài khoản..." class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-500/80 focus:shadow-[0_0_15px_rgba(239,68,68,0.25)] focus:bg-slate-950/80 transition-all duration-200">
-                    <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+        <!-- Login form -->
+        <div id="login-view" class="form-group-list">
+            <p class="form-hint">Vui long dang nhap tai khoan de tiep tuc hanh trinh</p>
+
+            <!-- Username -->
+            <div class="field">
+                <label class="field-label">Ten Tai Khoan / Email</label>
+                <div class="field-wrap">
+                    <svg class="field-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                    </svg>
+                    <input type="text" id="username" placeholder="Nhap ten tai khoan...">
                 </div>
             </div>
 
-            <!-- Mật khẩu đăng nhập -->
-            <div>
-                <label class="text-[10px] font-bold text-slate-300 uppercase tracking-widest block mb-2">Mật Khẩu</label>
-                <div class="relative">
-                    <input type="password" id="password" placeholder="••••••••" class="w-full bg-slate-900/80 border border-white/10 rounded-xl pl-10 pr-4 py-3 text-xs text-white placeholder-slate-600 focus:outline-none focus:border-red-500/80 focus:shadow-[0_0_15px_rgba(239,68,68,0.25)] focus:bg-slate-950/80 transition-all duration-200">
-                    <svg class="w-4 h-4 text-slate-500 absolute left-3.5 top-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+            <!-- Password -->
+            <div class="field">
+                <label class="field-label">Mat Khau</label>
+                <div class="field-wrap">
+                    <svg class="field-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                              d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                    </svg>
+                    <input type="password" id="password" placeholder="••••••••">
                 </div>
             </div>
 
-            <!-- Ghi nhớ tôi & Quên mật khẩu -->
-            <div class="flex items-center justify-between text-[11px] pt-1">
-                <label class="flex items-center gap-2 cursor-pointer text-slate-400 hover:text-slate-200 transition-colors">
-                    <input type="checkbox" id="remember-me" class="rounded bg-slate-900 border-white/10 text-red-600 focus:ring-0 cursor-pointer">
-                    Ghi nhớ tôi
+            <!-- Remember me / Forgot password -->
+            <div class="field-row">
+                <label class="checkbox-label">
+                    <input type="checkbox" id="remember-me">
+                    Ghi nho toi
                 </label>
-                <a href="#" id="forgot-password" class="text-red-400 hover:text-red-300 transition-colors hover:underline">Quên mật khẩu?</a>
+                <a href="#" id="forgot-password" class="link-accent">Quen mat khau?</a>
             </div>
 
-            <button id="login-btn" class="w-full py-3.5 bg-gradient-to-r from-red-600 to-rose-700 hover:from-red-500 hover:to-rose-600 hover:scale-[1.01] active:scale-[0.99] text-white font-bold text-xs rounded-xl shadow-[0_4px_20px_rgba(239,68,68,0.3)] hover:shadow-[0_4px_25px_rgba(239,68,68,0.5)] transition-all uppercase tracking-wider mt-2">
-                Đăng Nhập Ngay
-            </button>
+            <button id="login-btn" class="btn-primary">Dang Nhap Ngay</button>
 
-            <!-- Link chuyển sang Đăng ký -->
-            <div class="text-center text-xs text-slate-400 border-t border-white/5 pt-4 mt-6">
-                Chưa có tài khoản? <a href="../register/index.html" id="to-register-btn" class="text-red-400 font-bold hover:text-red-300 transition-colors hover:underline">Tạo tài khoản mới</a>
+            <!-- Register link -->
+            <div class="register-link">
+                Chua co tai khoan?
+                <a href="../register/index.html" id="to-register-btn" class="link-accent link-bold">Tao tai khoan moi</a>
             </div>
         </div>
 
     </div>
-        
+
     <script src="script.js"></script>
 </body>
 </html>

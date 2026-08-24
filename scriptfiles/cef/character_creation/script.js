@@ -54,6 +54,8 @@ const cancelBtn = document.getElementById("cancel-btn");
 init();
 
 function init() {
+    emitCEF("GTAHUB:CharCreateReady");
+
     // Sự kiện chọn giới tính bằng Nút bấm
     if (genderMaleBtn) {
         genderMaleBtn.addEventListener("click", () => setGender("male"));
@@ -86,7 +88,6 @@ function init() {
     if (cancelBtn) {
         cancelBtn.addEventListener("click", () => {
             emitCEF("GTAHUB:ToCharacterSelectionPage");
-            window.location.href = "../character_selection/index.html";
         });
     }
 

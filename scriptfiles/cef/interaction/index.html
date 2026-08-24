@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HUD tương tác</title>
+  <link rel="stylesheet" href="../shared/variables.css"><link rel="stylesheet" href="../shared/animations.css"><link rel="stylesheet" href="../shared/themes/midnight_luxury_red.css"><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="../shared/aaa-visual.css">
+</head>
+<body class="interaction-stage">
+  <div id="interactionHud"><div class="hint-card scale-open" id="hintCard">
+    <div class="hint-kicker"><span class="hint-live-dot"></span><span id="hintContext">TƯƠNG TÁC GẦN</span></div>
+    <div class="hint-main"><div class="hint-key-badge" id="hintKey">E</div><div class="hint-content"><h3 id="hintTitle">Nhà #15 — Los Santos</h3><p id="hintText">Nhấn phím để vào nhà hoặc kiểm tra thông tin</p></div></div>
+    <div class="hint-actions"><button class="hint-btn accept" id="acceptBtn" type="button"><kbd>Y</kbd><span>Đồng ý</span></button><button class="hint-btn cancel" id="cancelBtn" type="button"><kbd>N</kbd><span>Hủy</span></button></div>
+    <div class="hint-progress"><span></span></div>
+  </div></div>
+  <script src="../shared/cef.js"></script><script src="app.js"></script>
+</body>
+</html>

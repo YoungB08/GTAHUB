@@ -1,0 +1,1220 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431284071,
+            "size": 17525
+        },
+        "assets/ammo_images/pistol_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6637
+        },
+        "assets/ammo_images/rifle_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7760
+        },
+        "assets/ammo_images/shotgun_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7862
+        },
+        "assets/ammo_images/smg_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8776
+        },
+        "assets/attachment_images/weapon_assaultrifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 58017
+        },
+        "assets/attachment_images/weapon_carbinerifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 83499
+        },
+        "assets/attachment_images/weapon_compactrifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 83713
+        },
+        "assets/attachment_images/weapon_microsmg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 59026
+        },
+        "assets/attachment_images/weapon_minismg.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 85519
+        },
+        "assets/attachment_images/weapon_pistol.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 57567
+        },
+        "assets/attachment_images/weapon_pistol_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 55255
+        },
+        "assets/attachment_images/weapon_pumpshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 52846
+        },
+        "assets/attachment_images/weapon_smg.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 83513
+        },
+        "assets/attachment_images/weapon_snspistol.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 49472
+        },
+        "assets/attachment_images/weapon_stungun.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 77924
+        },
+        "assets/attachment_images/weapon_vintagepistol.png": {
+            "encrypted": false,
+            "modified": 13430682989,
+            "size": 61556
+        },
+        "assets/images/10kgoldchain.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11100
+        },
+        "assets/images/advancedkit.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 12195
+        },
+        "assets/images/advancedlockpick.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 12247
+        },
+        "assets/images/aluminum.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9365
+        },
+        "assets/images/aluminumoxide.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9327
+        },
+        "assets/images/antipatharia_coral.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 16434
+        },
+        "assets/images/armor.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5959
+        },
+        "assets/images/bandage.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6545
+        },
+        "assets/images/baquette.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10722
+        },
+        "assets/images/beer.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9607
+        },
+        "assets/images/binoculars.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7877
+        },
+        "assets/images/casinochips.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 22245
+        },
+        "assets/images/certificate.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11761
+        },
+        "assets/images/cleaningkit.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 8852
+        },
+        "assets/images/cocaine_baggy.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4832
+        },
+        "assets/images/coffee.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10338
+        },
+        "assets/images/coke_brick.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11269
+        },
+        "assets/images/coke_small_brick.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9465
+        },
+        "assets/images/cola.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11485
+        },
+        "assets/images/copper.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10825
+        },
+        "assets/images/crack_baggy.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 13535
+        },
+        "assets/images/cryptostick.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10124
+        },
+        "assets/images/dendrogyra_coral.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 15250
+        },
+        "assets/images/diamond_ring.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4557
+        },
+        "assets/images/diving_gear.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6454
+        },
+        "assets/images/drill.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7868
+        },
+        "assets/images/driver_license.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5448
+        },
+        "assets/images/electronickit.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7934
+        },
+        "assets/images/evidence.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9115
+        },
+        "assets/images/firework1.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 16259
+        },
+        "assets/images/firework2.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 15529
+        },
+        "assets/images/firework3.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 18820
+        },
+        "assets/images/firework4.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11095
+        },
+        "assets/images/firstaid.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 18876
+        },
+        "assets/images/fitbit.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7801
+        },
+        "assets/images/glass.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 8409
+        },
+        "assets/images/goldbar.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6882
+        },
+        "assets/images/goldchain.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6607
+        },
+        "assets/images/grape.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 21204
+        },
+        "assets/images/grapejuice.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 13457
+        },
+        "assets/images/handcuffs.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7972
+        },
+        "assets/images/harness.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9231
+        },
+        "assets/images/id_card.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5448
+        },
+        "assets/images/iphone.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5981
+        },
+        "assets/images/iron.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11894
+        },
+        "assets/images/ironoxide.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11040
+        },
+        "assets/images/jerry_can.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 13035
+        },
+        "assets/images/joint.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4932
+        },
+        "assets/images/labkey.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9615
+        },
+        "assets/images/laptop.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11706
+        },
+        "assets/images/lawyerpass.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4479
+        },
+        "assets/images/lighter.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5600
+        },
+        "assets/images/lj-symbol.svg": {
+            "encrypted": true,
+            "modified": 13430682987,
+            "size": 3581
+        },
+        "assets/images/lockpick.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 8089
+        },
+        "assets/images/markedbills.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9467
+        },
+        "assets/images/mastercard.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 12594
+        },
+        "assets/images/metalscrap.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 12266
+        },
+        "assets/images/meth_baggy.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 14636
+        },
+        "assets/images/mg_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5248
+        },
+        "assets/images/moneybag.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 14467
+        },
+        "assets/images/nitrous.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10880
+        },
+        "assets/images/oxy.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6619
+        },
+        "assets/images/painkillers.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4687
+        },
+        "assets/images/parachute.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11893
+        },
+        "assets/images/phone.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10087
+        },
+        "assets/images/pinger.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4873
+        },
+        "assets/images/pistol_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 3386
+        },
+        "assets/images/pistol_extendedclip.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6884
+        },
+        "assets/images/pistol_suppressor.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4838
+        },
+        "assets/images/plastic.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 8401
+        },
+        "assets/images/police_stormram.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7470
+        },
+        "assets/images/printerdocument.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 8674
+        },
+        "assets/images/radio.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10961
+        },
+        "assets/images/radioscanner.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6573
+        },
+        "assets/images/repairkit.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5178
+        },
+        "assets/images/rifle_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5440
+        },
+        "assets/images/rifle_drummag.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10619
+        },
+        "assets/images/rolex.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 15522
+        },
+        "assets/images/rolling_paper.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 12059
+        },
+        "assets/images/rubber.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6606
+        },
+        "assets/images/samsungphone.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5565
+        },
+        "assets/images/sandwich.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 24787
+        },
+        "assets/images/screwdriverset.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 14835
+        },
+        "assets/images/security_card_01.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4774
+        },
+        "assets/images/security_card_02.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4881
+        },
+        "assets/images/shotgun_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5210
+        },
+        "assets/images/smg_ammo.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 3993
+        },
+        "assets/images/smg_flashlight.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7611
+        },
+        "assets/images/smg_scope.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4048
+        },
+        "assets/images/snikkel_candy.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 15140
+        },
+        "assets/images/snowball.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 4278
+        },
+        "assets/images/steel.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 8656
+        },
+        "assets/images/stickynote.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 11231
+        },
+        "assets/images/tablet.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9428
+        },
+        "assets/images/thermite.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7174
+        },
+        "assets/images/tosti.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 17060
+        },
+        "assets/images/tunerchip.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9747
+        },
+        "assets/images/twerks_candy.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 15939
+        },
+        "assets/images/usb_device.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 6594
+        },
+        "assets/images/uwu_bubbletea.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 10774
+        },
+        "assets/images/visacard.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 13348
+        },
+        "assets/images/vodka.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7722
+        },
+        "assets/images/walkstick.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 5713
+        },
+        "assets/images/water_bottle.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9846
+        },
+        "assets/images/weapon_advancedrifle.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 8334
+        },
+        "assets/images/weapon_appistol.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7254
+        },
+        "assets/images/weapon_assaultrifle.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7003
+        },
+        "assets/images/weapon_assaultrifle_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9448
+        },
+        "assets/images/weapon_assaultshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 7416
+        },
+        "assets/images/weapon_assaultsmg.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9232
+        },
+        "assets/images/weapon_autoshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682987,
+            "size": 9529
+        },
+        "assets/images/weapon_ball.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 3760
+        },
+        "assets/images/weapon_bat.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5515
+        },
+        "assets/images/weapon_battleaxe.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6600
+        },
+        "assets/images/weapon_bottle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5382
+        },
+        "assets/images/weapon_briefcase.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 10344
+        },
+        "assets/images/weapon_briefcase2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 10182
+        },
+        "assets/images/weapon_bullpuprifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8315
+        },
+        "assets/images/weapon_bullpuprifle_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 13501
+        },
+        "assets/images/weapon_bullpupshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7721
+        },
+        "assets/images/weapon_bzgas.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 9514
+        },
+        "assets/images/weapon_c4.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 18050
+        },
+        "assets/images/weapon_carbinerifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8215
+        },
+        "assets/images/weapon_carbinerifle_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 10722
+        },
+        "assets/images/weapon_ceramicpistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 13796
+        },
+        "assets/images/weapon_combatmg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6324
+        },
+        "assets/images/weapon_combatmg_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12244
+        },
+        "assets/images/weapon_combatpdw.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8522
+        },
+        "assets/images/weapon_combatpistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7122
+        },
+        "assets/images/weapon_combatshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7933
+        },
+        "assets/images/weapon_compactlauncher.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7809
+        },
+        "assets/images/weapon_compactrifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 13725
+        },
+        "assets/images/weapon_crowbar.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 2983
+        },
+        "assets/images/weapon_dagger.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 4654
+        },
+        "assets/images/weapon_dbshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5935
+        },
+        "assets/images/weapon_doubleaction.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7820
+        },
+        "assets/images/weapon_fireextinguisher.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7662
+        },
+        "assets/images/weapon_firework.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8433
+        },
+        "assets/images/weapon_flare.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 3638
+        },
+        "assets/images/weapon_flaregun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5346
+        },
+        "assets/images/weapon_flashlight.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 4558
+        },
+        "assets/images/weapon_gadgetpistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 11371
+        },
+        "assets/images/weapon_garbagebag.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 20417
+        },
+        "assets/images/weapon_golfclub.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 3507
+        },
+        "assets/images/weapon_grenade.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 14655
+        },
+        "assets/images/weapon_grenadelauncher.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8204
+        },
+        "assets/images/weapon_grenadelauncher_smoke.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 13424
+        },
+        "assets/images/weapon_gusenberg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7233
+        },
+        "assets/images/weapon_hammer.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7566
+        },
+        "assets/images/weapon_handcuffs.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7972
+        },
+        "assets/images/weapon_hatchet.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7289
+        },
+        "assets/images/weapon_hazardcan.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 22596
+        },
+        "assets/images/weapon_heavypistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6541
+        },
+        "assets/images/weapon_heavyshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5964
+        },
+        "assets/images/weapon_heavysniper.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7541
+        },
+        "assets/images/weapon_heavysniper_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8069
+        },
+        "assets/images/weapon_hominglauncher.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7136
+        },
+        "assets/images/weapon_knife.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 3647
+        },
+        "assets/images/weapon_knuckle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5564
+        },
+        "assets/images/weapon_license.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 11701
+        },
+        "assets/images/weapon_machete.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5252
+        },
+        "assets/images/weapon_machinepistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7791
+        },
+        "assets/images/weapon_marksmanpistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6949
+        },
+        "assets/images/weapon_marksmanrifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8826
+        },
+        "assets/images/weapon_marksmanrifle_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8212
+        },
+        "assets/images/weapon_mg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7450
+        },
+        "assets/images/weapon_microsmg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7531
+        },
+        "assets/images/weapon_militaryrifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7206
+        },
+        "assets/images/weapon_minigun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 13344
+        },
+        "assets/images/weapon_minismg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8577
+        },
+        "assets/images/weapon_molotov.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5494
+        },
+        "assets/images/weapon_musket.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6092
+        },
+        "assets/images/weapon_navyrevolver.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8391
+        },
+        "assets/images/weapon_nightstick.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 4447
+        },
+        "assets/images/weapon_petrolcan.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8744
+        },
+        "assets/images/weapon_pipebomb.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5716
+        },
+        "assets/images/weapon_pistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6407
+        },
+        "assets/images/weapon_pistol50.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7386
+        },
+        "assets/images/weapon_pistol_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 11700
+        },
+        "assets/images/weapon_poolcue.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5648
+        },
+        "assets/images/weapon_proximitymine.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6654
+        },
+        "assets/images/weapon_pumpshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5369
+        },
+        "assets/images/weapon_pumpshotgun_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6939
+        },
+        "assets/images/weapon_railgun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 13877
+        },
+        "assets/images/weapon_raycarbine.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12890
+        },
+        "assets/images/weapon_rayminigun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12058
+        },
+        "assets/images/weapon_raypistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 15456
+        },
+        "assets/images/weapon_remotesniper.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 11546
+        },
+        "assets/images/weapon_revolver.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 4858
+        },
+        "assets/images/weapon_revolver_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8018
+        },
+        "assets/images/weapon_rpg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6414
+        },
+        "assets/images/weapon_sawnoffshotgun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5992
+        },
+        "assets/images/weapon_smg.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7981
+        },
+        "assets/images/weapon_smg_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 14197
+        },
+        "assets/images/weapon_sniperrifle.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6863
+        },
+        "assets/images/weapon_snowball.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6896
+        },
+        "assets/images/weapon_snspistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7841
+        },
+        "assets/images/weapon_snspistol_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 9306
+        },
+        "assets/images/weapon_specialcarbine.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8456
+        },
+        "assets/images/weapon_specialcarbine_mk2.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 8731
+        },
+        "assets/images/weapon_stickybomb.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6828
+        },
+        "assets/images/weapon_stone_hatchet.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 10561
+        },
+        "assets/images/weapon_stungun.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6691
+        },
+        "assets/images/weapon_switchblade.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6475
+        },
+        "assets/images/weapon_vintagepistol.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 7092
+        },
+        "assets/images/weapon_wrench.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6826
+        },
+        "assets/images/weapontint_army.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12433
+        },
+        "assets/images/weapontint_black.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 11605
+        },
+        "assets/images/weapontint_gold.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12846
+        },
+        "assets/images/weapontint_green.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 11894
+        },
+        "assets/images/weapontint_lspd.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12543
+        },
+        "assets/images/weapontint_orange.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12531
+        },
+        "assets/images/weapontint_pink.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12402
+        },
+        "assets/images/weapontint_plat.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 11996
+        },
+        "assets/images/weed_baggy.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 17309
+        },
+        "assets/images/weed_baggy_empty.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 14623
+        },
+        "assets/images/weed_brick.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 10818
+        },
+        "assets/images/weed_nutrition.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 9784
+        },
+        "assets/images/weed_seed.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 14950
+        },
+        "assets/images/whiskey.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 12878
+        },
+        "assets/images/wine.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 5747
+        },
+        "assets/images/xtc_baggy.png": {
+            "encrypted": false,
+            "modified": 13430682988,
+            "size": 6775
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13431284054,
+            "size": 6251
+        },
+        "items.json": {
+            "encrypted": true,
+            "modified": 13430685174,
+            "size": 58354
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13431284957,
+            "size": 11036
+        }
+    },
+    "pak": {
+        "hash": "69146b00409bf7bd3b8509f4680a24bd4faf249778c77b6136b527a23728ec4b",
+        "path": "inventory.pak",
+        "size": 3032234
+    },
+    "version": 2
+}

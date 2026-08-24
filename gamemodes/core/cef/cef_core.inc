@@ -14,9 +14,11 @@
 // --- Forwards ---
 forward bool:CEF_IsPlayerCEFReady(playerid);
 forward bool:Char_IsActive(playerid);
+forward Player_IsLoggedIn(playerid);
 forward CEF_ShowLoginPage(playerid);
 forward CEF_ShowRegisterPage(playerid);
 forward CEF_ShowCharacterSelection(playerid);
+forward CEF_RetryLoginBrowser(playerid);
 
 // --- Browser ID Constants ---
 #define CEF_BROWSER_LOGIN           (0)
@@ -25,16 +27,15 @@ forward CEF_ShowCharacterSelection(playerid);
 #define CEF_BROWSER_CHAR_SELECT     (3)
 #define CEF_BROWSER_CHAR_CREATE     (4)
 #define CEF_BROWSER_STATUS_HUD      (5)
-#define CEF_BROWSER_CUSTOM_NAMETAG  (6)
-#define CEF_BROWSER_BANKING         (7)
-#define CEF_BROWSER_INTERACTION     (8)
-#define CEF_BROWSER_INVENTORY       (9)
-#define CEF_BROWSER_TRUNK           (10)
-#define CEF_BROWSER_RADIAL          (11)
-#define CEF_BROWSER_LICENSES        (12)
-#define CEF_BROWSER_NOTIFY          (13)
-#define CEF_BROWSER_PHONE           (14)
-#define CEF_BROWSER_COUNT           (15)
+#define CEF_BROWSER_BANKING         (6)
+#define CEF_BROWSER_INTERACTION     (7)
+#define CEF_BROWSER_INVENTORY       (8)
+#define CEF_BROWSER_TRUNK           (9)
+#define CEF_BROWSER_RADIAL          (10)
+#define CEF_BROWSER_LICENSES        (11)
+#define CEF_BROWSER_NOTIFY          (12)
+#define CEF_BROWSER_PHONE           (13)
+#define CEF_BROWSER_COUNT           (14)
 
 // --- Resource URL Macros ---
 #define CEF_URL_LOGIN               "http://cef/login/index.html"
@@ -43,7 +44,6 @@ forward CEF_ShowCharacterSelection(playerid);
 #define CEF_URL_CHAR_SELECT         "http://cef/character_selection/index.html"
 #define CEF_URL_CHAR_CREATE         "http://cef/character_creation/index.html"
 #define CEF_URL_STATUS_HUD          "http://cef/status_hud/index.html"
-#define CEF_URL_CUSTOM_NAMETAG      "http://cef/custom_nametag/index.html"
 #define CEF_URL_BANKING             "http://cef/banking/index.html"
 #define CEF_URL_INTERACTION         "http://cef/interaction/index.html"
 #define CEF_URL_INVENTORY           "http://cef/inventory/index.html"
@@ -52,6 +52,15 @@ forward CEF_ShowCharacterSelection(playerid);
 #define CEF_URL_LICENSES            "http://cef/licenses/index.html"
 #define CEF_URL_NOTIFY              "http://cef/notifications/index.html"
 #define CEF_URL_PHONE               "http://cef/phone/index.html"
+
+// The CEF client retries its UDP handshake for up to 10 seconds. Keep the
+// auth fallback slightly beyond that window so slow clients are not forced
+// into the SA-MP dialog while they are still connecting.
+#define CEF_UI_FALLBACK_DELAY_MS    (12000)
+
+// Retry configuration for flaky login browser creation.
+#define CEF_LOGIN_RETRY_DELAY_MS    (800)
+#define CEF_LOGIN_MAX_RETRIES       (5)
 
 native CEF_NativeCreateBrowser(playerid, browserid, const url[], bool:focused,
     bool:controlsChat = true, Float:width = 0.0, Float:height = 0.0) = CEF_CreateBrowser;
@@ -76,6 +85,7 @@ stock CEF_TrackedDestroyBrowser(playerid, browserid)
     {
         gCEFBrowserRequested[playerid][browserid] = false;
     }
+    CEF_FocusBrowser(playerid, browserid, false);
     CEF_NativeDestroyBrowser(playerid, browserid);
     return 1;
 }
@@ -101,7 +111,6 @@ stock CEF_TrackBrowserCreated(playerid, browserid, bool:success)
 
 // --- Include CEF Modules ---
 #include <cef_hud>
-#include <cef_nametag>
 
 // --- Pending UI States ---
 enum {
@@ -114,12 +123,12 @@ enum {
 // --- State tracking per player ---
 static bool:gPlayerCEFReady[MAX_PLAYERS];
 static gPlayerPendingUI[MAX_PLAYERS];
+static gPlayerLoginBrowserRetries[MAX_PLAYERS];
 
 // --- Helpers: Tắt/Bật Chat & HUD khi ở trong CEF ---
 stock CEF_DisableGameUI(playerid)
 {
     CEF_HideStatusHUD(playerid);
-    CEF_HideCustomNametag(playerid);
     return 1;
 }
 
@@ -137,9 +146,12 @@ stock CEF_EnableGameUI(playerid)
     // Giữ lại Minimap / Radar
     CEF_ToggleHudComponent(playerid, HUD_COMPONENT_RADAR, true);
 
-    // Mở Status HUD CEF Overlay & Custom Nametag
+    // Đảm bảo mở lại chat input của SA-MP và tắt KeyCapture
+    CEF_SetKeyCapture(playerid, false);
+    CEF_ToggleChatInput(playerid, true);
+
+    // Mở Status HUD CEF Overlay (đều có focused = false, controls_chat = false)
     CEF_ShowStatusHUD(playerid);
-    CEF_ShowCustomNametag(playerid);
     return 1;
 }
 
@@ -153,7 +165,6 @@ hook OnGameModeInit()
     CEF_AddResource("character_selection");
     CEF_AddResource("character_creation");
     CEF_AddResource("status_hud");
-    CEF_AddResource("custom_nametag");
     CEF_AddResource("banking");
     CEF_AddResource("interaction");
     CEF_AddResource("inventory");
@@ -166,7 +177,7 @@ hook OnGameModeInit()
 
     CEF_RegisterEvent("GTAHUB:SetHUDFocus", "OnCEF_SetHUDFocus", Argument_Integer);
 
-    print("[CEF] Resources registered: auth, character, status HUD, custom nametag");
+    print("[CEF] Resources registered: auth, character, status HUD");
     return 1;
 }
 
@@ -176,8 +187,8 @@ hook OnPlayerConnect@cef_core(playerid)
     CEF_ResetTrackedBrowsers(playerid);
     gPlayerCEFReady[playerid] = false;
     gPlayerPendingUI[playerid] = CEF_PENDING_NONE;
+    gPlayerLoginBrowserRetries[playerid] = 0;
     CEF_HUD_OnConnect(playerid);
-    CEF_Nametag_OnConnect(playerid);
     CEF_DisableGameUI(playerid);
     return 1;
 }
@@ -185,7 +196,6 @@ hook OnPlayerConnect@cef_core(playerid)
 // --- Hook OnPlayerSpawn ---
 hook OnPlayerSpawn@cef_core(playerid)
 {
-    ShowNameTags(false);
     if (Char_IsActive(playerid))
     {
         CEF_EnableGameUI(playerid);
@@ -200,7 +210,6 @@ hook OnPlayerDisconnect@cef_core(playerid, reason)
     gPlayerCEFReady[playerid] = false;
     gPlayerPendingUI[playerid] = CEF_PENDING_NONE;
     CEF_HUD_OnDisconnect(playerid);
-    CEF_Nametag_OnDisconnect(playerid);
     CEF_ResetTrackedBrowsers(playerid);
     return 1;
 }
@@ -264,23 +273,74 @@ public OnCefReady(playerid)
     return 1;
 }
 
+forward CEF_RetryLoginBrowser(playerid);
+
 public OnCefBrowserCreated(playerid, browserid, bool:success, E_CEF_CREATE_STATUS:code, const reason[])
 {
     #pragma unused reason
     printf("[CEF] OnCefBrowserCreated: playerid=%d, browserid=%d, success=%d, code=%d",
         playerid, browserid, success, _:code);
     CEF_TrackBrowserCreated(playerid, browserid, success);
-    CEF_Nametag_OnBrowserCreated(playerid, browserid, success);
+
+    // Retry login browser creation when it fails — this is the main cause of
+    // the flaky "login page sometimes shows, sometimes doesn't" behavior.
+    if (browserid == CEF_BROWSER_LOGIN && !success)
+    {
+        if (!IsPlayerConnected(playerid))
+            return 1;
+
+        // Only retry while the player has not yet logged in. Once logged in
+        // the login browser is no longer needed.
+        if (Player_IsLoggedIn(playerid))
+            return 1;
+
+        if (gPlayerLoginBrowserRetries[playerid] < CEF_LOGIN_MAX_RETRIES)
+        {
+            gPlayerLoginBrowserRetries[playerid]++;
+            printf("[CEF] Login browser creation failed for player %d (attempt %d/%d). Scheduling retry in %dms.",
+                playerid, gPlayerLoginBrowserRetries[playerid], CEF_LOGIN_MAX_RETRIES, CEF_LOGIN_RETRY_DELAY_MS);
+            SetTimerEx("CEF_RetryLoginBrowser", CEF_LOGIN_RETRY_DELAY_MS, false, "i", playerid);
+        }
+        else
+        {
+            printf("[CEF] Login browser creation failed for player %d after %d retries. Giving up on CEF login browser.",
+                playerid, CEF_LOGIN_MAX_RETRIES);
+        }
+    }
+    else if (browserid == CEF_BROWSER_LOGIN && success)
+    {
+        // Reset retry counter on successful creation so future re-shows get
+        // a fresh set of retries.
+        gPlayerLoginBrowserRetries[playerid] = 0;
+    }
     return 1;
 }
 
-// --- Utility: Đóng tất cả CEF browsers của player ---
+public CEF_RetryLoginBrowser(playerid)
+{
+    if (!IsPlayerConnected(playerid))
+        return 0;
+
+    if (Player_IsLoggedIn(playerid))
+        return 0;
+
+    printf("[CEF] Retrying login browser creation for player %d (attempt %d/%d).",
+        playerid, gPlayerLoginBrowserRetries[playerid], CEF_LOGIN_MAX_RETRIES);
+    CEF_CreateBrowser(playerid, CEF_BROWSER_LOGIN, CEF_URL_LOGIN, true, true);
+    return 1;
+}
+
+// --- Utility: Đóng tất cả CEF browsers đang mở của player ---
 stock CEF_CloseAllBrowsers(playerid)
 {
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_LOGIN);
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_REGISTER);
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_ACTIVE);
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_SELECT);
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_CHAR_CREATE);
-    CEF_DestroyBrowser(playerid, CEF_BROWSER_CUSTOM_NAMETAG);
+    for (new browserid = 0; browserid < CEF_BROWSER_COUNT; browserid++)
+    {
+        if (gCEFBrowserRequested[playerid][browserid])
+        {
+            CEF_FocusBrowser(playerid, browserid, false);
+            CEF_DestroyBrowser(playerid, browserid);
+        }
+    }
+    CEF_SetKeyCapture(playerid, false);
+    CEF_ToggleChatInput(playerid, true);
 }

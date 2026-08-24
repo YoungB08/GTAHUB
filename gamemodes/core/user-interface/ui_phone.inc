@@ -73,8 +73,7 @@ hook OnPlayerConnect(playerid)
 
 hook OnPlayerSpawn(playerid)
 {
-    if (Player_IsLoggedIn(playerid))
-        Phone_UI_Show(playerid);
+    // Ẩn TextDraw phone cũ để không đè lên CEF Status HUD
     return 1;
 }
 
@@ -93,8 +92,9 @@ hook OnPlayerDisconnect(playerid, reason)
 // INIT / DESTROY
 // =============================================================================
 
-static Phone_UI_Create(playerid)
+stock Phone_UI_Create(playerid)
 {
+    #pragma unused playerid
     // Nền (box)
     PhoneUI[playerid][phoneBackground] = CreatePlayerTextDraw(playerid,
         PHONE_UI_BG_X, PHONE_UI_BG_Y, "_");
@@ -124,7 +124,7 @@ static Phone_UI_Create(playerid)
     PlayerTextDrawSetOutline(playerid, PhoneUI[playerid][phoneCallStatus], 1);
 }
 
-static Phone_UI_Destroy(playerid)
+stock Phone_UI_Destroy(playerid)
 {
     if (PhoneUI[playerid][phoneBackground] != PlayerText:INVALID_TEXT_DRAW)
         PlayerTextDrawDestroy(playerid, PhoneUI[playerid][phoneBackground]);
@@ -140,19 +140,9 @@ static Phone_UI_Destroy(playerid)
 
 stock Phone_UI_Show(playerid)
 {
-    if (!PhoneUIVisible[playerid])
-    {
-        Phone_UI_Create(playerid);
-        PhoneUIVisible[playerid] = true;
-    }
-
-    // Cập nhật nội dung
-    Phone_UI_Update(playerid);
-
-    // Hiển thị
-    PlayerTextDrawShow(playerid, PhoneUI[playerid][phoneBackground]);
-    PlayerTextDrawShow(playerid, PhoneUI[playerid][phoneNumber]);
-    PlayerTextDrawShow(playerid, PhoneUI[playerid][phoneCallStatus]);
+    #pragma unused playerid
+    // Legacy phone textdraw đã được thay thế bởi CEF Phone & CEF Status HUD
+    return 1;
 }
 
 stock Phone_UI_Hide(playerid)

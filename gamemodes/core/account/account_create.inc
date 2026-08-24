@@ -22,7 +22,7 @@ stock Account_PromptRegister(playerid) {
         printf("[CEF] Account_PromptRegister: Player %d not CEF ready yet. Waiting for OnCefReady.", playerid);
     }
 
-    SetTimerEx("CEF_CheckRegisterFallbackTimer", 5500, false, "i", playerid);
+    SetTimerEx("CEF_CheckRegisterFallbackTimer", CEF_UI_FALLBACK_DELAY_MS, false, "i", playerid);
 }
 
 forward CEF_CheckRegisterFallbackTimer(playerid);

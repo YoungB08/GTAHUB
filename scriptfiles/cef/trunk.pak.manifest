@@ -1,0 +1,25 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431283963,
+            "size": 10554
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13431283776,
+            "size": 3676
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13431283790,
+            "size": 6620
+        }
+    },
+    "pak": {
+        "hash": "69c02e86dd3cd3f7e22a487029b13a346ec5413533816e6ee67ed4f715a1b6eb",
+        "path": "trunk.pak",
+        "size": 21278
+    },
+    "version": 2
+}

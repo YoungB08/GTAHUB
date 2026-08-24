@@ -1,0 +1,100 @@
+{
+    "files": {
+        "aaa-visual.css": {
+            "encrypted": true,
+            "modified": 13430689759,
+            "size": 1958
+        },
+        "animations.css": {
+            "encrypted": true,
+            "modified": 13430690316,
+            "size": 1605
+        },
+        "cef.js": {
+            "encrypted": true,
+            "modified": 13430686299,
+            "size": 1681
+        },
+        "components.css": {
+            "encrypted": true,
+            "modified": 13430690616,
+            "size": 3594
+        },
+        "confirm_modal.js": {
+            "encrypted": true,
+            "modified": 13431281609,
+            "size": 2724
+        },
+        "focus_manager.js": {
+            "encrypted": true,
+            "modified": 13430686307,
+            "size": 1385
+        },
+        "router.js": {
+            "encrypted": true,
+            "modified": 13430686303,
+            "size": 3389
+        },
+        "svg/handcuff.svg": {
+            "encrypted": true,
+            "modified": 13430686349,
+            "size": 330
+        },
+        "svg/id-card.svg": {
+            "encrypted": true,
+            "modified": 13430686342,
+            "size": 324
+        },
+        "svg/inspect.svg": {
+            "encrypted": true,
+            "modified": 13430686328,
+            "size": 250
+        },
+        "svg/inventory.svg": {
+            "encrypted": true,
+            "modified": 13430686331,
+            "size": 308
+        },
+        "svg/license.svg": {
+            "encrypted": true,
+            "modified": 13430686346,
+            "size": 400
+        },
+        "svg/police.svg": {
+            "encrypted": true,
+            "modified": 13430686335,
+            "size": 225
+        },
+        "svg/qr.svg": {
+            "encrypted": true,
+            "modified": 13430686353,
+            "size": 408
+        },
+        "svg/vehicle.svg": {
+            "encrypted": true,
+            "modified": 13430686339,
+            "size": 349
+        },
+        "svg/wallet.svg": {
+            "encrypted": true,
+            "modified": 13430686324,
+            "size": 296
+        },
+        "themes/midnight_luxury_red.css": {
+            "encrypted": true,
+            "modified": 13430745732,
+            "size": 1501
+        },
+        "variables.css": {
+            "encrypted": true,
+            "modified": 13430745732,
+            "size": 4272
+        }
+    },
+    "pak": {
+        "hash": "34d9d7f47bf40757cded4e2b57e2a55d596488ea8844fbe8ff7e3c388035e890",
+        "path": "shared.pak",
+        "size": 27768
+    },
+    "version": 2
+}

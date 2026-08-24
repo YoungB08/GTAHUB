@@ -165,11 +165,9 @@ hook OnPlayerConnect(playerid)
     return 1;
 }
 
-// Sau khi login thành công -> hiện character selection
+// Sau khi login thành công -> Character selection được gọi từ cef_login sau hiệu ứng chuyển cảnh
 hook OnPlayerLogin(playerid)
 {
-    // Thay vì spawn ngay, load danh sách nhân vật trước
-    Char_LoadList(playerid);
     return 1;
 }
 
@@ -288,8 +286,11 @@ static Char_LoadList(playerid)
 
         CharListCount[playerid] = idx;
 
-        // Sau khi load xong -> hiện Selection Dialog
-        Char_ShowSelectionDialog(playerid);
+        // Sau khi load xong -> chỉ hiện Selection Dialog nếu KHÔNG dùng CEF
+        if (!CEF_IsPlayerCEFReady(playerid) && !CEF_PlayerHasPlugin(playerid))
+        {
+            Char_ShowSelectionDialog(playerid);
+        }
     }
 
     MySQL_BindInt(stmt_loadChars, 0, Player_GetMasterAccountID(playerid));
@@ -716,6 +717,12 @@ stock Char_GetID(playerid)
 stock bool:Char_IsActive(playerid)
     return PlayerChar[playerid][E_CHAR_ACTIVE];
 
+stock Char_SetStateActive(playerid, bool:active)
+{
+    PlayerChar[playerid][E_CHAR_ACTIVE] = active;
+    return 1;
+}
+
 stock Char_SetActiveData(playerid, charId, const firstname[], const lastname[], skinId, money, kills, deaths, jobId, classId, xp, Float:px, Float:py, Float:pz, Float:pa)
 {
     PlayerChar[playerid][E_CHAR_ID]        = charId;
@@ -733,6 +740,7 @@ stock Char_SetActiveData(playerid, charId, const firstname[], const lastname[], 
     PlayerChar[playerid][E_CHAR_Z]         = pz;
     PlayerChar[playerid][E_CHAR_A]         = pa;
     PlayerChar[playerid][E_CHAR_ACTIVE]    = true;
+    Player_SetLoggedIn(playerid, true);
     return 1;
 }
 

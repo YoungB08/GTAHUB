@@ -11,6 +11,8 @@
 forward OnCEF_SubmitRegister(playerid, browserid, const username[], const email[], const password[], const confirmPassword[]);
 forward OnCEF_RegisterPasswordHash(playerid);
 forward OnCEF_ToLoginPage(playerid, browserid);
+forward OnCEF_RegisterReady(playerid, browserid);
+forward CEF_EmitRegisterUsername(playerid);
 
 // --- Biến lưu mật khẩu tạm khi register ---
 static gRegisterPassword[MAX_PLAYERS][128];
@@ -18,6 +20,9 @@ static gRegisterPassword[MAX_PLAYERS][128];
 // --- Đăng ký event khi GameMode khởi tạo ---
 hook OnGameModeInit()
 {
+    // JS emit: cef.emit("GTAHUB:RegisterReady")
+    CEF_RegisterEvent("GTAHUB:RegisterReady", "OnCEF_RegisterReady");
+
     // JS emit: cef.emit("GTAHUB:SubmitRegister", username, email, password, confirmPassword)
     CEF_RegisterEvent("GTAHUB:SubmitRegister", "OnCEF_SubmitRegister",
         Argument_String,    // username (từ SA-MP name)
@@ -30,6 +35,17 @@ hook OnGameModeInit()
     CEF_RegisterEvent("GTAHUB:ToLoginPage", "OnCEF_ToLoginPage");
 
     print("[CEF] Register events registered.");
+    return 1;
+}
+
+// --- CEF Event: Trang Register đã sẵn sàng ---
+public OnCEF_RegisterReady(playerid, browserid)
+{
+    #pragma unused browserid
+    if (!IsPlayerConnected(playerid)) return 0;
+    new playerName[MAX_PLAYER_NAME];
+    GetPlayerName(playerid, playerName, sizeof(playerName));
+    CEF_EmitEvent(playerid, CEF_BROWSER_REGISTER, "GTAHUB:SetUsername", CEF_STR(playerName));
     return 1;
 }
 
@@ -50,10 +66,10 @@ stock CEF_ShowRegisterPage(playerid)
     CEF_CreateBrowser(playerid, CEF_BROWSER_REGISTER, CEF_URL_REGISTER, true, true);
 
     SetTimerEx("CEF_EmitRegisterUsername", 300, false, "i", playerid);
+    SetTimerEx("CEF_EmitRegisterUsername", 800, false, "i", playerid);
     return 1;
 }
 
-forward CEF_EmitRegisterUsername(playerid);
 public CEF_EmitRegisterUsername(playerid)
 {
     if (!IsPlayerConnected(playerid))

@@ -5,13 +5,19 @@ static
     chat_Count[MAX_PLAYERS],
     String:g_LastPlayerMessage[MAX_PLAYERS];
 
-forward CEF_HandlePlayerChat(playerid, const text[]);
-public CEF_HandlePlayerChat(playerid, const text[])
+forward HandlePlayerChat(playerid, const text[]);
+public HandlePlayerChat(playerid, const text[])
 {
-    printf("[CEF Chat Debug] CEF_HandlePlayerChat start: playerid=%d text='%s'", playerid, text);
+    if (text[0] == '/')
+    {
+        printf("[CMD Debug] HandlePlayerChat slash input: playerid=%d raw='%s'", playerid, text);
+
+        new tempCmd[CHAT_MAX_UTF8_BYTES];
+        format(tempCmd, sizeof(tempCmd), "%s", text);
+        return OnPlayerCommandText(playerid, tempCmd);
+    }
 
     if(Mute_PlayerHas(playerid)) {
-        printf("[CEF Chat Debug] Player %d is MUTED", playerid);
         SendErrorMsgF(playerid, "Ban khong the chat toan cuc, ban dang bi mute trong ~r~%i ~w~giay!", Mute_GetPlayerDuration(playerid));
         return 0;
     }
@@ -23,7 +29,6 @@ public CEF_HandlePlayerChat(playerid, const text[])
 
     if(gettime() < chat_Cooldown[playerid]) {
         chat_Count[playerid] ++;
-        printf("[CEF Chat Debug] Player %d cooldown active (count=%d)", playerid, chat_Count[playerid]);
 
         if(3 <= chat_Count[playerid] < 10) {
             SendServerMsg(playerid, "Dung spam chat, neu khong ban se bi mute!");
@@ -50,7 +55,6 @@ public CEF_HandlePlayerChat(playerid, const text[])
     // Dynamic PawnPlus String Duplicate Message Protection
     new String:strCurrent = str_new(processedMessage);
     if (str_valid(g_LastPlayerMessage[playerid]) && str_cmp(g_LastPlayerMessage[playerid], strCurrent) == 0) {
-        printf("[CEF Chat Debug] Player %d duplicate message blocked: '%s'", playerid, processedMessage);
         str_delete(strCurrent);
         SendErrorMsg(playerid, "Khong duoc lap lai cung mot tin nhan.");
         return 0;
@@ -96,7 +100,6 @@ public CEF_HandlePlayerChat(playerid, const text[])
     // Normal Local IC Chat (20m radius)
     new msg[CHAT_FORMATTED_BYTES];
     formatex(msg, sizeof(msg), "[%d] %p: %s", playerid, playerid, processedMessage);
-    printf("[CEF Chat Debug] Sending local message for player %d: '%s'", playerid, msg);
 
     SendLocalMessage(playerid, COLOR_RP_LOCAL_CHAT, msg, LOCAL_CHAT_DISTANCE);
 
@@ -104,9 +107,10 @@ public CEF_HandlePlayerChat(playerid, const text[])
     return 0;
 }
 
-public OnPlayerText(playerid, text[])
+hook OnPlayerText(playerid, text[])
 {
-    return CEF_HandlePlayerChat(playerid, text);
+    printf("[CMD Debug] OnPlayerText entered: playerid=%d raw='%s'", playerid, text);
+    return HandlePlayerChat(playerid, text);
 }
 
 hook OnPlayerConnect(playerid)

@@ -1,0 +1,55 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431284243,
+            "size": 42578
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13431283675,
+            "size": 3308
+        },
+        "manager/app.js": {
+            "encrypted": true,
+            "modified": 13430686507,
+            "size": 1791
+        },
+        "manager/index.html": {
+            "encrypted": true,
+            "modified": 13431281593,
+            "size": 4061
+        },
+        "manager/style.css": {
+            "encrypted": true,
+            "modified": 13430690038,
+            "size": 2989
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13431283688,
+            "size": 13179
+        },
+        "theory_test/app.js": {
+            "encrypted": true,
+            "modified": 13430746054,
+            "size": 6973
+        },
+        "theory_test/index.html": {
+            "encrypted": true,
+            "modified": 13430688158,
+            "size": 2583
+        },
+        "theory_test/style.css": {
+            "encrypted": true,
+            "modified": 13430746333,
+            "size": 2902
+        }
+    },
+    "pak": {
+        "hash": "516c900c23847ac49c2c617f5b271829d00f06a72f1440f0df4c38a880d6639f",
+        "path": "licenses.pak",
+        "size": 81734
+    },
+    "version": 2
+}

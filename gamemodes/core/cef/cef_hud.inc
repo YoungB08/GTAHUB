@@ -3,6 +3,11 @@
 // Tích hợp Status HUD (máu, giáp, đói, khát, tiền, coin, vũ khí, số người chơi...)
 // =============================================================================
 
+#if defined _cef_hud_included
+    #endinput
+#endif
+#define _cef_hud_included
+
 #include <YSI_Coding\y_hooks>
 
 forward CEF_ShowStatusHUD(playerid);
@@ -55,7 +60,7 @@ stock CEF_ShowStatusHUD(playerid)
         gPlayerHUDCreated[playerid] = true;
     }
 
-    SetTimerEx("CEF_UpdateStatusHUDDelayed", 500, false, "i", playerid);
+    SetTimerEx("CEF_UpdateStatusHUDDelayed", 300, false, "i", playerid);
     return 1;
 }
 
@@ -81,7 +86,7 @@ public CEF_UpdateStatusHUDDelayed(playerid)
 // --- Cập nhật thông tin HUD lên CEF ---
 public CEF_UpdateStatusHUD(playerid)
 {
-    if (!IsPlayerConnected(playerid) || !Char_IsActive(playerid) || !gPlayerHUDCreated[playerid])
+    if (!IsPlayerConnected(playerid) || !gPlayerHUDCreated[playerid])
         return 0;
 
     new Float:hp = 100.0, Float:arm = 0.0;
@@ -144,7 +149,7 @@ public CEF_UpdateStatusHUD(playerid)
 // Hook cập nhật thông tin HUD mỗi 1 giây
 hook OnPlayerSecondUpdate(playerid)
 {
-    if (Char_IsActive(playerid) && gPlayerHUDCreated[playerid])
+    if (gPlayerHUDCreated[playerid])
     {
         CEF_UpdateStatusHUD(playerid);
     }
@@ -166,9 +171,6 @@ CMD:hud(playerid, params[])
 {
     if (!IsPlayerConnected(playerid))
         return 1;
-
-    if (!Char_IsActive(playerid))
-        return SendErrorMsg(playerid, "Ban phai chon nhan vat vao game de dung lenh /hud."), 1;
 
     if (!gPlayerHUDCreated[playerid])
     {

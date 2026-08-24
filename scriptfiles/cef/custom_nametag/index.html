@@ -3,16 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GTAHUB Custom Nametag Overlay</title>
+    <title>GTAHUB Custom Nametag</title>
     <link rel="stylesheet" href="style.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div id="nametag-root">
-        <!-- Dynamic Player Nametags container -->
-        <div id="nametags-container"></div>
+    <div id="nametag-container">
+        <div id="nametag-card" class="nametag-card">
+            <div class="role-slots-wrapper" id="role-slots-wrapper"></div>
+            <div class="nametag-header">
+                <span class="local-player-tag" id="local-player-tag" style="display: none;">YOU</span>
+                <span class="indicator-icon voice-icon" id="voice-icon" style="display: none;" title="Voice Speaking">🎙️</span>
+                <span class="indicator-icon afk-icon" id="afk-icon" style="display: none;" title="AFK">💤</span>
+                <span class="nametag-name" id="nametag-name">Player</span>
+                <span class="nametag-id" id="nametag-id">#0</span>
+            </div>
+            <div class="stat-bars-container">
+                <div class="bar-wrapper health-bar">
+                    <div class="bar-fill health" id="health-fill" style="width: 100%;"></div>
+                </div>
+                <div class="bar-wrapper armour-bar" id="armour-bar" style="display: none;">
+                    <div class="bar-fill armour" id="armour-fill" style="width: 0%;"></div>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="script.js"></script>
 </body>

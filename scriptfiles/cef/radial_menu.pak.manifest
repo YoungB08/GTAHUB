@@ -1,0 +1,25 @@
+{
+    "files": {
+        "app.js": {
+            "encrypted": true,
+            "modified": 13431286128,
+            "size": 12229
+        },
+        "index.html": {
+            "encrypted": true,
+            "modified": 13430767940,
+            "size": 2096
+        },
+        "style.css": {
+            "encrypted": true,
+            "modified": 13430767449,
+            "size": 4686
+        }
+    },
+    "pak": {
+        "hash": "59184ed4c62b4f080d6549a01dde6eff3efec60d1b43f91a083908d703480fb1",
+        "path": "radial_menu.pak",
+        "size": 19454
+    },
+    "version": 2
+}

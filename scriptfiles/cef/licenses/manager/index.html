@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>License Manager — SA Mobile Card</title>
+  <link rel="stylesheet" href="../../shared/variables.css">
+  <link rel="stylesheet" href="../../shared/animations.css">
+  <link rel="stylesheet" href="../../shared/components.css">
+  <link rel="stylesheet" href="../../shared/themes/midnight_luxury_red.css">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../../shared/aaa-visual.css">
+</head>
+<body class="manager-stage">
+  <main class="license-card-container scale-open">
+    <header class="card-header">
+      <div>
+        <span class="micro-tag">STATE OF SAN ANDREAS</span>
+        <h2>Giấy phép đã sở hữu</h2>
+      </div>
+      <button class="qr-verify-btn" id="qrVerifyBtn" type="button" title="Xác thực QR Cảnh sát">
+        <img src="../../shared/svg/qr.svg" alt="QR Code">
+        <span>VERIFY</span>
+      </button>
+    </header>
+
+    <!-- License Cards Grid -->
+    <div class="licenses-list" id="licensesList">
+      <article class="license-item active">
+        <div class="lic-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.5 2.8C1.4 11.3 1 12.1 1 13v3c0 .6.4 1 1 1h2"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></svg></div>
+        <div class="lic-info">
+          <h3>Bằng lái xe máy & ô tô (Car)</h3>
+          <p>Cấp ngày: 08/08/2026 · Hạn: 08/08/2027</p>
+        </div>
+        <span class="badge badge-success">ĐÃ CẤP</span>
+      </article>
+
+      <article class="license-item">
+        <div class="lic-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg></div>
+        <div class="lic-info">
+          <h3>Bằng xe tải (Truck)</h3>
+          <p>Chưa sở hữu chứng chỉ</p>
+        </div>
+        <button class="btn btn-primary btn-sm register-btn" data-type="truck" type="button">Đăng ký thi</button>
+      </article>
+
+      <article class="license-item">
+        <div class="lic-icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.8 19.2L16 11l3.5-3.5c.8-.8.8-2 0-2.8-.8-.8-2-.8-2.8 0L13 8.2 4.8 6.4c-.5-.1-.9.1-1.1.5l-1.2 2.3c-.2.4-.1.9.2 1.1L8 14.5l-3 3-2.3-.8c-.4-.1-.8.1-.9.4l-.6 1.1c-.2.4-.1.8.2 1.1l3.5 3.5c.3.3.7.4 1.1.2l1.1-.6c.3-.1.5-.5.4-.9l-.8-2.3 3-3 4.2 5.3c.3.3.7.4 1.1.2l2.3-1.2c.4-.2.6-.6.5-1.1z"/></svg></div>
+        <div class="lic-info">
+          <h3>Bằng lái máy bay (Pilot)</h3>
+          <p>Chưa sở hữu chứng chỉ</p>
+        </div>
+        <button class="btn btn-primary btn-sm register-btn" data-type="pilot" type="button">Đăng ký thi</button>
+      </article>
+    </div>
+
+    <!-- QR VERIFICATION MODAL -->
+    <div class="qr-modal hidden" id="qrModal">
+      <div class="qr-card scale-open">
+        <button class="close-btn" id="qrCloseBtn" type="button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <h3>XÁC THỰC GIẤY PHÉP (PD VERIFY)</h3>
+        <div class="qr-preview">
+          <img src="../../shared/svg/qr.svg" alt="QR Verification" width="140">
+        </div>
+        <div class="verify-status" id="verifyStatus">
+          <span>Mã thẻ: <b>SA-LIC-99218</b></span>
+          <p class="text-success">✔ Giấy phép hợp lệ & còn thời hạn</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="../../shared/cef.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
