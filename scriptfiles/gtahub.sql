@@ -11,7 +11,7 @@
  Target Server Version : 80045 (8.0.45)
  File Encoding         : 65001
 
- Date: 29/07/2026 18:15:38
+ Date: 25/08/2026 21:53:45
 */
 
 SET NAMES utf8mb4;
@@ -32,6 +32,7 @@ CREATE TABLE `admins`  (
 -- Records of admins
 -- ----------------------------
 INSERT INTO `admins` VALUES (1, 5);
+INSERT INTO `admins` VALUES (4, 5);
 
 -- ----------------------------
 -- Table structure for armys
@@ -202,11 +203,120 @@ CREATE TABLE `characters`  (
   UNIQUE INDEX `unique_fullname`(`firstname` ASC, `lastname` ASC) USING BTREE,
   INDEX `u_id`(`u_id` ASC) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`u_id`) REFERENCES `players` (`u_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of characters
 -- ----------------------------
+INSERT INTO `characters` VALUES (2, 4, 'Jey', 'Bee', 18, 0, 1, 4520, 0, 0, 0, 0, 0, 0, 0, 0, 1530.82, -1687.29, 13.3828, 138.567, '2026-07-29 23:26:02', '2026-08-17 01:32:39');
+INSERT INTO `characters` VALUES (3, 4, 'Young', 'Smith', 20, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1440.89, -1699.47, 13.5469, 182.434, '2026-07-29 23:37:22', '2026-08-16 01:24:16');
+INSERT INTO `characters` VALUES (4, 4, 'Duma', 'May', 18, 0, 2, 0, 0, 0, 5, 0, 0, 0, 0, 0, 2.9484, -0.7274, -3.8288, 344.355, '2026-07-30 00:28:01', '2026-08-05 04:00:50');
+
+-- ----------------------------
+-- Table structure for custom_weapons
+-- ----------------------------
+DROP TABLE IF EXISTS `custom_weapons`;
+CREATE TABLE `custom_weapons`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `base_weapon_id` int NOT NULL,
+  `damage_override` float NOT NULL DEFAULT 25,
+  `tier` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'Common',
+  `max_ammo` int NOT NULL DEFAULT 250,
+  `price` int NOT NULL DEFAULT 5000,
+  `description` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of custom_weapons
+-- ----------------------------
+INSERT INTO `custom_weapons` VALUES (1, 'Desert Eagle Chrome', 24, 55, 'Epic', 200, 15000, 'Sung ngan Deagle ma chrome sang bong voi sat thuong cao.', 1, '2026-08-01 00:22:44');
+INSERT INTO `custom_weapons` VALUES (2, 'AK-47 Dragon', 30, 42, 'Legendary', 500, 35000, 'Sung truong AK-47 kham hoa van Rong vang ruc ro.', 1, '2026-08-01 00:22:44');
+INSERT INTO `custom_weapons` VALUES (3, 'M4A1 VIP', 31, 38, 'Mythic', 600, 50000, 'Sung M4A1 VIP phien ban dac biet toc do ban va sat thuong cuc cao.', 1, '2026-08-01 00:22:44');
+INSERT INTO `custom_weapons` VALUES (4, 'Sniper Cobra', 34, 120, 'Legendary', 100, 60000, 'Sung ban tia Snipe Rắn Độc gay sat thuong chi mang.', 1, '2026-08-01 00:22:44');
+INSERT INTO `custom_weapons` VALUES (5, 'Shotgun Tactical', 25, 45, 'Rare', 150, 12000, 'Sung san Shotgun bien the quan dung sat thuong dien rong.', 1, '2026-08-01 00:22:44');
+INSERT INTO `custom_weapons` VALUES (6, 'MP5 SpecOps', 29, 28, 'Rare', 400, 10000, 'Sung tieu lien MP5 danh cho luc luong dac nhiem.', 1, '2026-08-01 00:22:44');
+INSERT INTO `custom_weapons` VALUES (7, 'Katana Shadow', 8, 75, 'Epic', 1, 8000, 'Kiem Katana Bong Toi chem xuyen giap.', 1, '2026-08-01 00:22:44');
+INSERT INTO `custom_weapons` VALUES (8, 'Combat Shotgun Enforcer', 27, 50, 'Mythic', 250, 45000, 'Shotgun tu dong Enforcer voi uy luc ap đảo.', 1, '2026-08-01 00:22:44');
+
+-- ----------------------------
+-- Table structure for doors
+-- ----------------------------
+DROP TABLE IF EXISTS `doors`;
+CREATE TABLE `doors`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `slug` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `label` varchar(128) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '',
+  `exterior_x` float NOT NULL DEFAULT 0,
+  `exterior_y` float NOT NULL DEFAULT 0,
+  `exterior_z` float NOT NULL DEFAULT 0,
+  `exterior_a` float NOT NULL DEFAULT 0,
+  `exterior_interior` int NOT NULL DEFAULT 0,
+  `exterior_vw` int NOT NULL DEFAULT 0,
+  `interior_x` float NOT NULL DEFAULT 0,
+  `interior_y` float NOT NULL DEFAULT 0,
+  `interior_z` float NOT NULL DEFAULT 0,
+  `interior_a` float NOT NULL DEFAULT 0,
+  `interior_interior` int NOT NULL DEFAULT 0,
+  `interior_vw` int NOT NULL DEFAULT 0,
+  `pickup_model` int NOT NULL DEFAULT 19130,
+  `door_type` int NOT NULL DEFAULT 0,
+  `locked` tinyint(1) NOT NULL DEFAULT 0,
+  `faction_id` int NOT NULL DEFAULT 0,
+  `business_id` int NOT NULL DEFAULT 0,
+  `house_id` int NOT NULL DEFAULT 0,
+  `admin_level` int NOT NULL DEFAULT 0,
+  `vip_level` int NOT NULL DEFAULT 0,
+  `enabled` tinyint(1) NOT NULL DEFAULT 1,
+  `created_by` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'System',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of doors
+-- ----------------------------
+INSERT INTO `doors` VALUES (1, 'PHONG GYM', 'gym', 'PHONG GYM', 2229.9, -1721.26, 13.5612, 0, 0, 0, 772.307, -5.5157, 1000.73, 0, 5, 0, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (2, 'QUAN BAR', 'bar', 'QUAN BAR', 2309.99, -1643.44, 14.827, 0, 0, 0, 501.901, -67.5635, 998.758, 0, 11, 1, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (3, 'CUA HANG GA RAN 1', 'chicken_1', 'CUA HANG GA RAN', 2397.82, -1899.19, 13.5469, 0, 0, 0, 364.99, -11.8441, 1001.85, 0, 9, 2, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (4, 'CUA HANG GA RAN 2', 'chicken_2', 'CUA HANG GA RAN', 928.916, -1353.04, 13.3438, 0, 0, 0, 364.99, -11.8441, 1001.85, 0, 9, 3, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (5, 'CUA HANG GA RAN 3', 'chicken_3', 'CUA HANG GA RAN', 2419.7, -1509.05, 24, 0, 0, 0, 364.99, -11.8441, 1001.85, 0, 9, 4, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (6, 'BINCO', 'binco', 'BINCO', 2244.38, -1665.57, 15.4766, 0, 0, 0, 207.667, -111.266, 1005.13, 0, 15, 5, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (7, 'CUA HANG VU KHI 1', 'weapon_1', 'CUA HANG VU KHI', 2400.49, -1982, 13.5469, 0, 0, 0, 285.856, -86.782, 1001.52, 0, 4, 6, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (8, 'CUA HANG VU KHI 2', 'weapon_2', 'CUA HANG VU KHI', 1369, -1279.71, 13.5469, 0, 0, 0, 316.349, -170.297, 999.594, 0, 6, 7, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (9, 'CUA HANG NGUOI LON 1', 'sexshop_1', 'CUA HANG NGUOI LON', 1940.01, -2115.98, 13.6953, 0, 0, 0, -100.356, -25.0387, 1000.72, 0, 3, 8, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (10, 'CUA HANG NGUOI LON 2', 'sexshop_2', 'CUA HANG NGUOI LON', 1087.68, -922.482, 43.3906, 0, 0, 0, -100.356, -25.0387, 1000.72, 0, 3, 9, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (11, 'TRAM XANG 1', 'gas_1', 'TRAM XANG', 1928.58, -1776.26, 13.5469, 0, 0, 0, -27.2923, -58.0535, 1003.55, 0, 6, 10, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (12, 'TRAM XANG 2', 'gas_2', 'TRAM XANG', -78.3609, -1169.87, 2.1355, 0, 0, 0, -27.2923, -58.0535, 1003.55, 0, 6, 11, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (13, 'CUA HANG BURGER 1', 'burger_1', 'CUA HANG BURGER', 810.485, -1616.13, 13.5469, 0, 0, 0, 362.882, -75.1634, 1001.51, 0, 10, 12, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (14, 'CUA HANG BURGER 2', 'burger_2', 'CUA HANG BURGER', 1199.26, -918.142, 43.1232, 0, 0, 0, 362.882, -75.1634, 1001.51, 0, 10, 13, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (15, 'TIEM TOC 1', 'barber_1', 'TIEM TOC', 824.06, -1588.32, 13.5436, 0, 0, 0, 411.892, -54.4434, 1001.9, 0, 12, 14, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (16, 'TIEM TOC 2', 'barber_2', 'TIEM TOC', 2070.63, -1793.84, 13.5469, 0, 0, 0, 411.892, -54.4434, 1001.9, 0, 12, 15, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (17, 'TRUNG TAM DICH VU', 'service_center', 'TRUNG TAM DICH VU', 1555.5, -1675.64, 16.1953, 0, 0, 0, 246.837, 62.3343, 1003.64, 0, 6, 16, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (18, 'TIEM PIZZA', 'pizza', 'TIEM PIZZA', 2105.49, -1806.57, 13.5547, 0, 0, 0, 372.274, -133.525, 1001.49, 0, 5, 17, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (19, 'CAU LAC BO DEM', 'nightclub', 'CAU LAC BO DEM', 2421.6, -1219.24, 25.5614, 0, 0, 0, 1204.76, -13.8523, 1000.92, 0, 2, 18, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (20, 'SAN NHAY', 'danceclub', 'SAN NHAY', 1837.04, -1682.4, 13.3229, 0, 0, 0, 493.481, -24.9531, 1000.67, 0, 17, 19, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (21, '24/7 1', 'store247_1', '24/7', 1833.78, -1842.62, 13.5781, 0, 0, 0, -25.9472, -188.26, 1003.55, 0, 17, 20, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (22, '24/7 2', 'store247_2', '24/7', 1000.59, -919.917, 42.3281, 0, 0, 0, -25.9472, -188.26, 1003.55, 0, 17, 21, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (23, 'TIEM XAM HINH', 'tattoo', 'TIEM XAM HINH', 2068.58, -1779.85, 13.5596, 0, 0, 0, -204.417, -27.347, 1002.27, 0, 16, 22, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (24, 'CUA HANG THOI TRANG 1', 'clothes_1', 'CUA HANG THOI TRANG', 2112.86, -1211.45, 23.9629, 0, 0, 0, 203.841, -50.6566, 1001.8, 0, 1, 23, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (25, 'CUA HANG THOI TRANG 2', 'clothes_2', 'CUA HANG THOI TRANG', 461.707, -1500.85, 31.0449, 0, 0, 0, 227.368, -8.3722, 1002.21, 0, 5, 24, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (26, 'TIEM BANH', 'bakery', 'TIEM BANH', 1038.1, -1340.73, 13.745, 0, 0, 0, 377.131, -193.305, 1000.63, 0, 17, 25, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (27, 'TOA THI CHINH', 'cityhall', 'TOA THI CHINH', 1481.04, -1772.31, 18.7958, 0, 0, 0, 390.746, 173.763, 1008.38, 0, 3, 26, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (28, 'KHACH SAN JEFFERSON', 'hotel_jefferson', 'KHACH SAN JEFFERSON', 2233.29, -1159.85, 25.8906, 0, 0, 0, 2214.38, -1150.48, 1025.8, 0, 15, 27, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (29, 'CUA HANG THE THAO', 'suburban', 'CUA HANG THE THAO', 499.535, -1360.63, 16.369, 0, 0, 0, 207.025, -140.376, 1003.51, 0, 3, 28, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (30, 'CUA HANG THOI TRANG 3', 'victim', 'CUA HANG THOI TRANG', 1457.07, -1137.1, 23.9441, 0, 0, 0, 161.298, -97.1033, 1001.8, 0, 18, 29, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (31, 'NGAN HANG', 'bank', 'NGAN HANG', 595.665, -1250.79, 18.2999, 0, 0, 0, 2306.16, -16.2888, 26.7496, 0, 0, 30, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (32, 'SONG BAC', 'casino', 'SONG BAC', 1022.65, -1121.9, 23.8719, 0, 0, 0, 1133.21, -15.363, 1000.68, 0, 12, 31, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (33, 'BIET THU', 'mansion', 'BIET THU', 1298.3, -798.774, 84.1406, 0, 0, 0, 1299.04, -796.724, 1084.01, 0, 5, 32, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (34, 'DAI LY XE', 'dealership', 'DAI LY XE', 541.963, -1293.52, 17.2414, 0, 0, 0, 849.423, -973.605, 1090.1, 0, 1, 33, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (35, 'NHA KHO', 'warehouse', 'NHA KHO', 2166.42, -1671.77, 15.0742, 0, 0, 0, 742.977, 207.161, 11558.8, 0, 1, 34, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
+INSERT INTO `doors` VALUES (36, 'TOA THAP', 'tower', 'TOA THAP', 1807.07, -1290.11, 131.734, 90, 0, 0, 1815.95, -1317.69, 125.727, 90, 0, 35, 19130, 0, 0, 0, 0, 0, 0, 0, 1, 'System', '2026-08-01 00:22:43', '2026-08-01 00:22:43');
 
 -- ----------------------------
 -- Table structure for entrances
@@ -403,7 +513,7 @@ CREATE TABLE `job_skills`  (
   `level` tinyint NOT NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `char_job`(`char_id` ASC, `job_id` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 121 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of job_skills
@@ -413,6 +523,11 @@ INSERT INTO `job_skills` VALUES (2, 2, 1, 0, 1);
 INSERT INTO `job_skills` VALUES (3, 2, 4, 0, 1);
 INSERT INTO `job_skills` VALUES (4, 2, 3, 0, 1);
 INSERT INTO `job_skills` VALUES (5, 2, 5, 0, 1);
+INSERT INTO `job_skills` VALUES (6, 0, 1, 0, 1);
+INSERT INTO `job_skills` VALUES (7, 0, 2, 0, 1);
+INSERT INTO `job_skills` VALUES (8, 0, 3, 0, 1);
+INSERT INTO `job_skills` VALUES (9, 0, 4, 0, 1);
+INSERT INTO `job_skills` VALUES (10, 0, 5, 0, 1);
 
 -- ----------------------------
 -- Table structure for phone_contacts
@@ -447,6 +562,7 @@ CREATE TABLE `phone_numbers`  (
 -- ----------------------------
 -- Records of phone_numbers
 -- ----------------------------
+INSERT INTO `phone_numbers` VALUES (4, '09426929');
 
 -- ----------------------------
 -- Table structure for player_bank
@@ -464,6 +580,27 @@ CREATE TABLE `player_bank`  (
 -- ----------------------------
 INSERT INTO `player_bank` VALUES (2, 0);
 INSERT INTO `player_bank` VALUES (3, 0);
+
+-- ----------------------------
+-- Table structure for player_custom_weapons
+-- ----------------------------
+DROP TABLE IF EXISTS `player_custom_weapons`;
+CREATE TABLE `player_custom_weapons`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `u_id` int NOT NULL,
+  `weapon_def_id` int NOT NULL,
+  `ammo` int NOT NULL DEFAULT 100,
+  `durability` float NOT NULL DEFAULT 100,
+  `is_equipped` tinyint(1) NOT NULL DEFAULT 0,
+  `obtained_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `weapon_def_id`(`weapon_def_id` ASC) USING BTREE,
+  CONSTRAINT `player_custom_weapons_ibfk_1` FOREIGN KEY (`weapon_def_id`) REFERENCES `custom_weapons` (`id`) ON DELETE CASCADE ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of player_custom_weapons
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for player_hits
@@ -559,6 +696,7 @@ CREATE TABLE `player_items`  (
 INSERT INTO `player_items` VALUES (1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `player_items` VALUES (2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `player_items` VALUES (3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `player_items` VALUES (4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for player_job_progress
@@ -648,7 +786,7 @@ CREATE TABLE `player_positions`  (
 -- ----------------------------
 -- Records of player_positions
 -- ----------------------------
-INSERT INTO `player_positions` VALUES (2, -2006.9, 197.305, 27.5391, 45.8429, 0, 0, '2026-07-29 03:06:46');
+INSERT INTO `player_positions` VALUES (2, 1530.82, -1687.29, 13.3828, 138.567, 0, 0, '2026-08-17 01:32:39');
 
 -- ----------------------------
 -- Table structure for player_shots_stats
@@ -674,6 +812,7 @@ CREATE TABLE `player_shots_stats`  (
 INSERT INTO `player_shots_stats` VALUES (1, 0, 0, 0, 0, 0, 0, 0, 3);
 INSERT INTO `player_shots_stats` VALUES (2, 0, 0, 0, 0, 0, 0, 0, 0);
 INSERT INTO `player_shots_stats` VALUES (3, 0, 0, 0, 0, 0, 0, 0, 0);
+INSERT INTO `player_shots_stats` VALUES (4, 0, 0, 0, 0, 0, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for player_stats
@@ -696,14 +835,15 @@ CREATE TABLE `player_stats`  (
   `level` smallint NOT NULL DEFAULT 1,
   PRIMARY KEY (`u_id`) USING BTREE,
   CONSTRAINT `player_stats_ibfk_1` FOREIGN KEY (`u_id`) REFERENCES `players` (`u_id`) ON DELETE CASCADE ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of player_stats
 -- ----------------------------
 INSERT INTO `player_stats` VALUES (1, 0, 100, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1);
-INSERT INTO `player_stats` VALUES (2, 100, 100, 0, 0, 0, 0, 0, 0, 100000, 0, 2, 0, 1);
-INSERT INTO `player_stats` VALUES (3, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 1);
+INSERT INTO `player_stats` VALUES (2, 0, 76, 0, 2, 0, 0, 0, 0, 4520, 0, 2, 0, 1);
+INSERT INTO `player_stats` VALUES (3, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0);
+INSERT INTO `player_stats` VALUES (4, 100, 100, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 1);
 
 -- ----------------------------
 -- Table structure for player_vehicles
@@ -772,7 +912,7 @@ CREATE TABLE `players`  (
   `otp_code` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`u_id`) USING BTREE,
   UNIQUE INDEX `username`(`username` ASC) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of players
@@ -780,6 +920,7 @@ CREATE TABLE `players`  (
 INSERT INTO `players` VALUES (1, NULL, 0, 'Khoi_Nguyen', '$2b$12$KLsQEEyqW3zeqjPbVXe6Qu6YvVxoa8s2GCqCLIJE8uuu23pMPgLPa', '', '', 18, 0, '', '', '2026-07-27 16:08:01', '2026-07-29 03:06:09', '', 0, NULL);
 INSERT INTO `players` VALUES (2, 1, 1, 'JeyBee_Nguyen', 'CHARACTER_SLOT', 'JeyBee', 'Nguyen', 18, 0, 'Los Santos', 'Chua cap nhat', '2026-07-27 23:04:35', '2026-07-29 03:06:09', '', 0, NULL);
 INSERT INTO `players` VALUES (3, 1, 1, 'Bii', 'CHARACTER_SLOT', 'Bii', '', 18, 0, 'Los Santos', 'Chua cap nhat', '2026-07-27 23:15:37', '2026-07-27 23:46:38', '', 0, NULL);
+INSERT INTO `players` VALUES (4, NULL, 0, 'Khoi_Nguyenz', '$2b$12$NzSxkKNJYYT4G3QyTJWir.ExNS2fwEtC73ICXYEqwuseFxigyAfd.', '', '', 18, 0, '', '', '2026-07-29 19:12:17', '2026-07-29 19:12:17', '', 0, NULL);
 
 -- ----------------------------
 -- Table structure for turfs
